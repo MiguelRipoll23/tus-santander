@@ -1,0 +1,16 @@
+name: Analyze package
+
+on:
+  push:
+    branches:
+      - main
+
+  pull_request:
+
+jobs:
+  analyze-package:
+    name: Analyze package
+    uses: MiguelRipoll23/global/.github/workflows/analyze-package.yml@main
+
+    with:
+      node-version: 16

@@ -1,0 +1,28 @@
+name: Deploy staging
+
+on:
+  pull_request:
+  pull_request_target:
+
+jobs:
+  deploy-package:
+    name: Deploy staging
+    uses: MiguelRipoll23/global/.github/workflows/deploy-hosting.yml@main
+    if: |
+      (github.event_name == 'pull_request_target' && github.actor == 'dependabot[bot]') ||
+      (github.event_name != 'pull_request_target' && github.actor != 'dependabot[bot]')
+
+    with:
+      node-version: 16
+      target-branch: ${{ github.ref }}
+
+      # Environment
+      environment-id: staging-tusestimaciones
+      environment-name: staging
+      environment-url: https://staging-tusestimaciones.web.app/
+
+      google-cloud-run-host: https://europe-west2-staging-tusestimaciones.cloudfunctions.net/
+
+    secrets:
+      GOOGLE_MAPS_KEY: ${{ secrets.GOOGLE_MAPS_KEY }}
+      GOOGLE_CLOUD_KEY: ${{ secrets.GOOGLE_CLOUD_KEY }}
