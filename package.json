@@ -1,7 +1,7 @@
 {
   "name": "tusestimaciones-web",
-  "version": "0.1.0",
-  "private": true,
+  "version": "1.0.0",
+  "private": false,
   "dependencies": {
     "@react-google-maps/api": "^2.7.0",
     "@testing-library/jest-dom": "^5.16.1",
