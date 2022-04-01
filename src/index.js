@@ -1,14 +1,18 @@
+import { createRoot } from 'react-dom/client';
 import { StrictMode } from 'react';
-import ReactDOM from 'react-dom';
+
 import './index.css';
 import App from './components/App.js';
 import * as serviceWorkerRegistration from './serviceWorkerRegistration';
 
-ReactDOM.render(
+const container = document.querySelector('#app');
+console.log(container)
+const root = createRoot(container);
+
+root.render(
   <StrictMode>
     <App />
-  </StrictMode>,
-  document.getElementById('root')
+  </StrictMode>
 );
 
 const config = {
