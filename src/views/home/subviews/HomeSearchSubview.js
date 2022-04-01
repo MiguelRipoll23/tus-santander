@@ -1,8 +1,8 @@
-import { useState, useEffect } from 'react';
-import styled from 'styled-components';
+import { useState, useEffect } from "react";
+import styled from "styled-components";
 
-import Stops from '../../../json/stops.min.json';
-import StyleUtils from '../../../utils/StyleUtils.js';
+import Stops from "../../../json/stops.min.json";
+import StyleUtils from "../../../utils/StyleUtils.js";
 
 const SearchStyled = styled.div`
   margin: 0 ${StyleUtils.MARGIN_LR};
@@ -11,11 +11,11 @@ const SearchStyled = styled.div`
 const IconStyled = styled.div`
   position: relative;
   height: 36px;
-  margin-bottom: ${props => (props.anyResults ? '0' : '12px')};
+  margin-bottom: ${(props) => (props.anyResults ? "0" : "12px")};
 
   &:before {
     font-family: icons;
-    content: '\\e901';
+    content: "\\e901";
     color: #8e8e92;
     z-index: 1;
     margin: auto;
@@ -57,12 +57,12 @@ const ResultsStyled = styled.div`
 const ResultStyled = styled.div`
   color: #1da1f2;
   padding: 14px 9px;
-  border-bottom: 1px solid rgba(0, 0, 0, .04);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.04);
   cursor: pointer;
 
   &:before {
     font-family: icons;
-    content: '\\e901';
+    content: "\\e901";
     color: #8e8e92;
     margin-right: 12px;
     position: relative;
@@ -76,29 +76,29 @@ const ResultStyled = styled.div`
 
 const HomeSearchSubview = (props) => {
   const [loading, setLoading] = useState(true);
-  const [searchText, setSearchText] = useState('');
+  const [searchText, setSearchText] = useState("");
   const [results, setResults] = useState([]);
 
   const getStopId = (result) => {
-    return parseInt(Object.keys(Stops).find(key => Stops[key] === result));
+    return parseInt(Object.keys(Stops).find((key) => Stops[key] === result));
   };
 
   const getResultText = (result) => {
     return `${result[2]} (${getStopId(result)})`;
-  }
+  };
 
   const loadEstimationsStopView = (result) => {
     props.setView({
-      id: 'estimations_stop',
+      id: "estimations_stop",
       nav: {
         title: result[2],
-        header: false
+        header: false,
       },
       data: {
         push: true,
         id: getStopId(result),
-        name: result[2]
-      }
+        name: result[2],
+      },
     });
   };
 
@@ -121,8 +121,7 @@ const HomeSearchSubview = (props) => {
             if (stopName.substring(0, searchText.length) !== searchText) {
               continue;
             }
-          }
-          else if (stopName.indexOf(searchText) === -1) {
+          } else if (stopName.indexOf(searchText) === -1) {
             continue;
           }
 
@@ -134,8 +133,7 @@ const HomeSearchSubview = (props) => {
             break;
           }
         }
-      }
-      else if (searchText in Stops) {
+      } else if (searchText in Stops) {
         // Search stop id
         list.push(Stops[searchText]);
       }
@@ -150,7 +148,7 @@ const HomeSearchSubview = (props) => {
     }
 
     if (props.view.data.push) {
-      window.history.pushState(props.view, 'Buscar - TUS Santander', '/buscar');
+      window.history.pushState(props.view, "Buscar - TUS Santander", "/buscar");
     }
 
     // Loaded
@@ -160,14 +158,31 @@ const HomeSearchSubview = (props) => {
   return (
     <SearchStyled>
       <IconStyled anyResults={results.length > 0}>
-        <InputStyled type="text" placeholder="Buscar" aria-label="Buscar" inputmode="search" autoFocus={true} autocomplete="off" onInput={updateValue} />
+        <InputStyled
+          type="text"
+          placeholder="Buscar"
+          aria-label="Buscar"
+          inputmode="search"
+          autoFocus={true}
+          autocomplete="off"
+          onInput={updateValue}
+        />
       </IconStyled>
 
-      {results.length > 0 && <ResultsStyled>
-        {results.map((result, i) => {
-          return <ResultStyled key={i} onClick={() => loadEstimationsStopView(result)}>{getResultText(result)}</ResultStyled>
-        })}
-      </ResultsStyled>}
+      {results.length > 0 && (
+        <ResultsStyled>
+          {results.map((result, i) => {
+            return (
+              <ResultStyled
+                key={i}
+                onClick={() => loadEstimationsStopView(result)}
+              >
+                {getResultText(result)}
+              </ResultStyled>
+            );
+          })}
+        </ResultsStyled>
+      )}
     </SearchStyled>
   );
 };

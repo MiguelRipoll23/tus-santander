@@ -1,7 +1,7 @@
-import styled from 'styled-components';
+import styled from "styled-components";
 
 const ButtonStyled = styled.div`
-  background: ${props => props.color};
+  background: ${(props) => props.color};
   border-radius: 30px;
   padding: 14px 22px;
   text-align: center;
@@ -16,7 +16,13 @@ const ButtonStyled = styled.div`
 
 const Button = (props) => {
   return (
-    <ButtonStyled className={props.className} color={props.color} onClick={props.onClick}>{props.children}</ButtonStyled>
+    <ButtonStyled
+      className={props.className}
+      color={props.color}
+      onClick={props.onClick}
+    >
+      {props.children}
+    </ButtonStyled>
   );
 };
 

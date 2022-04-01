@@ -1,18 +1,19 @@
-import { Fragment, useState, useEffect } from 'react';
-import styled from 'styled-components';
-import StyleUtils from '../utils/StyleUtils.js';
+import { Fragment, useState, useEffect } from "react";
+import styled from "styled-components";
+import StyleUtils from "../utils/StyleUtils.js";
 
-import Header from './Header.js';
+import Header from "./Header.js";
 
 const NavStyled = styled.nav`
   display: flex;
   min-height: 55px;
   align-items: center;
-  border-bottom: 1px solid rgba(0,0,0, ${props => props.borderOpacity});
+  border-bottom: 1px solid rgba(0, 0, 0, ${(props) => props.borderOpacity});
 
   @media (prefers-color-scheme: dark) {
     & {
-      border-bottom: 1px solid rgba(255,255,255, ${props => props.borderOpacity});
+      border-bottom: 1px solid
+        rgba(255, 255, 255, ${(props) => props.borderOpacity});
     }
   }
 `;
@@ -49,7 +50,7 @@ const BackButtonStyled = styled.div`
   white-space: nowrap;
   text-overflow: ellipsis;
   padding: 11px ${StyleUtils.MARGIN_LR};
-  animation: fade-in .2s;
+  animation: fade-in 0.2s;
 `;
 
 const BackIconStyled = styled.span`
@@ -78,7 +79,7 @@ const RefreshIconStyled = styled.span`
   line-height: 24px;
   position: relative;
   top: 1px;
-  animation: fade-in .2s;
+  animation: fade-in 0.2s;
 `;
 
 const HeartIconStyled = styled.span`
@@ -91,10 +92,10 @@ const HeartIconStyled = styled.span`
   top: -1px;
   padding-top: 14px;
   padding-bottom: 8px;
-  animation: fade-in .2s;
+  animation: fade-in 0.2s;
 
   &:after {
-    content: '${props => (props.heart > 1 ? '\\e905' : '\\e906')}';
+    content: "${(props) => (props.heart > 1 ? "\\e905" : "\\e906")}";
   }
 `;
 
@@ -109,8 +110,8 @@ const Nav = (props) => {
     const newView = {
       data: {
         push: false,
-        refresh: Date.now()
-      }
+        refresh: Date.now(),
+      },
     };
 
     props.setView(newView);
@@ -119,15 +120,15 @@ const Nav = (props) => {
   const heart = () => {
     const newView = {
       data: {
-        heart: Date.now()
-      }
+        heart: Date.now(),
+      },
     };
 
     props.setView(newView);
   };
 
   useEffect(() => {
-    const mainElement = document.getElementsByTagName('main')[0];
+    const mainElement = document.getElementsByTagName("main")[0];
 
     const handleScroll = () => {
       let opacity = 0;
@@ -135,22 +136,21 @@ const Nav = (props) => {
 
       if (scrollY > 50) {
         opacity = 0.15;
-      }
-      else {
-        opacity = scrollY * 0.15 / 50;
+      } else {
+        opacity = (scrollY * 0.15) / 50;
       }
 
       setBorderOpacity(opacity);
     };
 
-    mainElement.addEventListener('scroll', handleScroll, { passive: true });
+    mainElement.addEventListener("scroll", handleScroll, { passive: true });
 
-    return () => mainElement.removeEventListener('scroll', handleScroll);
+    return () => mainElement.removeEventListener("scroll", handleScroll);
   });
 
   return (
     <Fragment>
-      {props.view.nav.header === false &&
+      {props.view.nav.header === false && (
         <NavStyled borderOpacity={borderOpacity}>
           <NavLeftStyled>
             <BackButtonStyled onClick={goBack}>
@@ -162,11 +162,20 @@ const Nav = (props) => {
             <NavTitleStyled>{props.view.nav.title}</NavTitleStyled>
           </NavCenterStyled>
           <NavRightStyled>
-            {props.view.nav.refresh && <RefreshIconStyled refresh={props.view.nav.refresh} onClick={refresh}></RefreshIconStyled>}
-            {props.view.nav.heart > 0 && <HeartIconStyled heart={props.view.nav.heart} onClick={heart} />}
+            {props.view.nav.refresh && (
+              <RefreshIconStyled
+                refresh={props.view.nav.refresh}
+                onClick={refresh}
+              >
+                
+              </RefreshIconStyled>
+            )}
+            {props.view.nav.heart > 0 && (
+              <HeartIconStyled heart={props.view.nav.heart} onClick={heart} />
+            )}
           </NavRightStyled>
         </NavStyled>
-      }
+      )}
       {props.view.nav.header && <Header text={props.view.nav.title} />}
     </Fragment>
   );

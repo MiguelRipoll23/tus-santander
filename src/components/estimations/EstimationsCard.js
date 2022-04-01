@@ -1,6 +1,6 @@
-import styled from 'styled-components';
+import styled from "styled-components";
 
-import StyleUtils from '../../utils/StyleUtils.js';
+import StyleUtils from "../../utils/StyleUtils.js";
 
 const EstimationsCardStyled = styled.div`
   border-radius: 30px;
@@ -10,8 +10,12 @@ const EstimationsCardStyled = styled.div`
   cursor: pointer;
   background: #fff;
   color: #fff;
-  background: linear-gradient(to top, ${props => props.colors[0]}, ${props => props.colors[1]});
-  animation: fade-in .2s;
+  background: linear-gradient(
+    to top,
+    ${(props) => props.colors[0]},
+    ${(props) => props.colors[1]}
+  );
+  animation: fade-in 0.2s;
 
   &:last-child {
     margin-bottom: 14px;

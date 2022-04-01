@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled from "styled-components";
 
 const HomeMenuStyled = styled.div`
   background: #f7f7f7;
@@ -25,10 +25,11 @@ const Item = styled.div`
   padding-top: 14px;
   padding-bottom: calc(24px + env(safe-area-inset-bottom));
 
-  color: ${props => (props.selected ? '#007aff' : 'rgba(0, 0, 0, .55);')};
+  color: ${(props) => (props.selected ? "#007aff" : "rgba(0, 0, 0, .55);")};
 
   @media (prefers-color-scheme: dark) {
-    color: ${props => (props.selected ? '#007aff' : 'rgba(255, 255, 255, .55);')};
+    color: ${(props) =>
+      props.selected ? "#007aff" : "rgba(255, 255, 255, .55);"};
   }
 `;
 
@@ -44,28 +45,31 @@ const ItemText = styled.div`
 
 const HomeMenu = (props) => {
   const loadFavoritesSubview = () => {
-    props.updateSubview('favorites');
-  }
+    props.updateSubview("favorites");
+  };
 
   const loadMapSubview = () => {
-    props.updateSubview('map');
-  }
+    props.updateSubview("map");
+  };
 
   const loadSearchSubview = () => {
-    props.updateSubview('search');
-  }
+    props.updateSubview("search");
+  };
 
   return (
     <HomeMenuStyled>
-      <Item selected={props.subview === 'favorites'} onClick={loadFavoritesSubview}>
+      <Item
+        selected={props.subview === "favorites"}
+        onClick={loadFavoritesSubview}
+      >
         <ItemIcon></ItemIcon>
         <ItemText>Favoritos</ItemText>
       </Item>
-      <Item selected={props.subview === 'map'} onClick={loadMapSubview}>
+      <Item selected={props.subview === "map"} onClick={loadMapSubview}>
         <ItemIcon></ItemIcon>
         <ItemText>Mapa</ItemText>
       </Item>
-      <Item selected={props.subview === 'search'} onClick={loadSearchSubview}>
+      <Item selected={props.subview === "search"} onClick={loadSearchSubview}>
         <ItemIcon></ItemIcon>
         <ItemText>Buscar</ItemText>
       </Item>

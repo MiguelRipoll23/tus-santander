@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled from "styled-components";
 
 const SpinnerStyled = styled.svg`
   position: fixed;
@@ -21,8 +21,20 @@ const Circle = styled.circle`
 
 const Spinner = (props) => {
   return (
-    <SpinnerStyled className="spinner" width="65px" height="65px" viewBox="0 0 66 66">
-      <Circle fill="none" stroke-width="5" stroke-linecap="round" cx="33" cy="33" r="30" />
+    <SpinnerStyled
+      className="spinner"
+      width="65px"
+      height="65px"
+      viewBox="0 0 66 66"
+    >
+      <Circle
+        fill="none"
+        stroke-width="5"
+        stroke-linecap="round"
+        cx="33"
+        cy="33"
+        r="30"
+      />
     </SpinnerStyled>
   );
 };

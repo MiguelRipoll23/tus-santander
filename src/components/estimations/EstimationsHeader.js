@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled from "styled-components";
 
 const LineHeaderStyled = styled.div`
   padding-top: 18px;
@@ -20,7 +20,9 @@ const LineHeader = (props) => {
   return (
     <LineHeaderStyled>
       <LineLabelStyled>{props.label}</LineLabelStyled>
-      <LineDestinationStyled>{props.destination.toUpperCase()}</LineDestinationStyled>
+      <LineDestinationStyled>
+        {props.destination.toUpperCase()}
+      </LineDestinationStyled>
     </LineHeaderStyled>
   );
 };

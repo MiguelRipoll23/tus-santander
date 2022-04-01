@@ -1,11 +1,11 @@
-import { Fragment, useState, useEffect } from 'react';
-import styled from 'styled-components';
+import { Fragment, useState, useEffect } from "react";
+import styled from "styled-components";
 
-import StyleUtils from '../../../utils/StyleUtils.js';
-import { getFavorites } from '../../../utils/FavoriteUtils.js';
+import StyleUtils from "../../../utils/StyleUtils.js";
+import { getFavorites } from "../../../utils/FavoriteUtils.js";
 
-import Error from '../../../components/Error.js';
-import HomeDesktop from '../../../components/home/HomeDesktop.js';
+import Error from "../../../components/Error.js";
+import HomeDesktop from "../../../components/home/HomeDesktop.js";
 
 const ViewportStyled = styled.div`
   position: relative;
@@ -29,7 +29,7 @@ const FavoriteStyled = styled.div`
   overflow: hidden;
   font-weight: 700;
   min-height: 53px;
-  animation: fade-in .2s;
+  animation: fade-in 0.2s;
 
   @media (prefers-color-scheme: dark) {
     background: #1c1b20;
@@ -43,16 +43,16 @@ const HomeFavoritesSubview = (props) => {
 
   const loadMapSubview = () => {
     props.setView({
-      id: 'map',
-      title: 'Mapa',
+      id: "map",
+      title: "Mapa",
       header: false,
-      data: { 'push': true }
+      data: { push: true },
     });
-  }
+  };
 
   const loadEstimationsStopView = (favorite) => {
     props.setView({
-      id: 'estimations_stop',
+      id: "estimations_stop",
       nav: {
         title: favorite.stop_name,
         header: false,
@@ -60,8 +60,8 @@ const HomeFavoritesSubview = (props) => {
       data: {
         push: true,
         id: favorite.stop_id,
-        name: favorite.stop_name
-      }
+        name: favorite.stop_name,
+      },
     });
   };
 
@@ -72,7 +72,7 @@ const HomeFavoritesSubview = (props) => {
 
     // History
     if (props.view.data.push) {
-      window.history.pushState(props.view, 'TUS Santander - Web App', '/');
+      window.history.pushState(props.view, "TUS Santander - Web App", "/");
     }
 
     // Data
@@ -80,8 +80,7 @@ const HomeFavoritesSubview = (props) => {
 
     if (favorites.length === 0) {
       setError(true);
-    }
-    else {
+    } else {
       setFavorites(favorites);
     }
 
@@ -92,9 +91,23 @@ const HomeFavoritesSubview = (props) => {
   return (
     <Fragment>
       <ViewportStyled>
-        {error && <Error error_text="Usa el mapa o el buscador para añadir paradas" error_text_lowercase={true} retry_text="Ver paradas cercanas" retry_action={loadMapSubview} />}
+        {error && (
+          <Error
+            error_text="Usa el mapa o el buscador para añadir paradas"
+            error_text_lowercase={true}
+            retry_text="Ver paradas cercanas"
+            retry_action={loadMapSubview}
+          />
+        )}
         {favorites.map((favorite, i) => {
-          return <FavoriteStyled key={i} onClick={() => loadEstimationsStopView(favorite)}>{favorite.stop_name}</FavoriteStyled>
+          return (
+            <FavoriteStyled
+              key={i}
+              onClick={() => loadEstimationsStopView(favorite)}
+            >
+              {favorite.stop_name}
+            </FavoriteStyled>
+          );
         })}
       </ViewportStyled>
       <HomeDesktop />

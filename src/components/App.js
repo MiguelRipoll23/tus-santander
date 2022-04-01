@@ -1,22 +1,22 @@
-import { Fragment, useReducer, useState, useEffect } from 'react';
+import { Fragment, useReducer, useState, useEffect } from "react";
 
-import Nav from './Nav.js';
-import Main from './Main.js';
+import Nav from "./Nav.js";
+import Main from "./Main.js";
 
 const initialView = {
-  id: 'home',
+  id: "home",
   nav: {
-    title: 'Favoritos',
+    title: "Favoritos",
     header: true,
     refresh: false,
-    heart: 0
+    heart: 0,
   },
   data: {
     refresh: 0,
     heart: 0,
     push: false,
-    subview: 'favorites'
-  }
+    subview: "favorites",
+  },
 };
 
 const updateView = (view, newView) => {
@@ -24,7 +24,7 @@ const updateView = (view, newView) => {
   newView.nav = { ...view.nav, ...newView.nav };
   newView.data = { ...view.data, ...newView.data };
 
-  console.log('View', newView);
+  console.log("View", newView);
 
   return newView;
 };
@@ -46,23 +46,23 @@ const App = () => {
     state.data.heart = 0;
     state.data.refresh = 0;
 
-    console.log('History', state);
+    console.log("History", state);
 
     setView(state);
   };
 
   // Auto-refresh
   useEffect(() => {
-    if (visible === false || view.id.includes('estimations') === false) {
+    if (visible === false || view.id.includes("estimations") === false) {
       return;
     }
 
-    const newView= {
+    const newView = {
       data: {
         push: false,
         refresh: Date.now(),
-        heart: 0
-      }
+        heart: 0,
+      },
     };
 
     setView(newView);
@@ -73,7 +73,7 @@ const App = () => {
     document.onvisibilitychange = () => {
       let visible = true;
 
-      if (document['hidden']) {
+      if (document["hidden"]) {
         visible = false;
       }
 
@@ -87,6 +87,6 @@ const App = () => {
       <Main view={view} setView={setView} />
     </Fragment>
   );
-}
+};
 
 export default App;
