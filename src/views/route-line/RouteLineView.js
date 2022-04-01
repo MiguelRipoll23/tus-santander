@@ -1,10 +1,10 @@
-import { Fragment, useState, useCallback, useEffect } from 'react';
-import styled from 'styled-components';
-import ApiUtils from '../../utils/ApiUtils.js';
+import { Fragment, useState, useCallback, useEffect } from "react";
+import styled from "styled-components";
+import ApiUtils from "../../utils/ApiUtils.js";
 
-import Spinner from '../../components/Spinner.js';
-import Error from '../../components/Error.js';
-import StopLines from '../../components/StopLines.js';
+import Spinner from "../../components/Spinner.js";
+import Error from "../../components/Error.js";
+import StopLines from "../../components/StopLines.js";
 
 const RouteLineViewStyled = styled.ul`
   list-style: none;
@@ -19,36 +19,36 @@ const StopStyled = styled.li`
   padding-bottom: 12px;
   font-size: 18px;
   font-weight: bold;
-  animation: fade-in .2s;
+  animation: fade-in 0.2s;
 
   & span {
     max-width: 200px;
   }
 
   &:before {
-    content: '';
+    content: "";
     position: absolute;
     left: -22.8px;
-    border-left: 3px solid ${props => props.color};
+    border-left: 3px solid ${(props) => props.color};
     width: 1px;
     height: 100%;
   }
 
   &:after {
-    content: '';
+    content: "";
     position: absolute;
     left: -31px;
     top: 0px;
     width: 13px;
     height: 13px;
     border-radius: 50%;
-    border: 3px solid ${props => props.color};
-    background: ${props => (props.active ? props.color : '#fff')};
+    border: 3px solid ${(props) => props.color};
+    background: ${(props) => (props.active ? props.color : "#fff")};
   }
 
   @media (prefers-color-scheme: dark) {
     &:after {
-      background: ${props => (props.active ? props.color : '#000')};
+      background: ${(props) => (props.active ? props.color : "#000")};
     }
   }
 
@@ -62,7 +62,7 @@ const StopStyled = styled.li`
 `;
 
 const RouteLineView = (props) => {
-  const {view} = props;
+  const { view } = props;
 
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
@@ -85,23 +85,23 @@ const RouteLineView = (props) => {
     }
 
     fetch(ApiUtils.HOST + ApiUtils.PATH_JSON_ROUTE + query)
-      .then(response => {
+      .then((response) => {
         if (!response.ok) {
-          throw new Error('Network response was not ok.');
+          throw new Error("Network response was not ok.");
         }
 
         return response.json();
       })
-      .then(data => {
+      .then((data) => {
         // Check if response is empty
         if (data.length === 0) {
-          throw new Error('Empty response.');
+          throw new Error("Empty response.");
         }
 
         setLoading(false);
         setResults(data);
       })
-      .catch(error => {
+      .catch((error) => {
         console.error(error);
         setLoading(false);
         setError(true);
@@ -133,7 +133,9 @@ const RouteLineView = (props) => {
     if (view.data.push) {
       window.history.pushState(
         view,
-        `${view.data.name}: ${view.data.line} ${view.data.destination.toUpperCase()}`,
+        `${view.data.name}: ${
+          view.data.line
+        } ${view.data.destination.toUpperCase()}`,
         `/parada/${view.data.id}/linea/${view.data.line}/${view.data.destination}/ruta`
       );
     }
@@ -145,13 +147,27 @@ const RouteLineView = (props) => {
   return (
     <Fragment>
       {loading && <Spinner />}
-      {error && <Error error_text="No disponible" retry_text="Volver a intentar" retry_action={refresh} />}
+      {error && (
+        <Error
+          error_text="No disponible"
+          retry_text="Volver a intentar"
+          retry_action={refresh}
+        />
+      )}
       <RouteLineViewStyled>
         {results.map((result, i) => {
-          return <StopStyled key={i} color={props.view.data.color} active={isActive(result[0])}>
-            <span>{result[1]}</span>
-            {result[2].length > 0 && <StopLines list={result[2]} size="small" />}
-          </StopStyled>
+          return (
+            <StopStyled
+              key={i}
+              color={props.view.data.color}
+              active={isActive(result[0])}
+            >
+              <span>{result[1]}</span>
+              {result[2].length > 0 && (
+                <StopLines list={result[2]} size="small" />
+              )}
+            </StopStyled>
+          );
         })}
       </RouteLineViewStyled>
     </Fragment>

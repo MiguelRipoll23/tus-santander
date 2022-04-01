@@ -1,6 +1,6 @@
-import styled from 'styled-components';
+import styled from "styled-components";
 
-import QrCodeMin from '../../assets/qr-code-min.png';
+import QrCodeMin from "../../assets/qr-code-min.png";
 
 const HomeDesktopStyled = styled.div`
   position: fixed;
@@ -31,7 +31,7 @@ const DesktopAreaStyled = styled.div`
 
 const DesktopQrStyled = styled.img`
   border-radius: 35px;
-  box-shadow: 0 0 40px rgba(0,0,0,0.3);
+  box-shadow: 0 0 40px rgba(0, 0, 0, 0.3);
   width: 250px;
   height: 250px;
 `;
@@ -40,9 +40,17 @@ const HomeDesktop = (props) => {
   return (
     <HomeDesktopStyled>
       <DesktopAreaStyled>
-        <DesktopQrStyled alt="Código QR" src={QrCodeMin} width="250" height="250" />
+        <DesktopQrStyled
+          alt="Código QR"
+          src={QrCodeMin}
+          width="250"
+          height="250"
+        />
         <h1>TUS Santander (Web App)</h1>
-        <span>Escanea el código QR que se muestra en la pantalla usando la app <b>Cámara</b> de tu móvil para acceder a la aplicación</span>
+        <span>
+          Escanea el código QR que se muestra en la pantalla usando la app{" "}
+          <b>Cámara</b> de tu móvil para acceder a la aplicación
+        </span>
       </DesktopAreaStyled>
     </HomeDesktopStyled>
   );

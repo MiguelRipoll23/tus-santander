@@ -1,6 +1,6 @@
-import styled from 'styled-components';
+import styled from "styled-components";
 
-import Button from './Button.js';
+import Button from "./Button.js";
 
 const ErrorStyled = styled.div`
   text-align: center;
@@ -10,7 +10,7 @@ const ErrorStyled = styled.div`
   padding: 0 80px;
   box-sizing: border-box;
   display: inline-block;
-  animation: fade-in .2s;
+  animation: fade-in 0.2s;
 `;
 
 const TextStyled = styled.div`
@@ -20,9 +20,15 @@ const TextStyled = styled.div`
 const Error = (props) => {
   return (
     <ErrorStyled>
-      {props.error_text_lowercase === undefined && <TextStyled>{props.error_text.toUpperCase()}</TextStyled>}
-      {props.error_text_lowercase !== undefined && <TextStyled>{props.error_text}</TextStyled>}
-      <Button color='rgb(0, 122, 255)' onClick={props.retry_action}>{props.retry_text}</Button>
+      {props.error_text_lowercase === undefined && (
+        <TextStyled>{props.error_text.toUpperCase()}</TextStyled>
+      )}
+      {props.error_text_lowercase !== undefined && (
+        <TextStyled>{props.error_text}</TextStyled>
+      )}
+      <Button color="rgb(0, 122, 255)" onClick={props.retry_action}>
+        {props.retry_text}
+      </Button>
     </ErrorStyled>
   );
 };

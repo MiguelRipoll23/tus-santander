@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled from "styled-components";
 
 const TimeStyled = styled.div`
   display: inline-block;
@@ -27,9 +27,8 @@ const LineHeader = (props) => {
     let text = `- -`;
 
     if (minutes === 0) {
-      text = '>>';
-    }
-    else if (minutes > 0) {
+      text = ">>";
+    } else if (minutes > 0) {
       text = `${minutes} MIN`;
     }
 
@@ -38,7 +37,9 @@ const LineHeader = (props) => {
 
   return (
     <TimeStyled>
-      <Time1Styled id="time1" data-time={props.time1}>{getTimeText(props.time1)}</Time1Styled>
+      <Time1Styled id="time1" data-time={props.time1}>
+        {getTimeText(props.time1)}
+      </Time1Styled>
       <Time2Styled>{getTimeText(props.time2)}</Time2Styled>
     </TimeStyled>
   );

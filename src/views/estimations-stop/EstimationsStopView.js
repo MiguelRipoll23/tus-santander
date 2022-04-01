@@ -1,15 +1,15 @@
-import { Fragment, useState, useEffect } from 'react';
-import ApiUtils from '../../utils/ApiUtils.js';
-import { getColors } from '../../utils/LineUtils.js';
-import { getFavorite, toggleFavorite } from '../../utils/FavoriteUtils.js';
+import { Fragment, useState, useEffect } from "react";
+import ApiUtils from "../../utils/ApiUtils.js";
+import { getColors } from "../../utils/LineUtils.js";
+import { getFavorite, toggleFavorite } from "../../utils/FavoriteUtils.js";
 
-import Spinner from '../../components/Spinner.js';
-import Error from '../../components/Error.js';
-import StopLines from '../../components/StopLines.js';
+import Spinner from "../../components/Spinner.js";
+import Error from "../../components/Error.js";
+import StopLines from "../../components/StopLines.js";
 
-import EstimationsCard from '../../components/estimations/EstimationsCard.js';
-import EstimationsHeader from '../../components/estimations/EstimationsHeader.js';
-import EstimationsBody from '../../components/estimations/EstimationsBody.js';
+import EstimationsCard from "../../components/estimations/EstimationsCard.js";
+import EstimationsHeader from "../../components/estimations/EstimationsHeader.js";
+import EstimationsBody from "../../components/estimations/EstimationsBody.js";
 
 const EstimationsStopView = (props) => {
   const [loading, setLoading] = useState(true);
@@ -32,20 +32,20 @@ const EstimationsStopView = (props) => {
     const query = `?stop_id=${stopId}`;
 
     fetch(ApiUtils.HOST + ApiUtils.PATH_JSON_ESTIMATIONS + query)
-      .then(response => {
+      .then((response) => {
         if (!response.ok) {
-          throw new Error('Network response was not ok.');
+          throw new Error("Network response was not ok.");
         }
 
         return response.json();
       })
-      .then(data => {
+      .then((data) => {
         props.setView({
           nav: {
             title: props.view.data.name,
             refresh: true,
-            heart: getFavorite(stopId) === null ? 1 : 2
-          }
+            heart: getFavorite(stopId) === null ? 1 : 2,
+          },
         });
 
         const linesList = data[0];
@@ -53,14 +53,14 @@ const EstimationsStopView = (props) => {
 
         // Check if response is empty
         if (estimationsList.length === 0) {
-          throw new Error('Empty response.');
+          throw new Error("Empty response.");
         }
 
         setLoading(false);
-        setLines(linesList)
+        setLines(linesList);
         setEstimations(estimationsList);
       })
-      .catch(error => {
+      .catch((error) => {
         console.error(error);
         setLoading(false);
         setError(true);
@@ -71,13 +71,13 @@ const EstimationsStopView = (props) => {
   const refresh = () => {
     props.setView({
       nav: {
-        refresh: false
+        refresh: false,
       },
       data: {
         push: false,
         refresh: 0,
-        heart: 0
-      }
+        heart: 0,
+      },
     });
 
     setLoading(true);
@@ -89,7 +89,10 @@ const EstimationsStopView = (props) => {
       return;
     }
 
-    if (props.view.data?.refresh === undefined || props.view.data?.refresh === 0) {
+    if (
+      props.view.data?.refresh === undefined ||
+      props.view.data?.refresh === 0
+    ) {
       return;
     }
 
@@ -99,11 +102,13 @@ const EstimationsStopView = (props) => {
 
   // Heart
   const updateHeart = () => {
-    const result = toggleFavorite(props.view.data.id, props.view.data.name) ? 2 : 1;
+    const result = toggleFavorite(props.view.data.id, props.view.data.name)
+      ? 2
+      : 1;
 
     props.setView({
       nav: {
-        heart: result
+        heart: result,
       },
     });
   };
@@ -117,13 +122,14 @@ const EstimationsStopView = (props) => {
     const favorited = getFavorite(props.view.data.id);
 
     if (favorited) {
-      const result = window.confirm('¿Estás seguro de que quieres quitar esta parada de favoritos?');
+      const result = window.confirm(
+        "¿Estás seguro de que quieres quitar esta parada de favoritos?"
+      );
 
       if (result === true) {
         updateHeart();
       }
-    }
-    else {
+    } else {
       updateHeart();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -132,19 +138,19 @@ const EstimationsStopView = (props) => {
   // Line
   const loadEstimationsLineView = (result) => {
     props.setView({
-      id: 'estimations_line',
+      id: "estimations_line",
       nav: {
         title: props.view.data.name,
         refresh: false,
-        heart: false
+        heart: false,
       },
       data: {
         push: true,
         id: props.view.data.id,
         name: props.view.data.name,
         line: result[0],
-        destination: result[1]
-      }
+        destination: result[1],
+      },
     });
   };
 
@@ -169,11 +175,11 @@ const EstimationsStopView = (props) => {
         title: props.view.data.name,
         header: false,
         heart: getFavorite(props.view.data.id) === null ? 1 : 2,
-        refresh: false
+        refresh: false,
       },
       data: {
-        refresh: 0
-      }
+        refresh: 0,
+      },
     });
 
     // Data
@@ -184,13 +190,25 @@ const EstimationsStopView = (props) => {
   return (
     <Fragment>
       {loading && <Spinner />}
-      {error && <Error error_text="No disponible" retry_text="Volver a intentar" retry_action={refresh} />}
+      {error && (
+        <Error
+          error_text="No disponible"
+          retry_text="Volver a intentar"
+          retry_action={refresh}
+        />
+      )}
       {lines.length > 0 && <StopLines list={lines} />}
       {estimations.map((result, i) => {
-        return <EstimationsCard key={i} colors={getColors(result[0])} onClick={() => loadEstimationsLineView(result)}>
-          <EstimationsHeader label={result[0]} destination={result[1]} />
-          <EstimationsBody time1={result[2]} time2={result[3]} />
-        </EstimationsCard>
+        return (
+          <EstimationsCard
+            key={i}
+            colors={getColors(result[0])}
+            onClick={() => loadEstimationsLineView(result)}
+          >
+            <EstimationsHeader label={result[0]} destination={result[1]} />
+            <EstimationsBody time1={result[2]} time2={result[3]} />
+          </EstimationsCard>
+        );
       })}
     </Fragment>
   );

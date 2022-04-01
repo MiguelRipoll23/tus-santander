@@ -1,12 +1,12 @@
-import { memo, useState, useCallback, useEffect } from 'react';
-import { GoogleMap, useJsApiLoader, Marker } from '@react-google-maps/api'
-import ApiUtils from '../../utils/ApiUtils.js';
+import { memo, useState, useCallback, useEffect } from "react";
+import { GoogleMap, useJsApiLoader, Marker } from "@react-google-maps/api";
+import ApiUtils from "../../utils/ApiUtils.js";
 
-import Spinner from '../../components/Spinner.js';
-import Error from '../../components/Error.js';
+import Spinner from "../../components/Spinner.js";
+import Error from "../../components/Error.js";
 
-import Stops from '../../json/stops.min.json';
-import MarkerMin from '../../assets/marker-min.png';
+import Stops from "../../json/stops.min.json";
+import MarkerMin from "../../assets/marker-min.png";
 
 const MapView = (props) => {
   const [loading, setLoading] = useState(true);
@@ -14,23 +14,26 @@ const MapView = (props) => {
   const [markers, setMarkers] = useState([]);
 
   const { isLoaded, loadError } = useJsApiLoader({
-    googleMapsApiKey: ApiUtils.GOOGLE_MAPS_KEY
+    googleMapsApiKey: ApiUtils.GOOGLE_MAPS_KEY,
   });
 
   const getCurrentPosition = () => {
-    navigator.geolocation.getCurrentPosition((position) => {
-      setPosition({
-        lat: position.coords.latitude,
-        lng: position.coords.longitude
-      });
-    }, (error) => {
-      if (error.code === 1 || error.code === 3) {
-        return;
-      }
+    navigator.geolocation.getCurrentPosition(
+      (position) => {
+        setPosition({
+          lat: position.coords.latitude,
+          lng: position.coords.longitude,
+        });
+      },
+      (error) => {
+        if (error.code === 1 || error.code === 3) {
+          return;
+        }
 
-      alert('La localización no está disponible.');
-    });
-  }
+        alert("La localización no está disponible.");
+      }
+    );
+  };
 
   const getMarkers = () => {
     const list = [];
@@ -43,8 +46,8 @@ const MapView = (props) => {
         text: stop[2],
         position: {
           lat: stop[0],
-          lng: stop[1]
-        }
+          lng: stop[1],
+        },
       };
 
       list.push(marker);
@@ -56,16 +59,16 @@ const MapView = (props) => {
   // Stop estimations
   const loadEstimationsStopView = (marker) => {
     props.setView({
-      id: 'estimations_stop',
+      id: "estimations_stop",
       nav: {
         title: marker.text,
-        header: false
+        header: false,
       },
       data: {
         push: true,
         id: parseInt(marker.id),
-        name: marker.text
-      }
+        name: marker.text,
+      },
     });
   };
 
@@ -81,27 +84,30 @@ const MapView = (props) => {
 
     // History
     if (props.view.data.push) {
-      window.history.pushState(props.view, 'Mapa - TUS Santander', '/mapa');
+      window.history.pushState(props.view, "Mapa - TUS Santander", "/mapa");
     }
 
     getCurrentPosition();
     getMarkers();
-  }, [loading, props])
+  }, [loading, props]);
 
   const containerStyle = {
-    width: '100%',
-    height: 'calc(100vh - 56px)'
+    width: "100%",
+    height: "calc(100vh - 56px)",
   };
 
   const mapOptions = {
     fullscreenControl: false,
-    disableDefaultUI: true
+    disableDefaultUI: true,
   };
 
-  const onLoad = useCallback(function callback(map) {
-    setLoading(false);
-    map.setCenter(position);
-  }, [position]);
+  const onLoad = useCallback(
+    function callback(map) {
+      setLoading(false);
+      map.setCenter(position);
+    },
+    [position]
+  );
 
   const renderMap = () => (
     <GoogleMap
@@ -109,29 +115,40 @@ const MapView = (props) => {
       center={position}
       zoom={17}
       options={mapOptions}
-      onLoad={onLoad}>
-        {markers.map((marker, i) => {
-          return <Marker key={i}
+      onLoad={onLoad}
+    >
+      {markers.map((marker, i) => {
+        return (
+          <Marker
+            key={i}
             label={{
-              color: '#1da1f2',
+              color: "#1da1f2",
               text: marker.text,
-              fontSize: '14px'
+              fontSize: "14px",
             }}
             position={marker.position}
             icon={{
               url: MarkerMin,
-              labelOrigin: new window.google.maps.Point(11, 40)
+              labelOrigin: new window.google.maps.Point(11, 40),
             }}
-            onClick={() => loadEstimationsStopView(marker)} />}
-        )}
+            onClick={() => loadEstimationsStopView(marker)}
+          />
+        );
+      })}
     </GoogleMap>
   );
 
   if (loadError) {
-    return <Error error_text="No disponible" retry_text="Volver a intentar" retry_action={refresh} />
+    return (
+      <Error
+        error_text="No disponible"
+        retry_text="Volver a intentar"
+        retry_action={refresh}
+      />
+    );
   }
 
-  return isLoaded ? renderMap() : <Spinner />
+  return isLoaded ? renderMap() : <Spinner />;
 };
 
 export default memo(MapView);

@@ -2,7 +2,7 @@ export const getFavorites = () => {
   let list = [];
 
   // Get from local storage
-  const favoritesItemStorage = localStorage.getItem('favorites');
+  const favoritesItemStorage = localStorage.getItem("favorites");
 
   if (favoritesItemStorage === null) {
     return list;
@@ -14,13 +14,12 @@ export const getFavorites = () => {
 
     // Fix incorrect data
     for (let item of list) {
-      item['stop_id'] = parseInt(item['stop_id']);
+      item["stop_id"] = parseInt(item["stop_id"]);
     }
 
-    localStorage.setItem('favorites', JSON.stringify(list));
-  }
-  catch (error) {
-    console.error('Error parsing favorites data.', error);
+    localStorage.setItem("favorites", JSON.stringify(list));
+  } catch (error) {
+    console.error("Error parsing favorites data.", error);
   }
 
   return list;
@@ -54,21 +53,20 @@ export const toggleFavorite = (stopId, stopName) => {
     favorite.stop_name = stopName;
 
     favorites.push(favorite);
-    console.log('Favorite added.');
+    console.log("Favorite added.");
 
     result = true;
-  }
-  else {
-    const favorite = favorites.find(favorite => favorite.stop_id === stopId);
+  } else {
+    const favorite = favorites.find((favorite) => favorite.stop_id === stopId);
     const index = favorites.indexOf(favorite);
 
     if (index > -1) {
       favorites.splice(index, 1);
-      console.log('Favorite deleted.');
+      console.log("Favorite deleted.");
     }
   }
 
-  localStorage.setItem('favorites', JSON.stringify(favorites));
+  localStorage.setItem("favorites", JSON.stringify(favorites));
 
   return result;
 };

@@ -1,6 +1,6 @@
-import styled from 'styled-components';
+import styled from "styled-components";
 
-import StyleUtils from '../utils/StyleUtils.js';
+import StyleUtils from "../utils/StyleUtils.js";
 
 const HeaderStyled = styled.div`
   font-weight: bold;
@@ -16,9 +16,7 @@ const HeaderStyled = styled.div`
 `;
 
 const Header = (props) => {
-  return (
-    <HeaderStyled>{props.text}</HeaderStyled>
-  );
+  return <HeaderStyled>{props.text}</HeaderStyled>;
 };
 
 export default Header;
