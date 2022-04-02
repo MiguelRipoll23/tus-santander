@@ -31,7 +31,7 @@
 
 body,
 html,
-#root {
+#app {
   height: 100%;
 }
 
@@ -49,18 +49,18 @@ body {
   background: #fff;
 }
 
-#root {
+@media (prefers-color-scheme: dark) {
+  body {
+    color: #fff;
+    background: #000;
+  }
+}
+
+#app {
   display: flex;
   flex-direction: column;
 }
 
 #time1[data-time="0"] {
   animation: blink 0.8s linear infinite;
-}
-
-@media (prefers-color-scheme: dark) {
-  body {
-    color: #fff;
-    background: #000;
-  }
 }
