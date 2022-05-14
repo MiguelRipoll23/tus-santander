@@ -25,3 +25,6 @@ jobs:
 
     secrets:
       GOOGLE_MAPS_KEY: ${{ secrets.GOOGLE_MAPS_KEY }}
+      WORKLOAD_IDENTITY_PROVIDER: ${{ secrets.WORKLOAD_IDENTITY_PROVIDER }}
+      SERVICE_ACCOUNT: ${{ secrets.SERVICE_ACCOUNT }}
+      PROJECT_ID: ${{ secrets.PROJECT_ID }}
