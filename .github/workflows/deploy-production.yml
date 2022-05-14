@@ -27,14 +27,14 @@ jobs:
     with:
       node-version: 16
       target-branch: refs/pull/${{ github.event.issue.number }}/merge
+      google-cloud-run-host: https://europe-west2-tusestimaciones.cloudfunctions.net/
 
       # Environment
       environment-id: tusestimaciones
       environment-name: production
-      environment-url: https://tusestimaciones.web.app/
-
-      google-cloud-run-host: https://europe-west2-tusestimaciones.cloudfunctions.net/
 
     secrets:
       GOOGLE_MAPS_KEY: ${{ secrets.GOOGLE_MAPS_KEY }}
-      GOOGLE_CLOUD_KEY: ${{ secrets.GOOGLE_CLOUD_KEY }}
+      WORKLOAD_IDENTITY_PROVIDER: ${{ secrets.WORKLOAD_IDENTITY_PROVIDER }}
+      SERVICE_ACCOUNT: ${{ secrets.SERVICE_ACCOUNT }}
+
