@@ -15,16 +15,13 @@ jobs:
     with:
       node-version: 16
       target-branch: ${{ github.ref }}
+      google-cloud-run-host: https://europe-west2-staging-tusestimaciones.cloudfunctions.net/
 
       # Environment
       environment-id: staging-tusestimaciones
       environment-name: staging
-      environment-url: https://staging-tusestimaciones.web.app/
-
-      google-cloud-run-host: https://europe-west2-staging-tusestimaciones.cloudfunctions.net/
 
     secrets:
       GOOGLE_MAPS_KEY: ${{ secrets.GOOGLE_MAPS_KEY }}
       WORKLOAD_IDENTITY_PROVIDER: ${{ secrets.WORKLOAD_IDENTITY_PROVIDER }}
       SERVICE_ACCOUNT: ${{ secrets.SERVICE_ACCOUNT }}
-      PROJECT_ID: ${{ secrets.PROJECT_ID }}
