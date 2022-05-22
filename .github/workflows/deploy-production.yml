@@ -41,7 +41,7 @@ jobs:
         uses: actions/upload-artifact@v2
 
         with:
-          name: staging-${{github.event.number}}
+          name: production-${{github.event.number}}
           path: build
 
   deploy-package:
@@ -65,7 +65,7 @@ jobs:
         uses: actions/download-artifact@v2
 
         with:
-          name: staging-${{github.event.number}}
+          name: production-${{github.event.number}}
 
       - name: Authenticate to Google Cloud
         uses: "google-github-actions/auth@v0"
