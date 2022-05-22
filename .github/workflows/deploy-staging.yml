@@ -83,5 +83,5 @@ jobs:
       - id: deployment_url
         name: Set environment URL
         run: |
-          URL="$(npx firebase-tools --json --project redacted --non-interactive hosting:channel:open ${{github.event.number}} | jq -r '.result.url')"
+          URL="$(npx firebase-tools --json --project staging-tusestimaciones --non-interactive hosting:channel:open ${{github.event.number}} | jq -r '.result.url')"
           echo "::set-output name=url::$URL"

@@ -76,10 +76,4 @@ jobs:
           create_credentials_file: true
 
       - name: Deploy to Firebase Hosting
-        run: firebase hosting:channel:deploy --project tusestimaciones ${{github.event.number}} --expires 30d
-
-      - id: deployment_url
-        name: Set Environment URL
-        run: |
-          URL="$(npx firebase-tools --json --project redacted --non-interactive hosting:channel:open ${{github.event.number}} | jq -r '.result.url')"
-          echo "::set-output name=url::$URL"
+        run: firebase hosting:channel:deploy --project tusestimaciones live
