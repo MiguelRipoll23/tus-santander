@@ -3,7 +3,7 @@ name: Analyze code
 on:
   push:
     branches:
-      - main
+      - production
 
   pull_request:
 
