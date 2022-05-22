@@ -84,7 +84,7 @@ const RouteLineView = (props) => {
       setResults([]);
     }
 
-    fetch(ApiUtils.HOST + ApiUtils.API_PATH_JSON_ROUTE + query)
+    fetch(ApiUtils.API_HOST + ApiUtils.API_PATH_JSON_ROUTE + query)
       .then((response) => {
         if (!response.ok) {
           throw new Error("Network response was not ok.");
