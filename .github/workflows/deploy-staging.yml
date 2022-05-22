@@ -52,7 +52,7 @@ jobs:
     runs-on: ubuntu-latest
 
     environment:
-      name: staging
+      name: Staging
       url: ${{ steps.deployment_url.outputs.url }}
 
     permissions:
@@ -81,7 +81,7 @@ jobs:
         run: firebase hosting:channel:deploy --project staging-tusestimaciones ${{github.event.number}} --expires 30d
 
       - id: deployment_url
-        name: Set Environment URL
+        name: Set environment URL
         run: |
           URL="$(npx firebase-tools --json --project redacted --non-interactive hosting:channel:open ${{github.event.number}} | jq -r '.result.url')"
           echo "::set-output name=url::$URL"
