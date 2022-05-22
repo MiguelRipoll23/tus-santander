@@ -52,7 +52,7 @@ jobs:
     runs-on: ubuntu-latest
 
     environment:
-      name: Staging
+      name: staging
       url: ${{ steps.deployment_url.outputs.url }}
 
     permissions:
