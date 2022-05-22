@@ -32,7 +32,7 @@ jobs:
 
         env:
           REACT_APP_GOOGLE_MAPS_KEY: ${{ secrets.GOOGLE_MAPS_KEY }}
-          REACT_APP_GOOGLE_CLOUD_RUN_HOST: "https://europe-west2-tusestimaciones.cloudfunctions.net/"
+          REACT_APP_GOOGLE_CLOUD_RUN_HOST: "https://europe-west2-tusestimaciones.cloudfunctions.net"
 
       - name: Prepare package
         run: cp firebase.json build/
