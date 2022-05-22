@@ -76,4 +76,4 @@ jobs:
           create_credentials_file: true
 
       - name: Deploy to Firebase Hosting
-        run: firebase hosting:channel:deploy --project tusestimaciones live
+        run: firebase deploy --project tusestimaciones --only hosting
