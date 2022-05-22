@@ -31,7 +31,7 @@ const EstimationsStopView = (props) => {
 
     const query = `?stop_id=${stopId}`;
 
-    fetch(ApiUtils.HOST + ApiUtils.PATH_JSON_ESTIMATIONS + query)
+    fetch(ApiUtils.API_HOST + ApiUtils.API_PATH_JSON_ESTIMATIONS + query)
       .then((response) => {
         if (!response.ok) {
           throw new Error("Network response was not ok.");
