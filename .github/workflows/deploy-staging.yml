@@ -43,7 +43,7 @@ jobs:
         uses: actions/upload-artifact@v2
 
         with:
-          name: staging-${{github.event.number}}
+          name: staging-pr${{github.event.number}}
           path: build
 
   deploy-package:
@@ -67,7 +67,7 @@ jobs:
         uses: actions/download-artifact@v2
 
         with:
-          name: staging-${{github.event.number}}
+          name: staging-pr${{github.event.number}}
 
       - name: Authenticate to Google Cloud
         uses: "google-github-actions/auth@v0"
@@ -83,5 +83,5 @@ jobs:
       - id: deployment_url
         name: Set environment URL
         run: |
-          URL="$(npx firebase-tools --json --project staging-tusestimaciones --non-interactive hosting:channel:open ${{github.event.number}} | jq -r '.result.url')"
+          URL="$(firebase --project staging-tusestimaciones --non-interactive --json hosting:channel:open pr${{github.event.number}} | jq -r '.result.url')"
           echo "::set-output name=url::$URL"
