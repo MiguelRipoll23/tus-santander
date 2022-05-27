@@ -78,7 +78,7 @@ jobs:
           create_credentials_file: true
 
       - name: Deploy to Firebase Hosting
-        run: firebase hosting:channel:deploy --project staging-tusestimaciones ${{github.event.number}} --expires 30d
+        run: firebase hosting:channel:deploy --project staging-tusestimaciones pr${{github.event.number}} --expires 30d
 
       - id: deployment_url
         name: Set environment URL
