@@ -72,7 +72,7 @@ const RouteLineView = (props) => {
   const line = props.view.data.line;
   const destination = props.view.data.destination;
 
-  const query = `?line=${line}&destination=${destination}&stop_id=${stopId}`;
+  const query = `?stopId=${stopId}&lineLabel=${line}&lineDestination=${destination}`;
 
   const getResults = useCallback(() => {
     // Reset

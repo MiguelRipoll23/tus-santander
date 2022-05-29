@@ -14,7 +14,7 @@ const TimeStyled = styled.div`
 
 const Time1Styled = styled.div`
   display: inline-block;
-  width: 105px;
+  width: 120px;
 `;
 
 const Time2Styled = styled.div`
