@@ -33,7 +33,7 @@ jobs:
         run: npm run build
 
         env:
-          REACT_APP_API_HOST: "https://europe-west2-staging-tusestimaciones.cloudfunctions.net"
+          REACT_APP_API_HOST: "https://tusestimaciones-r2xpqzct4zb0.deno.dev"
           REACT_APP_GOOGLE_MAPS_KEY: ${{ secrets.GOOGLE_MAPS_KEY }}
 
       - name: Prepare package

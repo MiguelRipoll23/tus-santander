@@ -6,7 +6,6 @@ import App from "./components/App.js";
 import * as serviceWorkerRegistration from "./serviceWorkerRegistration";
 
 const container = document.querySelector("#app");
-console.log(container);
 const root = createRoot(container);
 
 root.render(

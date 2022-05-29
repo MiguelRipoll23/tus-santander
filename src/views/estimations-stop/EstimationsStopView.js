@@ -29,7 +29,7 @@ const EstimationsStopView = (props) => {
       setEstimations([]);
     }
 
-    const query = `?stop_id=${stopId}`;
+    const query = `?stopId=${stopId}`;
 
     fetch(ApiUtils.API_HOST + ApiUtils.API_PATH_JSON_ESTIMATIONS + query)
       .then((response) => {
@@ -48,8 +48,8 @@ const EstimationsStopView = (props) => {
           },
         });
 
-        const linesList = data[0];
-        const estimationsList = data[1];
+        const estimationsList = data[0];
+        const linesList = data[1];
 
         // Check if response is empty
         if (estimationsList.length === 0) {
@@ -57,8 +57,8 @@ const EstimationsStopView = (props) => {
         }
 
         setLoading(false);
-        setLines(linesList);
         setEstimations(estimationsList);
+        setLines(linesList);
       })
       .catch((error) => {
         console.error(error);

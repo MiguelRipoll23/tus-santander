@@ -52,7 +52,7 @@ const EstimationsLineView = (props) => {
       setEstimations([]);
     }
 
-    const query = `?stop_id=${stopId}&line=${line}&destination=${destination}`;
+    const query = `?stopId=${stopId}&lineLabel=${line}&lineDestination=${destination}`;
 
     fetch(ApiUtils.API_HOST + ApiUtils.API_PATH_JSON_ESTIMATIONS + query)
       .then((response) => {
