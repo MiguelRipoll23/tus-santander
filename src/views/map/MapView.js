@@ -64,12 +64,9 @@ const MapView = (props) => {
 
   // Stop estimations
   const loadEstimationsStopView = (marker) => {
-    setViewIdWithData({
-      viewId: ViewConstants.VIEW_ID_ESTIMATIONS_STOP,
-      data: {
-        stopId: parseInt(marker.id),
-        stopName: marker.text,
-      },
+    setViewIdWithData(ViewConstants.VIEW_ID_ESTIMATIONS_STOP, {
+      stopId: parseInt(marker.id),
+      stopName: marker.text,
     });
   };
 
@@ -96,8 +93,8 @@ const MapView = (props) => {
 
   // Mount
   useEffect(() => {
-    getCurrentPosition();
     getMarkers();
+    getCurrentPosition();
   }, []);
 
   const renderMap = () => (
