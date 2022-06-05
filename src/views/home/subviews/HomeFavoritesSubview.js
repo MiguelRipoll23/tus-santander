@@ -32,7 +32,6 @@ const FavoriteStyled = styled.div`
   overflow: hidden;
   font-weight: 700;
   min-height: 53px;
-  animation: fade-in 0.2s;
 
   @media (prefers-color-scheme: dark) {
     background: #1c1b20;
