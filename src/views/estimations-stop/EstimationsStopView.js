@@ -1,8 +1,14 @@
-import { Fragment, useState, useEffect } from "react";
-import ApiUtils from "../../utils/ApiUtils.js";
+import { Fragment, useState, useEffect, useCallback } from "react";
+
+import { useView } from "../../contexts/ViewContext.js";
 import { getColors } from "../../utils/LineUtils.js";
 import { getFavorite, toggleFavorite } from "../../utils/FavoriteUtils.js";
 
+import * as ViewConstants from "../../constants/ViewConstants.js";
+
+import ApiUtils from "../../utils/ApiUtils.js";
+
+import Nav from "../../components/Nav.js";
 import Spinner from "../../components/Spinner.js";
 import Error from "../../components/Error.js";
 import StopLines from "../../components/StopLines.js";
@@ -12,189 +18,117 @@ import EstimationsHeader from "../../components/estimations/EstimationsHeader.js
 import EstimationsBody from "../../components/estimations/EstimationsBody.js";
 
 const EstimationsStopView = (props) => {
+  const { data, setViewIdWithData } = useView();
+  const { stopId, stopName } = data;
+
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
+
+  const [refreshVisible, setRefreshVisible] = useState(false);
+  const [heartState, setHeartState] = useState(0);
+
   const [lines, setLines] = useState([]);
   const [estimations, setEstimations] = useState([]);
 
-  const getEstimations = () => {
-    const stopId = props.view.data.id;
-
+  const getEstimations = useCallback(() => {
     // Reset
-    if (error) {
-      setError(false);
-    }
-
-    if (estimations.length > 0) {
-      setEstimations([]);
-    }
+    setError(false);
+    setEstimations([]);
 
     const query = `?stopId=${stopId}`;
 
     fetch(ApiUtils.API_HOST + ApiUtils.API_PATH_JSON_ESTIMATIONS + query)
       .then((response) => {
         if (!response.ok) {
-          throw new Error("Network response was not ok.");
+          throw new Error("Network response was not ok");
         }
 
         return response.json();
       })
       .then((data) => {
-        props.setView({
-          nav: {
-            title: props.view.data.name,
-            refresh: true,
-            heart: getFavorite(stopId) === null ? 1 : 2,
-          },
-        });
-
         const estimationsList = data[0];
         const linesList = data[1];
 
         // Check if response is empty
         if (estimationsList.length === 0) {
-          throw new Error("Empty response.");
+          throw new Error("Empty response");
         }
 
-        setLoading(false);
-        setEstimations(estimationsList);
         setLines(linesList);
+        setEstimations(estimationsList);
       })
       .catch((error) => {
         console.error(error);
-        setLoading(false);
         setError(true);
+      })
+      .finally(() => {
+        setLoading(false);
+        setRefreshVisible(true);
+
+        const heartState = getFavorite(stopId) === null ? 1 : 2;
+        setHeartState(heartState);
       });
-  };
+  }, [stopId]);
 
   // Refresh
-  const refresh = () => {
-    props.setView({
-      nav: {
-        refresh: false,
-      },
-      data: {
-        push: false,
-        refresh: 0,
-        heart: 0,
-      },
-    });
-
+  const refreshContent = () => {
     setLoading(true);
     getEstimations();
   };
 
-  useEffect(() => {
-    if (loading) {
-      return;
-    }
-
-    if (
-      props.view.data?.refresh === undefined ||
-      props.view.data?.refresh === 0
-    ) {
-      return;
-    }
-
-    refresh();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [props.view.data.refresh]);
-
   // Heart
-  const updateHeart = () => {
-    const result = toggleFavorite(props.view.data.id, props.view.data.name)
-      ? 2
-      : 1;
-
-    props.setView({
-      nav: {
-        heart: result,
-      },
-    });
-  };
-
-  useEffect(() => {
-    if (props.view.data?.heart === undefined || props.view.data?.heart === 0) {
-      return;
-    }
-
-    // Confirm
-    const favorited = getFavorite(props.view.data.id);
+  const updateFavorite = () => {
+    const favorited = getFavorite(stopId);
 
     if (favorited) {
-      const result = window.confirm(
+      const userConfirms = window.confirm(
         "¿Estás seguro de que quieres quitar esta parada de favoritos?"
       );
 
-      if (result === true) {
-        updateHeart();
+      if (userConfirms) {
+        syncFavoriteState();
       }
     } else {
-      updateHeart();
+      syncFavoriteState();
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [props.view.data.heart]);
+  };
+
+  const syncFavoriteState = () => {
+    const heartState = toggleFavorite(stopId, stopName) ? 2 : 1;
+    setHeartState(heartState);
+  };
 
   // Line
   const loadEstimationsLineView = (result) => {
-    props.setView({
-      id: "estimations_line",
-      nav: {
-        title: props.view.data.name,
-        refresh: false,
-        heart: false,
-      },
-      data: {
-        push: true,
-        id: props.view.data.id,
-        name: props.view.data.name,
-        line: result[0],
-        destination: result[1],
-      },
+    setViewIdWithData(ViewConstants.VIEW_ID_ESTIMATIONS_LINE, {
+      stopId,
+      stopName,
+      lineLabel: result[0],
+      lineDestination: result[1],
     });
   };
 
-  // Init
+  // Mount
   useEffect(() => {
-    if (loading === false) {
-      return;
-    }
-
-    // History
-    if (props.view.data.push) {
-      window.history.pushState(
-        props.view,
-        `${props.view.data.name} - TUS Santander`,
-        `/parada/${props.view.data.id}`
-      );
-    }
-
-    // Update navigation bar
-    props.setView({
-      nav: {
-        title: props.view.data.name,
-        header: false,
-        heart: getFavorite(props.view.data.id) === null ? 1 : 2,
-        refresh: false,
-      },
-      data: {
-        refresh: 0,
-      },
-    });
-
-    // Data
     getEstimations();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [getEstimations]);
 
   return (
     <Fragment>
+      <Nav
+        isHeader={false}
+        isRefreshVisible={refreshVisible}
+        titleText={stopName}
+        heartState={heartState}
+        refreshContent={refreshContent}
+        toggleFavorite={updateFavorite}
+      />
       {loading && <Spinner />}
       {error && (
         <Error
           error_text="No disponible"
           retry_text="Volver a intentar"
-          retry_action={refresh}
+          retry_action={refreshContent}
         />
       )}
       {lines.length > 0 && <StopLines list={lines} />}

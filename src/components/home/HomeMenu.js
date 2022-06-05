@@ -1,5 +1,8 @@
 import styled from "styled-components";
 
+import { useView } from "../../contexts/ViewContext.js";
+import * as ViewConstants from "../../constants/ViewConstants.js";
+
 const HomeMenuStyled = styled.div`
   background: #f7f7f7;
   border-top: 1px solid rgba(0, 0, 0, 0.15);
@@ -44,32 +47,40 @@ const ItemText = styled.div`
 `;
 
 const HomeMenu = (props) => {
-  const loadFavoritesSubview = () => {
-    props.updateSubview("favorites");
+  const { setViewId, subViewId, setSubViewId } = useView();
+
+  const loadFavoritesSubView = () => {
+    setSubViewId(ViewConstants.SUB_VIEW_ID_FAVORITES);
   };
 
-  const loadMapSubview = () => {
-    props.updateSubview("map");
+  const loadMapSubView = () => {
+    setViewId(ViewConstants.VIEW_ID_MAP);
   };
 
-  const loadSearchSubview = () => {
-    props.updateSubview("search");
+  const loadSearchSubView = () => {
+    setSubViewId(ViewConstants.SUB_VIEW_ID_SEARCH);
   };
 
   return (
     <HomeMenuStyled>
       <Item
-        selected={props.subview === "favorites"}
-        onClick={loadFavoritesSubview}
+        selected={subViewId === ViewConstants.SUB_VIEW_ID_FAVORITES}
+        onClick={loadFavoritesSubView}
       >
         <ItemIcon></ItemIcon>
         <ItemText>Favoritos</ItemText>
       </Item>
-      <Item selected={props.subview === "map"} onClick={loadMapSubview}>
+      <Item
+        selected={subViewId === ViewConstants.SUB_VIEW_ID_MAP}
+        onClick={loadMapSubView}
+      >
         <ItemIcon></ItemIcon>
         <ItemText>Mapa</ItemText>
       </Item>
-      <Item selected={props.subview === "search"} onClick={loadSearchSubview}>
+      <Item
+        selected={subViewId === ViewConstants.SUB_VIEW_ID_SEARCH}
+        onClick={loadSearchSubView}
+      >
         <ItemIcon></ItemIcon>
         <ItemText>Buscar</ItemText>
       </Item>

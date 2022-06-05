@@ -1,121 +1,48 @@
-import { Fragment, useEffect, useState } from "react";
+import { Fragment, useState } from "react";
 
+import { useView } from "../../contexts/ViewContext.js";
+import * as ViewConstants from "../../constants/ViewConstants.js";
+
+import Nav from "../../components/Nav.js";
 import HomeSearchSubview from "./subviews/HomeSearchSubview.js";
 import HomeFavoritesSubview from "./subviews/HomeFavoritesSubview.js";
 
 import HomeMenu from "../../components/home/HomeMenu.js";
 
 const HomeView = (props) => {
-  const [subview, setSubview] = useState(props.view.data.subview);
+  const { subViewId } = useView();
+
+  const [titleText, setTitleText] = useState(
+    ViewConstants.SUB_VIEW_TITLE_FAVORITES
+  );
+
+  const updateTitleText = (newTitleText) => {
+    setTitleText(newTitleText);
+  };
 
   const Content = (props) => {
-    switch (subview) {
-      case "favorites":
-        return (
-          <HomeFavoritesSubview
-            view={props.view}
-            setNav={props.setNav}
-            setView={props.setView}
-          />
-        );
+    switch (subViewId) {
+      case ViewConstants.SUB_VIEW_ID_FAVORITES:
+        return <HomeFavoritesSubview updateTitleText={props.updateTitleText} />;
 
-      case "search":
-        return (
-          <HomeSearchSubview
-            view={props.view}
-            setNav={props.setNav}
-            setView={props.setView}
-          />
-        );
-
-      default:
+      case ViewConstants.SUB_VIEW_ID_MAP:
         return null;
-    }
-  };
 
-  const updateSubview = (subview) => {
-    switch (subview) {
-      case "favorites":
-        props.setView({
-          id: "home",
-          nav: {
-            title: "Favoritos",
-            header: true,
-          },
-          data: {
-            push: true,
-            subview: "favorites",
-          },
-        });
-
-        break;
-
-      case "map":
-        props.view.nav.title = "Mapa";
-        props.view.nav.header = true;
-        props.view.data.subview = "map";
-
-        // Duplicated state
-        // for subview
-        window.history.pushState(
-          props.view,
-          "TUS Santander - Web App",
-          "/mapa"
-        );
-
-        props.setView({
-          id: "map",
-          nav: {
-            title: "Mapa",
-            header: false,
-          },
-          data: {
-            push: true,
-          },
-        });
-
-        return;
-
-      case "search":
-        props.setView({
-          id: "home",
-          nav: {
-            title: "Buscar",
-            header: true,
-          },
-          data: {
-            push: true,
-            subview: "search",
-          },
-        });
-
-        break;
+      case ViewConstants.SUB_VIEW_ID_SEARCH:
+        return <HomeSearchSubview updateTitleText={props.updateTitleText} />;
 
       default:
-        console.error("Unknown subview.");
-        return;
+        throw new Error(
+          `No case for subview identifier ${subViewId} found in HomeView`
+        );
     }
-
-    setSubview(subview);
   };
-
-  useEffect(() => {
-    if (props.view.data.subview === undefined) {
-      return;
-    }
-
-    setSubview(props.view.data.subview);
-  }, [props.view.data.subview]);
 
   return (
     <Fragment>
-      <Content
-        view={props.view}
-        subview={subview}
-        setNav={props.setNav}
-        setView={props.setView}
-      />
-      <HomeMenu subview={subview} updateSubview={updateSubview} />
+      <Nav isHeader={true} titleText={titleText} />
+      <Content updateTitleText={updateTitleText} />
+      <HomeMenu />
     </Fragment>
   );
 };

@@ -1,6 +1,9 @@
 import { useState, useEffect } from "react";
 import styled from "styled-components";
 
+import { useView } from "../../../contexts/ViewContext.js";
+import * as ViewConstants from "../../../constants/ViewConstants.js";
+
 import Stops from "../../../json/stops.min.json";
 import StyleUtils from "../../../utils/StyleUtils.js";
 
@@ -75,31 +78,16 @@ const ResultStyled = styled.div`
 `;
 
 const HomeSearchSubview = (props) => {
-  const [loading, setLoading] = useState(true);
+  const { updateTitleText } = props;
+
+  const { setViewIdWithData } = useView();
+
   const [searchText, setSearchText] = useState("");
   const [results, setResults] = useState([]);
 
+  // TODO: Check if this is the correct way to do this
   const getStopId = (result) => {
     return parseInt(Object.keys(Stops).find((key) => Stops[key] === result));
-  };
-
-  const getResultText = (result) => {
-    return `${result[2]} (${getStopId(result)})`;
-  };
-
-  const loadEstimationsStopView = (result) => {
-    props.setView({
-      id: "estimations_stop",
-      nav: {
-        title: result[2],
-        header: false,
-      },
-      data: {
-        push: true,
-        id: getStopId(result),
-        name: result[2],
-      },
-    });
   };
 
   const updateValue = (event) => {
@@ -142,18 +130,17 @@ const HomeSearchSubview = (props) => {
     setResults(list);
   }, [searchText]);
 
+  const loadEstimationsStopView = (result) => {
+    setViewIdWithData(ViewConstants.VIEW_ID_ESTIMATIONS_STOP, {
+      stopId: getStopId(result),
+      stopName: result[2],
+    });
+  };
+
+  // Mount
   useEffect(() => {
-    if (loading === false) {
-      return;
-    }
-
-    if (props.view.data.push) {
-      window.history.pushState(props.view, "Buscar - TUS Santander", "/buscar");
-    }
-
-    // Loaded
-    setLoading(false);
-  }, [loading, props.view]);
+    updateTitleText(ViewConstants.SUB_VIEW_TITLE_SEARCH);
+  }, [updateTitleText]);
 
   return (
     <SearchStyled>
@@ -177,7 +164,7 @@ const HomeSearchSubview = (props) => {
                 key={i}
                 onClick={() => loadEstimationsStopView(result)}
               >
-                {getResultText(result)}
+                {`${result[2]} (${getStopId(result)})`}
               </ResultStyled>
             );
           })}

@@ -95,7 +95,7 @@ const HeartIconStyled = styled.span`
   animation: fade-in 0.2s;
 
   &:after {
-    content: "${(props) => (props.heart > 1 ? "\\e905" : "\\e906")}";
+    content: "${(props) => (props.heartState > 1 ? "\\e905" : "\\e906")}";
   }
 `;
 
@@ -104,27 +104,6 @@ const Nav = (props) => {
 
   const goBack = () => {
     window.history.back();
-  };
-
-  const refresh = () => {
-    const newView = {
-      data: {
-        push: false,
-        refresh: Date.now(),
-      },
-    };
-
-    props.setView(newView);
-  };
-
-  const heart = () => {
-    const newView = {
-      data: {
-        heart: Date.now(),
-      },
-    };
-
-    props.setView(newView);
   };
 
   useEffect(() => {
@@ -150,7 +129,8 @@ const Nav = (props) => {
 
   return (
     <Fragment>
-      {props.view.nav.header === false && (
+      {props.isHeader && <Header text={props.titleText} />}
+      {props.isHeader === false && (
         <NavStyled borderOpacity={borderOpacity}>
           <NavLeftStyled>
             <BackButtonStyled onClick={goBack}>
@@ -159,24 +139,23 @@ const Nav = (props) => {
             </BackButtonStyled>
           </NavLeftStyled>
           <NavCenterStyled>
-            <NavTitleStyled>{props.view.nav.title}</NavTitleStyled>
+            <NavTitleStyled>{props.titleText}</NavTitleStyled>
           </NavCenterStyled>
           <NavRightStyled>
-            {props.view.nav.refresh && (
-              <RefreshIconStyled
-                refresh={props.view.nav.refresh}
-                onClick={refresh}
-              >
+            {props.isRefreshVisible && (
+              <RefreshIconStyled onClick={props.refreshContent}>
                 
               </RefreshIconStyled>
             )}
-            {props.view.nav.heart > 0 && (
-              <HeartIconStyled heart={props.view.nav.heart} onClick={heart} />
+            {props.heartState > 0 && (
+              <HeartIconStyled
+                heartState={props.heartState}
+                onClick={props.toggleFavorite}
+              />
             )}
           </NavRightStyled>
         </NavStyled>
       )}
-      {props.view.nav.header && <Header text={props.view.nav.title} />}
     </Fragment>
   );
 };
