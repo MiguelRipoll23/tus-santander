@@ -1,7 +1,12 @@
-import { memo, useState, useCallback, useEffect } from "react";
+import { Fragment, memo, useState, useCallback, useEffect } from "react";
 import { GoogleMap, useJsApiLoader, Marker } from "@react-google-maps/api";
 import ApiUtils from "../../utils/ApiUtils.js";
 
+import { useView } from "../../contexts/ViewContext.js";
+import * as ViewConstants from "../../constants/ViewConstants.js";
+
+import Nav from "../../components/Nav.js";
+import Content from "../../components/Content.js";
 import Spinner from "../../components/Spinner.js";
 import Error from "../../components/Error.js";
 
@@ -9,7 +14,8 @@ import Stops from "../../json/stops.min.json";
 import MarkerMin from "../../assets/marker-min.png";
 
 const MapView = (props) => {
-  const [loading, setLoading] = useState(true);
+  const { setViewIdWithData } = useView();
+
   const [position, setPosition] = useState({ lat: 43.462068, lng: -3.810204 });
   const [markers, setMarkers] = useState([]);
 
@@ -30,7 +36,7 @@ const MapView = (props) => {
           return;
         }
 
-        alert("La localización no está disponible.");
+        alert("La localización no está disponible");
       }
     );
   };
@@ -58,38 +64,18 @@ const MapView = (props) => {
 
   // Stop estimations
   const loadEstimationsStopView = (marker) => {
-    props.setView({
-      id: "estimations_stop",
-      nav: {
-        title: marker.text,
-        header: false,
-      },
+    setViewIdWithData({
+      viewId: ViewConstants.VIEW_ID_ESTIMATIONS_STOP,
       data: {
-        push: true,
-        id: parseInt(marker.id),
-        name: marker.text,
+        stopId: parseInt(marker.id),
+        stopName: marker.text,
       },
     });
   };
 
   const refresh = () => {
-    setLoading(true);
+    window.location.refresh();
   };
-
-  // Init
-  useEffect(() => {
-    if (loading === false) {
-      return;
-    }
-
-    // History
-    if (props.view.data.push) {
-      window.history.pushState(props.view, "Mapa - TUS Santander", "/mapa");
-    }
-
-    getCurrentPosition();
-    getMarkers();
-  }, [loading, props]);
 
   const containerStyle = {
     width: "100%",
@@ -103,11 +89,16 @@ const MapView = (props) => {
 
   const onLoad = useCallback(
     function callback(map) {
-      setLoading(false);
       map.setCenter(position);
     },
     [position]
   );
+
+  // Mount
+  useEffect(() => {
+    getCurrentPosition();
+    getMarkers();
+  }, []);
 
   const renderMap = () => (
     <GoogleMap
@@ -148,7 +139,21 @@ const MapView = (props) => {
     );
   }
 
-  return isLoaded ? renderMap() : <Spinner />;
+  return (
+    <Fragment>
+      <Nav isHeader={false} titleText="Mapa" />
+      <Content>
+        {isLoaded ? renderMap() : <Spinner />}
+        {loadError && (
+          <Error
+            error_text="No disponible"
+            retry_text="Volver a intentar"
+            retry_action={refresh}
+          />
+        )}
+      </Content>
+    </Fragment>
+  );
 };
 
 export default memo(MapView);

@@ -1,9 +1,16 @@
-import { Fragment, useState, useEffect } from "react";
+import { Fragment, useState, useEffect, useCallback } from "react";
 import styled from "styled-components";
+
+import { useView } from "../../contexts/ViewContext.js";
 import { getColors, getColor } from "../../utils/LineUtils.js";
+
+import * as ViewConstants from "../../constants/ViewConstants.js";
+
 import ApiUtils from "../../utils/ApiUtils.js";
 import StyleUtils from "../../utils/StyleUtils.js";
 
+import Nav from "../../components/Nav.js";
+import Content from "../../components/Content.js";
 import Spinner from "../../components/Spinner.js";
 import Error from "../../components/Error.js";
 import Button from "../../components/Button.js";
@@ -35,29 +42,28 @@ const ButtonStyled = styled(Button)`
 const EstimationsLineView = (props) => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
+
+  const { data, setViewIdWithData } = useView();
+  const { stopId, stopName, lineLabel, lineDestination } = data;
+
   const [estimations, setEstimations] = useState([]);
   const [stops, setStops] = useState([]);
 
-  const getestimations = () => {
-    const stopId = props.view.data.id;
-    const line = props.view.data.line;
-    const destination = props.view.data.destination;
+  // Colors
+  const colors = getColors(lineLabel);
+  const color = getColor(lineLabel, "string");
 
+  const getEstimations = useCallback(() => {
     // Reset
-    if (error) {
-      setError(false);
-    }
+    setError(false);
+    setEstimations([]);
 
-    if (estimations.length > 0) {
-      setEstimations([]);
-    }
-
-    const query = `?stopId=${stopId}&lineLabel=${line}&lineDestination=${destination}`;
+    const query = `?stopId=${stopId}&lineLabel=${lineLabel}&lineDestination=${lineDestination}`;
 
     fetch(ApiUtils.API_HOST + ApiUtils.API_PATH_JSON_ESTIMATIONS + query)
       .then((response) => {
-        if (!response.ok) {
-          throw new Error("Network response was not ok.");
+        if (response.ok === false) {
+          throw new Error("Network response was not ok");
         }
 
         return response.json();
@@ -68,128 +74,83 @@ const EstimationsLineView = (props) => {
 
         // Check if response is empty
         if (estimationsList.length === 0) {
-          throw new Error("Empty response.");
+          throw new Error("Empty response");
         }
 
-        setLoading(false);
         setEstimations(estimationsList);
         setStops(stopsList);
       })
       .catch((error) => {
         console.error(error);
-        setLoading(false);
         setError(true);
+      })
+      .finally(() => {
+        setLoading(false);
       });
-  };
+  }, [stopId, lineLabel, lineDestination]);
 
   // Refresh
-  const refresh = () => {
+  const refreshContent = () => {
     setLoading(true);
-    getestimations();
+    getEstimations();
   };
 
-  useEffect(() => {
-    if (loading) {
-      return;
-    }
-
-    if (
-      props.view.data?.refresh === undefined ||
-      props.view.data?.refresh === 0
-    ) {
-      return;
-    }
-
-    refresh();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [props.view.data.refresh]);
-
   // Route
-  const loadLineRoute = () => {
-    props.setView({
-      id: "route_line",
-      nav: {
-        title: `${
-          props.view.data.line
-        } ${props.view.data.destination.toUpperCase()}`,
-        header: false,
-      },
-      data: {
-        push: true,
-        id: props.view.data.id,
-        name: props.view.data.name,
-        line: props.view.data.line,
-        destination: props.view.data.destination,
-        color: getColor(props.view.data.line, "string"),
-      },
+  const loadLineRouteView = () => {
+    setViewIdWithData(ViewConstants.VIEW_ID_ROUTE_LINE, {
+      stopId,
+      lineLabel,
+      lineDestination,
+      color,
     });
   };
 
-  // Init
+  // Mount
   useEffect(() => {
-    if (loading === false) {
-      return;
-    }
-
-    // History
-    if (props.view.data.push) {
-      window.history.pushState(
-        props.view,
-        `${props.view.data.name}: ${
-          props.view.data.line
-        } ${props.view.data.destination.toUpperCase()}`,
-        `/parada/${props.view.data.id}/linea/${props.view.data.line}/${props.view.data.destination}`
-      );
-    }
-
-    // Data
-    getestimations();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+    getEstimations();
+  }, [getEstimations]);
 
   return (
     <Fragment>
-      {loading && <Spinner />}
-      {error && (
-        <Error
-          error_text="No disponible"
-          retry_text="Volver a intentar"
-          retry_action={refresh}
-        />
-      )}
-      {estimations.map((result, i) => {
-        return (
-          <EstimationsCard key={i} colors={getColors(props.view.data.line)}>
-            <EstimationsHeader
-              label={props.view.data.line}
-              destination={props.view.data.destination}
-            />
-            <EstimationsBody time1={result[2]} time2={result[3]} />
-            {estimations.length === 1 && stops.length > 0 && (
-              <NextStops
-                list={stops}
-                colors={getColors(props.view.data.line)}
+      <Nav
+        isHeader={false}
+        titleText={stopName}
+        refreshContent={refreshContent}
+      />
+      <Content>
+        {loading && <Spinner />}
+        {error && (
+          <Error
+            error_text="No disponible"
+            retry_text="Volver a intentar"
+            retry_action={refreshContent}
+          />
+        )}
+        {estimations.map((result, i) => {
+          return (
+            <EstimationsCard key={i} colors={colors}>
+              <EstimationsHeader
+                label={lineLabel}
+                destination={lineDestination}
               />
-            )}
-          </EstimationsCard>
-        );
-      })}
-      {loading === false && error === false && (
-        <ContextActionsStyled>
-          <ButtonStyled
-            color={getColor(props.view.data.line, "string")}
-            onClick={loadLineRoute}
-          >
-            Ver recorrido
-          </ButtonStyled>
-          <ButtonStyled
-            color={getColor(props.view.data.line, "string")}
-            onClick={refresh}
-          >
-            Actualizar
-          </ButtonStyled>
-        </ContextActionsStyled>
-      )}
+              <EstimationsBody time1={result[2]} time2={result[3]} />
+              {estimations.length === 1 && stops.length > 0 && (
+                <NextStops list={stops} colors={colors} />
+              )}
+            </EstimationsCard>
+          );
+        })}
+        {loading === false && error === false && (
+          <ContextActionsStyled>
+            <ButtonStyled color={color} onClick={loadLineRouteView}>
+              Ver recorrido
+            </ButtonStyled>
+            <ButtonStyled color={color} onClick={refreshContent}>
+              Actualizar
+            </ButtonStyled>
+          </ContextActionsStyled>
+        )}
+      </Content>
     </Fragment>
   );
 };

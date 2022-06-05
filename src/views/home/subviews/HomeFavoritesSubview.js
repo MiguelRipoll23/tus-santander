@@ -1,6 +1,9 @@
 import { Fragment, useState, useEffect } from "react";
 import styled from "styled-components";
 
+import { useView } from "../../../contexts/ViewContext.js";
+import * as ViewConstants from "../../../constants/ViewConstants.js";
+
 import StyleUtils from "../../../utils/StyleUtils.js";
 import { getFavorites } from "../../../utils/FavoriteUtils.js";
 
@@ -37,45 +40,25 @@ const FavoriteStyled = styled.div`
 `;
 
 const HomeFavoritesSubview = (props) => {
-  const [loading, setLoading] = useState(true);
+  const { updateTitleText } = props;
+
+  const { setViewId, setViewIdWithData } = useView();
+
   const [error, setError] = useState(false);
   const [favorites, setFavorites] = useState([]);
 
   const loadMapSubview = () => {
-    props.setView({
-      id: "map",
-      title: "Mapa",
-      header: false,
-      data: { push: true },
-    });
+    setViewId(ViewConstants.VIEW_ID_MAP);
   };
 
   const loadEstimationsStopView = (favorite) => {
-    props.setView({
-      id: "estimations_stop",
-      nav: {
-        title: favorite.stop_name,
-        header: false,
-      },
-      data: {
-        push: true,
-        id: favorite.stop_id,
-        name: favorite.stop_name,
-      },
+    setViewIdWithData(ViewConstants.VIEW_ID_ESTIMATIONS_STOP, {
+      stopId: favorite.stop_id,
+      stopName: favorite.stop_name,
     });
   };
 
   useEffect(() => {
-    if (loading === false) {
-      return;
-    }
-
-    // History
-    if (props.view.data.push) {
-      window.history.pushState(props.view, "TUS Santander - Web App", "/");
-    }
-
-    // Data
     const favorites = getFavorites();
 
     if (favorites.length === 0) {
@@ -83,10 +66,12 @@ const HomeFavoritesSubview = (props) => {
     } else {
       setFavorites(favorites);
     }
+  }, []);
 
-    // Loaded
-    setLoading(false);
-  }, [loading, props]);
+  // Mount
+  useEffect(() => {
+    updateTitleText(ViewConstants.SUB_VIEW_TITLE_FAVORITES);
+  }, [updateTitleText]);
 
   return (
     <Fragment>

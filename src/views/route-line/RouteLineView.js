@@ -1,7 +1,12 @@
 import { Fragment, useState, useCallback, useEffect } from "react";
 import styled from "styled-components";
+
+import { useView } from "../../contexts/ViewContext.js";
+
 import ApiUtils from "../../utils/ApiUtils.js";
 
+import Content from "../../components/Content.js";
+import Nav from "../../components/Nav.js";
 import Spinner from "../../components/Spinner.js";
 import Error from "../../components/Error.js";
 import StopLines from "../../components/StopLines.js";
@@ -62,32 +67,24 @@ const StopStyled = styled.li`
 `;
 
 const RouteLineView = (props) => {
-  const { view } = props;
+  const { data } = useView();
+  const { stopId, lineLabel, lineDestination, color } = data;
 
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
   const [results, setResults] = useState([]);
 
-  const stopId = props.view.data.id;
-  const line = props.view.data.line;
-  const destination = props.view.data.destination;
-
-  const query = `?stopId=${stopId}&lineLabel=${line}&lineDestination=${destination}`;
-
-  const getResults = useCallback(() => {
+  const getStops = useCallback(() => {
     // Reset
-    if (error) {
-      setError(false);
-    }
+    setError(false);
+    setResults([]);
 
-    if (results.length > 0) {
-      setResults([]);
-    }
+    const query = `?stopId=${stopId}&lineLabel=${lineLabel}&lineDestination=${lineDestination}`;
 
     fetch(ApiUtils.API_HOST + ApiUtils.API_PATH_JSON_ROUTE + query)
       .then((response) => {
-        if (!response.ok) {
-          throw new Error("Network response was not ok.");
+        if (response.ok === false) {
+          throw new Error("Network response was not ok");
         }
 
         return response.json();
@@ -95,22 +92,23 @@ const RouteLineView = (props) => {
       .then((data) => {
         // Check if response is empty
         if (data.length === 0) {
-          throw new Error("Empty response.");
+          throw new Error("Empty response");
         }
 
-        setLoading(false);
         setResults(data);
       })
       .catch((error) => {
         console.error(error);
-        setLoading(false);
         setError(true);
+      })
+      .finally(() => {
+        setLoading(false);
       });
-  }, [error, query, results.length]);
+  }, [stopId, lineLabel, lineDestination]);
 
-  // Active
-  const isActive = (stopId) => {
-    if (stopId === props.view.data.id) {
+  // Check if current stop
+  const isActive = (itemStopId) => {
+    if (itemStopId === stopId) {
       return true;
     }
 
@@ -118,58 +116,44 @@ const RouteLineView = (props) => {
   };
 
   // Refresh
-  const refresh = () => {
+  const refreshContent = () => {
     setLoading(true);
-    getResults();
+    getStops();
   };
 
-  // Init
+  // Mount
   useEffect(() => {
-    if (loading === false) {
-      return;
-    }
-
-    // History
-    if (view.data.push) {
-      window.history.pushState(
-        view,
-        `${view.data.name}: ${
-          view.data.line
-        } ${view.data.destination.toUpperCase()}`,
-        `/parada/${view.data.id}/linea/${view.data.line}/${view.data.destination}/ruta`
-      );
-    }
-
-    // Data
-    getResults();
-  }, [loading, view, getResults]);
+    getStops();
+  }, [getStops]);
 
   return (
     <Fragment>
-      {loading && <Spinner />}
-      {error && (
-        <Error
-          error_text="No disponible"
-          retry_text="Volver a intentar"
-          retry_action={refresh}
-        />
-      )}
-      <RouteLineViewStyled>
-        {results.map((result, i) => {
-          return (
-            <StopStyled
-              key={i}
-              color={props.view.data.color}
-              active={isActive(result[0])}
-            >
-              <span>{result[1]}</span>
-              {result[2].length > 0 && (
-                <StopLines list={result[2]} size="small" />
-              )}
-            </StopStyled>
-          );
-        })}
-      </RouteLineViewStyled>
+      <Nav
+        isHeader={false}
+        titleText={`${lineLabel} ${lineDestination.toUpperCase()}`}
+      />
+      <Content>
+        {loading && <Spinner />}
+        {error && (
+          <Error
+            error_text="No disponible"
+            retry_text="Volver a intentar"
+            retry_action={refreshContent}
+          />
+        )}
+        <RouteLineViewStyled>
+          {results.map((result, i) => {
+            return (
+              <StopStyled key={i} color={color} active={isActive(result[0])}>
+                <span>{result[1]}</span>
+                {result[2].length > 0 && (
+                  <StopLines list={result[2]} size="small" />
+                )}
+              </StopStyled>
+            );
+          })}
+        </RouteLineViewStyled>
+      </Content>
     </Fragment>
   );
 };
