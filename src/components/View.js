@@ -1,5 +1,3 @@
-import styled from "styled-components";
-
 import { useView } from "../contexts/ViewContext.js";
 import * as ViewConstants from "../constants/ViewConstants.js";
 
@@ -9,13 +7,7 @@ import EstimationsStopView from "../views/estimations-stop/EstimationsStopView.j
 import EstimationsLineView from "../views/estimations-line/EstimationsLineView.js";
 import RouteLineView from "../views/route-line/RouteLineView.js";
 
-const MainStyled = styled.main`
-  flex: 1;
-  overflow-y: auto;
-  -webkit-overflow-scrolling: touch;
-`;
-
-const Content = (props) => {
+const SelectedView = (props) => {
   const { viewId } = props;
 
   switch (viewId) {
@@ -39,7 +31,7 @@ const Content = (props) => {
   }
 };
 
-const Main = (props) => {
+const View = (props) => {
   const { viewId, setViewId, setSubViewId, setViewIdWithData } = useView();
 
   window.onpopstate = (event) => {
@@ -56,11 +48,7 @@ const Main = (props) => {
     setSubViewId(state.subViewId, false);
   };
 
-  return (
-    <MainStyled>
-      <Content viewId={viewId} />
-    </MainStyled>
-  );
+  return <SelectedView viewId={viewId} />;
 };
 
-export default Main;
+export default View;

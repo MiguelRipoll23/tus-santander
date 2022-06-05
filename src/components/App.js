@@ -1,10 +1,10 @@
 import { ViewProvider } from "../providers/ViewProvider.js";
-import Main from "./Main.js";
+import View from "./View.js";
 
 const App = () => {
   return (
     <ViewProvider>
-      <Main />
+      <View />
     </ViewProvider>
   );
 };

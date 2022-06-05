@@ -4,6 +4,7 @@ import { useView } from "../../contexts/ViewContext.js";
 import * as ViewConstants from "../../constants/ViewConstants.js";
 
 import Nav from "../../components/Nav.js";
+import Content from "../../components/Content.js";
 import HomeSearchSubview from "./subviews/HomeSearchSubview.js";
 import HomeFavoritesSubview from "./subviews/HomeFavoritesSubview.js";
 
@@ -20,7 +21,7 @@ const HomeView = (props) => {
     setTitleText(newTitleText);
   };
 
-  const Content = (props) => {
+  const SelectedSubView = (props) => {
     switch (subViewId) {
       case ViewConstants.SUB_VIEW_ID_FAVORITES:
         return <HomeFavoritesSubview updateTitleText={props.updateTitleText} />;
@@ -41,8 +42,10 @@ const HomeView = (props) => {
   return (
     <Fragment>
       <Nav isHeader={true} titleText={titleText} />
-      <Content updateTitleText={updateTitleText} />
-      <HomeMenu />
+      <Content>
+        <SelectedSubView updateTitleText={updateTitleText} />
+        <HomeMenu />
+      </Content>
     </Fragment>
   );
 };

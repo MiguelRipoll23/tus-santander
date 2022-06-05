@@ -6,6 +6,7 @@ import { useView } from "../../contexts/ViewContext.js";
 import * as ViewConstants from "../../constants/ViewConstants.js";
 
 import Nav from "../../components/Nav.js";
+import Content from "../../components/Content.js";
 import Spinner from "../../components/Spinner.js";
 import Error from "../../components/Error.js";
 
@@ -35,7 +36,7 @@ const MapView = (props) => {
           return;
         }
 
-        alert("La localización no está disponible.");
+        alert("La localización no está disponible");
       }
     );
   };
@@ -141,14 +142,16 @@ const MapView = (props) => {
   return (
     <Fragment>
       <Nav isHeader={false} titleText="Mapa" />
-      {isLoaded ? renderMap() : <Spinner />}
-      {loadError && (
-        <Error
-          error_text="No disponible"
-          retry_text="Volver a intentar"
-          retry_action={refresh}
-        />
-      )}
+      <Content>
+        {isLoaded ? renderMap() : <Spinner />}
+        {loadError && (
+          <Error
+            error_text="No disponible"
+            retry_text="Volver a intentar"
+            retry_action={refresh}
+          />
+        )}
+      </Content>
     </Fragment>
   );
 };

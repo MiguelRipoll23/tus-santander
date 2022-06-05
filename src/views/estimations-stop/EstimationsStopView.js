@@ -9,6 +9,7 @@ import * as ViewConstants from "../../constants/ViewConstants.js";
 import ApiUtils from "../../utils/ApiUtils.js";
 
 import Nav from "../../components/Nav.js";
+import Content from "../../components/Content.js";
 import Spinner from "../../components/Spinner.js";
 import Error from "../../components/Error.js";
 import StopLines from "../../components/StopLines.js";
@@ -30,7 +31,7 @@ const EstimationsStopView = (props) => {
   const [lines, setLines] = useState([]);
   const [estimations, setEstimations] = useState([]);
 
-  const getEstimations = useCallback(() => {
+  const getEstimations = useCallback(async () => {
     // Reset
     setError(false);
     setEstimations([]);
@@ -39,7 +40,7 @@ const EstimationsStopView = (props) => {
 
     fetch(ApiUtils.API_HOST + ApiUtils.API_PATH_JSON_ESTIMATIONS + query)
       .then((response) => {
-        if (!response.ok) {
+        if (response.ok === false) {
           throw new Error("Network response was not ok");
         }
 
@@ -123,27 +124,29 @@ const EstimationsStopView = (props) => {
         refreshContent={refreshContent}
         toggleFavorite={updateFavorite}
       />
-      {loading && <Spinner />}
-      {error && (
-        <Error
-          error_text="No disponible"
-          retry_text="Volver a intentar"
-          retry_action={refreshContent}
-        />
-      )}
-      {lines.length > 0 && <StopLines list={lines} />}
-      {estimations.map((result, i) => {
-        return (
-          <EstimationsCard
-            key={i}
-            colors={getColors(result[0])}
-            onClick={() => loadEstimationsLineView(result)}
-          >
-            <EstimationsHeader label={result[0]} destination={result[1]} />
-            <EstimationsBody time1={result[2]} time2={result[3]} />
-          </EstimationsCard>
-        );
-      })}
+      <Content>
+        {loading && <Spinner />}
+        {error && (
+          <Error
+            error_text="No disponible"
+            retry_text="Volver a intentar"
+            retry_action={refreshContent}
+          />
+        )}
+        {lines.length > 0 && <StopLines list={lines} />}
+        {estimations.map((result, i) => {
+          return (
+            <EstimationsCard
+              key={i}
+              colors={getColors(result[0])}
+              onClick={() => loadEstimationsLineView(result)}
+            >
+              <EstimationsHeader label={result[0]} destination={result[1]} />
+              <EstimationsBody time1={result[2]} time2={result[3]} />
+            </EstimationsCard>
+          );
+        })}
+      </Content>
     </Fragment>
   );
 };

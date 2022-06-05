@@ -10,6 +10,7 @@ import ApiUtils from "../../utils/ApiUtils.js";
 import StyleUtils from "../../utils/StyleUtils.js";
 
 import Nav from "../../components/Nav.js";
+import Content from "../../components/Content.js";
 import Spinner from "../../components/Spinner.js";
 import Error from "../../components/Error.js";
 import Button from "../../components/Button.js";
@@ -61,7 +62,7 @@ const EstimationsLineView = (props) => {
 
     fetch(ApiUtils.API_HOST + ApiUtils.API_PATH_JSON_ESTIMATIONS + query)
       .then((response) => {
-        if (!response.ok) {
+        if (response.ok === false) {
           throw new Error("Network response was not ok");
         }
 
@@ -116,38 +117,40 @@ const EstimationsLineView = (props) => {
         titleText={stopName}
         refreshContent={refreshContent}
       />
-      {loading && <Spinner />}
-      {error && (
-        <Error
-          error_text="No disponible"
-          retry_text="Volver a intentar"
-          retry_action={refreshContent}
-        />
-      )}
-      {estimations.map((result, i) => {
-        return (
-          <EstimationsCard key={i} colors={colors}>
-            <EstimationsHeader
-              label={lineLabel}
-              destination={lineDestination}
-            />
-            <EstimationsBody time1={result[2]} time2={result[3]} />
-            {estimations.length === 1 && stops.length > 0 && (
-              <NextStops list={stops} colors={colors} />
-            )}
-          </EstimationsCard>
-        );
-      })}
-      {loading === false && error === false && (
-        <ContextActionsStyled>
-          <ButtonStyled color={color} onClick={loadLineRouteView}>
-            Ver recorrido
-          </ButtonStyled>
-          <ButtonStyled color={color} onClick={refreshContent}>
-            Actualizar
-          </ButtonStyled>
-        </ContextActionsStyled>
-      )}
+      <Content>
+        {loading && <Spinner />}
+        {error && (
+          <Error
+            error_text="No disponible"
+            retry_text="Volver a intentar"
+            retry_action={refreshContent}
+          />
+        )}
+        {estimations.map((result, i) => {
+          return (
+            <EstimationsCard key={i} colors={colors}>
+              <EstimationsHeader
+                label={lineLabel}
+                destination={lineDestination}
+              />
+              <EstimationsBody time1={result[2]} time2={result[3]} />
+              {estimations.length === 1 && stops.length > 0 && (
+                <NextStops list={stops} colors={colors} />
+              )}
+            </EstimationsCard>
+          );
+        })}
+        {loading === false && error === false && (
+          <ContextActionsStyled>
+            <ButtonStyled color={color} onClick={loadLineRouteView}>
+              Ver recorrido
+            </ButtonStyled>
+            <ButtonStyled color={color} onClick={refreshContent}>
+              Actualizar
+            </ButtonStyled>
+          </ContextActionsStyled>
+        )}
+      </Content>
     </Fragment>
   );
 };

@@ -4,6 +4,8 @@ import styled from "styled-components";
 import { useView } from "../../contexts/ViewContext.js";
 
 import ApiUtils from "../../utils/ApiUtils.js";
+
+import Content from "../../components/Content.js";
 import Nav from "../../components/Nav.js";
 import Spinner from "../../components/Spinner.js";
 import Error from "../../components/Error.js";
@@ -81,7 +83,7 @@ const RouteLineView = (props) => {
 
     fetch(ApiUtils.API_HOST + ApiUtils.API_PATH_JSON_ROUTE + query)
       .then((response) => {
-        if (!response.ok) {
+        if (response.ok === false) {
           throw new Error("Network response was not ok");
         }
 
@@ -130,26 +132,28 @@ const RouteLineView = (props) => {
         isHeader={false}
         titleText={`${lineLabel} ${lineDestination.toUpperCase()}`}
       />
-      {loading && <Spinner />}
-      {error && (
-        <Error
-          error_text="No disponible"
-          retry_text="Volver a intentar"
-          retry_action={refreshContent}
-        />
-      )}
-      <RouteLineViewStyled>
-        {results.map((result, i) => {
-          return (
-            <StopStyled key={i} color={color} active={isActive(result[0])}>
-              <span>{result[1]}</span>
-              {result[2].length > 0 && (
-                <StopLines list={result[2]} size="small" />
-              )}
-            </StopStyled>
-          );
-        })}
-      </RouteLineViewStyled>
+      <Content>
+        {loading && <Spinner />}
+        {error && (
+          <Error
+            error_text="No disponible"
+            retry_text="Volver a intentar"
+            retry_action={refreshContent}
+          />
+        )}
+        <RouteLineViewStyled>
+          {results.map((result, i) => {
+            return (
+              <StopStyled key={i} color={color} active={isActive(result[0])}>
+                <span>{result[1]}</span>
+                {result[2].length > 0 && (
+                  <StopLines list={result[2]} size="small" />
+                )}
+              </StopStyled>
+            );
+          })}
+        </RouteLineViewStyled>
+      </Content>
     </Fragment>
   );
 };
