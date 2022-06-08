@@ -81,6 +81,7 @@ const HomeFavoritesSubview = (props) => {
             error_text_lowercase={true}
             retry_text="Ver paradas cercanas"
             retry_action={loadMapSubview}
+            animation="none"
           />
         )}
         {favorites.map((favorite, i) => {
