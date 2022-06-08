@@ -10,7 +10,8 @@ const ErrorStyled = styled.div`
   padding: 0 80px;
   box-sizing: border-box;
   display: inline-block;
-  animation: fade-in 0.2s;
+  animation: ${(props) =>
+    props.animation === undefined ? "fade-in 0.2s" : props.animation};
 `;
 
 const TextStyled = styled.div`
@@ -18,8 +19,10 @@ const TextStyled = styled.div`
 `;
 
 const Error = (props) => {
+  console.log(props.animation);
+  console.log(props.animation === undefined || props.animation === true);
   return (
-    <ErrorStyled>
+    <ErrorStyled animation={props.animation}>
       {props.error_text_lowercase === undefined && (
         <TextStyled>{props.error_text.toUpperCase()}</TextStyled>
       )}

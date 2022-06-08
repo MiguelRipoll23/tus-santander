@@ -32,7 +32,6 @@ const FavoriteStyled = styled.div`
   overflow: hidden;
   font-weight: 700;
   min-height: 53px;
-  animation: fade-in 0.2s;
 
   @media (prefers-color-scheme: dark) {
     background: #1c1b20;
@@ -82,6 +81,7 @@ const HomeFavoritesSubview = (props) => {
             error_text_lowercase={true}
             retry_text="Ver paradas cercanas"
             retry_action={loadMapSubview}
+            animation="none"
           />
         )}
         {favorites.map((favorite, i) => {
