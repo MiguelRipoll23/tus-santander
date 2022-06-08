@@ -19,8 +19,6 @@ const TextStyled = styled.div`
 `;
 
 const Error = (props) => {
-  console.log(props.animation);
-  console.log(props.animation === undefined || props.animation === true);
   return (
     <ErrorStyled animation={props.animation}>
       {props.error_text_lowercase === undefined && (
