@@ -112,6 +112,17 @@ const EstimationsStopView = (props) => {
   // Mount
   useEffect(() => {
     getEstimations();
+
+    // Auto-refresh
+    document.onvisibilitychange = () => {
+      if (document.visibilityState === "visible") {
+        getEstimations();
+      }
+    };
+
+    return () => {
+      document.onvisibilitychange = null;
+    };
   }, [getEstimations]);
 
   return (

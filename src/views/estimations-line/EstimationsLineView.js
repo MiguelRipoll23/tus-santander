@@ -108,6 +108,13 @@ const EstimationsLineView = (props) => {
   // Mount
   useEffect(() => {
     getEstimations();
+
+    // Auto-refresh
+    document.onvisibilitychange = () => {
+      if (document.visibilityState === "visible") {
+        getEstimations();
+      }
+    };
   }, [getEstimations]);
 
   return (
