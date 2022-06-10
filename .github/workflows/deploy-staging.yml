@@ -85,3 +85,13 @@ jobs:
         run: |
           URL="$(firebase --project staging-tusestimaciones --non-interactive --json hosting:channel:open pr${{github.event.number}} | jq -r '.result.url')"
           echo "::set-output name=url::$URL"
+
+      - name: Generate Job Summary
+        run: |
+          echo "# Staging Deploy" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "Pull request successfully deployed to the staging environment." >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "| [View Deployment](${{steps.deployment_url.outputs.url}}) | [Review Pull Request](https://github.com/MiguelRipoll23/tusestimaciones-web/pull/${{github.event.number}}) |" >> $GITHUB_STEP_SUMMARY
+          echo "| - | - |" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY

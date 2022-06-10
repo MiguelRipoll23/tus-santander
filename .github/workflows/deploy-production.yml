@@ -77,3 +77,13 @@ jobs:
 
       - name: Deploy to Firebase Hosting
         run: firebase deploy --project tusestimaciones --only hosting
+
+      - name: Generate Job Summary
+        run: |
+          echo "# Production Deploy" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "Pull request successfully deployed to the production environment." >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "| [View Deployment](${{steps.deployment_url.outputs.url}}) | [Review Pull Request](https://github.com/MiguelRipoll23/tusestimaciones-web/pull/${{github.event.number}}) |" >> $GITHUB_STEP_SUMMARY
+          echo "| - | - |" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
