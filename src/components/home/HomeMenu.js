@@ -26,7 +26,7 @@ const Item = styled.div`
   flex: 1;
   cursor: pointer;
   padding-top: 14px;
-  padding-bottom: calc(28px + env(safe-area-inset-bottom));
+  padding-bottom: calc(30px + env(safe-area-inset-bottom));
   color: ${(props) => (props.selected ? "#007aff" : "rgba(0, 0, 0, .55);")};
 
   @media (prefers-color-scheme: dark) {
