@@ -37,7 +37,7 @@ const Item = styled.div`
 `;
 
 const ItemIcon = styled.div`
-  font-size: 28px;
+  font-size: 24px;
   font-family: icons;
   margin-bottom: 5px;
 `;
