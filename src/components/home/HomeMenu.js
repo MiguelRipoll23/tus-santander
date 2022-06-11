@@ -26,8 +26,7 @@ const Item = styled.div`
   flex: 1;
   cursor: pointer;
   padding-top: 14px;
-  padding-bottom: calc(24px + env(safe-area-inset-bottom));
-
+  padding-bottom: calc(28px + env(safe-area-inset-bottom));
   color: ${(props) => (props.selected ? "#007aff" : "rgba(0, 0, 0, .55);")};
 
   @media (prefers-color-scheme: dark) {
@@ -37,7 +36,7 @@ const Item = styled.div`
 `;
 
 const ItemIcon = styled.div`
-  font-size: 28px;
+  font-size: 24px;
   font-family: icons;
   margin-bottom: 5px;
 `;
