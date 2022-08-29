@@ -12,4 +12,4 @@ updates:
       interval: "daily"
 
     open-pull-requests-limit: 5
-    target-branch: production
+
