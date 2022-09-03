@@ -1,10 +1,11 @@
 import { useReducer } from "react";
-import { viewReducer, initialState } from "../reducers/ViewReducer.js";
+import { viewReducer, getInitialState } from "../reducers/ViewReducer.js";
 import { ViewContext } from "../contexts/ViewContext.js";
 
 import * as ViewConstants from "../constants/ViewConstants.js";
 
 export const ViewProvider = ({ children }) => {
+  const initialState = getInitialState();
   const [state, dispatch] = useReducer(viewReducer, initialState);
 
   const setViewId = (viewId, pushState = true) => {

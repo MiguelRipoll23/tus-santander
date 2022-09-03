@@ -1,9 +1,19 @@
 import * as ViewConstants from "../constants/ViewConstants.js";
 
-export const initialState = {
-  viewId: ViewConstants.INITIAL_VIEW_ID,
-  subViewId: ViewConstants.INITIAL_SUB_VIEW_ID,
-  data: null,
+const sessionStorageStateKey = "state";
+
+export const getInitialState = () => {
+  const state = sessionStorage.getItem(sessionStorageStateKey);
+
+  if (state === null) {
+    return {
+      viewId: ViewConstants.INITIAL_VIEW_ID,
+      subViewId: ViewConstants.INITIAL_SUB_VIEW_ID,
+      data: null,
+    };
+  }
+
+  return JSON.parse(state);
 };
 
 export const viewReducer = (state, action) => {
@@ -43,6 +53,11 @@ export const viewReducer = (state, action) => {
       throw new Error(`No case for type ${type} found in viewReducer`);
   }
 
+  // Update session storage
+  const updatedStateAsString = JSON.stringify(updatedState);
+  sessionStorage.setItem(sessionStorageStateKey, updatedStateAsString);
+
+  // Update history
   if (pushState) {
     window.history.pushState(updatedState, "");
     console.log("pushState", updatedState);
