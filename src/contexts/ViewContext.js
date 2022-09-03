@@ -1,6 +1,7 @@
 import { createContext, useContext } from "react";
-import { initialState } from "../reducers/ViewReducer.js";
+import { getInitialState } from "../reducers/ViewReducer.js";
 
+const initialState = getInitialState();
 export const ViewContext = createContext(initialState);
 
 export const useView = () => {
