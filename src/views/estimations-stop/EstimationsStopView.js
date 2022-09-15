@@ -1,4 +1,4 @@
-import { Fragment, useState, useEffect, useCallback } from "react";
+import { Fragment, useState, useRef, useEffect, useCallback } from "react";
 
 import { useView } from "../../contexts/ViewContext.js";
 import { getColors } from "../../utils/LineUtils.js";
@@ -25,51 +25,83 @@ const EstimationsStopView = (props) => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
 
-  const [refreshVisible, setRefreshVisible] = useState(false);
   const [heartState, setHeartState] = useState(0);
 
   const [lines, setLines] = useState([]);
   const [estimations, setEstimations] = useState([]);
 
-  const getEstimations = useCallback(async () => {
-    // Reset
-    setError(false);
-    setEstimations([]);
+  const refreshTimeoutRef = useRef();
 
-    const query = `?stopId=${stopId}`;
+  const getEstimations = useCallback(
+    async (isUpdate = false) => {
+      // Reset
+      setError(false);
 
-    fetch(ApiUtils.API_HOST + ApiUtils.API_PATH_JSON_ESTIMATIONS + query)
-      .then((response) => {
-        if (response.ok === false) {
-          throw new Error("Network response was not ok");
-        }
+      if (isUpdate === false) {
+        setEstimations([]);
+      }
 
-        return response.json();
-      })
-      .then((data) => {
-        const estimationsList = data[0];
-        const linesList = data[1];
+      let query = `?stopId=${stopId}`;
 
-        // Check if response is empty
-        if (estimationsList.length === 0) {
-          throw new Error("Empty response");
-        }
+      if (isUpdate) {
+        query += "&update=true";
+      }
 
-        setLines(linesList);
-        setEstimations(estimationsList);
-      })
-      .catch((error) => {
-        console.error(error);
-        setError(true);
-      })
-      .finally(() => {
-        setLoading(false);
-        setRefreshVisible(true);
+      fetch(ApiUtils.API_HOST + ApiUtils.API_PATH_JSON_ESTIMATIONS + query)
+        .then((response) => {
+          if (response.ok === false) {
+            throw new Error("Network response was not ok");
+          }
 
-        const heartState = getFavorite(stopId) === null ? 1 : 2;
-        setHeartState(heartState);
-      });
-  }, [stopId]);
+          return response.json();
+        })
+        .then((data) => {
+          const estimationsList = data[0];
+          const linesList = data[1];
+
+          // Check if response is empty
+          if (estimationsList.length === 0) {
+            throw new Error("Empty response");
+          }
+
+          // UI
+          if (isUpdate === false) {
+            setLines(linesList);
+          }
+
+          setEstimations(estimationsList);
+
+          // Auto refresh
+          clearTimeout(refreshTimeoutRef.current);
+
+          const refreshTimeoutId = setTimeout(async () => {
+            await getEstimations(true);
+          }, 5_000);
+
+          refreshTimeoutRef.current = refreshTimeoutId;
+        })
+        .catch((error) => {
+          console.error(error);
+
+          if (isUpdate) {
+            setEstimations([]);
+          }
+
+          setError(true);
+        })
+        .finally(() => {
+          // Loading
+          if (isUpdate === false) {
+            setLoading(false);
+          }
+
+          // Heart
+          const heartState = getFavorite(stopId) === null ? 1 : 2;
+          setHeartState(heartState);
+        });
+    },
+    [stopId]
+  );
 
   // Refresh
   const refreshContent = () => {
@@ -116,12 +148,14 @@ const EstimationsStopView = (props) => {
     // Auto-refresh
     document.onvisibilitychange = () => {
       if (document.visibilityState === "visible") {
-        getEstimations();
+        clearTimeout(refreshTimeoutRef.current);
+        getEstimations(true);
       }
     };
 
     return () => {
       document.onvisibilitychange = null;
+      clearTimeout(refreshTimeoutRef.current);
     };
   }, [getEstimations]);
 
@@ -129,10 +163,8 @@ const EstimationsStopView = (props) => {
     <Fragment>
       <Nav
         isHeader={false}
-        isRefreshVisible={refreshVisible}
         titleText={stopName}
         heartState={heartState}
-        refreshContent={refreshContent}
         toggleFavorite={updateFavorite}
       />
       <Content>

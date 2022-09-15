@@ -70,18 +70,6 @@ const NavTitleStyled = styled.span`
   width: 100%;
 `;
 
-const RefreshIconStyled = styled.span`
-  padding: 11px ${StyleUtils.MARGIN_LR};
-  cursor: pointer;
-  font-family: icons;
-  font-size: 24px;
-  color: #007aff;
-  line-height: 24px;
-  position: relative;
-  top: 1px;
-  animation: fade-in 0.2s;
-`;
-
 const HeartIconStyled = styled.span`
   padding: 11px ${StyleUtils.MARGIN_LR};
   font-family: icons;
@@ -142,11 +130,6 @@ const Nav = (props) => {
             <NavTitleStyled>{props.titleText}</NavTitleStyled>
           </NavCenterStyled>
           <NavRightStyled>
-            {props.isRefreshVisible && (
-              <RefreshIconStyled onClick={props.refreshContent}>
-                
-              </RefreshIconStyled>
-            )}
             {props.heartState > 0 && (
               <HeartIconStyled
                 heartState={props.heartState}

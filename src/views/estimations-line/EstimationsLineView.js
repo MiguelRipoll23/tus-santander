@@ -1,4 +1,4 @@
-import { Fragment, useState, useEffect, useCallback } from "react";
+import { Fragment, useState, useRef, useEffect, useCallback } from "react";
 import styled from "styled-components";
 
 import { useView } from "../../contexts/ViewContext.js";
@@ -49,16 +49,25 @@ const EstimationsLineView = (props) => {
   const [estimations, setEstimations] = useState([]);
   const [stops, setStops] = useState([]);
 
+  const refreshTimeoutRef = useRef();
+
   // Colors
   const colors = getColors(lineLabel);
   const color = getColor(lineLabel, "string");
 
-  const getEstimations = useCallback(() => {
+  const getEstimations = useCallback((isUpdate = false) => {
     // Reset
     setError(false);
-    setEstimations([]);
 
-    const query = `?stopId=${stopId}&lineLabel=${lineLabel}&lineDestination=${lineDestination}`;
+    if (isUpdate === false) {
+      setEstimations([]);
+    }
+
+    let query = `?stopId=${stopId}&lineLabel=${lineLabel}&lineDestination=${lineDestination}`;
+
+    if (isUpdate) {
+      query += "&update=true";
+    }
 
     fetch(ApiUtils.API_HOST + ApiUtils.API_PATH_JSON_ESTIMATIONS + query)
       .then((response) => {
@@ -79,13 +88,30 @@ const EstimationsLineView = (props) => {
 
         setEstimations(estimationsList);
         setStops(stopsList);
+
+        // Auto refresh
+        clearTimeout(refreshTimeoutRef.current);
+
+        const refreshTimeoutId = setTimeout(async () => {
+          await getEstimations(true);
+        }, 5_000);
+
+        refreshTimeoutRef.current = refreshTimeoutId;
       })
       .catch((error) => {
         console.error(error);
+
+        if (isUpdate) {
+          setEstimations([]);
+        }
+
         setError(true);
       })
       .finally(() => {
-        setLoading(false);
+        // Loading
+        if (isUpdate === false) {
+          setLoading(false);
+        }
       });
   }, [stopId, lineLabel, lineDestination]);
 
@@ -112,8 +138,14 @@ const EstimationsLineView = (props) => {
     // Auto-refresh
     document.onvisibilitychange = () => {
       if (document.visibilityState === "visible") {
-        getEstimations();
+        clearTimeout(refreshTimeoutRef.current);
+        getEstimations(true);
       }
+    };
+
+    return () => {
+      document.onvisibilitychange = null;
+      clearTimeout(refreshTimeoutRef.current);
     };
   }, [getEstimations]);
 
@@ -122,7 +154,6 @@ const EstimationsLineView = (props) => {
       <Nav
         isHeader={false}
         titleText={stopName}
-        refreshContent={refreshContent}
       />
       <Content>
         {loading && <Spinner />}
@@ -151,9 +182,6 @@ const EstimationsLineView = (props) => {
           <ContextActionsStyled>
             <ButtonStyled color={color} onClick={loadLineRouteView}>
               Ver recorrido
-            </ButtonStyled>
-            <ButtonStyled color={color} onClick={refreshContent}>
-              Actualizar
             </ButtonStyled>
           </ContextActionsStyled>
         )}
