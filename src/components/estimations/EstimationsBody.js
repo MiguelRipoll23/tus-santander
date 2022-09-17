@@ -3,7 +3,7 @@ import styled from "styled-components";
 const TimeStyled = styled.div`
   display: inline-block;
   border-radius: 8px;
-  line-height: 20px;
+  line-height: 19px;
   font-size: 26px;
   padding-bottom: 22px;
   padding-left: 24px;

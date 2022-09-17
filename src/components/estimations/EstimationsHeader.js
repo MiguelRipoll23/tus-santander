@@ -13,6 +13,7 @@ const LineLabelIconGroupStyled = styled.div`
 
 const LineLabelStyled = styled.span`
   font-size: 32px;
+  line-height: 24px;
 `;
 
 const RealTimeIcon = styled.span`
