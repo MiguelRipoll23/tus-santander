@@ -94,7 +94,7 @@ const EstimationsLineView = (props) => {
 
         const refreshTimeoutId = setTimeout(async () => {
           await getEstimations(true);
-        }, 5_000);
+        }, 10_000);
 
         refreshTimeoutRef.current = refreshTimeoutId;
       })

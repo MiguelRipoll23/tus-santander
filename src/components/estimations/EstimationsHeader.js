@@ -7,9 +7,18 @@ const LineHeaderStyled = styled.div`
   margin-bottom: 30px;
 `;
 
+const LineLabelIconGroupStyled = styled.div`
+  display: block;
+`;
+
 const LineLabelStyled = styled.span`
   font-size: 32px;
-  display: block;
+`;
+
+const RealTimeIcon = styled.span`
+  font-family: icons;
+  float: right;
+  font-size: 22px;
 `;
 
 const LineDestinationStyled = styled.span`
@@ -19,7 +28,10 @@ const LineDestinationStyled = styled.span`
 const LineHeader = (props) => {
   return (
     <LineHeaderStyled>
-      <LineLabelStyled>{props.label}</LineLabelStyled>
+      <LineLabelIconGroupStyled>
+        <LineLabelStyled>{props.label}</LineLabelStyled>
+        <RealTimeIcon></RealTimeIcon>
+      </LineLabelIconGroupStyled>
       <LineDestinationStyled>
         {props.destination.toUpperCase()}
       </LineDestinationStyled>
