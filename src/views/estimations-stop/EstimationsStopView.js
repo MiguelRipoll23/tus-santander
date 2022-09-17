@@ -76,7 +76,7 @@ const EstimationsStopView = (props) => {
 
           const refreshTimeoutId = setTimeout(async () => {
             await getEstimations(true);
-          }, 10_000);
+          }, 15_000);
 
           refreshTimeoutRef.current = refreshTimeoutId;
         })
