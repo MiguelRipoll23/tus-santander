@@ -1,25 +1,15 @@
 import styled from "styled-components";
 
 const LineHeaderStyled = styled.div`
-  padding-top: 24px;
+  padding-top: 18px;
   padding-left: 24px;
   padding-right: 24px;
   margin-bottom: 30px;
 `;
 
-const LineLabelIconGroupStyled = styled.div`
-  display: block;
-  line-height: 20px;
-`;
-
 const LineLabelStyled = styled.span`
   font-size: 32px;
-`;
-
-const RealTimeIcon = styled.span`
-  font-family: icons;
-  float: right;
-  font-size: 22px;
+  display: block;
 `;
 
 const LineDestinationStyled = styled.span`
@@ -29,10 +19,7 @@ const LineDestinationStyled = styled.span`
 const LineHeader = (props) => {
   return (
     <LineHeaderStyled>
-      <LineLabelIconGroupStyled>
-        <LineLabelStyled>{props.label}</LineLabelStyled>
-        <RealTimeIcon></RealTimeIcon>
-      </LineLabelIconGroupStyled>
+      <LineLabelStyled>{props.label}</LineLabelStyled>
       <LineDestinationStyled>
         {props.destination.toUpperCase()}
       </LineDestinationStyled>
