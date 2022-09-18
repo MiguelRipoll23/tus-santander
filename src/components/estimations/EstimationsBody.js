@@ -5,7 +5,7 @@ const TimeStyled = styled.div`
   border-radius: 8px;
   line-height: 19px;
   font-size: 26px;
-  padding-bottom: 24px;
+  padding-bottom: 21px;
   padding-left: 24px;
   padding-right: 24px;
   width: 100%;

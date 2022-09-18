@@ -9,11 +9,11 @@ const LineHeaderStyled = styled.div`
 
 const LineLabelIconGroupStyled = styled.div`
   display: block;
+  line-height: 20px;
 `;
 
 const LineLabelStyled = styled.span`
   font-size: 32px;
-  line-height: 24px;
 `;
 
 const RealTimeIcon = styled.span`
