@@ -68,7 +68,7 @@ jobs:
           name: production
 
       - name: Authenticate to Google Cloud
-        uses: "google-github-actions/auth@v0"
+        uses: "google-github-actions/auth@v1"
         with:
           access_token_scopes: "email, openid, https://www.googleapis.com/auth/cloud-platform, https://www.googleapis.com/auth/firebase"
           workload_identity_provider: ${{ secrets.WORKLOAD_IDENTITY_PROVIDER }}
