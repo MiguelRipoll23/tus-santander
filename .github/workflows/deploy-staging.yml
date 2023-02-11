@@ -3,6 +3,11 @@ name: Deploy Staging
 on:
   pull_request:
   pull_request_target:
+  workflow_call:
+    inputs:
+      github-ref:
+        required: true
+        type: string
 
 jobs:
   deploy-staging:
@@ -17,4 +22,5 @@ jobs:
       artifact-name: staging-pr${{github.event.number}}.zip
       channel-name: pr${{github.event.number}}
       channel-expiration: "--expires 30d"
+      github-ref: ${{ inputs.github-ref || github.ref }}
       api-base-url: ${{ vars.API_STAGING_BASE_URL }}

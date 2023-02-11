@@ -5,6 +5,12 @@ on:
     branches:
       - production
 
+  workflow_call:
+    inputs:
+      github-ref:
+        required: true
+        type: string
+
 jobs:
   deploy-production:
     name: Deploy Environment
@@ -14,4 +20,5 @@ jobs:
       environment-name: Production
       artifact-name: production.zip
       channel-name: live
+      github-ref: ${{ inputs.github-ref || github.ref }}
       api-base-url: ${{ vars.API_PRODUCTION_BASE_URL }}
