@@ -4,6 +4,10 @@ on:
   push:
     branches:
       - production
+  workflow_call:
+    github-ref:
+      required: true
+      type: string
 
 jobs:
   deploy-production:
@@ -14,4 +18,5 @@ jobs:
       environment-name: Production
       artifact-name: production.zip
       channel-name: live
+      github-ref: ${{ inputs.github-ref || github.ref }}
       api-base-url: ${{ vars.API_PRODUCTION_BASE_URL }}

@@ -1,0 +1,34 @@
+name: Deploy Branch
+
+on:
+  issue_comment:
+    types: [created]
+
+jobs:
+  pr-comment:
+    name: Pull Request Comment
+    if: ${{ github.event.issue.pull_request }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: github/branch-deploy@v4.1.0
+        id: branch-deploy
+        with:
+          trigger: ".deploy"
+
+  deploy-staging:
+    name: Deploy Staging
+    needs: pr-comment
+    if: ${{ steps.branch-deploy.outputs.continue == 'true' && steps.branch-deploy.outputs.noop == 'true' }}
+    uses: ./.github/workflows/deploy-staging.yml
+    secrets: inherit
+    with:
+      github-ref: ${{ steps.branch-deploy.outputs.ref }}
+
+  deploy-production:
+    name: Deploy Production
+    needs: pr-comment
+    if: ${{ steps.branch-deploy.outputs.continue == 'true' && steps.branch-deploy.outputs.noop != 'true' }}
+    uses: ./.github/workflows/deploy-production.yml
+    secrets: inherit
+    with:
+      github-ref: ${{ steps.branch-deploy.outputs.ref }}
