@@ -72,7 +72,7 @@ jobs:
       - name: Authenticate to Google Cloud
         uses: "google-github-actions/auth@v1"
         with:
-          access_token_scopes: "email, openid, https://www.googleapis.com/auth/cloud-platform, https://www.googleapis.com/auth/firebase"
+          access_token_scopes: ${{ vars.ACCESS_TOKEN_SCOPES }}
           workload_identity_provider: ${{ secrets.WORKLOAD_IDENTITY_PROVIDER }}
           service_account: ${{ secrets.SERVICE_ACCOUNT }}
           create_credentials_file: true
@@ -85,4 +85,3 @@ jobs:
         run: |
           URL="$(firebase --project staging-tusestimaciones --non-interactive --json hosting:channel:open pr${{github.event.number}} | jq -r '.result.url')"
           echo "url=$URL" >> $GITHUB_OUTPUT
-
