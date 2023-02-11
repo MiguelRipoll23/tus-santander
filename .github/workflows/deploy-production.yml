@@ -4,10 +4,12 @@ on:
   push:
     branches:
       - production
+
   workflow_call:
-    github-ref:
-      required: true
-      type: string
+    inputs:
+      github-ref:
+        required: true
+        type: string
 
 jobs:
   deploy-production:
