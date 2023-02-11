@@ -84,5 +84,5 @@ jobs:
         name: Set environment URL
         run: |
           URL="$(firebase --project staging-tusestimaciones --non-interactive --json hosting:channel:open pr${{github.event.number}} | jq -r '.result.url')"
-          echo "::set-output name=url::$URL"
+          echo "url=$URL" >> $GITHUB_OUTPUT
 
