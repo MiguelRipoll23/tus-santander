@@ -1,4 +1,4 @@
-name: Production
+name: Deploy Production
 
 on:
   push:
@@ -7,6 +7,7 @@ on:
 
 jobs:
   deploy-production:
+    name: Deploy Environment
     uses: ./.github/workflows/deploy-environment.yml
     secrets: inherit
     with:
