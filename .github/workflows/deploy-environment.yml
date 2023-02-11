@@ -12,9 +12,8 @@ on:
         type: string
 
       channel-name:
-        required: false
+        required: true
         type: string
-        default: "pr"
 
       channel-expiration:
         required: false
