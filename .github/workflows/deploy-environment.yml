@@ -89,13 +89,13 @@ jobs:
       - name: Authenticate to Google Cloud
         uses: "google-github-actions/auth@v1"
         with:
-          access_token_scopes: "email, openid, https://www.googleapis.com/auth/cloudplatformprojects.readonly, https://www.googleapis.com/auth/firebase, https://www.googleapis.com/auth/cloud-platform"
-          workload_identity_provider: '${{ secrets.WORKLOAD_IDENTITY_PROVIDER }}'
+          access_token_scopes: ${{ vars.ACCESS_TOKEN_SCOPES }}
+          workload_identity_provider: ${{ secrets.WORKLOAD_IDENTITY_PROVIDER }}
           service_account: ${{ secrets.SERVICE_ACCOUNT }}
           create_credentials_file: true
 
       - name: Deploy to Firebase Hosting
-        run: firebase hosting:channel:deploy --project ${{ vars.WEB_PROJECT_NAME }} ${{ inputs.channel-name }} --expires 7d --debug
+        run: firebase hosting:channel:deploy --project ${{ vars.WEB_PROJECT_NAME }} ${{ inputs.channel-name }} ${{ inputs.channel-expiration }}
 
       - id: deployment_url
         name: Set environment URL
