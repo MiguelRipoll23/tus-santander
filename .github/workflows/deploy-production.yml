@@ -1,4 +1,4 @@
-name: Deploy production
+name: Production
 
 on:
   push:
@@ -6,74 +6,11 @@ on:
       - production
 
 jobs:
-  build-package:
-    name: Build package
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v3
-
-        with:
-          ref: ${{ github.ref }}
-
-      - name: Setup node
-        uses: actions/setup-node@v3
-
-        with:
-          node-version: 16
-          cache: "npm"
-
-      - name: Install package
-        run: npm ci
-
-      - name: Build package
-        run: npm run build
-
-        env:
-          REACT_APP_API_HOST: ${{ vars.API_PRODUCTION_HOST }}
-          REACT_APP_GOOGLE_MAPS_KEY: ${{ secrets.GOOGLE_MAPS_KEY }}
-
-      - name: Prepare package
-        run: cp firebase.json build/
-
-      - name: Upload package
-        uses: actions/upload-artifact@v3
-
-        with:
-          name: production
-          path: build
-
-  deploy-package:
-    name: Deploy package
-    needs: build-package
-    runs-on: ubuntu-latest
-
-    environment:
-      name: Production
-      url: ${{ vars.WEB_PRODUCTION_HOST }}
-
-    permissions:
-      contents: read
-      id-token: write
-
-    steps:
-      - name: Install Firebase CLI
-        run: npm install -g firebase-tools
-
-      - name: Download artifact
-        uses: actions/download-artifact@v3
-
-        with:
-          name: production
-
-      - name: Authenticate to Google Cloud
-        uses: "google-github-actions/auth@v1"
-        with:
-          access_token_scopes: ${{ vars.ACCESS_TOKEN_SCOPES }}
-          workload_identity_provider: ${{ secrets.WORKLOAD_IDENTITY_PROVIDER }}
-          service_account: ${{ secrets.SERVICE_ACCOUNT }}
-          create_credentials_file: true
-
-      - name: Deploy to Firebase Hosting
-        run: firebase deploy --project tusestimaciones --only hosting
+  deploy-production:
+    uses: ./.github/workflows/deploy-environment.yml
+    secrets: inherit
+    with:
+      environment-name: Production
+      artifact-name: production.zip
+      channel-name: live
+      api-base-url: ${{ vars.API_PRODUCTION_BASE_URL }}

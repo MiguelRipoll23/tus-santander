@@ -1,0 +1,104 @@
+name: Deploy
+
+on:
+  workflow_call:
+    inputs:
+      environment-name:
+        required: true
+        type: string
+
+      artifact-name:
+        required: true
+        type: string
+
+      channel-name:
+        required: true
+        type: string
+
+      channel-expiration:
+        required: false
+        type: string
+        default: ""
+
+      api-base-url:
+        required: true
+        type: string
+
+jobs:
+  build-package:
+    name: Build package
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+        with:
+          ref: ${{ github.ref }}
+
+      - name: Setup node
+        uses: actions/setup-node@v3
+
+        with:
+          node-version: ${{ vars.WEB_NODE_VERSION }}
+          cache: "npm"
+
+      - name: Install package
+        run: npm ci
+
+      - name: Build package
+        run: npm run build
+
+        env:
+          REACT_APP_API_HOST: ${{ inputs.api-base-url }}
+          REACT_APP_GOOGLE_MAPS_KEY: ${{ secrets.GOOGLE_MAPS_KEY }}
+
+      - name: Prepare package
+        run: cp firebase.json build/
+
+      - name: Upload package
+        uses: actions/upload-artifact@v3
+
+        with:
+          name: ${{ inputs.artifact-name }}
+          path: build
+
+  deploy-package:
+    name: Deploy package
+    needs: build-package
+    runs-on: ubuntu-latest
+
+    environment:
+      name: ${{ inputs.environment-name }}
+      url: ${{ steps.deployment_url.outputs.url }}
+
+    permissions:
+      contents: read
+      id-token: write
+
+    steps:
+      - name: Install Firebase CLI
+        run: npm install -g firebase-tools
+
+      - name: Download artifact
+        uses: actions/download-artifact@v3
+
+        with:
+          name: ${{ inputs.artifact-name }}
+
+      - name: Authenticate to Google Cloud
+        uses: "google-github-actions/auth@v1"
+        with:
+          access_token_scopes: ${{ vars.ACCESS_TOKEN_SCOPES }}
+          workload_identity_provider: ${{ secrets.WORKLOAD_IDENTITY_PROVIDER }}
+          service_account: ${{ secrets.SERVICE_ACCOUNT }}
+          create_credentials_file: true
+
+      - name: Deploy to Firebase Hosting
+        run: firebase hosting:channel:deploy --project ${{ vars.WEB_PROJECT_NAME }} ${{ inputs.channel-name }} ${{ inputs.channel-expiration }}
+
+      - id: deployment_url
+        name: Set environment URL
+        run: |
+          URL="$(firebase --project ${{ vars.WEB_PROJECT_NAME }} --non-interactive --json hosting:channel:open pr${{github.event.number}} | jq -r '.result.url')"
+          echo "url=$URL" >> $GITHUB_OUTPUT
