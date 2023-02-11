@@ -95,7 +95,7 @@ jobs:
           create_credentials_file: true
 
       - name: Deploy to Firebase Hosting
-        run: firebase hosting:channel:deploy --project ${{ vars.WEB_PROJECT_NAME }} ${{ inputs.channel-name }} ${{ inputs.channel-expiration }} --debug
+        run: firebase hosting:channel:deploy --project ${{ vars.WEB_PROJECT_NAME }} ${{ inputs.channel-name }} --expires 7d --debug
 
       - id: deployment_url
         name: Set environment URL
