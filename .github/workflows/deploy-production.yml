@@ -13,4 +13,5 @@ jobs:
     with:
       environment-name: Production
       artifact-name: production.zip
+      channel-name: live
       api-base-url: ${{ vars.API_PRODUCTION_BASE_URL }}
