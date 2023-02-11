@@ -1,4 +1,4 @@
-name: Build & Deploy
+name: Deploy Environment
 
 on:
   workflow_call:

@@ -13,7 +13,7 @@ on:
 
 jobs:
   deploy-production:
-    name: Deploy Environment
+    name: Build & Deploy
     uses: ./.github/workflows/deploy-environment.yml
     secrets: inherit
     with:
