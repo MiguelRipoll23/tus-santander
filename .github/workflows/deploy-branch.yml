@@ -6,6 +6,7 @@ on:
 
 jobs:
   pr-comment:
+    name: Pull Request Comment
     if: ${{ github.event.issue.pull_request }}
     runs-on: ubuntu-latest
     outputs:
