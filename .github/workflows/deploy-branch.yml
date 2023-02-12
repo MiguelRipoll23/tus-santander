@@ -6,10 +6,13 @@ on:
 
 jobs:
   pr-comment:
+    name: Pull Request Comment
     if: ${{ github.event.issue.pull_request }}
     runs-on: ubuntu-latest
     outputs:
       ref: ${{ steps.branch-deploy.outputs.ref }}
+      continue: ${{ steps.branch-deploy.outputs.continue }}
+      noop: ${{steps.branch-deploy.outputs.noop }}
     steps:
       - uses: github/branch-deploy@v4.1.0
         id: branch-deploy
@@ -19,7 +22,7 @@ jobs:
   deploy-staging:
     needs: pr-comment
     name: Deploy Staging
-    if: ${{ steps.branch-deploy.outputs.continue == 'true' && steps.branch-deploy.outputs.noop == 'true' }}
+    if: ${{ needs.pr-comment.outputs.continue == 'true' && needs.pr-comment.outputs.noop == 'true' }}
     uses: ./.github/workflows/deploy-staging.yml
     secrets: inherit
     with:
@@ -28,7 +31,7 @@ jobs:
   deploy-production:
     needs: pr-comment
     name: Deploy Production
-    if: ${{ steps.branch-deploy.outputs.continue == 'true' && steps.branch-deploy.outputs.noop != 'true' }}
+    if: ${{ needs.pr-comment.outputs.continue == 'true' && needs.pr-comment.outputs.noop != 'true' }}
     uses: ./.github/workflows/deploy-production.yml
     secrets: inherit
     with:
