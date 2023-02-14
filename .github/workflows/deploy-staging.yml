@@ -18,10 +18,9 @@ jobs:
     uses: ./.github/workflows/deploy-environment.yml
     secrets: inherit
     with:
-      github-ref: ${{ inputs.github-ref || github.ref }}
       environment-name: Staging
       artifact-name: staging-pr${{github.event.number}}.zip
-      project-name: ${{ vars.WEB_PROJECT_NAME }}
       channel-name: pr${{github.event.number}}
       channel-expiration: "--expires 30d"
+      github-ref: ${{ inputs.github-ref || github.ref }}
       api-base-url: ${{ vars.API_STAGING_BASE_URL }}
