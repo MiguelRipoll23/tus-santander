@@ -16,6 +16,10 @@ on:
         required: true
         type: string
 
+      project-name:
+        required: true
+        type: string
+
       channel-name:
         required: true
         type: string
@@ -101,14 +105,14 @@ jobs:
 
       - name: Deploy to Firebase Hosting (Staging)
         if: ${{ inputs.environment-name == 'Staging' }}
-        run: firebase hosting:channel:deploy --project ${{ vars.WEB_PROJECT_NAME }} ${{ inputs.channel-name }} ${{ inputs.channel-expiration }}
+        run: firebase hosting:channel:deploy --project ${{ inputs.project-name }} ${{ inputs.channel-name }} ${{ inputs.channel-expiration }}
 
       - name: Deploy to Firebase Hosting (Production)
         if: ${{ inputs.environment-name == 'Production' }}
-        run: firebase deploy --project ${{ vars.WEB_PROJECT_NAME }}
+        run: firebase deploy --project ${{ inputs.project-name }}
 
       - id: deployment_url
         name: Set environment URL
         run: |
-          URL="$(firebase --project ${{ vars.WEB_PROJECT_NAME }} --non-interactive --json hosting:channel:open ${{ inputs.channel-name }} | jq -r '.result.url')"
+          URL="$(firebase --project ${{ inputs.project-name }} --non-interactive --json hosting:channel:open ${{ inputs.channel-name }} | jq -r '.result.url')"
           echo "url=$URL" >> $GITHUB_OUTPUT

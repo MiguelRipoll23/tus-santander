@@ -17,8 +17,9 @@ jobs:
     uses: ./.github/workflows/deploy-environment.yml
     secrets: inherit
     with:
+      github-ref: ${{ inputs.github-ref || github.ref }}
       environment-name: Production
       artifact-name: production.zip
+      project-name: ${{ vars.WEB_PROJECT_NAME }}
       channel-name: live
-      github-ref: ${{ inputs.github-ref || github.ref }}
       api-base-url: ${{ vars.API_PRODUCTION_BASE_URL }}
