@@ -13,11 +13,11 @@ const HeaderStyled = styled.div`
 `;
 
 const EditStyled = styled.div`
-  display: flex;
-  height: 46px;
+  box-sizing: border-box;
+  padding-top: 12px;
+  height: 44px;
   cursor: pointer;
   text-align: right;
-  justify-content: flex-end;
   color: rgb(0, 122, 255);
 
   & span {
