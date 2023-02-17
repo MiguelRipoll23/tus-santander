@@ -66,7 +66,13 @@ export const toggleFavorite = (stopId, stopName) => {
     }
   }
 
-  localStorage.setItem("favorites", JSON.stringify(favorites));
+  const favoritesData = JSON.stringify(favorites);
+  localStorage.setItem("favorites", favoritesData);
 
   return result;
+};
+
+export const saveFavorites = (favorites) => {
+  const favoritesData = JSON.stringify(favorites);
+  localStorage.setItem("favorites", favoritesData);
 };

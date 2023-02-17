@@ -106,6 +106,12 @@ const Nav = (props) => {
     window.history.back();
   };
 
+  const enterEditMode = () => {
+    document.querySelectorAll(".draggable").forEach((item) => {
+      item.setAttribute("draggable", "true");
+    });
+  };
+
   useEffect(() => {
     const mainElement = document.getElementsByTagName("main")[0];
 
@@ -129,7 +135,9 @@ const Nav = (props) => {
 
   return (
     <Fragment>
-      {props.isHeader && <Header text={props.titleText} />}
+      {props.isHeader && (
+        <Header enterEditMode={enterEditMode} text={props.titleText} />
+      )}
       {props.isHeader === false && (
         <NavStyled borderOpacity={borderOpacity}>
           <NavLeftStyled>

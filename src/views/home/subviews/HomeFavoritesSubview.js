@@ -5,7 +5,7 @@ import { useView } from "../../../contexts/ViewContext.js";
 import * as ViewConstants from "../../../constants/ViewConstants.js";
 
 import StyleUtils from "../../../utils/StyleUtils.js";
-import { getFavorites } from "../../../utils/FavoriteUtils.js";
+import { getFavorites, saveFavorites } from "../../../utils/FavoriteUtils.js";
 
 import Error from "../../../components/Error.js";
 import HomeDesktop from "../../../components/home/HomeDesktop.js";
@@ -45,6 +45,48 @@ const HomeFavoritesSubview = (props) => {
 
   const [error, setError] = useState(false);
   const [favorites, setFavorites] = useState([]);
+
+  let draggingElement = null;
+
+  const handleDragStart = (event) => {
+    event.dataTransfer.effectAllowed = "move";
+    draggingElement = event.target;
+  };
+
+  const handleDragOver = (event) => {
+    event.preventDefault();
+    event.dataTransfer.dropEffect = "move";
+
+    return false;
+  };
+
+  const handleDrop = (event) => {
+    event.stopPropagation();
+
+    const targetElement = event.target;
+
+    if (draggingElement === targetElement) {
+      return;
+    }
+
+    const favoritesOrdered = [...favorites];
+
+    const sourceIndex = [...draggingElement.parentNode.children].indexOf(
+      draggingElement
+    );
+
+    const targetIndex = [...draggingElement.parentNode.children].indexOf(
+      targetElement
+    );
+
+    favoritesOrdered[sourceIndex] = favorites[targetIndex];
+    favoritesOrdered[targetIndex] = favorites[sourceIndex];
+
+    setFavorites(favoritesOrdered);
+    saveFavorites(favoritesOrdered);
+
+    return false;
+  };
 
   const loadMapSubview = () => {
     setViewId(ViewConstants.VIEW_ID_MAP);
@@ -88,7 +130,11 @@ const HomeFavoritesSubview = (props) => {
           return (
             <FavoriteStyled
               key={i}
+              className="draggable"
               onClick={() => loadEstimationsStopView(favorite)}
+              onDragStart={handleDragStart}
+              onDragOver={handleDragOver}
+              onDrop={handleDrop}
             >
               {favorite.stop_name}
             </FavoriteStyled>
