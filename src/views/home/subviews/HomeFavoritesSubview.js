@@ -50,7 +50,7 @@ const HomeFavoritesSubview = (props) => {
 
   const handleDragStart = (event) => {
     event.dataTransfer.effectAllowed = "move";
-    event.dataTransfer.setData('text/plain', event.target.innerText);
+    event.dataTransfer.setData("text/plain", event.target.innerText);
     draggingElement = event.target;
   };
 
@@ -62,6 +62,7 @@ const HomeFavoritesSubview = (props) => {
   };
 
   const handleDrop = (event) => {
+    event.preventDefault();
     event.stopPropagation();
 
     const targetElement = event.target;
