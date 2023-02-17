@@ -14,6 +14,7 @@ const ViewportStyled = styled.div`
   position: relative;
   height: calc(100% - 91px + env(safe-area-inset-bottom));
   overflow-y: auto;
+  padding-top: 3px;
   padding-bottom: 14px;
   box-sizing: border-box;
 `;
