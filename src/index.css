@@ -29,6 +29,28 @@
   }
 }
 
+@keyframes wiggle {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  25% {
+    transform: rotate(-0.5deg);
+  }
+
+  50% {
+    transform: rotate(0.5deg);
+  }
+
+  75% {
+    transform: rotate(-0.5deg);
+  }
+
+  100% {
+    transform: rotate(0deg);
+  }
+}
+
 body,
 html,
 #app {
@@ -63,4 +85,13 @@ body {
 
 #time1[data-time="0"] {
   animation: blink 0.8s linear infinite;
+}
+
+*[draggable="true"] {
+  animation: wiggle 0.5s linear infinite;
+  cursor: move;
+  -moz-user-select: none;
+  -khtml-user-select: none;
+  -webkit-user-select: none;
+  user-select: none;
 }
