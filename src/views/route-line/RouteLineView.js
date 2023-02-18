@@ -119,7 +119,7 @@ const RouteLineView = (props) => {
   useEffect(() => {
     document
       .querySelector("li[data-active='true']")
-      ?.scrollIntoView({ behavior: "auto", block: "center" });
+      ?.scrollIntoView({ behavior: "smooth", block: "center" });
   }, [results]);
 
   // Refresh
