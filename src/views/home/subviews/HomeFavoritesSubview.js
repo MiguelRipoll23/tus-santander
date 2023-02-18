@@ -40,8 +40,7 @@ const FavoriteStyled = styled.div`
 `;
 
 const HomeFavoritesSubview = (props) => {
-  const { updateTitleText } = props;
-
+  const { enableEditLink, updateTitleText, editMode } = props;
   const { setViewId, setViewIdWithData } = useView();
 
   const [error, setError] = useState(false);
@@ -96,6 +95,10 @@ const HomeFavoritesSubview = (props) => {
   };
 
   const loadEstimationsStopView = (favorite) => {
+    if (editMode) {
+      return;
+    }
+
     setViewIdWithData(ViewConstants.VIEW_ID_ESTIMATIONS_STOP, {
       stopId: favorite.stop_id,
       stopName: favorite.stop_name,
@@ -108,9 +111,10 @@ const HomeFavoritesSubview = (props) => {
     if (favorites.length === 0) {
       setError(true);
     } else {
+      enableEditLink(true);
       setFavorites(favorites);
     }
-  }, []);
+  }, [enableEditLink]);
 
   // Mount
   useEffect(() => {
@@ -133,7 +137,7 @@ const HomeFavoritesSubview = (props) => {
           return (
             <FavoriteStyled
               key={i}
-              draggable={props.editMode}
+              draggable={editMode}
               onClick={() => loadEstimationsStopView(favorite)}
               onDragStart={handleDragStart}
               onDragOver={handleDragOver}

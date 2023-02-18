@@ -12,14 +12,21 @@ import styled from "styled-components";
 
 import HomeMenu from "../../components/home/HomeMenu.js";
 
-const EditLinkStyled = styled.div`
+const EditLinkStyled = styled.span`
   cursor: pointer;
   color: rgb(0, 122, 255);
   align-self: flex-end;
+  padding: 10px 0;
+
+  &[disabled] {
+    opacity: 0.5;
+  }
 `;
 
 const HomeView = (props) => {
   const { subViewId } = useView();
+  const [editMode, setEditMode] = useState(false);
+  const [editDisabled, setEditDisabled] = useState(true);
 
   const [titleText, setTitleText] = useState(
     ViewConstants.SUB_VIEW_TITLE_FAVORITES
@@ -29,14 +36,16 @@ const HomeView = (props) => {
     setTitleText(newTitleText);
   };
 
-  const [editMode, setEditMode] = useState(false);
+  const enableEditLink = () => {
+    setEditDisabled(false);
+  };
 
   const SelectedOptions = (props) => {
     // eslint-disable-next-line default-case
     switch (subViewId) {
       case ViewConstants.SUB_VIEW_ID_FAVORITES:
         return (
-          <EditLinkStyled onClick={toggleEditMode}>
+          <EditLinkStyled onClick={toggleEditMode} disabled={editDisabled}>
             {editMode ? "Hecho" : "Editar"}
           </EditLinkStyled>
         );
@@ -46,7 +55,13 @@ const HomeView = (props) => {
   const SelectedContent = (props) => {
     switch (subViewId) {
       case ViewConstants.SUB_VIEW_ID_FAVORITES:
-        return <HomeFavoritesSubview updateTitleText={props.updateTitleText} />;
+        return (
+          <HomeFavoritesSubview
+            enableEditLink={props.enableEditLink}
+            updateTitleText={props.updateTitleText}
+            editMode={editMode}
+          />
+        );
 
       case ViewConstants.SUB_VIEW_ID_MAP:
         return null;
@@ -72,6 +87,7 @@ const HomeView = (props) => {
       </Nav>
       <Content>
         <SelectedContent
+          enableEditLink={enableEditLink}
           updateTitleText={updateTitleText}
           editMode={editMode}
         />
