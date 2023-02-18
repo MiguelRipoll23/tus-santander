@@ -53,46 +53,56 @@ const EstimationsLineView = (props) => {
   const colors = getColors(lineLabel);
   const color = getColor(lineLabel, "string");
 
-  const getEstimations = useCallback(() => {
-    // Reset
-    setError(false);
-    setEstimations([]);
+  const getEstimations = useCallback(
+    (update = false) => {
+      // Reset
+      setError(false);
+      setEstimations([]);
 
-    const query = `?stopId=${stopId}&lineLabel=${lineLabel}&lineDestination=${lineDestination}`;
+      let query = `?stopId=${stopId}&lineLabel=${lineLabel}&lineDestination=${lineDestination}`;
 
-    fetch(ApiUtils.API_HOST + ApiUtils.API_PATH_JSON_ESTIMATIONS + query)
-      .then((response) => {
-        if (response.ok === false) {
-          throw new Error("Network response was not ok");
-        }
+      if (update) {
+        query += "&update=true";
+      }
 
-        return response.json();
-      })
-      .then((data) => {
-        const estimationsList = data[0];
-        const stopsList = data[1];
+      fetch(ApiUtils.API_HOST + ApiUtils.API_PATH_JSON_ESTIMATIONS + query)
+        .then((response) => {
+          if (response.ok === false) {
+            throw new Error("Network response was not ok");
+          }
 
-        // Check if response is empty
-        if (estimationsList.length === 0) {
-          throw new Error("Empty response");
-        }
+          return response.json();
+        })
+        .then((data) => {
+          const estimationsList = data[0];
 
-        setEstimations(estimationsList);
-        setStops(stopsList);
-      })
-      .catch((error) => {
-        console.error(error);
-        setError(true);
-      })
-      .finally(() => {
-        setLoading(false);
-      });
-  }, [stopId, lineLabel, lineDestination]);
+          // Check if response is empty
+          if (estimationsList.length === 0) {
+            throw new Error("Empty response");
+          }
+
+          setEstimations(estimationsList);
+
+          if (update === false) {
+            const stopsList = data[1];
+            setStops(stopsList);
+          }
+        })
+        .catch((error) => {
+          console.error(error);
+          setError(true);
+        })
+        .finally(() => {
+          setLoading(false);
+        });
+    },
+    [stopId, lineLabel, lineDestination]
+  );
 
   // Refresh
   const refreshContent = () => {
     setLoading(true);
-    getEstimations();
+    getEstimations(true);
   };
 
   // Route
