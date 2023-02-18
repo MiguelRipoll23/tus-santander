@@ -40,6 +40,14 @@ const HomeView = (props) => {
     setEditDisabled(false);
   };
 
+  const toggleEditMode = () => {
+    if (editDisabled) {
+      return;
+    }
+
+    setEditMode(editMode ? false : true);
+  };
+
   const SelectedOptions = (props) => {
     // eslint-disable-next-line default-case
     switch (subViewId) {
@@ -74,10 +82,6 @@ const HomeView = (props) => {
           `No case for subview identifier ${subViewId} found in HomeView`
         );
     }
-  };
-
-  const toggleEditMode = () => {
-    setEditMode(editMode ? false : true);
   };
 
   return (

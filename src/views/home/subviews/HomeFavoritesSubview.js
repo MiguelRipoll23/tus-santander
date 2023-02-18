@@ -34,6 +34,13 @@ const FavoriteStyled = styled.div`
   font-weight: 700;
   min-height: 53px;
 
+  &.over {
+    padding: 13px 18px;
+    border: 2px dashed #ff2e56;
+    background: none;
+    color: #ff2e56;
+  }
+
   @media (prefers-color-scheme: dark) {
     background: #1c1b20;
   }
@@ -46,7 +53,16 @@ const HomeFavoritesSubview = (props) => {
   const [error, setError] = useState(false);
   const [favorites, setFavorites] = useState([]);
 
+  // Drag & Drop
   let draggingElement = null;
+
+  const handleDragEnter = (event) => {
+    event.target.classList.add("over");
+  };
+
+  const handleDragLeave = (event) => {
+    event.target.classList.remove("over");
+  };
 
   const handleDragStart = (event) => {
     event.dataTransfer.effectAllowed = "move";
@@ -66,6 +82,7 @@ const HomeFavoritesSubview = (props) => {
     event.stopPropagation();
 
     const targetElement = event.target;
+    targetElement.classList.remove("over");
 
     if (draggingElement === targetElement) {
       return;
@@ -90,6 +107,7 @@ const HomeFavoritesSubview = (props) => {
     return false;
   };
 
+  // View handlers
   const loadMapSubview = () => {
     setViewId(ViewConstants.VIEW_ID_MAP);
   };
@@ -105,6 +123,7 @@ const HomeFavoritesSubview = (props) => {
     });
   };
 
+  // Favorites
   useEffect(() => {
     const favorites = getFavorites();
 
@@ -139,6 +158,8 @@ const HomeFavoritesSubview = (props) => {
               key={i}
               draggable={editMode}
               onClick={() => loadEstimationsStopView(favorite)}
+              onDragEnter={handleDragEnter}
+              onDragLeave={handleDragLeave}
               onDragStart={handleDragStart}
               onDragOver={handleDragOver}
               onDrop={handleDrop}
