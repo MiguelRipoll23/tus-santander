@@ -1,13 +1,15 @@
-import { useState, useEffect } from "react";
+import { Fragment, useState, useEffect } from "react";
 import styled from "styled-components";
 
 import { useView } from "../../../contexts/ViewContext.js";
 import * as ViewConstants from "../../../constants/ViewConstants.js";
 
+import Nav from "../../../components/Nav.js";
+
 import Stops from "../../../json/stops.min.json";
 import StyleUtils from "../../../utils/StyleUtils.js";
 
-const SearchStyled = styled.div`
+const ContentStyled = styled.div`
   margin: 0 ${StyleUtils.MARGIN_LR};
 `;
 
@@ -78,8 +80,6 @@ const ResultStyled = styled.div`
 `;
 
 const HomeSearchSubview = (props) => {
-  const { updateTitleText } = props;
-
   const { setViewIdWithData } = useView();
 
   const [searchText, setSearchText] = useState("");
@@ -137,40 +137,38 @@ const HomeSearchSubview = (props) => {
     });
   };
 
-  // Mount
-  useEffect(() => {
-    updateTitleText(ViewConstants.SUB_VIEW_TITLE_SEARCH);
-  }, [updateTitleText]);
-
   return (
-    <SearchStyled>
-      <IconStyled anyResults={results.length > 0}>
-        <InputStyled
-          type="text"
-          placeholder="Buscar"
-          aria-label="Buscar"
-          inputmode="search"
-          autoFocus={true}
-          autocomplete="off"
-          onInput={updateValue}
-        />
-      </IconStyled>
+    <Fragment>
+      <Nav isHeader={true} titleText="Buscar" />
+      <ContentStyled>
+        <IconStyled anyResults={results.length > 0}>
+          <InputStyled
+            type="text"
+            placeholder="Buscar"
+            aria-label="Buscar"
+            inputmode="search"
+            autoFocus={true}
+            autocomplete="off"
+            onInput={updateValue}
+          />
+        </IconStyled>
 
-      {results.length > 0 && (
-        <ResultsStyled>
-          {results.map((result, i) => {
-            return (
-              <ResultStyled
-                key={i}
-                onClick={() => loadEstimationsStopView(result)}
-              >
-                {`${result[2]} (${getStopId(result)})`}
-              </ResultStyled>
-            );
-          })}
-        </ResultsStyled>
-      )}
-    </SearchStyled>
+        {results.length > 0 && (
+          <ResultsStyled>
+            {results.map((result, i) => {
+              return (
+                <ResultStyled
+                  key={i}
+                  onClick={() => loadEstimationsStopView(result)}
+                >
+                  {`${result[2]} (${getStopId(result)})`}
+                </ResultStyled>
+              );
+            })}
+          </ResultsStyled>
+        )}
+      </ContentStyled>
+    </Fragment>
   );
 };
 
