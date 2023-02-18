@@ -143,6 +143,52 @@ const HomeFavoritesSubview = (props) => {
     });
   };
 
+  // Content
+  const isDesktop = window.innerWidth >= 1000;
+
+  const Content = (props) => {
+    if (isDesktop) {
+      return <HomeDesktop />;
+    } else {
+      return (
+        <Fragment>
+          <Nav isHeader={true} titleText="Favoritos" hidden={isDesktop}>
+            <EditLinkStyled onClick={toggleEditMode} hidden={editHidden}>
+              {editMode ? "Hecho" : "Editar"}
+            </EditLinkStyled>
+          </Nav>
+          <ContentStyled hidden={isDesktop}>
+            {error && (
+              <Error
+                error_text="Usa el mapa o el buscador para añadir paradas"
+                error_text_lowercase={true}
+                retry_text="Ver paradas cercanas"
+                retry_action={loadMapSubview}
+                animation="none"
+              />
+            )}
+            {favorites.map((favorite, i) => {
+              return (
+                <FavoriteStyled
+                  key={i}
+                  draggable={editMode}
+                  onClick={() => loadEstimationsStopView(favorite)}
+                  onDragEnter={handleDragEnter}
+                  onDragLeave={handleDragLeave}
+                  onDragStart={handleDragStart}
+                  onDragOver={handleDragOver}
+                  onDrop={handleDrop}
+                >
+                  {favorite.stop_name}
+                </FavoriteStyled>
+              );
+            })}
+          </ContentStyled>
+        </Fragment>
+      );
+    }
+  };
+
   // Mount
   useEffect(() => {
     const favorites = getFavorites();
@@ -155,43 +201,7 @@ const HomeFavoritesSubview = (props) => {
     }
   }, []);
 
-  return (
-    <Fragment>
-      <Nav isHeader={true} titleText="Favoritos">
-        <EditLinkStyled onClick={toggleEditMode} hidden={editHidden}>
-          {editMode ? "Hecho" : "Editar"}
-        </EditLinkStyled>
-      </Nav>
-      <ContentStyled>
-        {error && (
-          <Error
-            error_text="Usa el mapa o el buscador para añadir paradas"
-            error_text_lowercase={true}
-            retry_text="Ver paradas cercanas"
-            retry_action={loadMapSubview}
-            animation="none"
-          />
-        )}
-        {favorites.map((favorite, i) => {
-          return (
-            <FavoriteStyled
-              key={i}
-              draggable={editMode}
-              onClick={() => loadEstimationsStopView(favorite)}
-              onDragEnter={handleDragEnter}
-              onDragLeave={handleDragLeave}
-              onDragStart={handleDragStart}
-              onDragOver={handleDragOver}
-              onDrop={handleDrop}
-            >
-              {favorite.stop_name}
-            </FavoriteStyled>
-          );
-        })}
-      </ContentStyled>
-      <HomeDesktop />
-    </Fragment>
-  );
+  return <Content />;
 };
 
 export default HomeFavoritesSubview;

@@ -13,10 +13,6 @@ const HomeDesktopStyled = styled.div`
   align-items: center;
   z-index: 10;
 
-  @media (max-width: 500px) {
-    display: none;
-  }
-
   @media (prefers-color-scheme: dark) {
     color: #fff;
     background: #000;

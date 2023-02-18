@@ -6,10 +6,6 @@ const HeaderStyled = styled.div`
   padding-left: ${StyleUtils.MARGIN_LR};
   padding-right: ${StyleUtils.MARGIN_LR};
   padding-bottom: 5px;
-
-  @media (min-width: 500px) {
-    display: none;
-  }
 `;
 
 const OptionsStyled = styled.div`
