@@ -19,15 +19,6 @@ jobs:
         with:
           trigger: ".deploy"
 
-  deploy-staging:
-    needs: pr-comment
-    name: Deploy Staging
-    if: ${{ needs.pr-comment.outputs.continue == 'true' && needs.pr-comment.outputs.noop == 'true' }}
-    uses: ./.github/workflows/deploy-staging.yml
-    secrets: inherit
-    with:
-      github-ref: ${{ needs.pr-comment.outputs.ref }}
-
   deploy-production:
     needs: pr-comment
     name: Deploy Production
