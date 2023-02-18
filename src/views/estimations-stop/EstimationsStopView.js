@@ -31,50 +31,60 @@ const EstimationsStopView = (props) => {
   const [lines, setLines] = useState([]);
   const [estimations, setEstimations] = useState([]);
 
-  const getEstimations = useCallback(async () => {
-    // Reset
-    setError(false);
-    setEstimations([]);
+  const getEstimations = useCallback(
+    async (update = false) => {
+      // Reset
+      setError(false);
+      setEstimations([]);
 
-    const query = `?stopId=${stopId}`;
+      let query = `?stopId=${stopId}`;
 
-    fetch(ApiUtils.API_HOST + ApiUtils.API_PATH_JSON_ESTIMATIONS + query)
-      .then((response) => {
-        if (response.ok === false) {
-          throw new Error("Network response was not ok");
-        }
+      if (update) {
+        query += "&update=true";
+      }
 
-        return response.json();
-      })
-      .then((data) => {
-        const estimationsList = data[0];
-        const linesList = data[1];
+      fetch(ApiUtils.API_HOST + ApiUtils.API_PATH_JSON_ESTIMATIONS + query)
+        .then((response) => {
+          if (response.ok === false) {
+            throw new Error("Network response was not ok");
+          }
 
-        // Check if response is empty
-        if (estimationsList.length === 0) {
-          throw new Error("Empty response");
-        }
+          return response.json();
+        })
+        .then((data) => {
+          const estimationsList = data[0];
 
-        setLines(linesList);
-        setEstimations(estimationsList);
-      })
-      .catch((error) => {
-        console.error(error);
-        setError(true);
-      })
-      .finally(() => {
-        setLoading(false);
-        setRefreshVisible(true);
+          // Check if response is empty
+          if (estimationsList.length === 0) {
+            throw new Error("Empty response");
+          }
 
-        const heartState = getFavorite(stopId) === null ? 1 : 2;
-        setHeartState(heartState);
-      });
-  }, [stopId]);
+          setEstimations(estimationsList);
+
+          if (update === false) {
+            const linesList = data[1];
+            setLines(linesList);
+          }
+        })
+        .catch((error) => {
+          console.error(error);
+          setError(true);
+        })
+        .finally(() => {
+          setLoading(false);
+          setRefreshVisible(true);
+
+          const heartState = getFavorite(stopId) === null ? 1 : 2;
+          setHeartState(heartState);
+        });
+    },
+    [stopId]
+  );
 
   // Refresh
   const refreshContent = () => {
     setLoading(true);
-    getEstimations();
+    getEstimations(true);
   };
 
   // Heart
