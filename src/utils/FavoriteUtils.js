@@ -25,8 +25,6 @@ export const getFavorites = () => {
   return list;
 };
 
-export const favorites = getFavorites();
-
 export const getFavorite = (stopId) => {
   let result = null;
   const favorites = getFavorites();
@@ -44,6 +42,8 @@ export const getFavorite = (stopId) => {
 };
 
 export const toggleFavorite = (stopId, stopName) => {
+  const favorites = getFavorites();
+
   let result = false;
   let favorite = getFavorite(stopId);
 
@@ -66,7 +66,13 @@ export const toggleFavorite = (stopId, stopName) => {
     }
   }
 
-  localStorage.setItem("favorites", JSON.stringify(favorites));
+  const favoritesData = JSON.stringify(favorites);
+  localStorage.setItem("favorites", favoritesData);
 
   return result;
+};
+
+export const saveFavorites = (favorites) => {
+  const favoritesData = JSON.stringify(favorites);
+  localStorage.setItem("favorites", favoritesData);
 };

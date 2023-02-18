@@ -115,6 +115,13 @@ const RouteLineView = (props) => {
     return false;
   };
 
+  // Scroll
+  useEffect(() => {
+    document
+      .querySelector("li[data-active='true']")
+      ?.scrollIntoView({ behavior: "smooth", block: "center" });
+  }, [results]);
+
   // Refresh
   const refreshContent = () => {
     setLoading(true);
@@ -143,11 +150,18 @@ const RouteLineView = (props) => {
         )}
         <RouteLineViewStyled>
           {results.map((result, i) => {
+            const [stopId, stopName, stopLines] = result;
+
             return (
-              <StopStyled key={i} color={color} active={isActive(result[0])}>
-                <span>{result[1]}</span>
-                {result[2].length > 0 && (
-                  <StopLines list={result[2]} size="small" />
+              <StopStyled
+                key={i}
+                color={color}
+                active={isActive(stopId)}
+                {...(isActive(stopId) && { "data-active": "true" })}
+              >
+                <span>{stopName}</span>
+                {stopLines.length > 0 && (
+                  <StopLines list={stopLines} size="small" />
                 )}
               </StopStyled>
             );
