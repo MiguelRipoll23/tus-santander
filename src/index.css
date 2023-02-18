@@ -90,8 +90,4 @@ body {
 *[draggable="true"] {
   animation: wiggle 0.5s linear infinite;
   cursor: move;
-  -moz-user-select: none;
-  -khtml-user-select: none;
-  -webkit-user-select: none;
-  user-select: none;
 }

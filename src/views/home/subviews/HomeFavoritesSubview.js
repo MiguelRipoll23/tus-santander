@@ -2,15 +2,26 @@ import { Fragment, useState, useEffect } from "react";
 import styled from "styled-components";
 
 import { useView } from "../../../contexts/ViewContext.js";
-import * as ViewConstants from "../../../constants/ViewConstants.js";
-
 import StyleUtils from "../../../utils/StyleUtils.js";
 import { getFavorites, saveFavorites } from "../../../utils/FavoriteUtils.js";
+import * as ViewConstants from "../../../constants/ViewConstants.js";
 
+import Nav from "../../../components/Nav.js";
 import Error from "../../../components/Error.js";
 import HomeDesktop from "../../../components/home/HomeDesktop.js";
 
-const ViewportStyled = styled.div`
+const EditLinkStyled = styled.span`
+  cursor: pointer;
+  color: rgb(0, 122, 255);
+  align-self: flex-end;
+  padding: 10px 0;
+
+  &[disabled] {
+    opacity: 0.5;
+  }
+`;
+
+const ContentStyled = styled.div`
   position: relative;
   height: calc(100% - 91px + env(safe-area-inset-bottom));
   overflow-y: auto;
@@ -33,9 +44,11 @@ const FavoriteStyled = styled.div`
   overflow: hidden;
   font-weight: 700;
   min-height: 53px;
+  -webkit-user-select: none;
+  user-select: none;
 
   &.over {
-    padding: 13px 18px;
+    padding: 13px 20px;
     border: 2px dashed #ff2e56;
     background: none;
     color: #ff2e56;
@@ -47,11 +60,18 @@ const FavoriteStyled = styled.div`
 `;
 
 const HomeFavoritesSubview = (props) => {
-  const { enableEditLink, updateTitleText, editMode } = props;
   const { setViewId, setViewIdWithData } = useView();
 
   const [error, setError] = useState(false);
   const [favorites, setFavorites] = useState([]);
+
+  // Edit mode
+  const [editMode, setEditMode] = useState(false);
+  const [editHidden, setEditHidden] = useState(true);
+
+  const toggleEditMode = () => {
+    setEditMode(editMode ? false : true);
+  };
 
   // Drag & Drop
   let draggingElement = null;
@@ -123,26 +143,26 @@ const HomeFavoritesSubview = (props) => {
     });
   };
 
-  // Favorites
+  // Mount
   useEffect(() => {
     const favorites = getFavorites();
 
     if (favorites.length === 0) {
       setError(true);
     } else {
-      enableEditLink(true);
+      setEditHidden(false);
       setFavorites(favorites);
     }
-  }, [enableEditLink]);
-
-  // Mount
-  useEffect(() => {
-    updateTitleText(ViewConstants.SUB_VIEW_TITLE_FAVORITES);
-  }, [updateTitleText]);
+  }, []);
 
   return (
     <Fragment>
-      <ViewportStyled>
+      <Nav isHeader={true} titleText="Favoritos">
+        <EditLinkStyled onClick={toggleEditMode} hidden={editHidden}>
+          {editMode ? "Hecho" : "Editar"}
+        </EditLinkStyled>
+      </Nav>
+      <ContentStyled>
         {error && (
           <Error
             error_text="Usa el mapa o el buscador para añadir paradas"
@@ -168,7 +188,7 @@ const HomeFavoritesSubview = (props) => {
             </FavoriteStyled>
           );
         })}
-      </ViewportStyled>
+      </ContentStyled>
       <HomeDesktop />
     </Fragment>
   );
