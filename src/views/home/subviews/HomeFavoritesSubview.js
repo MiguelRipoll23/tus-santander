@@ -48,7 +48,7 @@ const FavoriteStyled = styled.div`
   user-select: none;
 
   &.over {
-    padding: 13px 20px;
+    padding: 11px 20px;
     border: 2px dashed #ff2e56;
     background: none;
     color: #ff2e56;
