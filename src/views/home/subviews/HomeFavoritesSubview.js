@@ -144,7 +144,7 @@ const HomeFavoritesSubview = (props) => {
   };
 
   // Content
-  const isDesktop = window.innerWidth >= 850;
+  const isDesktop = window.innerWidth >= 1000;
 
   const Content = (props) => {
     if (isDesktop) {
