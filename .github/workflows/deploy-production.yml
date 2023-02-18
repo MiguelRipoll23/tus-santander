@@ -21,4 +21,4 @@ jobs:
       artifact-name: production.zip
       channel-name: live
       github-ref: ${{ inputs.github-ref || github.ref }}
-      api-base-url: ${{ vars.API_PRODUCTION_BASE_URL }}
+      api-base-url: ${{ vars.API_PRODUCTION_BASE_URL || secrets.API_PRODUCTION_BASE_URL }}

@@ -23,4 +23,4 @@ jobs:
       channel-name: pr${{github.event.number}}
       channel-expiration: "--expires 30d"
       github-ref: ${{ inputs.github-ref || github.ref }}
-      api-base-url: ${{ vars.API_STAGING_BASE_URL }}
+      api-base-url: ${{ vars.API_STAGING_BASE_URL || secrets.API_STAGING_BASE_URL }}
