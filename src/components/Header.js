@@ -10,7 +10,7 @@ const HeaderStyled = styled.div`
 
 const OptionsStyled = styled.div`
   box-sizing: border-box;
-  padding-top: 12px;
+  padding-top: 10px;
   height: 42px;
   text-align: right;
 `;
@@ -23,9 +23,7 @@ const TitleStyled = styled.div`
 const Header = (props) => {
   return (
     <HeaderStyled>
-      <OptionsStyled>
-        {props.children}
-      </OptionsStyled>
+      <OptionsStyled>{props.children}</OptionsStyled>
       <TitleStyled>{props.text}</TitleStyled>
     </HeaderStyled>
   );
