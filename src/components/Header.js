@@ -10,7 +10,7 @@ const HeaderStyled = styled.div`
 
 const OptionsStyled = styled.div`
   box-sizing: border-box;
-  padding-top: 10px;
+  padding-top: 8px;
   height: 42px;
   text-align: right;
 `;
