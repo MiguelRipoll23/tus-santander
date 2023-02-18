@@ -130,9 +130,7 @@ const Nav = (props) => {
   return (
     <Fragment>
       {props.isHeader && (
-        <Header text={props.titleText}>
-          {props.children}
-        </Header>
+        <Header text={props.titleText}>{props.children}</Header>
       )}
       {props.isHeader === false && (
         <NavStyled borderOpacity={borderOpacity}>
