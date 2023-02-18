@@ -12,17 +12,11 @@ const HeaderStyled = styled.div`
   }
 `;
 
-const EditStyled = styled.div`
+const OptionsStyled = styled.div`
   box-sizing: border-box;
   padding-top: 12px;
-  height: 44px;
-  cursor: pointer;
+  height: 42px;
   text-align: right;
-  color: rgb(0, 122, 255);
-
-  & span {
-    align-self: flex-end;
-  }
 `;
 
 const TitleStyled = styled.div`
@@ -33,9 +27,9 @@ const TitleStyled = styled.div`
 const Header = (props) => {
   return (
     <HeaderStyled>
-      <EditStyled>
-        <span onClick={props.enterEditMode}>Editar</span>
-      </EditStyled>
+      <OptionsStyled>
+        {props.children}
+      </OptionsStyled>
       <TitleStyled>{props.text}</TitleStyled>
     </HeaderStyled>
   );

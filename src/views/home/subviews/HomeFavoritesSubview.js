@@ -133,7 +133,7 @@ const HomeFavoritesSubview = (props) => {
           return (
             <FavoriteStyled
               key={i}
-              className="draggable"
+              draggable={props.editMode}
               onClick={() => loadEstimationsStopView(favorite)}
               onDragStart={handleDragStart}
               onDragOver={handleDragOver}
