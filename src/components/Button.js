@@ -8,6 +8,7 @@ const ButtonStyled = styled.div`
   color: #fff;
   font-weight: bold;
   display: inline-block;
+  cursor: pointer;
 
   @media (prefers-color-scheme: dark) {
     background: #1c1b20;

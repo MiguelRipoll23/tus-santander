@@ -72,12 +72,12 @@ const RouteLineView = (props) => {
 
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
-  const [results, setResults] = useState([]);
+  const [routes, setRoutes] = useState([]);
 
   const getStops = useCallback(() => {
     // Reset
     setError(false);
-    setResults([]);
+    setRoutes([]);
 
     const query = `?stopId=${stopId}&lineLabel=${lineLabel}&lineDestination=${lineDestination}`;
 
@@ -95,7 +95,7 @@ const RouteLineView = (props) => {
           throw new Error("Empty response");
         }
 
-        setResults(data);
+        setRoutes(data);
       })
       .catch((error) => {
         console.error(error);
@@ -118,9 +118,9 @@ const RouteLineView = (props) => {
   // Scroll
   useEffect(() => {
     document
-      .querySelector("li[data-active='true']")
+      .querySelector("#stop-active")
       ?.scrollIntoView({ behavior: "smooth", block: "center" });
-  }, [results]);
+  }, [routes]);
 
   // Refresh
   const refreshContent = () => {
@@ -149,15 +149,15 @@ const RouteLineView = (props) => {
           />
         )}
         <RouteLineViewStyled>
-          {results.map((result, i) => {
-            const [stopId, stopName, stopLines] = result;
+          {routes.map((item, i) => {
+            const [stopId, stopName, stopLines] = item;
 
             return (
               <StopStyled
                 key={i}
                 color={color}
                 active={isActive(stopId)}
-                {...(isActive(stopId) && { "data-active": "true" })}
+                {...(isActive(stopId) && { id: "stop-active" })}
               >
                 <span>{stopName}</span>
                 {stopLines.length > 0 && (
