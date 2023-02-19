@@ -85,11 +85,6 @@ const HomeSearchSubview = (props) => {
   const [searchText, setSearchText] = useState("");
   const [results, setResults] = useState([]);
 
-  // TODO: Check if this is the correct way to do this
-  const getStopId = (result) => {
-    return parseInt(Object.keys(Stops).find((key) => Stops[key] === result));
-  };
-
   const updateValue = (event) => {
     setSearchText(event.target.value.toLowerCase());
   };
@@ -101,9 +96,11 @@ const HomeSearchSubview = (props) => {
     if (searchText.length > 0) {
       if (isNaN(searchText)) {
         // Search stop name
-        for (let stopId in Stops) {
-          const stop = Stops[stopId];
-          const stopName = stop[2].toLowerCase();
+        for (let stopKey in Stops) {
+          const stop = Stops[stopKey];
+
+          let stopName = stop[3];
+          stopName = stopName.toLowerCase();
 
           if (searchText.length < 4) {
             if (stopName.substring(0, searchText.length) !== searchText) {
@@ -130,10 +127,10 @@ const HomeSearchSubview = (props) => {
     setResults(list);
   }, [searchText]);
 
-  const loadEstimationsStopView = (result) => {
+  const loadEstimationsStopView = (stopId, stopName) => {
     setViewIdWithData(ViewConstants.VIEW_ID_ESTIMATIONS_STOP, {
-      stopId: getStopId(result),
-      stopName: result[2],
+      stopId,
+      stopName,
     });
   };
 
@@ -156,12 +153,15 @@ const HomeSearchSubview = (props) => {
         {results.length > 0 && (
           <ResultsStyled>
             {results.map((result, i) => {
+              const stopId = result[0];
+              const stopName = result[3];
+
               return (
                 <ResultStyled
                   key={i}
-                  onClick={() => loadEstimationsStopView(result)}
+                  onClick={() => loadEstimationsStopView(stopId, stopName)}
                 >
-                  {`${result[2]} (${getStopId(result)})`}
+                  {`${stopName} (${stopId})`}
                 </ResultStyled>
               );
             })}
