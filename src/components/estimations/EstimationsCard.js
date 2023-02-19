@@ -24,7 +24,11 @@ const EstimationsCardStyled = styled.div`
 
 const EstimationsCard = (props) => {
   return (
-    <EstimationsCardStyled colors={props.colors} onClick={props.onClick}>
+    <EstimationsCardStyled
+      id={props.id}
+      colors={props.colors}
+      onClick={props.onClick}
+    >
       {props.children}
     </EstimationsCardStyled>
   );

@@ -119,6 +119,13 @@ const EstimationsStopView = (props) => {
     });
   };
 
+  // Scroll
+  const handleLineOnClick = (lineLabel) => {
+    document
+      .querySelector(`#label-${lineLabel}`)
+      ?.scrollIntoView({ behavior: "smooth", block: "center" });
+  };
+
   // Mount
   useEffect(() => {
     getEstimations();
@@ -154,16 +161,21 @@ const EstimationsStopView = (props) => {
             retry_action={refreshContent}
           />
         )}
-        {lines.length > 0 && <StopLines list={lines} />}
+        {lines.length > 0 && (
+          <StopLines list={lines} onClickHandler={handleLineOnClick} />
+        )}
         {estimations.map((result, i) => {
+          const [label, destination, time1, time2] = result;
+
           return (
             <EstimationsCard
               key={i}
-              colors={getColors(result[0])}
+              id={"label-" + label}
+              colors={getColors(label)}
               onClick={() => loadEstimationsLineView(result)}
             >
-              <EstimationsHeader label={result[0]} destination={result[1]} />
-              <EstimationsBody time1={result[2]} time2={result[3]} />
+              <EstimationsHeader label={label} destination={destination} />
+              <EstimationsBody time1={time1} time2={time2} />
             </EstimationsCard>
           );
         })}
