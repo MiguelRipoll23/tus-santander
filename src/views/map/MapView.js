@@ -44,15 +44,15 @@ const MapView = (props) => {
   const getMarkers = () => {
     const list = [];
 
-    for (let stopId in Stops) {
-      const stop = Stops[stopId];
+    for (let stopKey in Stops) {
+      const [id, latitude, longitude, name] = Stops[stopKey];
 
       const marker = {
-        id: stopId,
-        text: stop[2],
+        id: id,
+        text: name,
         position: {
-          lat: stop[0],
-          lng: stop[1],
+          lat: latitude,
+          lng: longitude,
         },
       };
 
