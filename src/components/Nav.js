@@ -93,6 +93,7 @@ const HeartIconStyled = styled.span`
   padding-top: 14px;
   padding-bottom: 8px;
   animation: fade-in 0.2s;
+  cursor: pointer;
 
   &:after {
     content: "${(props) => (props.heartState > 1 ? "\\e905" : "\\e906")}";

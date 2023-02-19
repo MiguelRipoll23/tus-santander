@@ -164,15 +164,15 @@ const EstimationsStopView = (props) => {
         {lines.length > 0 && (
           <StopLines list={lines} onClickHandler={handleLineOnClick} />
         )}
-        {estimations.map((result, i) => {
-          const [label, destination, time1, time2] = result;
+        {estimations.map((item, i) => {
+          const [label, destination, time1, time2] = item;
 
           return (
             <EstimationsCard
               key={i}
               id={"label-" + label}
               colors={getColors(label)}
-              onClick={() => loadEstimationsLineView(result)}
+              onClick={() => loadEstimationsLineView(item)}
             >
               <EstimationsHeader label={label} destination={destination} />
               <EstimationsBody time1={time1} time2={time2} />

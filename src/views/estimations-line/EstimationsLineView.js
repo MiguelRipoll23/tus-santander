@@ -143,14 +143,13 @@ const EstimationsLineView = (props) => {
             retry_action={refreshContent}
           />
         )}
-        {estimations.map((result, i) => {
+        {estimations.map((item, i) => {
+          const [label, destination, time1, time2] = item;
+
           return (
             <EstimationsCard key={i} colors={colors}>
-              <EstimationsHeader
-                label={lineLabel}
-                destination={lineDestination}
-              />
-              <EstimationsBody time1={result[2]} time2={result[3]} />
+              <EstimationsHeader label={label} destination={destination} />
+              <EstimationsBody time1={time1} time2={time2} />
               {estimations.length === 1 && stops.length > 0 && (
                 <NextStops list={stops} colors={colors} />
               )}
