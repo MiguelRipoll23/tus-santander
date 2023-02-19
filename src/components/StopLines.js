@@ -28,6 +28,7 @@ const StopLineStyled = styled.div`
   display: inline-block;
   font-weight: normal;
   padding: ${(props) => (props.size === "small" ? "2px 0" : "6px 0")};
+  cursor: pointer;
 
   &:last-child {
     margin-right: 0;
@@ -37,14 +38,17 @@ const StopLineStyled = styled.div`
 const StopLines = (props) => {
   return (
     <StopLinesStyled size={props.size}>
-      {props.list.map((result, i) => {
+      {props.list.map((label, i) => {
         return (
           <StopLineStyled
             key={i}
             size={props.size}
-            color={getColor(result, "string")}
+            color={getColor(label, "string")}
+            onClick={() => {
+              props.onClickHandler(label);
+            }}
           >
-            {result}
+            {label}
           </StopLineStyled>
         );
       })}
