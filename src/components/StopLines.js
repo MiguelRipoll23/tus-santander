@@ -28,12 +28,34 @@ const StopLineStyled = styled.div`
   display: inline-block;
   font-weight: normal;
   padding: ${(props) => (props.size === "small" ? "2px 0" : "6px 0")};
-  cursor: ${(props) => (props.size === "small" ? "default" : "pointer")};
+  text-decoration: ${(props) => (props.active ? "none" : "line-through")};
+  cursor: ${(props) => (props.active ? "pointer" : "default")};
 
   &:last-child {
     margin-right: 0;
   }
 `;
+
+const isActive = (label, estimations) => {
+  if (estimations === undefined) {
+    return true;
+  }
+
+  for (const item of estimations) {
+    const [etaLabel] = item;
+
+    if (label === etaLabel) {
+      return true;
+    }
+  }
+
+  return false;
+};
+
+const handleOnClick = (label) => {
+  const labelElement = document.querySelector(`#label-${label}`);
+  labelElement?.scrollIntoView({ behavior: "smooth", block: "center" });
+};
 
 const StopLines = (props) => {
   return (
@@ -44,11 +66,8 @@ const StopLines = (props) => {
             key={i}
             size={props.size}
             color={getColor(label, "string")}
-            {...(props.onClickHandler !== undefined && {
-              onClick: () => {
-                props.onClickHandler(label);
-              },
-            })}
+            active={isActive(label, props.estimations)}
+            onClick={() => handleOnClick(label)}
           >
             {label}
           </StopLineStyled>

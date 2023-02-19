@@ -119,13 +119,6 @@ const EstimationsStopView = (props) => {
     });
   };
 
-  // Scroll
-  const handleLineOnClick = (lineLabel) => {
-    document
-      .querySelector(`#label-${lineLabel}`)
-      ?.scrollIntoView({ behavior: "smooth", block: "center" });
-  };
-
   // Mount
   useEffect(() => {
     getEstimations();
@@ -162,7 +155,7 @@ const EstimationsStopView = (props) => {
           />
         )}
         {lines.length > 0 && (
-          <StopLines list={lines} onClickHandler={handleLineOnClick} />
+          <StopLines list={lines} estimations={estimations} />
         )}
         {estimations.map((item, i) => {
           const [label, destination, time1, time2] = item;
