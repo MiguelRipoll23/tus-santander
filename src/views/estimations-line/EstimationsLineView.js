@@ -147,7 +147,7 @@ const EstimationsLineView = (props) => {
           const [label, destination, time1, time2] = item;
 
           return (
-            <EstimationsCard key={i} colors={colors}>
+            <EstimationsCard key={i} colors={colors} onClick={refreshContent}>
               <EstimationsHeader label={label} destination={destination} />
               <EstimationsBody time1={time1} time2={time2} />
               {estimations.length === 1 && stops.length > 0 && (
