@@ -28,7 +28,7 @@ const StopLineStyled = styled.div`
   display: inline-block;
   font-weight: normal;
   padding: ${(props) => (props.size === "small" ? "2px 0" : "6px 0")};
-  text-decoration: ${(props) => (props.active ? "none" : "line-through")};
+  opacity: ${(props) => (props.active ? "1" : "0.2")};
   cursor: ${(props) => (props.active ? "pointer" : "default")};
 
   &:last-child {
