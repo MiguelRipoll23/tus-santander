@@ -14,7 +14,7 @@ jobs:
       continue: ${{ steps.branch-deploy.outputs.continue }}
       noop: ${{steps.branch-deploy.outputs.noop }}
     steps:
-      - uses: github/branch-deploy@v5.2.1
+      - uses: github/branch-deploy@v5.2.2
         id: branch-deploy
         with:
           trigger: ".deploy"
