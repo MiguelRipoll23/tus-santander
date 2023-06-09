@@ -24,3 +24,13 @@ jobs:
       channel-expiration: "--expires 30d"
       github-ref: ${{ inputs.github-ref || github.ref }}
       api-base-url: ${{ vars.API_STAGING_BASE_URL }}
+
+  assign-reviewer:
+    name: Assign Reviewer
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: delivery-much/actions-assigner@v1
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          reviewers: "MiguelRipoll23"
