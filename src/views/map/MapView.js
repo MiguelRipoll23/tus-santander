@@ -154,7 +154,8 @@ const MapView = (props) => {
             key={i}
             label={{
               text: marker.text,
-              fontSize: "16px",
+              fontSize: "20px",
+              fontWeight: "bold",
               className: "marker",
             }}
             position={marker.position}
