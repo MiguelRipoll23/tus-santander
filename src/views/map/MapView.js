@@ -1,4 +1,4 @@
-import { Fragment, memo, useState, useCallback, useEffect } from "react";
+import { Fragment, memo, useState, useCallback } from "react";
 import { GoogleMap, useJsApiLoader, Marker } from "@react-google-maps/api";
 import ApiUtils from "../../utils/ApiUtils.js";
 
