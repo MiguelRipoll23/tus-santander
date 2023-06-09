@@ -27,6 +27,7 @@ jobs:
 
   assign-reviewer:
     name: Assign Reviewer
+    needs: deploy-staging
     runs-on: ubuntu-latest
 
     steps:
