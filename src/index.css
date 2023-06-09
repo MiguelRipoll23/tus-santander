@@ -91,3 +91,9 @@ body {
   animation: wiggle 0.5s linear infinite;
   cursor: move;
 }
+
+.marker {
+  color: rgb(10, 132, 255) !important;
+  text-shadow: -4px -4px 0 #fff, 4px -4px 0 #fff, -4px 4px 0 #fff,
+    4px 4px 0 #fff;
+}
