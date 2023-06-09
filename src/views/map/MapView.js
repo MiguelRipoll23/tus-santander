@@ -105,6 +105,18 @@ const MapView = (props) => {
   const mapOptions = {
     fullscreenControl: false,
     disableDefaultUI: true,
+    styles: [
+      {
+        featureType: "poi.business",
+        elementType: "labels",
+        stylers: [{ visibility: "off" }],
+      },
+      {
+        featureType: "transit.station.bus",
+        elementType: "labels.icon",
+        stylers: [{ visibility: "off" }],
+      },
+    ],
   };
 
   const handleOnLoad = (loadedMap) => {
@@ -143,7 +155,8 @@ const MapView = (props) => {
             label={{
               color: "#1da1f2",
               text: marker.text,
-              fontSize: "14px",
+              fontSize: "16px",
+              className: "marker",
             }}
             position={marker.position}
             icon={{
