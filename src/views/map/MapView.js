@@ -153,7 +153,6 @@ const MapView = (props) => {
           <Marker
             key={i}
             label={{
-              color: "#1da1f2",
               text: marker.text,
               fontSize: "16px",
               className: "marker",

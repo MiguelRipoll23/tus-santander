@@ -93,6 +93,7 @@ body {
 }
 
 .marker {
+  color: rgb(10, 132, 255) !important;
   text-shadow: 3px 0 #fff, -3px 0 #fff, 0 2px #fff, 0 -2px #fff, 2px 2px #fff,
     -2px -2px #fff, 2px -2px #fff, -2px 2px #fff;
 }
