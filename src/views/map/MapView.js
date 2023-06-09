@@ -20,8 +20,6 @@ let markers = [];
 
 const MapView = (props) => {
   const { setViewIdWithData } = useView();
-
-  const [position, setPosition] = useState({ lat: 43.462068, lng: -3.810204 });
   const [closestMarkers, setClosestMarkers] = useState([]);
 
   const { isLoaded, loadError } = useJsApiLoader({
@@ -32,7 +30,7 @@ const MapView = (props) => {
   const getCurrentLocation = () => {
     navigator.geolocation.getCurrentPosition(
       (position) => {
-        setPosition({
+        map.setCenter({
           lat: position.coords.latitude,
           lng: position.coords.longitude,
         });
@@ -112,15 +110,18 @@ const MapView = (props) => {
   const handleOnLoad = (loadedMap) => {
     map = loadedMap;
 
+    // Initial center
+    map.setCenter({ lat: 43.462068, lng: -3.810204 });
+
+    // Update center with user location
+    getCurrentLocation();
+
     // Markers
     window.google.maps.event.addListenerOnce(
       map,
       "idle",
       getAndShowClosestMarkers
     );
-
-    // Position
-    getCurrentLocation();
   };
 
   const handleOnDrag = () => {
@@ -130,9 +131,8 @@ const MapView = (props) => {
   const renderMap = () => (
     <GoogleMap
       mapContainerStyle={containerStyle}
-      center={position}
-      zoom={17}
       options={mapOptions}
+      zoom={17}
       onLoad={handleOnLoad}
       onDrag={handleOnDrag}
     >
