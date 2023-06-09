@@ -13,17 +13,23 @@ import Error from "../../components/Error.js";
 import Stops from "../../json/stops.min.json";
 import MarkerMin from "../../assets/marker-min.png";
 
+const libraries = ["geometry"];
+
+let map = null;
+let markers = [];
+
 const MapView = (props) => {
   const { setViewIdWithData } = useView();
 
   const [position, setPosition] = useState({ lat: 43.462068, lng: -3.810204 });
-  const [markers, setMarkers] = useState([]);
+  const [closestMarkers, setClosestMarkers] = useState([]);
 
   const { isLoaded, loadError } = useJsApiLoader({
     googleMapsApiKey: ApiUtils.GOOGLE_MAPS_KEY,
+    libraries,
   });
 
-  const getCurrentPosition = () => {
+  const getCurrentLocation = () => {
     navigator.geolocation.getCurrentPosition(
       (position) => {
         setPosition({
@@ -36,14 +42,12 @@ const MapView = (props) => {
           return;
         }
 
-        alert("La localización no está disponible");
+        alert("La ubicación no está disponible");
       }
     );
   };
 
   const getMarkers = () => {
-    const list = [];
-
     for (let stopKey in Stops) {
       const [id, latitude, longitude, name] = Stops[stopKey];
 
@@ -56,13 +60,30 @@ const MapView = (props) => {
         },
       };
 
-      list.push(marker);
+      markers.push(marker);
     }
-
-    setMarkers(list);
   };
 
-  // Stop estimations
+  const showClosestMarkers = useCallback(() => {
+    const bounds = map.getBounds();
+    const center = map.getCenter();
+
+    const closestMarkers = markers
+      .filter((marker) => bounds.contains(marker.position))
+      .map((marker) => {
+        const centerDistance =
+          window.google.maps.geometry.spherical.computeDistanceBetween(
+            marker.position,
+            center
+          );
+        return { ...marker, centerDistance };
+      })
+      .sort((a, b) => a.distance - b.distance)
+      .slice(0, 10);
+
+    setClosestMarkers(closestMarkers);
+  }, []);
+
   const loadEstimationsStopView = (marker) => {
     setViewIdWithData(ViewConstants.VIEW_ID_ESTIMATIONS_STOP, {
       stopId: parseInt(marker.id),
@@ -84,17 +105,21 @@ const MapView = (props) => {
     disableDefaultUI: true,
   };
 
-  const onLoad = useCallback(
-    function callback(map) {
-      map.setCenter(position);
-    },
-    [position]
-  );
+  const handleOnLoad = (loadedMap) => {
+    map = loadedMap;
+
+    // Listeners
+    window.google.maps.event.addListenerOnce(map, "idle", showClosestMarkers);
+  };
+
+  const handleOnDrag = () => {
+    showClosestMarkers();
+  };
 
   // Mount
   useEffect(() => {
     getMarkers();
-    getCurrentPosition();
+    getCurrentLocation();
   }, []);
 
   const renderMap = () => (
@@ -103,9 +128,10 @@ const MapView = (props) => {
       center={position}
       zoom={17}
       options={mapOptions}
-      onLoad={onLoad}
+      onLoad={handleOnLoad}
+      onDrag={handleOnDrag}
     >
-      {markers.map((marker, i) => {
+      {closestMarkers.map((marker, i) => {
         return (
           <Marker
             key={i}
