@@ -81,7 +81,7 @@ const MapView = (props) => {
         return { ...marker, centerDistance };
       })
       .sort((a, b) => a.distance - b.distance)
-      .slice(0, 10);
+      .slice(0, 20);
 
     setClosestMarkers(closestMarkers);
   }, []);
