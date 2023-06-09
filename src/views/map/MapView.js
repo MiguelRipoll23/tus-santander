@@ -36,6 +36,8 @@ const MapView = (props) => {
           lat: position.coords.latitude,
           lng: position.coords.longitude,
         });
+
+        showClosestMarkers();
       },
       (error) => {
         if (error.code === 1 || error.code === 3) {
@@ -47,7 +49,7 @@ const MapView = (props) => {
     );
   };
 
-  const getMarkers = () => {
+  const getAndShowClosestMarkers = () => {
     for (let stopKey in Stops) {
       const [id, latitude, longitude, name] = Stops[stopKey];
 
@@ -62,6 +64,8 @@ const MapView = (props) => {
 
       markers.push(marker);
     }
+
+    showClosestMarkers();
   };
 
   const showClosestMarkers = useCallback(() => {
@@ -108,19 +112,20 @@ const MapView = (props) => {
   const handleOnLoad = (loadedMap) => {
     map = loadedMap;
 
-    // Listeners
-    window.google.maps.event.addListenerOnce(map, "idle", showClosestMarkers);
+    // Markers
+    window.google.maps.event.addListenerOnce(
+      map,
+      "idle",
+      getAndShowClosestMarkers
+    );
+
+    // Position
+    getCurrentLocation();
   };
 
   const handleOnDrag = () => {
     showClosestMarkers();
   };
-
-  // Mount
-  useEffect(() => {
-    getMarkers();
-    getCurrentLocation();
-  }, []);
 
   const renderMap = () => (
     <GoogleMap
