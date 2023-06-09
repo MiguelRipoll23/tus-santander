@@ -25,8 +25,8 @@ jobs:
       github-ref: ${{ inputs.github-ref || github.ref }}
       api-base-url: ${{ vars.API_STAGING_BASE_URL }}
 
-  create-pr-comment:
-    name: Pull Request Comment
+  request-for-review:
+    name: Request Review
     needs: deploy-staging
     runs-on: ubuntu-latest
 
@@ -35,4 +35,4 @@ jobs:
         uses: peter-evans/create-or-update-comment@v3
         with:
           issue-number: ${{github.event.number}}
-          body: "@MiguelRipoll23 deployed to staging."
+          body: "@MiguelRipoll23 ready to review."
