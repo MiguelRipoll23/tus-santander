@@ -80,7 +80,7 @@ const MapView = (props) => {
           );
         return { ...marker, centerDistance };
       })
-      .sort((a, b) => a.distance - b.distance)
+      .sort((a, b) => a.centerDistance - b.centerDistance)
       .slice(0, 10);
 
     setClosestMarkers(closestMarkers);
