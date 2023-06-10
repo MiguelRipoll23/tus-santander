@@ -35,4 +35,4 @@ jobs:
         uses: peter-evans/create-or-update-comment@v3
         with:
           issue-number: ${{github.event.number}}
-          body: "@MiguelRipoll23 ready to review."
+          body: "@MiguelRipoll23 ready for review"
