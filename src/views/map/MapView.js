@@ -70,18 +70,25 @@ const MapView = (props) => {
     const bounds = map.getBounds();
     const center = map.getCenter();
 
+    const metersPerPixel =
+      (156543.03392 * Math.cos((center.lat() * Math.PI) / 180)) /
+      Math.pow(2, map.getZoom());
+    const meters = 27.5 * metersPerPixel;
+    const degrees = meters / 111320;
+    const newCenter = { lat: center.lat() + degrees, lng: center.lng() };
+
     const closestMarkers = markers
       .filter((marker) => bounds.contains(marker.position))
       .map((marker) => {
         const centerDistance =
           window.google.maps.geometry.spherical.computeDistanceBetween(
             marker.position,
-            center
+            newCenter
           );
         return { ...marker, centerDistance };
       })
       .sort((a, b) => a.centerDistance - b.centerDistance)
-      .slice(0, 10);
+      .slice(0, 15);
 
     setClosestMarkers(closestMarkers);
   }, []);
