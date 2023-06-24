@@ -10,11 +10,10 @@ import Nav from "../../../components/Nav.js";
 import Error from "../../../components/Error.js";
 import HomeDesktop from "../../../components/home/HomeDesktop.js";
 
-const EditLinkStyled = styled.span`
-  cursor: pointer;
+const EditLinkStyled = styled.button`
   color: rgb(0, 122, 255);
   align-self: flex-end;
-  padding: 10px 0;
+  padding: 0 0px;
 
   &[disabled] {
     opacity: 0.5;

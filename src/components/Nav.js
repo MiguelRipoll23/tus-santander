@@ -42,10 +42,8 @@ const NavRightStyled = styled.div`
 `;
 
 const BackButtonStyled = styled.button`
-  background: none;
   font-size: 15px;
   line-height: 24px;
-  cursor: pointer;
   color: #007aff;
   overflow: hidden;
   white-space: nowrap;
@@ -72,9 +70,7 @@ const NavTitleStyled = styled.span`
 `;
 
 const RefreshIconStyled = styled.button`
-  background: none;
   padding: 11px ${StyleUtils.MARGIN_LR};
-  cursor: pointer;
   font-family: icons;
   font-size: 24px;
   color: #007aff;
@@ -85,7 +81,6 @@ const RefreshIconStyled = styled.button`
 `;
 
 const HeartIconStyled = styled.button`
-  background: none;
   padding: 11px ${StyleUtils.MARGIN_LR};
   font-family: icons;
   font-size: 24px;
@@ -96,7 +91,6 @@ const HeartIconStyled = styled.button`
   padding-top: 14px;
   padding-bottom: 8px;
   animation: fade-in 0.2s;
-  cursor: pointer;
 
   &:after {
     content: "${(props) => (props.heartState > 1 ? "\\e905" : "\\e906")}";

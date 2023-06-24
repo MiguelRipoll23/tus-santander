@@ -59,11 +59,12 @@ const ResultsStyled = styled.div`
   overflow: hidden;
 `;
 
-const ResultStyled = styled.div`
+const ResultStyled = styled.button`
   color: #1da1f2;
   padding: 14px 9px;
   border-bottom: 1px solid rgba(0, 0, 0, 0.04);
-  cursor: pointer;
+  width: 100%;
+  text-align: left;
 
   &:before {
     font-family: icons;
