@@ -1,14 +1,13 @@
 import styled from "styled-components";
 
-const ButtonStyled = styled.div`
+const ButtonStyled = styled.button`
   background: ${(props) => props.color};
   border-radius: 30px;
-  padding: 14px 22px;
+  padding: 16px 22px;
   text-align: center;
   color: #fff;
   font-weight: bold;
   display: inline-block;
-  cursor: pointer;
 
   @media (prefers-color-scheme: dark) {
     background: #1c1b20;
