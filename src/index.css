@@ -1,3 +1,54 @@
+body,
+html,
+#app {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  color: #000;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
+    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -webkit-text-size-adjust: 100%;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+  font-size: 16px;
+  background: #fff;
+}
+
+@media (prefers-color-scheme: dark) {
+  body {
+    color: #fff;
+    background: #000;
+  }
+}
+
+button {
+  border: 0;
+}
+
+*[draggable="true"] {
+  animation: wiggle 0.5s linear infinite;
+  cursor: move;
+}
+
+#app {
+  display: flex;
+  flex-direction: column;
+}
+
+#time1[data-time="0"] {
+  animation: blink 0.8s linear infinite;
+}
+
+.marker {
+  color: rgb(10, 132, 255) !important;
+  text-shadow: -4px -4px 0 #fff, 4px -4px 0 #fff, -4px 4px 0 #fff,
+    4px 4px 0 #fff;
+}
+
 /* Animations */
 @keyframes rotator {
   0% {
@@ -49,51 +100,4 @@
   100% {
     transform: rotate(0deg);
   }
-}
-
-body,
-html,
-#app {
-  height: 100%;
-}
-
-body {
-  margin: 0;
-  color: #000;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
-    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -webkit-text-size-adjust: 100%;
-  -moz-osx-font-smoothing: grayscale;
-  text-rendering: optimizeLegibility;
-  font-size: 16px;
-  background: #fff;
-}
-
-@media (prefers-color-scheme: dark) {
-  body {
-    color: #fff;
-    background: #000;
-  }
-}
-
-#app {
-  display: flex;
-  flex-direction: column;
-}
-
-#time1[data-time="0"] {
-  animation: blink 0.8s linear infinite;
-}
-
-*[draggable="true"] {
-  animation: wiggle 0.5s linear infinite;
-  cursor: move;
-}
-
-.marker {
-  color: rgb(10, 132, 255) !important;
-  text-shadow: -4px -4px 0 #fff, 4px -4px 0 #fff, -4px 4px 0 #fff,
-    4px 4px 0 #fff;
 }

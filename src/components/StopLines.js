@@ -18,7 +18,9 @@ const StopLinesStyled = styled.div`
   }
 `;
 
-const StopLineStyled = styled.div`
+const StopLineStyled = styled.button`
+  color: #fff;
+  line-height: 24px;
   background: ${(props) => props.color};
   font-size: ${(props) => (props.size === "small" ? "12px" : "18px")};
   margin-right: ${(props) => (props.size === "small" ? "5px" : "7px")};
@@ -28,15 +30,26 @@ const StopLineStyled = styled.div`
   display: inline-block;
   font-weight: normal;
   padding: ${(props) => (props.size === "small" ? "2px 0" : "6px 0")};
-  opacity: ${(props) => (props.active ? "1" : "0.1")};
-  cursor: ${(props) => (props.active ? "pointer" : "default")};
+  cursor: pointer;
+
+  &:disabled {
+    opacity: 0.1;
+    cursor: default;
+  }
 
   &:last-child {
     margin-right: 0;
   }
+
+  @media (prefers-color-scheme: dark) {
+    &:disabled {
+      background: #fff;
+      color: #000;
+    }
+  }
 `;
 
-const isActive = (label, estimations) => {
+const isDisabled = (label, estimations) => {
   if (estimations === undefined) {
     return true;
   }
@@ -45,11 +58,11 @@ const isActive = (label, estimations) => {
     const [etaLabel] = item;
 
     if (label === etaLabel) {
-      return true;
+      return false;
     }
   }
 
-  return false;
+  return true;
 };
 
 const handleOnClick = (label) => {
@@ -66,7 +79,7 @@ const StopLines = (props) => {
             key={i}
             size={props.size}
             color={getColor(label, "string")}
-            active={isActive(label, props.estimations)}
+            disabled={isDisabled(label, props.estimations)}
             onClick={() => handleOnClick(label)}
           >
             {label}
