@@ -30,7 +30,7 @@ const StopLineStyled = styled.button`
   display: inline-block;
   font-weight: normal;
   padding: ${(props) => (props.size === "small" ? "2px 0" : "6px 0")};
-  cursor: pointer;
+  cursor: ${(props) => (props.size === "small" ? "default" : "pointer")};
 
   &:disabled {
     opacity: 0.1;
@@ -50,8 +50,9 @@ const StopLineStyled = styled.button`
 `;
 
 const isDisabled = (label, estimations) => {
+  // Check if coming from route view
   if (estimations === undefined) {
-    return true;
+    return false;
   }
 
   for (const item of estimations) {
