@@ -41,7 +41,8 @@ const NavRightStyled = styled.div`
   flex: 1;
 `;
 
-const BackButtonStyled = styled.div`
+const BackButtonStyled = styled.button`
+  background: none;
   font-size: 15px;
   line-height: 24px;
   cursor: pointer;
@@ -70,7 +71,8 @@ const NavTitleStyled = styled.span`
   width: 100%;
 `;
 
-const RefreshIconStyled = styled.span`
+const RefreshIconStyled = styled.button`
+  background: none;
   padding: 11px ${StyleUtils.MARGIN_LR};
   cursor: pointer;
   font-family: icons;
@@ -82,7 +84,8 @@ const RefreshIconStyled = styled.span`
   animation: fade-in 0.2s;
 `;
 
-const HeartIconStyled = styled.span`
+const HeartIconStyled = styled.button`
+  background: none;
   padding: 11px ${StyleUtils.MARGIN_LR};
   font-family: icons;
   font-size: 24px;
@@ -146,12 +149,16 @@ const Nav = (props) => {
           </NavCenterStyled>
           <NavRightStyled>
             {props.isRefreshVisible && (
-              <RefreshIconStyled onClick={props.refreshContent}>
+              <RefreshIconStyled
+                aria-label="Refrescar"
+                onClick={props.refreshContent}
+              >
                 
               </RefreshIconStyled>
             )}
             {props.heartState > 0 && (
               <HeartIconStyled
+                aria-label="Añadir a favoritos"
                 heartState={props.heartState}
                 onClick={props.toggleFavorite}
               />
