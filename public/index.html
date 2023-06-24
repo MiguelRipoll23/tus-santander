@@ -2,6 +2,7 @@
 <html lang="es">
   <head>
     <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
     <title>TUS Santander - Web App</title>
     <!-- Resource hints -->
     <link
@@ -9,23 +10,33 @@
       href="https://static.cloudflareinsights.com"
       crossorigin
     />
-    <!-- Cloudflare Web Analytics -->
+    <!-- Icons -->
+    <style type="text/css">
+      @font-face {
+        font-family: "icons";
+        src: url("data:font/woff2;charset=utf-8;base64,d09GMgABAAAAAAVoAA0AAAAACwAAAAUSAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP0ZGVE0cGh4GYACCXhEICoo4iD8LGgABNgIkAy4EIAWDGweBARsCCcieg3Hj3Fxcawtr2UZ2zOJ8NAn+qbXy/e4e2uW7CyAoZEUIswFgBwg+ClgYdLFJzfH3896vtXVZgzVVJVAJD2QjitJ5D+VZsyRqZLJyurB+aXsUggNfxGuvb4CVyf3/+7n6387uLDQxSW0l73SH+yaWMLdEpoqlNZqIRg+dlAmhcmhnLi95KzX2VYAAPp43mAPwfZzHsvzdAjJAZcAgRBrhAANYuxEdBB6YU4ZvgQMoG/2mgxjInlQA+/YA/fTt60R6WCwEEGBdFwE2XjO7cTQ4iu7n6AKkCDHa/qLuTz/5nyQAAZuTkqt4YBEpVBQxDOSDLJWFAQz4PyNwIBehJCGPIENBVcBGegAwnQlJV7EZhDY6ZgO06slNg0O9VVZFB5+IiDgDtM+s7R5kG6hxnCnfu6QXoHo9a4+Wh2i1EF9m7tbxYWSAIbXH6C0lW6LTaVJS54BVnmdl91w0vsBMKb2HbEukpm0hRekKgxJK0wqrPQhJIkj9yR6IdjXE15m7d/DhOWLkougubbuHSolH7oPuWO7m3yLMtyFud/g28DY2gmV2nOATVtVxr9dmN8TDCUJfyHKgxuM6qNMVhseeOcqdEy5IKedDs2PkGaYLt3uQVzpoQPV6gWk2sw1pfmRnZ+Uu3qctWcetrtOt4YvWCrC0hvgkt6Z22qzLtNmIU8Mpko4+Bt8tI0fQtNUsuE1a7kwo0ObMlGrUHr2AHrsP+voeOHd6ytxNtMwK9JQ6cLc6p5861jwL8RpuRLRaFuobVte1sdnsY0sqk6/7WbLBIMfyfPSYaXAfce7tEJplCzbUA3Yu837MHU4H2/8AOyOfsdHcm9nN7vK3D1itdPB/X4dsu1pl79fF7k5FRgFh7Ac2uwMcX44PpvGx0zKZjxzKbxb4yGUU1WQxPm9lRnTnf/ky77Kq+rMqy7P6+uc5DMlR5KKYQtHTk5sr+hweBufVRd9QBw4/CsMdzLLOpcXInxqe5y/SxfvXe3jr90PZi+ceLqQyxcEeHocQB0fEAfqLtHRrm5nnB1GyXOjf1uajiPLhlL8QqND+bajzpG1oUC0xKyJ20cc+l6+5ms3DCdHLV1yEOesyPXfKr5OKSkL1YZkbZyM+K1kUJojejFbfqPK7PueEi0WfXePRsu0hFqK71fcJEoX/9rSvigdvwgvrZh2WqaXT7eurbpa8szzLYWxqYGoQtgvMmXfg1wFHC5vXly4HiqCof4O/wk+hFDQ2yhEMYzA786O5Wp+ufGZ+LyZHMjICZZGvAkWr7byJ82wlW9N7WdGMaEZXVp8x+BBHeY6Upb1P27Ifz5fLTfuf3t/WFsurUAhbYm04tUcLyxS8uIq2DSv/cPuiAl77csU/XpbDqjQEAAHAuYanA+V2Xf6Facch5GSS3Ej8FYAQ0yC4298dtwsAbiRTDdCFCDSiAIzxE39x9jWR3QkaOqCyUYOM2wU60AEBGUaDl5xENslxE9EsAgoBMdCUWOhBHIzWeqRZTf0sOHp9iuq8wyIXIXIAxEBVYqEtcTBA61GZydQH2PrAFB05yxzK9OnSp08PmHNmTFvl64ZSpc6UDkVGwA8GlwKqThG7j6TKiDHN4Ura0Zq2cFNihQmx8c2i/aKDJyiZRZVeJ8ZFJlSpdJ7KEiUDMXgLjPD0ZdwVa4GguvWvNq4CYFDfJwMyGFmsnDz5ChQqUsqf1elv0ySYTXv18SjoSDkZ8fGQAImQBMmQEkkFAA==")
+          format("woff2");
+        font-weight: normal;
+        font-style: normal;
+        font-display: swap;
+      }
+    </style>
+    <!-- Analytics -->
     <script
       defer
       src="https://static.cloudflareinsights.com/beacon.min.js"
       data-cf-beacon='{"token": "0ef29311e393459c9e710e41c0b4cf51"}'
     ></script>
-    <!-- Search engines -->
+    <!-- Metadata -->
     <meta content="index,follow,archive" name="robots" />
     <meta content="TUS Santander - Web App" name="title" />
     <meta
       content="Aplicación web para ver las estimaciones de llegada y rutas de los autobuses del transporte urbano de Santander de forma rápida y sencilla."
       name="description"
     />
-    <meta content="bus, tus, santander, iphone, app" name="keywords" />
+    <meta content="bus,tus,santander,iphone,app" name="keywords" />
     <meta content="Miguel Ripoll" name="author" />
     <link rel="canonical" href="%PUBLIC_URL%" />
-    <!-- Icons-->
     <link rel="apple-touch-icon" href="%PUBLIC_URL%/images/icon-180x180.png" />
     <link
       rel="mask-icon"
@@ -50,10 +61,8 @@
       sizes="192x192"
       href="%PUBLIC_URL%/images/icon-192x192.png"
     />
-    <!-- Browser -->
     <meta name="application-name" content="TUS" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="color-scheme" content="light, dark" />
+    <meta name="color-scheme" content="light,dark" />
     <meta
       name="theme-color"
       content="#ffffff"
@@ -75,18 +84,6 @@
       media="(device-width: 375px) and (device-height: 667px) and (-webkit-device-pixel-ratio: 2)"
       rel="apple-touch-startup-image"
     />
-    <!-- Fonts -->
-    <style type="text/css">
-      @font-face {
-        font-family: "icons";
-        src: url("data:font/woff2;charset=utf-8;base64,d09GMgABAAAAAAVoAA0AAAAACwAAAAUSAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP0ZGVE0cGh4GYACCXhEICoo4iD8LGgABNgIkAy4EIAWDGweBARsCCcieg3Hj3Fxcawtr2UZ2zOJ8NAn+qbXy/e4e2uW7CyAoZEUIswFgBwg+ClgYdLFJzfH3896vtXVZgzVVJVAJD2QjitJ5D+VZsyRqZLJyurB+aXsUggNfxGuvb4CVyf3/+7n6387uLDQxSW0l73SH+yaWMLdEpoqlNZqIRg+dlAmhcmhnLi95KzX2VYAAPp43mAPwfZzHsvzdAjJAZcAgRBrhAANYuxEdBB6YU4ZvgQMoG/2mgxjInlQA+/YA/fTt60R6WCwEEGBdFwE2XjO7cTQ4iu7n6AKkCDHa/qLuTz/5nyQAAZuTkqt4YBEpVBQxDOSDLJWFAQz4PyNwIBehJCGPIENBVcBGegAwnQlJV7EZhDY6ZgO06slNg0O9VVZFB5+IiDgDtM+s7R5kG6hxnCnfu6QXoHo9a4+Wh2i1EF9m7tbxYWSAIbXH6C0lW6LTaVJS54BVnmdl91w0vsBMKb2HbEukpm0hRekKgxJK0wqrPQhJIkj9yR6IdjXE15m7d/DhOWLkougubbuHSolH7oPuWO7m3yLMtyFud/g28DY2gmV2nOATVtVxr9dmN8TDCUJfyHKgxuM6qNMVhseeOcqdEy5IKedDs2PkGaYLt3uQVzpoQPV6gWk2sw1pfmRnZ+Uu3qctWcetrtOt4YvWCrC0hvgkt6Z22qzLtNmIU8Mpko4+Bt8tI0fQtNUsuE1a7kwo0ObMlGrUHr2AHrsP+voeOHd6ytxNtMwK9JQ6cLc6p5861jwL8RpuRLRaFuobVte1sdnsY0sqk6/7WbLBIMfyfPSYaXAfce7tEJplCzbUA3Yu837MHU4H2/8AOyOfsdHcm9nN7vK3D1itdPB/X4dsu1pl79fF7k5FRgFh7Ac2uwMcX44PpvGx0zKZjxzKbxb4yGUU1WQxPm9lRnTnf/ky77Kq+rMqy7P6+uc5DMlR5KKYQtHTk5sr+hweBufVRd9QBw4/CsMdzLLOpcXInxqe5y/SxfvXe3jr90PZi+ceLqQyxcEeHocQB0fEAfqLtHRrm5nnB1GyXOjf1uajiPLhlL8QqND+bajzpG1oUC0xKyJ20cc+l6+5ms3DCdHLV1yEOesyPXfKr5OKSkL1YZkbZyM+K1kUJojejFbfqPK7PueEi0WfXePRsu0hFqK71fcJEoX/9rSvigdvwgvrZh2WqaXT7eurbpa8szzLYWxqYGoQtgvMmXfg1wFHC5vXly4HiqCof4O/wk+hFDQ2yhEMYzA786O5Wp+ufGZ+LyZHMjICZZGvAkWr7byJ82wlW9N7WdGMaEZXVp8x+BBHeY6Upb1P27Ifz5fLTfuf3t/WFsurUAhbYm04tUcLyxS8uIq2DSv/cPuiAl77csU/XpbDqjQEAAHAuYanA+V2Xf6Facch5GSS3Ej8FYAQ0yC4298dtwsAbiRTDdCFCDSiAIzxE39x9jWR3QkaOqCyUYOM2wU60AEBGUaDl5xENslxE9EsAgoBMdCUWOhBHIzWeqRZTf0sOHp9iuq8wyIXIXIAxEBVYqEtcTBA61GZydQH2PrAFB05yxzK9OnSp08PmHNmTFvl64ZSpc6UDkVGwA8GlwKqThG7j6TKiDHN4Ura0Zq2cFNihQmx8c2i/aKDJyiZRZVeJ8ZFJlSpdJ7KEiUDMXgLjPD0ZdwVa4GguvWvNq4CYFDfJwMyGFmsnDz5ChQqUsqf1elv0ySYTXv18SjoSDkZ8fGQAImQBMmQEkkFAA==")
-          format("woff2");
-        font-weight: normal;
-        font-style: normal;
-        font-display: swap;
-      }
-    </style>
-    <!-- Open Graph -->
     <meta property="og:title" content="TUS Santader - Web App" />
     <meta property="og:type" content="website" />
     <meta
@@ -98,7 +95,6 @@
       property="og:description"
       content="Estimaciones de llegada y rutas de los autobuses del transporte urbano de Santander."
     />
-    <!-- Twitter -->
     <meta name="twitter:card" content="summary" />
     <meta name="twitter:url" content="%PUBLIC_URL%/" />
     <meta name="twitter:title" content="TUS Santader - Web App" />
