@@ -29,11 +29,10 @@ const ContentStyled = styled.div`
   box-sizing: border-box;
 `;
 
-const FavoriteStyled = styled.div`
+const FavoriteStyled = styled.button`
   padding: 13px 22px;
   background: linear-gradient(to right, #ff2e56, #e0002b);
   color: #fff;
-  cursor: pointer;
   font-size: 16px;
   box-sizing: border-box;
   line-height: 27px;
@@ -43,6 +42,8 @@ const FavoriteStyled = styled.div`
   overflow: hidden;
   font-weight: 700;
   min-height: 53px;
+  width: calc(100% - 28px);
+  text-align: left;
   -webkit-user-select: none;
   user-select: none;
 

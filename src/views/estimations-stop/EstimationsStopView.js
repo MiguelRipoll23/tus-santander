@@ -83,6 +83,7 @@ const EstimationsStopView = (props) => {
 
   // Refresh
   const refreshContent = () => {
+    setRefreshVisible(false);
     setLoading(true);
     getEstimations(true);
   };
