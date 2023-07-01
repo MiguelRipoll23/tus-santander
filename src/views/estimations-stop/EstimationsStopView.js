@@ -82,11 +82,11 @@ const EstimationsStopView = (props) => {
   );
 
   // Refresh
-  const refreshContent = () => {
+  const refreshContent = useCallback(() => {
     setRefreshVisible(false);
     setLoading(true);
     getEstimations(true);
-  };
+  }, [getEstimations]);
 
   // Heart
   const updateFavorite = () => {
@@ -127,14 +127,14 @@ const EstimationsStopView = (props) => {
     // Auto-refresh
     document.onvisibilitychange = () => {
       if (document.visibilityState === "visible") {
-        getEstimations();
+        refreshContent();
       }
     };
 
     return () => {
       document.onvisibilitychange = null;
     };
-  }, [getEstimations]);
+  }, [getEstimations, refreshContent]);
 
   return (
     <Fragment>

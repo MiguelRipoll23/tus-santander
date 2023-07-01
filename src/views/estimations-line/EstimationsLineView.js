@@ -100,10 +100,10 @@ const EstimationsLineView = (props) => {
   );
 
   // Refresh
-  const refreshContent = () => {
+  const refreshContent = useCallback(() => {
     setLoading(true);
     getEstimations(true);
-  };
+  }, [getEstimations]);
 
   // Route
   const loadLineRouteView = () => {
@@ -122,10 +122,10 @@ const EstimationsLineView = (props) => {
     // Auto-refresh
     document.onvisibilitychange = () => {
       if (document.visibilityState === "visible") {
-        getEstimations();
+        refreshContent();
       }
     };
-  }, [getEstimations]);
+  }, [getEstimations, refreshContent]);
 
   return (
     <Fragment>
