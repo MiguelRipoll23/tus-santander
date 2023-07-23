@@ -24,15 +24,3 @@ jobs:
       channel-expiration: "--expires 30d"
       github-ref: ${{ inputs.github-ref || github.ref }}
       api-base-url: ${{ vars.API_STAGING_BASE_URL }}
-
-  request-for-review:
-    name: Request Review
-    needs: deploy-staging
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Create comment
-        uses: peter-evans/create-or-update-comment@v3
-        with:
-          issue-number: ${{github.event.number}}
-          body: "@MiguelRipoll23 ready for review"
