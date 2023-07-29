@@ -69,34 +69,6 @@ const NavTitleStyled = styled.span`
   width: 100%;
 `;
 
-const RefreshIconStyled = styled.button`
-  padding: 11px ${StyleUtils.MARGIN_LR};
-  font-family: icons;
-  font-size: 24px;
-  color: #007aff;
-  line-height: 24px;
-  position: relative;
-  top: 1px;
-  animation: fade-in 0.2s;
-`;
-
-const HeartIconStyled = styled.button`
-  padding: 11px ${StyleUtils.MARGIN_LR};
-  font-family: icons;
-  font-size: 24px;
-  color: #ff2d55;
-  line-height: 24px;
-  position: relative;
-  top: -1px;
-  padding-top: 14px;
-  padding-bottom: 8px;
-  animation: fade-in 0.2s;
-
-  &:after {
-    content: "${(props) => (props.heartState > 1 ? "\\e905" : "\\e906")}";
-  }
-`;
-
 const Nav = (props) => {
   const [borderOpacity, setBorderOpacity] = useState(0);
 
@@ -141,23 +113,7 @@ const Nav = (props) => {
           <NavCenterStyled>
             <NavTitleStyled>{props.titleText}</NavTitleStyled>
           </NavCenterStyled>
-          <NavRightStyled>
-            {props.isRefreshVisible && (
-              <RefreshIconStyled
-                aria-label="Refrescar"
-                onClick={props.refreshContent}
-              >
-                
-              </RefreshIconStyled>
-            )}
-            {props.heartState > 0 && (
-              <HeartIconStyled
-                aria-label="Añadir a favoritos"
-                heartState={props.heartState}
-                onClick={props.toggleFavorite}
-              />
-            )}
-          </NavRightStyled>
+          <NavRightStyled>{props.children}</NavRightStyled>
         </NavStyled>
       )}
     </Fragment>
