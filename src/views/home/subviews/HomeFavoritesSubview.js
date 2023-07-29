@@ -160,10 +160,9 @@ const HomeFavoritesSubview = (props) => {
           <ContentStyled hidden={isDesktop}>
             {error && (
               <Error
-                error_text="Usa el mapa o el buscador para añadir paradas"
-                error_text_lowercase={true}
-                retry_text="Ver paradas cercanas"
-                retry_action={loadMapSubview}
+                errorText="Usa el mapa o el buscador para añadir paradas"
+                retryText="Ver paradas cercanas"
+                retryAction={loadMapSubview}
                 animation="none"
               />
             )}

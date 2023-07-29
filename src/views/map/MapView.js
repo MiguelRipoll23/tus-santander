@@ -180,9 +180,9 @@ const MapView = (props) => {
   if (loadError) {
     return (
       <Error
-        error_text="No disponible"
-        retry_text="Volver a intentar"
-        retry_action={refresh}
+        errorText="No disponible"
+        retryText="Volver a intentar"
+        retryAction={refresh}
       />
     );
   }
@@ -194,9 +194,9 @@ const MapView = (props) => {
         {isLoaded ? renderMap() : <Spinner />}
         {loadError && (
           <Error
-            error_text="No disponible"
-            retry_text="Volver a intentar"
-            retry_action={refresh}
+            errorText="No disponible"
+            retryText="Volver a intentar"
+            retryAction={refresh}
           />
         )}
       </Content>
