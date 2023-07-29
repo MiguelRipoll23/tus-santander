@@ -16,7 +16,7 @@ const ContentStyled = styled.div`
 const IconStyled = styled.div`
   position: relative;
   height: 36px;
-  margin-bottom: ${(props) => (props.anyResults ? "0" : "12px")};
+  margin-bottom: ${(props) => (props.$anyResults ? "0" : "12px")};
 
   &:before {
     font-family: icons;
@@ -139,14 +139,14 @@ const HomeSearchSubview = (props) => {
     <Fragment>
       <Nav isHeader={true} titleText="Buscar" />
       <ContentStyled>
-        <IconStyled anyResults={results.length > 0}>
+        <IconStyled $anyResults={results.length > 0}>
           <InputStyled
             type="text"
             placeholder="Buscar"
             aria-label="Buscar"
-            inputmode="search"
+            inputMode="search"
             autoFocus={true}
-            autocomplete="off"
+            autoComplete="off"
             onInput={updateValue}
           />
         </IconStyled>

@@ -17,6 +17,7 @@ const EstimationsList = (props) => {
     return (
       <EstimationsCard
         key={i}
+        id={"label-" + label}
         colors={colors}
         onClick={() => props.lineAction(item)}
       >

@@ -15,7 +15,7 @@ const HeartIconStyled = styled.button`
   animation: fade-in 0.2s;
 
   &:after {
-    content: "${(props) => (props.heartState > 1 ? "\\e905" : "\\e906")}";
+    content: "${(props) => (props.$state > 1 ? "\\e905" : "\\e906")}";
   }
 `;
 
@@ -23,7 +23,7 @@ const HeartIcon = (props) => {
   return (
     <HeartIconStyled
       aria-label="Añadir a favoritos"
-      heartState={props.heartState}
+      $state={props.heartState}
       onClick={props.updateFavorite}
     />
   );

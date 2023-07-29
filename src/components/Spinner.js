@@ -29,8 +29,8 @@ const Spinner = (props) => {
     >
       <Circle
         fill="none"
-        stroke-width="5"
-        stroke-linecap="round"
+        strokeWidth="5"
+        strokeLinecap="round"
         cx="33"
         cy="33"
         r="30"
