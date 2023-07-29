@@ -51,9 +51,7 @@ export const toggleFavorite = (stopId, stopName) => {
     favorite = {};
     favorite.stop_id = stopId;
     favorite.stop_name = stopName;
-
     favorites.push(favorite);
-    console.log("Favorite added");
 
     result = true;
   } else {
@@ -62,7 +60,6 @@ export const toggleFavorite = (stopId, stopName) => {
 
     if (index > -1) {
       favorites.splice(index, 1);
-      console.log("Favorite removed");
     }
   }
 

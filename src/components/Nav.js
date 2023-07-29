@@ -8,12 +8,12 @@ const NavStyled = styled.nav`
   display: flex;
   min-height: 55px;
   align-items: center;
-  border-bottom: 1px solid rgba(0, 0, 0, ${(props) => props.borderOpacity});
+  border-bottom: 1px solid rgba(0, 0, 0, ${(props) => props.$borderOpacity});
 
   @media (prefers-color-scheme: dark) {
     & {
       border-bottom: 1px solid
-        rgba(255, 255, 255, ${(props) => props.borderOpacity});
+        rgba(255, 255, 255, ${(props) => props.$borderOpacity});
     }
   }
 `;
@@ -103,7 +103,7 @@ const Nav = (props) => {
         <Header text={props.titleText}>{props.children}</Header>
       )}
       {props.isHeader === false && (
-        <NavStyled borderOpacity={borderOpacity}>
+        <NavStyled $borderOpacity={borderOpacity}>
           <NavLeftStyled>
             <BackButtonStyled onClick={goBack}>
               <BackIconStyled></BackIconStyled>

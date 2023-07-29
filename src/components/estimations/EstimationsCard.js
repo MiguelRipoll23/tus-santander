@@ -12,8 +12,8 @@ const EstimationsCardStyled = styled.div`
   color: #fff;
   background: linear-gradient(
     to top,
-    ${(props) => props.colors[0]},
-    ${(props) => props.colors[1]}
+    ${(props) => props.$colors[0]},
+    ${(props) => props.$colors[1]}
   );
   animation: fade-in 0.2s;
 
@@ -26,7 +26,7 @@ const EstimationsCard = (props) => {
   return (
     <EstimationsCardStyled
       id={props.id}
-      colors={props.colors}
+      $colors={props.colors}
       onClick={props.onClick}
     >
       {props.children}

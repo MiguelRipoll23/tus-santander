@@ -48,12 +48,12 @@ const StopStyled = styled.li`
     height: 13px;
     border-radius: 50%;
     border: 3px solid ${(props) => props.color};
-    background: ${(props) => (props.active ? props.color : "#fff")};
+    background: ${(props) => (props.$active ? props.color : "#fff")};
   }
 
   @media (prefers-color-scheme: dark) {
     &:after {
-      background: ${(props) => (props.active ? props.color : "#000")};
+      background: ${(props) => (props.$active ? props.color : "#000")};
     }
   }
 
@@ -156,7 +156,7 @@ const RouteLineView = (props) => {
               <StopStyled
                 key={i}
                 color={color}
-                active={isActive(stopId)}
+                $active={isActive(stopId)}
                 {...(isActive(stopId) && { id: "stop-active" })}
               >
                 <span>{stopName}</span>
