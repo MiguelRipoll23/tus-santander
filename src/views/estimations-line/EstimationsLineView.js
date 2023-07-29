@@ -129,11 +129,7 @@ const EstimationsLineView = (props) => {
 
   return (
     <Fragment>
-      <Nav
-        isHeader={false}
-        titleText={stopName}
-        refreshContent={refreshContent}
-      />
+      <Nav isHeader={false} titleText={stopName} />
       <Content>
         {loading && <Spinner />}
         {error && (

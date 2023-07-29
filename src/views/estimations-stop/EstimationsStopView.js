@@ -9,6 +9,8 @@ import * as ViewConstants from "../../constants/ViewConstants.js";
 import ApiUtils from "../../utils/ApiUtils.js";
 
 import Nav from "../../components/Nav.js";
+import RefreshIcon from "../../components/RefreshIcon.js";
+import HeartIcon from "../../components/HeartIcon.js";
 import Content from "../../components/Content.js";
 import Spinner from "../../components/Spinner.js";
 import Error from "../../components/Error.js";
@@ -138,14 +140,14 @@ const EstimationsStopView = (props) => {
 
   return (
     <Fragment>
-      <Nav
-        isHeader={false}
-        isRefreshVisible={refreshVisible}
-        titleText={stopName}
-        heartState={heartState}
-        refreshContent={refreshContent}
-        toggleFavorite={updateFavorite}
-      />
+      <Nav isHeader={false} titleText={stopName}>
+        {refreshVisible && (
+          <RefreshIcon refreshContent={refreshContent}></RefreshIcon>
+        )}
+        {heartState > 0 && (
+          <HeartIcon heartState={heartState} updateFavorite={updateFavorite} />
+        )}
+      </Nav>
       <Content>
         {loading && <Spinner />}
         {error && (
