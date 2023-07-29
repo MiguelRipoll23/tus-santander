@@ -1,7 +1,6 @@
 import { Fragment, useState, useEffect, useCallback } from "react";
 
 import { useView } from "../../contexts/ViewContext.js";
-import { getColors } from "../../utils/LineUtils.js";
 import { getFavorite, toggleFavorite } from "../../utils/FavoriteUtils.js";
 
 import * as ViewConstants from "../../constants/ViewConstants.js";
@@ -15,10 +14,7 @@ import Content from "../../components/Content.js";
 import Spinner from "../../components/Spinner.js";
 import Error from "../../components/Error.js";
 import StopLines from "../../components/StopLines.js";
-
-import EstimationsCard from "../../components/estimations/EstimationsCard.js";
-import EstimationsHeader from "../../components/estimations/EstimationsHeader.js";
-import EstimationsBody from "../../components/estimations/EstimationsBody.js";
+import EstimationsList from "../../components/estimations/EstimationsList.js";
 
 const EstimationsStopView = (props) => {
   const { data, setViewIdWithData } = useView();
@@ -160,21 +156,10 @@ const EstimationsStopView = (props) => {
         {lines.length > 0 && (
           <StopLines list={lines} estimations={estimations} />
         )}
-        {estimations.map((item, i) => {
-          const [label, destination, time1, time2] = item;
-
-          return (
-            <EstimationsCard
-              key={i}
-              id={"label-" + label}
-              colors={getColors(label)}
-              onClick={() => loadEstimationsLineView(item)}
-            >
-              <EstimationsHeader label={label} destination={destination} />
-              <EstimationsBody time1={time1} time2={time2} />
-            </EstimationsCard>
-          );
-        })}
+        <EstimationsList
+          estimations={estimations}
+          lineAction={loadEstimationsLineView}
+        />
       </Content>
     </Fragment>
   );

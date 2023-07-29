@@ -2,7 +2,7 @@ import { Fragment, useState, useEffect, useCallback } from "react";
 import styled from "styled-components";
 
 import { useView } from "../../contexts/ViewContext.js";
-import { getColors, getColor } from "../../utils/LineUtils.js";
+import { getColor } from "../../utils/LineUtils.js";
 
 import * as ViewConstants from "../../constants/ViewConstants.js";
 
@@ -14,10 +14,7 @@ import Content from "../../components/Content.js";
 import Spinner from "../../components/Spinner.js";
 import Error from "../../components/Error.js";
 import Button from "../../components/Button.js";
-import EstimationsCard from "../../components/estimations/EstimationsCard.js";
-import EstimationsHeader from "../../components/estimations/EstimationsHeader.js";
-import EstimationsBody from "../../components/estimations/EstimationsBody.js";
-import NextStops from "../../components/estimations/NextStops.js";
+import EstimationsList from "../../components/estimations/EstimationsList.js";
 
 const ContextActionsStyled = styled.div`
   margin: 0 ${StyleUtils.MARGIN_LR};
@@ -50,7 +47,6 @@ const EstimationsLineView = (props) => {
   const [stops, setStops] = useState([]);
 
   // Colors
-  const colors = getColors(lineLabel);
   const color = getColor(lineLabel, "string");
 
   const getEstimations = useCallback(
@@ -139,19 +135,11 @@ const EstimationsLineView = (props) => {
             retryAction={refreshContent}
           />
         )}
-        {estimations.map((item, i) => {
-          const [label, destination, time1, time2] = item;
-
-          return (
-            <EstimationsCard key={i} colors={colors} onClick={refreshContent}>
-              <EstimationsHeader label={label} destination={destination} />
-              <EstimationsBody time1={time1} time2={time2} />
-              {estimations.length === 1 && stops.length > 0 && (
-                <NextStops list={stops} colors={colors} />
-              )}
-            </EstimationsCard>
-          );
-        })}
+        <EstimationsList
+          estimations={estimations}
+          stops={stops}
+          lineAction={refreshContent}
+        />
         {loading === false && error === false && (
           <ContextActionsStyled>
             <ButtonStyled color={color} onClick={loadLineRouteView}>
