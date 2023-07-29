@@ -10,8 +10,7 @@ const ErrorStyled = styled.div`
   padding: 0 80px;
   box-sizing: border-box;
   display: inline-block;
-  animation: ${(props) =>
-    props.animation === undefined ? "fade-in 0.2s" : props.animation};
+  animation: "fade-in 0.2s";
 `;
 
 const TextStyled = styled.div`
@@ -20,15 +19,10 @@ const TextStyled = styled.div`
 
 const Error = (props) => {
   return (
-    <ErrorStyled animation={props.animation}>
-      {props.error_text_lowercase === undefined && (
-        <TextStyled>{props.error_text.toUpperCase()}</TextStyled>
-      )}
-      {props.error_text_lowercase !== undefined && (
-        <TextStyled>{props.error_text}</TextStyled>
-      )}
-      <Button color="rgb(0, 122, 255)" onClick={props.retry_action}>
-        {props.retry_text}
+    <ErrorStyled>
+      <TextStyled>{props.errorText}</TextStyled>
+      <Button color="rgb(0, 122, 255)" onClick={props.retryAction}>
+        {props.retryText}
       </Button>
     </ErrorStyled>
   );

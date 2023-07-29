@@ -134,9 +134,9 @@ const EstimationsLineView = (props) => {
         {loading && <Spinner />}
         {error && (
           <Error
-            error_text="No disponible"
-            retry_text="Volver a intentar"
-            retry_action={refreshContent}
+            errorText="No disponible"
+            retryText="Volver a intentar"
+            retryAction={refreshContent}
           />
         )}
         {estimations.map((item, i) => {
