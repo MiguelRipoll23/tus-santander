@@ -4,27 +4,55 @@ import { ViewContext } from "../contexts/ViewContext.js";
 
 import * as ViewConstants from "../constants/ViewConstants.js";
 
+async function dispatchWithViewTransition(dispatch, data, isBackNavigation) {
+  if (!document.startViewTransition) {
+    dispatch(data);
+    return;
+  }
+
+  if (isBackNavigation) {
+    document.documentElement.classList.add("back-transition");
+  }
+
+  const transition = document.startViewTransition(() => dispatch(data));
+
+  try {
+    await transition.finished;
+  } finally {
+    document.documentElement.classList.remove("back-transition");
+  }
+}
+
 export const ViewProvider = ({ children }) => {
   const initialState = getInitialState();
   const [state, dispatch] = useReducer(viewReducer, initialState);
 
-  const setViewId = (viewId, pushState = true) => {
-    dispatch({
+  const setViewId = (viewId, pushState = true, isBackNavigation = false) => {
+    const dispatchData = {
       type: ViewConstants.SET_VIEW_ID,
       payload: viewId,
       pushState,
-    });
+    };
+
+    dispatchWithViewTransition(dispatch, dispatchData, isBackNavigation);
   };
 
-  const setViewIdWithData = (viewId, data, pushState = true) => {
-    dispatch({
+  const setViewIdWithData = (
+    viewId,
+    data,
+    pushState = true,
+    isBackNavigation = false
+  ) => {
+    const dispatchData = {
       type: ViewConstants.SET_VIEW_ID_WITH_DATA,
       payload: {
         viewId,
         data,
       },
       pushState,
-    });
+    };
+
+    dispatchWithViewTransition(dispatch, dispatchData, isBackNavigation);
   };
 
   const setSubViewId = (subViewId, pushState = true) => {

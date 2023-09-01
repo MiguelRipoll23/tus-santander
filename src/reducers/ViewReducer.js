@@ -7,6 +7,7 @@ export const getInitialState = () => {
 
   if (state === null) {
     return {
+      id: 0,
       viewId: ViewConstants.INITIAL_VIEW_ID,
       subViewId: ViewConstants.INITIAL_SUB_VIEW_ID,
       data: null,
@@ -52,6 +53,9 @@ export const viewReducer = (state, action) => {
     default:
       throw new Error(`No case for type ${type} found in viewReducer`);
   }
+
+  // eslint-disable-next-line no-restricted-globals
+  updatedState.id = history.state ? history.state.id + 1 : 1;
 
   // Update session storage
   const updatedStateAsString = JSON.stringify(updatedState);
