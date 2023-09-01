@@ -1,10 +1,22 @@
 {
   "id": "tus-santander",
+  "name": "TUS Santander",
+  "short_name": "TUS",
+  "description": "Las estimaciones de llegada y rutas de los autobuses del transporte urbano de Santander.",
+  "categories": ["navigation", "travel"],
   "lang": "Spanish; Castilian",
   "dir": "ltr",
-  "name": "TUS Santander (Web App)",
-  "description": "Las estimaciones de llegada y rutas de los autobuses del transporte urbano de Santander.",
-  "short_name": "TUS",
+  "scope": "/",
+  "start_url": "/?utm_source=homescreen&utm_medium=shortcut",
+  "display": "standalone",
+  "orientation": "portrait",
+  "theme_color": "#ffffff",
+  "background_color": "#ffffff",
+  "serviceworker": {
+    "src": "service-worker.js",
+    "scope": "/",
+    "update_via_cache": "none"
+  },
   "icons": [
     {
       "purpose": "any",
@@ -54,16 +66,5 @@
       "src": "images/icon-512x512.png",
       "type": "image/png"
     }
-  ],
-  "scope": "/",
-  "start_url": "/",
-  "display": "standalone",
-  "orientation": "portrait",
-  "theme_color": "#ffffff",
-  "background_color": "#ffffff",
-  "serviceworker": {
-    "src": "service-worker.js",
-    "scope": "/",
-    "update_via_cache": "none"
-  }
+  ]
 }
