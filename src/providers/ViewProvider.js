@@ -64,6 +64,7 @@ export const ViewProvider = ({ children }) => {
   };
 
   const value = {
+    index: state.index,
     viewId: state.viewId,
     subViewId: state.subViewId,
     data: state.data,

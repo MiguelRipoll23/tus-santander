@@ -7,8 +7,6 @@ import EstimationsStopView from "../views/estimations-stop/EstimationsStopView.j
 import EstimationsLineView from "../views/estimations-line/EstimationsLineView.js";
 import RouteLineView from "../views/route-line/RouteLineView.js";
 
-let currentStateId = 0;
-
 const SelectedView = (props) => {
   const { viewId } = props;
 
@@ -34,7 +32,8 @@ const SelectedView = (props) => {
 };
 
 const View = (props) => {
-  const { viewId, setViewId, setSubViewId, setViewIdWithData } = useView();
+  const { index, viewId, setViewId, setSubViewId, setViewIdWithData } =
+    useView();
 
   window.onpopstate = (event) => {
     const state = event.state;
@@ -46,8 +45,7 @@ const View = (props) => {
       return;
     }
 
-    const isBackNavigation = state.id < currentStateId;
-    currentStateId = state.id;
+    const isBackNavigation = state.index < index;
 
     setViewIdWithData(state.viewId, state.data, false, isBackNavigation);
     setSubViewId(state.subViewId, false);
