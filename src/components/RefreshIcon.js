@@ -6,7 +6,7 @@ const RefreshIconStyled = styled.button`
   padding: 11px ${StyleUtils.MARGIN_LR};
   font-family: icons;
   font-size: 24px;
-  color: #007aff;
+  color: var(--color-blue);
   line-height: 24px;
   position: relative;
   top: 1px;

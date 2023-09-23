@@ -60,7 +60,7 @@ const ResultsStyled = styled.div`
 `;
 
 const ResultStyled = styled.button`
-  color: #1da1f2;
+  color: var(--color-blue);
   padding: 14px 9px;
   border-bottom: 1px solid rgba(0, 0, 0, 0.04);
   width: 100%;
@@ -69,7 +69,7 @@ const ResultStyled = styled.button`
   &:before {
     font-family: icons;
     content: "\\e901";
-    color: #8e8e92;
+    color: var(--color-blue);
     margin-right: 12px;
     position: relative;
     top: 2px;

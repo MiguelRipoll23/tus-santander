@@ -11,7 +11,7 @@ import Error from "../../../components/Error.js";
 import HomeDesktop from "../../../components/home/HomeDesktop.js";
 
 const EditLinkStyled = styled.button`
-  color: rgb(0, 122, 255);
+  color: var(--color-blue);
   align-self: flex-end;
   padding: 0 0px;
 
