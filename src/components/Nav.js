@@ -44,7 +44,7 @@ const NavRightStyled = styled.div`
 const BackButtonStyled = styled.button`
   font-size: 15px;
   line-height: 24px;
-  color: #007aff;
+  color: var(--color-blue);
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;

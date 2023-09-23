@@ -27,11 +27,12 @@ const Item = styled.div`
   cursor: pointer;
   padding-top: 14px;
   padding-bottom: calc(28px + env(safe-area-inset-bottom));
-  color: ${(props) => (props.selected ? "#007aff" : "rgba(0, 0, 0, .55);")};
+  color: ${(props) =>
+    props.selected ? "var(--color-blue)" : "rgba(0, 0, 0, .55);"};
 
   @media (prefers-color-scheme: dark) {
     color: ${(props) =>
-      props.selected ? "#007aff" : "rgba(255, 255, 255, .55);"};
+      props.selected ? "var(--color-blue)" : "rgba(255, 255, 255, .55);"};
   }
 `;
 
