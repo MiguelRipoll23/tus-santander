@@ -92,7 +92,7 @@ jobs:
           name: ${{ inputs.artifact-name }}
 
       - name: Authenticate to Google Cloud
-        uses: "google-github-actions/auth@v1"
+        uses: "google-github-actions/auth@v2"
         with:
           access_token_scopes: ${{ vars.ACCESS_TOKEN_SCOPES }}
           workload_identity_provider: ${{ secrets.WORKLOAD_IDENTITY_PROVIDER }}
