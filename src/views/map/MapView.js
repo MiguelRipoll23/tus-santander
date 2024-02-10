@@ -142,7 +142,7 @@ const MapView = (props) => {
     // Markers
     window.google.maps.event.addListenerOnce(
       map,
-      "tilesloaded",
+      "idle",
       getAndShowClosestMarkers
     );
   };
