@@ -70,6 +70,10 @@ const MapView = (props) => {
     const bounds = map.getBounds();
     const center = map.getCenter();
 
+    if (bounds === undefined) {
+      return;
+    }
+
     const metersPerPixel =
       (156543.03392 * Math.cos((center.lat() * Math.PI) / 180)) /
       Math.pow(2, map.getZoom());
@@ -138,7 +142,7 @@ const MapView = (props) => {
     // Markers
     window.google.maps.event.addListenerOnce(
       map,
-      "idle",
+      "tilesloaded",
       getAndShowClosestMarkers
     );
   };
