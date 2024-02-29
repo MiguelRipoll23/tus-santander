@@ -57,6 +57,7 @@ jobs:
         env:
           REACT_APP_API_HOST: ${{ inputs.api-base-url }}
           REACT_APP_GOOGLE_MAPS_KEY: ${{ secrets.GOOGLE_MAPS_KEY }}
+          GENERATE_SOURCEMAP: false
 
       - name: Prepare package
         run: cp firebase.json build/
