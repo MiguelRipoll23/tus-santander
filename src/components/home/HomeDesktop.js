@@ -1,7 +1,5 @@
 import styled from "styled-components";
 
-import QrCodeMin from "../../assets/qr-code-min.png";
-
 const HomeDesktopStyled = styled.div`
   position: fixed;
   top: 0;
@@ -38,7 +36,7 @@ const HomeDesktop = (props) => {
       <DesktopAreaStyled>
         <DesktopQrStyled
           alt="Código QR"
-          src={QrCodeMin}
+          src="/images/qr-code-min.png"
           width="250"
           height="250"
         />
