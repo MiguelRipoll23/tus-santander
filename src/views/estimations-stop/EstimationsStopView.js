@@ -5,7 +5,10 @@ import { getFavorite, toggleFavorite } from "../../utils/FavoriteUtils.js";
 
 import * as ViewConstants from "../../constants/ViewConstants.js";
 
-import ApiUtils from "../../utils/ApiUtils.js";
+import {
+  API_HOST,
+  API_PATH_JSON_ESTIMATIONS,
+} from "../../utils/ApiConstants.js";
 
 import Nav from "../../components/Nav.js";
 import RefreshIcon from "../../components/RefreshIcon.js";
@@ -41,7 +44,7 @@ const EstimationsStopView = (props) => {
         query += "&update=true";
       }
 
-      fetch(ApiUtils.API_HOST + ApiUtils.API_PATH_JSON_ESTIMATIONS + query)
+      fetch(API_HOST + API_PATH_JSON_ESTIMATIONS + query)
         .then((response) => {
           if (response.ok === false) {
             throw new Error("Network response was not ok");

@@ -3,7 +3,7 @@ import styled from "styled-components";
 
 import { useView } from "../../contexts/ViewContext.js";
 
-import ApiUtils from "../../utils/ApiUtils.js";
+import { API_HOST, API_PATH_JSON_ROUTE } from "../../utils/ApiConstants.js";
 
 import Content from "../../components/Content.js";
 import Nav from "../../components/Nav.js";
@@ -81,7 +81,7 @@ const RouteLineView = (props) => {
 
     const query = `?stopId=${stopId}&lineLabel=${lineLabel}&lineDestination=${lineDestination}`;
 
-    fetch(ApiUtils.API_HOST + ApiUtils.API_PATH_JSON_ROUTE + query)
+    fetch(API_HOST + API_PATH_JSON_ROUTE + query)
       .then((response) => {
         if (response.ok === false) {
           throw new Error("Network response was not ok");
