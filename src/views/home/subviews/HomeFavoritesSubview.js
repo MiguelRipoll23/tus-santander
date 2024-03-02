@@ -4,7 +4,10 @@ import styled from "styled-components";
 import { useView } from "../../../contexts/ViewContext.js";
 import StyleUtils from "../../../utils/StyleUtils.js";
 import { getFavorites, saveFavorites } from "../../../utils/FavoriteUtils.js";
-import * as ViewConstants from "../../../constants/ViewConstants.js";
+import {
+  VIEW_ID_MAP,
+  VIEW_ID_ESTIMATIONS_STOP,
+} from "../../../constants/ViewConstants.js";
 
 import Nav from "../../../components/Nav.js";
 import Error from "../../../components/Error.js";
@@ -129,7 +132,7 @@ const HomeFavoritesSubview = (props) => {
 
   // View handlers
   const loadMapSubview = () => {
-    setViewId(ViewConstants.VIEW_ID_MAP);
+    setViewId(VIEW_ID_MAP);
   };
 
   const loadEstimationsStopView = (favorite) => {
@@ -137,7 +140,7 @@ const HomeFavoritesSubview = (props) => {
       return;
     }
 
-    setViewIdWithData(ViewConstants.VIEW_ID_ESTIMATIONS_STOP, {
+    setViewIdWithData(VIEW_ID_ESTIMATIONS_STOP, {
       stopId: favorite.stop_id,
       stopName: favorite.stop_name,
     });

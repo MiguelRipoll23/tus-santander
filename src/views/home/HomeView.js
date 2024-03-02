@@ -1,7 +1,11 @@
 import { Fragment } from "react";
 
 import { useView } from "../../contexts/ViewContext.js";
-import * as ViewConstants from "../../constants/ViewConstants.js";
+import {
+  SUB_VIEW_ID_FAVORITES,
+  SUB_VIEW_ID_MAP,
+  SUB_VIEW_ID_SEARCH,
+} from "../../constants/ViewConstants.js";
 
 import Content from "../../components/Content.js";
 import HomeMenu from "../../components/home/HomeMenu.js";
@@ -13,13 +17,13 @@ const HomeView = (props) => {
 
   const SelectedContent = (props) => {
     switch (subViewId) {
-      case ViewConstants.SUB_VIEW_ID_FAVORITES:
+      case SUB_VIEW_ID_FAVORITES:
         return <HomeFavoritesSubview />;
 
-      case ViewConstants.SUB_VIEW_ID_MAP:
+      case SUB_VIEW_ID_MAP:
         return null;
 
-      case ViewConstants.SUB_VIEW_ID_SEARCH:
+      case SUB_VIEW_ID_SEARCH:
         return <HomeSearchSubview />;
 
       default:

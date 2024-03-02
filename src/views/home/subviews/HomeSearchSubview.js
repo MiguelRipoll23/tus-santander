@@ -2,7 +2,7 @@ import { Fragment, useState, useEffect } from "react";
 import styled from "styled-components";
 
 import { useView } from "../../../contexts/ViewContext.js";
-import * as ViewConstants from "../../../constants/ViewConstants.js";
+import { VIEW_ID_ESTIMATIONS_STOP } from "../../../constants/ViewConstants.js";
 
 import Nav from "../../../components/Nav.js";
 
@@ -129,7 +129,7 @@ const HomeSearchSubview = (props) => {
   }, [searchText]);
 
   const loadEstimationsStopView = (stopId, stopName) => {
-    setViewIdWithData(ViewConstants.VIEW_ID_ESTIMATIONS_STOP, {
+    setViewIdWithData(VIEW_ID_ESTIMATIONS_STOP, {
       stopId,
       stopName,
     });

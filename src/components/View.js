@@ -1,5 +1,12 @@
 import { useView } from "../contexts/ViewContext.js";
-import * as ViewConstants from "../constants/ViewConstants.js";
+import {
+  VIEW_ID_HOME,
+  VIEW_ID_MAP,
+  VIEW_ID_ESTIMATIONS_STOP,
+  VIEW_ID_ROUTE_LINE,
+  INITIAL_VIEW_ID,
+  INITIAL_SUB_VIEW_ID,
+} from "../constants/ViewConstants.js";
 
 import HomeView from "../views/home/HomeView.js";
 import MapView from "../views/map/MapView.js";
@@ -11,19 +18,19 @@ const SelectedView = (props) => {
   const { viewId } = props;
 
   switch (viewId) {
-    case ViewConstants.VIEW_ID_HOME:
+    case VIEW_ID_HOME:
       return <HomeView />;
 
-    case ViewConstants.VIEW_ID_MAP:
+    case VIEW_ID_MAP:
       return <MapView />;
 
-    case ViewConstants.VIEW_ID_ESTIMATIONS_STOP:
+    case VIEW_ID_ESTIMATIONS_STOP:
       return <EstimationsStopView />;
 
-    case ViewConstants.VIEW_ID_ESTIMATIONS_LINE:
+    case VIEW_ID_ESTIMATIONS_LINE:
       return <EstimationsLineView />;
 
-    case ViewConstants.VIEW_ID_ROUTE_LINE:
+    case VIEW_ID_ROUTE_LINE:
       return <RouteLineView />;
 
     default:
@@ -40,8 +47,8 @@ const View = (props) => {
     console.log("onpopstate", state);
 
     if (state === null) {
-      setViewId(ViewConstants.INITIAL_VIEW_ID, false, true);
-      setSubViewId(ViewConstants.INITIAL_SUB_VIEW_ID, false);
+      setViewId(INITIAL_VIEW_ID, false, true);
+      setSubViewId(INITIAL_SUB_VIEW_ID, false);
       return;
     }
 
