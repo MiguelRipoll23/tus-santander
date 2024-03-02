@@ -62,13 +62,6 @@ const MapView = (props) => {
     fullscreenControl: false,
     disableDefaultUI: true,
     center,
-    styles: [
-      {
-        featureType: "transit.station.bus",
-        elementType: "labels.icon",
-        stylers: [{ visibility: "off" }],
-      },
-    ],
   };
 
   const handleApiLoaded = () => {
