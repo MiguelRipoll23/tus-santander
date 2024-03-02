@@ -1,4 +1,10 @@
-import * as ViewConstants from "../constants/ViewConstants.js";
+import {
+  SET_VIEW_ID,
+  SET_VIEW_ID_WITH_DATA,
+  SET_SUB_VIEW_ID,
+  INITIAL_VIEW_ID,
+  INITIAL_SUB_VIEW_ID,
+} from "../constants/ViewConstants.js";
 
 const sessionStorageStateKey = "state";
 
@@ -8,8 +14,8 @@ export const getInitialState = () => {
   if (state === null) {
     return {
       index: 0,
-      viewId: ViewConstants.INITIAL_VIEW_ID,
-      subViewId: ViewConstants.INITIAL_SUB_VIEW_ID,
+      viewId: INITIAL_VIEW_ID,
+      subViewId: INITIAL_SUB_VIEW_ID,
       data: null,
     };
   }
@@ -23,7 +29,7 @@ export const viewReducer = (state, action) => {
   let updatedState = null;
 
   switch (type) {
-    case ViewConstants.SET_VIEW_ID:
+    case SET_VIEW_ID:
       updatedState = {
         ...state,
         viewId: payload,
@@ -31,7 +37,7 @@ export const viewReducer = (state, action) => {
 
       break;
 
-    case ViewConstants.SET_VIEW_ID_WITH_DATA:
+    case SET_VIEW_ID_WITH_DATA:
       const { viewId, data } = payload;
 
       updatedState = {
@@ -42,7 +48,7 @@ export const viewReducer = (state, action) => {
 
       break;
 
-    case ViewConstants.SET_SUB_VIEW_ID:
+    case SET_SUB_VIEW_ID:
       updatedState = {
         ...state,
         subViewId: payload,

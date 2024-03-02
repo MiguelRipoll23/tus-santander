@@ -4,7 +4,7 @@ import styled from "styled-components";
 import { useView } from "../../contexts/ViewContext.js";
 import { getColor } from "../../utils/LineUtils.js";
 
-import * as ViewConstants from "../../constants/ViewConstants.js";
+import { VIEW_ID_ROUTE_LINE } from "../../constants/ViewConstants.js";
 
 import {
   API_HOST,
@@ -107,7 +107,7 @@ const EstimationsLineView = (props) => {
 
   // Route
   const loadLineRouteView = () => {
-    setViewIdWithData(ViewConstants.VIEW_ID_ROUTE_LINE, {
+    setViewIdWithData(VIEW_ID_ROUTE_LINE, {
       stopId,
       lineLabel,
       lineDestination,

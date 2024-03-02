@@ -3,7 +3,7 @@ import { Fragment, useState, useEffect, useCallback } from "react";
 import { useView } from "../../contexts/ViewContext.js";
 import { getFavorite, toggleFavorite } from "../../utils/FavoriteUtils.js";
 
-import * as ViewConstants from "../../constants/ViewConstants.js";
+import { VIEW_ID_ESTIMATIONS_LINE } from "../../constants/ViewConstants.js";
 
 import {
   API_HOST,
@@ -113,7 +113,7 @@ const EstimationsStopView = (props) => {
 
   // Line
   const loadEstimationsLineView = (result) => {
-    setViewIdWithData(ViewConstants.VIEW_ID_ESTIMATIONS_LINE, {
+    setViewIdWithData(VIEW_ID_ESTIMATIONS_LINE, {
       stopId,
       stopName,
       lineLabel: result[0],
