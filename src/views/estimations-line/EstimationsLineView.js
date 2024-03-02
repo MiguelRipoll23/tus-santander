@@ -6,7 +6,11 @@ import { getColor } from "../../utils/LineUtils.js";
 
 import * as ViewConstants from "../../constants/ViewConstants.js";
 
-import ApiUtils from "../../utils/ApiUtils.js";
+import {
+  API_HOST,
+  API_PATH_JSON_ESTIMATIONS,
+} from "../../utils/ApiConstants.js";
+
 import StyleUtils from "../../utils/StyleUtils.js";
 
 import Nav from "../../components/Nav.js";
@@ -61,7 +65,7 @@ const EstimationsLineView = (props) => {
         query += "&update=true";
       }
 
-      fetch(ApiUtils.API_HOST + ApiUtils.API_PATH_JSON_ESTIMATIONS + query)
+      fetch(API_HOST + API_PATH_JSON_ESTIMATIONS + query)
         .then((response) => {
           if (response.ok === false) {
             throw new Error("Network response was not ok");

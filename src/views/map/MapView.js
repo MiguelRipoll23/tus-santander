@@ -1,55 +1,47 @@
-import { Fragment, memo, useState, useCallback } from "react";
-import { GoogleMap, useJsApiLoader, Marker } from "@react-google-maps/api";
-import ApiUtils from "../../utils/ApiUtils.js";
-
-import { useView } from "../../contexts/ViewContext.js";
-import * as ViewConstants from "../../constants/ViewConstants.js";
+import { Fragment, useEffect, useState, useCallback } from "react";
+import { APIProvider, Map } from "@vis.gl/react-google-maps";
+import { GOOGLE_MAPS_KEY } from "../../utils/ApiConstants.js";
 
 import Nav from "../../components/Nav.js";
 import Content from "../../components/Content.js";
 import Spinner from "../../components/Spinner.js";
-import Error from "../../components/Error.js";
+import ClosestMarkers from "../../components/map/ClosestMarkers.js";
 
 import Stops from "../../json/stops.min.json";
-import MarkerMin from "../../assets/marker-min.png";
 
-const libraries = ["geometry"];
-
-let map = null;
-let markers = [];
+const markers = [];
 
 const MapView = (props) => {
-  const { setViewIdWithData } = useView();
+  const apiKey = GOOGLE_MAPS_KEY;
+  const libraries = ["geometry"];
+  const defaultCenter = { lat: 43.462068, lng: -3.810204 };
+  const defaultZoom = 17;
+
+  const [loading, setLoading] = useState(true);
+  const [center, setCenter] = useState(defaultCenter);
   const [closestMarkers, setClosestMarkers] = useState([]);
 
-  const { isLoaded, loadError } = useJsApiLoader({
-    googleMapsApiKey: ApiUtils.GOOGLE_MAPS_KEY,
-    libraries,
-  });
-
   const getCurrentLocation = () => {
-    navigator.geolocation.getCurrentPosition(
-      (position) => {
-        map.setCenter({
-          lat: position.coords.latitude,
-          lng: position.coords.longitude,
-        });
+    const successCallback = (position) => {
+      setCenter({
+        lat: position.coords.latitude,
+        lng: position.coords.longitude,
+      });
+    };
 
-        showClosestMarkers();
-      },
-      (error) => {
-        if (error.code === 1 || error.code === 3) {
-          return;
-        }
-
-        alert("La ubicación no está disponible");
+    const errorCallback = (error) => {
+      if (error.code === 1 || error.code === 3) {
+        return;
       }
-    );
+      alert("La ubicación no está disponible");
+    };
+
+    navigator.geolocation.getCurrentPosition(successCallback, errorCallback);
   };
 
-  const getAndShowClosestMarkers = () => {
-    for (let stopKey in Stops) {
-      const [id, latitude, longitude, name] = Stops[stopKey];
+  const getMarkers = () => {
+    for (let key in Stops) {
+      const [id, latitude, longitude, name] = Stops[key];
 
       const marker = {
         id: id,
@@ -62,24 +54,28 @@ const MapView = (props) => {
 
       markers.push(marker);
     }
-
-    showClosestMarkers();
   };
 
-  const showClosestMarkers = useCallback(() => {
-    const bounds = map.getBounds();
-    const center = map.getCenter();
+  const handleLoaded = () => {
+    setLoading(false);
+  };
 
-    if (bounds === undefined) {
-      return;
-    }
+  const handleCameraChange = useCallback((event) => {
+    const { zoom, center } = event.detail;
+    setCenter(center);
+
+    const bounds = new window.google.maps.LatLngBounds(
+      { lat: event.detail.bounds.south, lng: event.detail.bounds.west },
+      { lat: event.detail.bounds.north, lng: event.detail.bounds.east }
+    );
 
     const metersPerPixel =
-      (156543.03392 * Math.cos((center.lat() * Math.PI) / 180)) /
-      Math.pow(2, map.getZoom());
+      (156543.03392 * Math.cos((center.lat * Math.PI) / 180)) /
+      Math.pow(2, zoom);
+
     const meters = 27.5 * metersPerPixel;
     const degrees = meters / 111320;
-    const newCenter = { lat: center.lat() + degrees, lng: center.lng() };
+    const newCenter = { lat: center.lat + degrees, lng: center.lng };
 
     const closestMarkers = markers
       .filter((marker) => bounds.contains(marker.position))
@@ -97,115 +93,37 @@ const MapView = (props) => {
     setClosestMarkers(closestMarkers);
   }, []);
 
-  const loadEstimationsStopView = (marker) => {
-    setViewIdWithData(ViewConstants.VIEW_ID_ESTIMATIONS_STOP, {
-      stopId: parseInt(marker.id),
-      stopName: marker.text,
-    });
-  };
-
-  const refresh = () => {
-    window.location.refresh();
-  };
-
-  const containerStyle = {
-    width: "100%",
-    height: "calc(100vh - 56px)",
-  };
-
-  const mapOptions = {
-    fullscreenControl: false,
-    disableDefaultUI: true,
-    styles: [
-      {
-        featureType: "poi.business",
-        elementType: "labels",
-        stylers: [{ visibility: "off" }],
-      },
-      {
-        featureType: "transit.station.bus",
-        elementType: "labels.icon",
-        stylers: [{ visibility: "off" }],
-      },
-    ],
-  };
-
-  const handleOnLoad = (loadedMap) => {
-    map = loadedMap;
-
-    // Initial center
-    map.setCenter({ lat: 43.462068, lng: -3.810204 });
-
-    // Update center with user location
+  // Mount
+  useEffect(() => {
     getCurrentLocation();
-
-    // Markers
-    window.google.maps.event.addListenerOnce(
-      map,
-      "idle",
-      getAndShowClosestMarkers
-    );
-  };
-
-  const handleOnDrag = () => {
-    showClosestMarkers();
-  };
-
-  const renderMap = () => (
-    <GoogleMap
-      mapContainerStyle={containerStyle}
-      options={mapOptions}
-      zoom={17}
-      onLoad={handleOnLoad}
-      onDrag={handleOnDrag}
-    >
-      {closestMarkers.map((marker, i) => {
-        return (
-          <Marker
-            key={i}
-            label={{
-              text: marker.text,
-              fontSize: "20px",
-              fontWeight: "bold",
-              className: "marker",
-            }}
-            position={marker.position}
-            icon={{
-              url: MarkerMin,
-              labelOrigin: new window.google.maps.Point(11, 40),
-            }}
-            onClick={() => loadEstimationsStopView(marker)}
-          />
-        );
-      })}
-    </GoogleMap>
-  );
-
-  if (loadError) {
-    return (
-      <Error
-        errorText="No disponible"
-        retryText="Volver a intentar"
-        retryAction={refresh}
-      />
-    );
-  }
+    getMarkers();
+  }, []);
 
   return (
     <Fragment>
       <Nav isHeader={false} titleText="Mapa" />
       <Content>
-        {isLoaded ? renderMap() : <Spinner />}
-        {loadError && (
-          <Error
-            errorText="No disponible"
-            retryText="Volver a intentar"
-            retryAction={refresh}
-          />
-        )}
+        <APIProvider
+          apiKey={apiKey}
+          libraries={libraries}
+          onLoad={handleLoaded}
+        >
+          {loading ? (
+            <Spinner />
+          ) : (
+            <Map
+              mapId="map"
+              defaultZoom={defaultZoom}
+              center={center}
+              onCameraChanged={handleCameraChange}
+            >
+              <ClosestMarkers markers={closestMarkers} />
+            </Map>
+          )}
+        </APIProvider>
       </Content>
     </Fragment>
   );
 };
 
-export default memo(MapView);
+export default MapView;
