@@ -56,7 +56,22 @@ const MapView = (props) => {
     }
   };
 
-  const handleLoaded = () => {
+  const mapOptions = {
+    mapId: "map",
+    defaultZoom,
+    fullscreenControl: false,
+    disableDefaultUI: true,
+    center,
+    styles: [
+      {
+        featureType: "transit.station.bus",
+        elementType: "labels.icon",
+        stylers: [{ visibility: "off" }],
+      },
+    ],
+  };
+
+  const handleApiLoaded = () => {
     setLoading(false);
   };
 
@@ -93,6 +108,12 @@ const MapView = (props) => {
     setClosestMarkers(closestMarkers);
   }, []);
 
+  const getMap = () => (
+    <Map {...mapOptions} onCameraChanged={handleCameraChange}>
+      <ClosestMarkers markers={closestMarkers} />
+    </Map>
+  );
+
   // Mount
   useEffect(() => {
     getCurrentLocation();
@@ -106,20 +127,9 @@ const MapView = (props) => {
         <APIProvider
           apiKey={apiKey}
           libraries={libraries}
-          onLoad={handleLoaded}
+          onLoad={handleApiLoaded}
         >
-          {loading ? (
-            <Spinner />
-          ) : (
-            <Map
-              mapId="map"
-              defaultZoom={defaultZoom}
-              center={center}
-              onCameraChanged={handleCameraChange}
-            >
-              <ClosestMarkers markers={closestMarkers} />
-            </Map>
-          )}
+          {loading ? <Spinner /> : getMap()}
         </APIProvider>
       </Content>
     </Fragment>
