@@ -52,6 +52,10 @@ button {
   animation: blink 0.8s linear infinite;
 }
 
+.gm-style iframe + div {
+  border: none !important;
+}
+
 .marker img {
   display: block;
   margin: 0 auto;
