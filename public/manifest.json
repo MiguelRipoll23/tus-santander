@@ -1,35 +1,9 @@
 {
-  "id": "tus-santander",
-  "name": "TUS Santander",
-  "short_name": "TUS",
-  "description": "Las estimaciones de llegada y rutas de los autobuses del transporte urbano de Santander.",
-  "categories": ["navigation", "travel"],
-  "lang": "Spanish; Castilian",
-  "dir": "ltr",
-  "scope": "/",
-  "start_url": "/?utm_source=homescreen&utm_medium=shortcut",
-  "display": "standalone",
-  "orientation": "portrait",
-  "theme_color": "#ffffff",
   "background_color": "#ffffff",
-  "serviceworker": {
-    "src": "service-worker.js",
-    "scope": "/",
-    "update_via_cache": "none"
-  },
+  "categories": ["navigation", "travel"],
+  "description": "Las estimaciones de llegada y rutas de los autobuses del transporte urbano de Santander.",
+  "display": "standalone",
   "icons": [
-    {
-      "purpose": "any",
-      "sizes": "72x72",
-      "src": "images/icon-72x72.png",
-      "type": "image/png"
-    },
-    {
-      "purpose": "any",
-      "sizes": "96x96",
-      "src": "images/icon-96x96.png",
-      "type": "image/png"
-    },
     {
       "purpose": "any",
       "sizes": "128x128",
@@ -65,36 +39,60 @@
       "sizes": "512x512",
       "src": "images/icon-512x512.png",
       "type": "image/png"
+    },
+    {
+      "purpose": "any",
+      "sizes": "72x72",
+      "src": "images/icon-72x72.png",
+      "type": "image/png"
+    },
+    {
+      "purpose": "any",
+      "sizes": "96x96",
+      "src": "images/icon-96x96.png",
+      "type": "image/png"
     }
   ],
+  "id": "tus-santander",
+  "name": "TUS Santander",
+  "orientation": "portrait",
+  "scope": "/",
   "screenshots": [
     {
       "form_factor": "narrow",
-      "label": "Favoritos",
-      "src": "images/screenshot-favorites.png",
+      "label": "Estimaciones de línea",
       "sizes": "1170x2532",
+      "src": "images/screenshot-eta2.png",
       "type": "image/png"
     },
     {
       "form_factor": "narrow",
       "label": "Estimaciones de parada",
-      "src": "images/screenshot-eta1.png",
       "sizes": "1170x2532",
+      "src": "images/screenshot-eta1.png",
       "type": "image/png"
     },
     {
       "form_factor": "narrow",
-      "label": "Estimaciones de línea",
-      "src": "images/screenshot-eta2.png",
+      "label": "Favoritos",
       "sizes": "1170x2532",
+      "src": "images/screenshot-favorites.png",
       "type": "image/png"
     },
     {
       "form_factor": "narrow",
       "label": "Ruta de línea",
-      "src": "images/screenshot-route.png",
       "sizes": "1170x2532",
+      "src": "images/screenshot-route.png",
       "type": "image/png"
     }
-  ]
+  ],
+  "serviceworker": {
+    "scope": "/",
+    "src": "service-worker.js",
+    "update_via_cache": "none"
+  },
+  "short_name": "TUS",
+  "start_url": "/?utm_source=homescreen&utm_medium=shortcut",
+  "theme_color": "#ffffff"
 }
