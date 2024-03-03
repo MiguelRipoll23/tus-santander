@@ -2,6 +2,7 @@
   "background_color": "#ffffff",
   "categories": ["navigation", "travel"],
   "description": "Las estimaciones de llegada y rutas de los autobuses del transporte urbano de Santander.",
+  "dir": "ltr",
   "display": "standalone",
   "icons": [
     {
@@ -54,6 +55,7 @@
     }
   ],
   "id": "tus-santander",
+  "lang": "es",
   "name": "TUS Santander",
   "orientation": "portrait",
   "scope": "/",
