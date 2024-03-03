@@ -66,5 +66,35 @@
       "src": "images/icon-512x512.png",
       "type": "image/png"
     }
+  ],
+  "screenshots": [
+    {
+      "form_factor": "narrow",
+      "label": "Favoritos",
+      "src": "images/screenshot-favorites.png",
+      "sizes": "1170x2532",
+      "type": "image/png"
+    },
+    {
+      "form_factor": "narrow",
+      "label": "Estimaciones de parada",
+      "src": "images/screenshot-eta1.png",
+      "sizes": "1170x2532",
+      "type": "image/png"
+    },
+    {
+      "form_factor": "narrow",
+      "label": "Estimaciones de línea",
+      "src": "images/screenshot-eta2.png",
+      "sizes": "1170x2532",
+      "type": "image/png"
+    },
+    {
+      "form_factor": "narrow",
+      "label": "Ruta de línea",
+      "src": "images/screenshot-route.png",
+      "sizes": "1170x2532",
+      "type": "image/png"
+    }
   ]
 }
