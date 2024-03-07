@@ -24,7 +24,7 @@ const DesktopAreaStyled = styled.div`
 `;
 
 const DesktopQrStyled = styled.img`
-  border-radius: 35px;
+  border-radius: 40px;
   box-shadow: 0 0 40px rgba(0, 0, 0, 0.3);
   width: 250px;
   height: 250px;
