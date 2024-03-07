@@ -40,7 +40,7 @@ const HomeDesktop = (props) => {
           width="250"
           height="250"
         />
-        <h1>TUS Santander (Web App)</h1>
+        <h1>TUS Santander</h1>
         <span>
           Escanea el código QR que se muestra en la pantalla usando la app{" "}
           <b>Cámara</b> de tu móvil para acceder a la aplicación
