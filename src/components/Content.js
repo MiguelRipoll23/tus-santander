@@ -2,8 +2,6 @@ import styled from "styled-components";
 
 const ContentStyled = styled.main`
   flex: 1;
-  display: flex;
-  flex-direction: column;
   overflow-y: auto;
   padding-bottom: ${(props) =>
     props.paddingBottom === undefined ? "0" : props.paddingBottom};

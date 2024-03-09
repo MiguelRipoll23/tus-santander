@@ -11,7 +11,6 @@ const StopLinesStyled = styled.div`
   color: #fff;
   overflow-x: scroll;
   height: ${(props) => (props.size === "small" ? "28px" : "36px")};
-  min-height: ${(props) => (props.size === "small" ? "28px" : "36px")};
   white-space: nowrap;
 
   &::-webkit-scrollbar {
