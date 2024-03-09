@@ -7,12 +7,12 @@ const RefreshIconStyled = styled.button`
   background: var(--color-blue);
   position: fixed;
   border-radius: 100%;
-  width: 75px;
-  height: 75px;
+  width: 80px;
+  height: 80px;
   left: 50%;
-  margin-left: -30px;
+  margin-left: -40px;
   animation: fade-in 0.2s;
-  line-height: 75px;
+  line-height: 80px;
   bottom: 30px;
 `;
 
