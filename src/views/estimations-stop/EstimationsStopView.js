@@ -19,10 +19,6 @@ import Error from "../../components/Error.js";
 import StopLines from "../../components/StopLines.js";
 import EstimationsList from "../../components/estimations/EstimationsList.js";
 
-const standalone =
-  navigator.standalone ||
-  window.matchMedia("(display-mode: standalone)").matches;
-
 const EstimationsStopView = (props) => {
   const { data, setViewIdWithData } = useView();
   const { stopId, stopName } = data;
@@ -141,6 +137,8 @@ const EstimationsStopView = (props) => {
     };
   }, [getEstimations, refreshContent]);
 
+  const isStandalone = navigator.standalone;
+
   return (
     <Fragment>
       <Nav isHeader={false} titleText={stopName}>
@@ -148,7 +146,7 @@ const EstimationsStopView = (props) => {
           <HeartIcon heartState={heartState} updateFavorite={updateFavorite} />
         )}
       </Nav>
-      <Content paddingBottom={standalone ? "120px" : "0"}>
+      <Content paddingBottom={isStandalone ? "120px" : "0"}>
         {loading && <Spinner />}
         {error && (
           <Error
@@ -164,7 +162,9 @@ const EstimationsStopView = (props) => {
           estimations={estimations}
           lineAction={loadEstimationsLineView}
         />
-        {refreshVisible && <RefreshIcon refreshContent={refreshContent} />}
+        {refreshVisible && isStandalone && (
+          <RefreshIcon refreshContent={refreshContent} />
+        )}
       </Content>
     </Fragment>
   );
