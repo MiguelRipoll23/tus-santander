@@ -6,12 +6,16 @@ const ContentStyled = styled.main`
   flex-direction: column;
   overflow-y: auto;
   padding-bottom: ${(props) =>
-    props.paddingBottom === null ? "0" : props.paddingBottom};
+    props.paddingBottom === undefined ? "0" : props.paddingBottom};
   -webkit-overflow-scrolling: touch;
 `;
 
 const View = (props) => {
-  return <ContentStyled paddingBottom={props.paddingBottom}>{props.children}</ContentStyled>;
+  return (
+    <ContentStyled paddingBottom={props.paddingBottom}>
+      {props.children}
+    </ContentStyled>
+  );
 };
 
 export default View;
