@@ -24,7 +24,6 @@ const EditLinkStyled = styled.button`
 `;
 
 const ContentStyled = styled.div`
-  flex: 1;
   position: relative;
   height: calc(100% - 91px + env(safe-area-inset-bottom));
   overflow-y: auto;
