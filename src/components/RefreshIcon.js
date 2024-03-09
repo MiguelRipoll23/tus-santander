@@ -1,16 +1,18 @@
 import styled from "styled-components";
 
-import StyleUtils from "../utils/StyleUtils.js";
-
 const RefreshIconStyled = styled.button`
-  padding: 11px ${StyleUtils.MARGIN_LR};
   font-family: icons;
-  font-size: 24px;
-  color: var(--color-blue);
-  line-height: 24px;
-  position: relative;
-  top: 1px;
+  font-size: 32px;
+  color: #fff;
+  background: var(--color-blue);
+  position: fixed;
+  border-radius: 100%;
+  width: 65px;
+  height: 65px;
+  left: 50%;
+  margin-left: -25px;
   animation: fade-in 0.2s;
+  bottom: 20px;
 `;
 
 const RefreshIcon = (props) => {

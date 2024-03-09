@@ -140,12 +140,11 @@ const EstimationsStopView = (props) => {
   return (
     <Fragment>
       <Nav isHeader={false} titleText={stopName}>
-        {refreshVisible && <RefreshIcon refreshContent={refreshContent} />}
         {heartState > 0 && (
           <HeartIcon heartState={heartState} updateFavorite={updateFavorite} />
         )}
       </Nav>
-      <Content>
+      <Content paddingBottom="90px">
         {loading && <Spinner />}
         {error && (
           <Error
@@ -161,6 +160,7 @@ const EstimationsStopView = (props) => {
           estimations={estimations}
           lineAction={loadEstimationsLineView}
         />
+        {refreshVisible && <RefreshIcon refreshContent={refreshContent} />}
       </Content>
     </Fragment>
   );
