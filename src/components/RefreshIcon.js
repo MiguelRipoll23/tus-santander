@@ -12,7 +12,7 @@ const RefreshIconStyled = styled.button`
   left: 50%;
   margin-left: -35px;
   animation: fade-in 0.2s;
-  line-height: 80px;
+  line-height: 70px;
   bottom: 28px;
 
   & span {
