@@ -140,9 +140,7 @@ const EstimationsStopView = (props) => {
   return (
     <Fragment>
       <Nav isHeader={false} titleText={stopName}>
-        {refreshVisible && (
-          <RefreshIcon refreshContent={refreshContent}></RefreshIcon>
-        )}
+        {refreshVisible && <RefreshIcon refreshContent={refreshContent} />}
         {heartState > 0 && (
           <HeartIcon heartState={heartState} updateFavorite={updateFavorite} />
         )}
