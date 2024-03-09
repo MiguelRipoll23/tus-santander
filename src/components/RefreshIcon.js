@@ -10,10 +10,10 @@ const RefreshIconStyled = styled.button`
   width: 75px;
   height: 75px;
   left: 50%;
-  margin-left: -25px;
+  margin-left: -30px;
   animation: fade-in 0.2s;
   line-height: 75px;
-  bottom: 60px;
+  bottom: 30px;
 `;
 
 const RefreshIcon = (props) => {
