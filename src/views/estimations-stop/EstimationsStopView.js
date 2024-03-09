@@ -137,7 +137,9 @@ const EstimationsStopView = (props) => {
     };
   }, [getEstimations, refreshContent]);
 
-  const isStandalone = navigator.standalone;
+  const isStandalone =
+    navigator.standalone ||
+    window.matchMedia("(display-mode: standalone)").matches;
 
   return (
     <Fragment>
