@@ -5,7 +5,7 @@ const RefreshIconStyled = styled.button`
   font-size: 34px;
   color: #fff;
   background: var(--color-blue);
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
   position: fixed;
   border-radius: 100%;
   width: 74px;
