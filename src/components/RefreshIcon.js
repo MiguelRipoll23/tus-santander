@@ -5,7 +5,7 @@ const RefreshIconStyled = styled.button`
   font-size: 34px;
   color: #fff;
   background: var(--color-blue);
-  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.2);
   position: fixed;
   border-radius: 100%;
   width: 74px;
@@ -15,12 +15,17 @@ const RefreshIconStyled = styled.button`
   animation: fade-in 0.2s;
   line-height: 74px;
   bottom: 28px;
+
+  & span {
+    position: relative;
+    top: -1px;
+  }
 `;
 
 const RefreshIcon = (props) => {
   return (
     <RefreshIconStyled aria-label="Refrescar" onClick={props.refreshContent}>
-      
+      <span></span>
     </RefreshIconStyled>
   );
 };
