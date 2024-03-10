@@ -25,7 +25,7 @@ const RefreshIconStyled = styled.button`
 const RefreshIcon = (props) => {
   return (
     <RefreshIconStyled aria-label="Refrescar" onClick={props.refreshContent}>
-      <span></span>
+      <span></span>
     </RefreshIconStyled>
   );
 };
