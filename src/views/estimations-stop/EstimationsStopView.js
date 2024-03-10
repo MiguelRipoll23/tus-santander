@@ -144,7 +144,7 @@ const EstimationsStopView = (props) => {
           <HeartIcon heartState={heartState} updateFavorite={updateFavorite} />
         )}
       </Nav>
-      <Content paddingBottom={window.standalone ? "100px" : "0"}>
+      <Content paddingBottom={window.standalone ? "105px" : "0"}>
         {loading && <Spinner />}
         {error && (
           <Error
