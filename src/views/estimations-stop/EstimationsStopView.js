@@ -164,7 +164,7 @@ const EstimationsStopView = (props) => {
           estimations={estimations}
           lineAction={loadEstimationsLineView}
         />
-        {true && <RefreshIcon refreshContent={refreshContent} />}
+        {refreshVisible && <RefreshIcon refreshContent={refreshContent} />}
       </Content>
     </Fragment>
   );
