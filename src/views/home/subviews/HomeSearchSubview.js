@@ -20,7 +20,8 @@ const IconStyled = styled.div`
 
   &:before {
     font-family: icons;
-    content: "\\e901";
+    font-weight: bold;
+    content: "\\e905";
     color: #8e8e92;
     z-index: 1;
     margin: auto;
@@ -68,7 +69,8 @@ const ResultStyled = styled.button`
 
   &:before {
     font-family: icons;
-    content: "\\e901";
+    font-weight: bold;
+    content: "\\e905";
     color: var(--color-blue);
     margin-right: 12px;
     position: relative;

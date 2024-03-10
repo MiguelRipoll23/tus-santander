@@ -54,8 +54,11 @@ const BackButtonStyled = styled.button`
 
 const BackIconStyled = styled.span`
   float: left;
+  position: relative;
+  left: -2px;
   margin-right: 8px;
   font-family: icons;
+  font-weight: bold;
   font-size: 23px;
   line-height: 24px;
   width: 12.27px;
@@ -106,7 +109,7 @@ const Nav = (props) => {
         <NavStyled $borderOpacity={borderOpacity}>
           <NavLeftStyled>
             <BackButtonStyled onClick={goBack}>
-              <BackIconStyled></BackIconStyled>
+              <BackIconStyled></BackIconStyled>
               <span>Atrás</span>
             </BackButtonStyled>
           </NavLeftStyled>

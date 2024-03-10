@@ -5,6 +5,7 @@ import StyleUtils from "../utils/StyleUtils.js";
 const HeartIconStyled = styled.button`
   padding: 11px ${StyleUtils.MARGIN_LR};
   font-family: icons;
+  font-weight: bold;
   font-size: 24px;
   color: #ff2d55;
   line-height: 24px;
@@ -15,7 +16,7 @@ const HeartIconStyled = styled.button`
   animation: fade-in 0.2s;
 
   &:after {
-    content: "${(props) => (props.$state > 1 ? "\\e905" : "\\e906")}";
+    content: "${(props) => (props.$state > 1 ? "\\e903" : "\\e904")}";
   }
 `;
 

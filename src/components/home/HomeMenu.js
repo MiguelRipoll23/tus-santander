@@ -66,24 +66,26 @@ const HomeMenu = (props) => {
     setSubViewId(SUB_VIEW_ID_SEARCH);
   };
 
+  const boldStyle = { fontWeight: "bold" };
+
   return (
     <HomeMenuStyled>
       <Item
         selected={subViewId === SUB_VIEW_ID_FAVORITES}
         onClick={loadFavoritesSubView}
       >
-        <ItemIcon></ItemIcon>
+        <ItemIcon></ItemIcon>
         <ItemText>Favoritos</ItemText>
       </Item>
       <Item selected={subViewId === SUB_VIEW_ID_MAP} onClick={loadMapSubView}>
-        <ItemIcon></ItemIcon>
+        <ItemIcon></ItemIcon>
         <ItemText>Mapa</ItemText>
       </Item>
       <Item
         selected={subViewId === SUB_VIEW_ID_SEARCH}
         onClick={loadSearchSubView}
       >
-        <ItemIcon></ItemIcon>
+        <ItemIcon style={boldStyle}></ItemIcon>
         <ItemText>Buscar</ItemText>
       </Item>
     </HomeMenuStyled>

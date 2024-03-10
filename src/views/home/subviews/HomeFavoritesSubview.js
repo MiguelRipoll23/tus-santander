@@ -13,14 +13,13 @@ import Nav from "../../../components/Nav.js";
 import Error from "../../../components/Error.js";
 import HomeDesktop from "../../../components/home/HomeDesktop.js";
 
-const EditLinkStyled = styled.button`
+const SortIcon = styled.button`
   color: var(--color-blue);
   align-self: flex-end;
   padding: 0 0px;
-
-  &[disabled] {
-    opacity: 0.5;
-  }
+  font-family: ${(props) => (props.editMode ? "inherit" : "icons")};
+  font-size: ${(props) => (props.editMode ? "14px" : "24px")};
+  font-weight: ${(props) => (props.editMode ? "normal" : "bold")};
 `;
 
 const ContentStyled = styled.div`
@@ -156,9 +155,13 @@ const HomeFavoritesSubview = (props) => {
       return (
         <Fragment>
           <Nav isHeader={true} titleText="Favoritos" hidden={isDesktop}>
-            <EditLinkStyled onClick={toggleEditMode} hidden={editHidden}>
-              {editMode ? "Hecho" : "Editar"}
-            </EditLinkStyled>
+            <SortIcon
+              editMode={editMode}
+              onClick={toggleEditMode}
+              hidden={editHidden}
+            >
+              {editMode ? "Hecho" : ""}
+            </SortIcon>
           </Nav>
           <ContentStyled hidden={isDesktop}>
             {error && (
