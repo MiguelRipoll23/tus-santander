@@ -17,10 +17,8 @@ const EditLinkStyled = styled.button`
   color: var(--color-blue);
   align-self: flex-end;
   padding: 0 0px;
-
-  &[disabled] {
-    opacity: 0.5;
-  }
+  font-family: ${(props) => (props.editMode ? "revert" : "icons")};
+  font-size: ${(props) => (props.editMode ? "inherit" : "24px")};
 `;
 
 const ContentStyled = styled.div`
@@ -156,8 +154,12 @@ const HomeFavoritesSubview = (props) => {
       return (
         <Fragment>
           <Nav isHeader={true} titleText="Favoritos" hidden={isDesktop}>
-            <EditLinkStyled onClick={toggleEditMode} hidden={editHidden}>
-              {editMode ? "Hecho" : "Editar"}
+            <EditLinkStyled
+              onClick={toggleEditMode}
+              editMode={editMode}
+              hidden={editHidden}
+            >
+              {editMode ? "Hecho" : ""}
             </EditLinkStyled>
           </Nav>
           <ContentStyled hidden={isDesktop}>
