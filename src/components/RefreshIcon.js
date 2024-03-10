@@ -18,7 +18,7 @@ const RefreshIconStyled = styled.button`
 
   & span {
     position: relative;
-    top: -0.5px;
+    top: -0.6px;
   }
 `;
 
