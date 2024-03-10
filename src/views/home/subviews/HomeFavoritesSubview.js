@@ -68,7 +68,7 @@ const HomeFavoritesSubview = (props) => {
 
   // Edit mode
   const [editMode, setEditMode] = useState(false);
-  const [editHidden, setEditHidden] = useState(true);
+  const [sortIconHidden, setSortIconHidden] = useState(true);
 
   const toggleEditMode = () => {
     setEditMode(editMode ? false : true);
@@ -157,7 +157,7 @@ const HomeFavoritesSubview = (props) => {
             <SortIconAndDoneLinkStyled
               onClick={toggleEditMode}
               editMode={editMode}
-              hidden={editHidden}
+              hidden={sortIconHidden}
             >
               {editMode ? "Hecho" : ""}
             </SortIconAndDoneLinkStyled>
@@ -200,7 +200,7 @@ const HomeFavoritesSubview = (props) => {
     if (favorites.length === 0) {
       setError(true);
     } else {
-      setEditHidden(false);
+      setSortIconHidden(false);
       setFavorites(favorites);
     }
   }, []);
