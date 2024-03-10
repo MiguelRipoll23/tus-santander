@@ -2,7 +2,7 @@ import styled from "styled-components";
 
 const RefreshIconStyled = styled.button`
   font-family: icons;
-  font-size: 32px;
+  font-size: 34px;
   color: #fff;
   background: var(--color-blue);
   position: fixed;
@@ -17,7 +17,7 @@ const RefreshIconStyled = styled.button`
 
   & span {
     position: relative;
-    top: -3px;
+    top: -2px;
   }
 `;
 
