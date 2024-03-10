@@ -4,7 +4,7 @@ const ContentStyled = styled.main`
   flex: 1;
   overflow-y: auto;
   padding-bottom: ${(props) =>
-    props.paddingBottom === undefined ? "0" : props.paddingBottom};
+    props.$paddingBottom === undefined ? "0" : props.$paddingBottom};
   -webkit-overflow-scrolling: touch;
 `;
 
