@@ -21,7 +21,7 @@ const Error = (props) => {
   return (
     <ErrorStyled>
       <TextStyled>{props.errorText}</TextStyled>
-      <Button color="var(--color-blue)" onClick={props.retryAction}>
+      <Button color="var(--color-light-blue)" onClick={props.retryAction}>
         {props.retryText}
       </Button>
     </ErrorStyled>
