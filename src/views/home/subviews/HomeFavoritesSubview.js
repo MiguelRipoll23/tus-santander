@@ -13,7 +13,7 @@ import Nav from "../../../components/Nav.js";
 import Error from "../../../components/Error.js";
 import HomeDesktop from "../../../components/home/HomeDesktop.js";
 
-const EditLinkStyled = styled.button`
+const SortIconAndDoneLinkStyled = styled.button`
   color: var(--color-blue);
   align-self: flex-end;
   padding: 0 0px;
@@ -154,13 +154,13 @@ const HomeFavoritesSubview = (props) => {
       return (
         <Fragment>
           <Nav isHeader={true} titleText="Favoritos" hidden={isDesktop}>
-            <EditLinkStyled
+            <SortIconAndDoneLinkStyled
               onClick={toggleEditMode}
               editMode={editMode}
               hidden={editHidden}
             >
               {editMode ? "Hecho" : ""}
-            </EditLinkStyled>
+            </SortIconAndDoneLinkStyled>
           </Nav>
           <ContentStyled hidden={isDesktop}>
             {error && (
