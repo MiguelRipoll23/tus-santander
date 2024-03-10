@@ -17,8 +17,8 @@ const SortIconAndDoneLinkStyled = styled.button`
   color: var(--color-blue);
   align-self: flex-end;
   padding: 0 0px;
-  font-family: ${(props) => (props.editMode ? "revert" : "icons")};
-  font-size: ${(props) => (props.editMode ? "inherit" : "24px")};
+  font-family: ${(props) => (props.$editMode ? "revert" : "icons")};
+  font-size: ${(props) => (props.$editMode ? "inherit" : "24px")};
 `;
 
 const ContentStyled = styled.div`
@@ -155,9 +155,9 @@ const HomeFavoritesSubview = (props) => {
         <Fragment>
           <Nav isHeader={true} titleText="Favoritos" hidden={isDesktop}>
             <SortIconAndDoneLinkStyled
-              onClick={toggleEditMode}
-              editMode={editMode}
+              $editMode={editMode}
               hidden={sortIconHidden}
+              onClick={toggleEditMode}
             >
               {editMode ? "Hecho" : ""}
             </SortIconAndDoneLinkStyled>

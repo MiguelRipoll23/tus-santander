@@ -10,7 +10,7 @@ const ContentStyled = styled.main`
 
 const View = (props) => {
   return (
-    <ContentStyled paddingBottom={props.paddingBottom}>
+    <ContentStyled $paddingBottom={props.paddingBottom}>
       {props.children}
     </ContentStyled>
   );
