@@ -4,7 +4,7 @@ const RefreshIconStyled = styled.button`
   font-family: icons;
   font-size: 34px;
   color: #fff;
-  background: var(--color-blue);
+  background: var(--color-light-blue);
   box-shadow: 0 2px 12px rgba(0, 0, 0, 0.2);
   position: fixed;
   border-radius: 100%;
@@ -18,7 +18,7 @@ const RefreshIconStyled = styled.button`
 
   & span {
     position: relative;
-    top: -1px;
+    top: -0.4px;
   }
 `;
 
