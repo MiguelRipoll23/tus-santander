@@ -13,14 +13,12 @@ import Nav from "../../../components/Nav.js";
 import Error from "../../../components/Error.js";
 import HomeDesktop from "../../../components/home/HomeDesktop.js";
 
-const EditLinkStyled = styled.button`
+const SortIconAndDoneLinkStyled = styled.button`
   color: var(--color-blue);
   align-self: flex-end;
   padding: 0 0px;
-
-  &[disabled] {
-    opacity: 0.5;
-  }
+  font-family: ${(props) => (props.editMode ? "revert" : "icons")};
+  font-size: ${(props) => (props.editMode ? "inherit" : "24px")};
 `;
 
 const ContentStyled = styled.div`
@@ -70,7 +68,7 @@ const HomeFavoritesSubview = (props) => {
 
   // Edit mode
   const [editMode, setEditMode] = useState(false);
-  const [editHidden, setEditHidden] = useState(true);
+  const [sortIconHidden, setSortIconHidden] = useState(true);
 
   const toggleEditMode = () => {
     setEditMode(editMode ? false : true);
@@ -156,9 +154,13 @@ const HomeFavoritesSubview = (props) => {
       return (
         <Fragment>
           <Nav isHeader={true} titleText="Favoritos" hidden={isDesktop}>
-            <EditLinkStyled onClick={toggleEditMode} hidden={editHidden}>
-              {editMode ? "Hecho" : "Editar"}
-            </EditLinkStyled>
+            <SortIconAndDoneLinkStyled
+              onClick={toggleEditMode}
+              editMode={editMode}
+              hidden={sortIconHidden}
+            >
+              {editMode ? "Hecho" : ""}
+            </SortIconAndDoneLinkStyled>
           </Nav>
           <ContentStyled hidden={isDesktop}>
             {error && (
@@ -198,7 +200,7 @@ const HomeFavoritesSubview = (props) => {
     if (favorites.length === 0) {
       setError(true);
     } else {
-      setEditHidden(false);
+      setSortIconHidden(false);
       setFavorites(favorites);
     }
   }, []);

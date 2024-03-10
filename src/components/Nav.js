@@ -106,7 +106,7 @@ const Nav = (props) => {
         <NavStyled $borderOpacity={borderOpacity}>
           <NavLeftStyled>
             <BackButtonStyled onClick={goBack}>
-              <BackIconStyled></BackIconStyled>
+              <BackIconStyled></BackIconStyled>
               <span>Atrás</span>
             </BackButtonStyled>
           </NavLeftStyled>
