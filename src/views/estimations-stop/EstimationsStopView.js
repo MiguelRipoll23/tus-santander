@@ -66,6 +66,8 @@ const EstimationsStopView = (props) => {
             const linesList = data[1];
             setLines(linesList);
           }
+
+          setRefreshVisible(window.standalone);
         })
         .catch((error) => {
           console.error(error);
@@ -75,7 +77,6 @@ const EstimationsStopView = (props) => {
           const heartState = getFavorite(stopId) === null ? 1 : 2;
 
           setLoading(false);
-          setRefreshVisible(window.standalone);
           setHeartState(heartState);
         });
     },
@@ -83,10 +84,10 @@ const EstimationsStopView = (props) => {
   );
 
   // Refresh
-  const refreshContent = useCallback(() => {
+  const refreshContent = useCallback((update) => {
     setRefreshVisible(false);
     setLoading(true);
-    getEstimations(true);
+    getEstimations(update);
   }, [getEstimations]);
 
   // Heart
@@ -128,7 +129,7 @@ const EstimationsStopView = (props) => {
     // Auto-refresh
     document.onvisibilitychange = () => {
       if (document.visibilityState === "visible") {
-        refreshContent();
+        refreshContent(true);
       }
     };
 
@@ -150,7 +151,7 @@ const EstimationsStopView = (props) => {
           <Error
             errorText="No disponible"
             retryText="Volver a intentar"
-            retryAction={refreshContent}
+            retryAction={() => refreshContent(false)}
           />
         )}
         {lines.length > 0 && (
@@ -160,7 +161,9 @@ const EstimationsStopView = (props) => {
           estimations={estimations}
           lineAction={loadEstimationsLineView}
         />
-        {refreshVisible && <RefreshIcon refreshContent={refreshContent} />}
+        {refreshVisible && (
+          <RefreshIcon refreshContent={() => refreshContent(true)} />
+        )}
       </Content>
     </Fragment>
   );
