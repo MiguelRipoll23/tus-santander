@@ -110,17 +110,18 @@ const HomeFavoritesSubview = (props) => {
     }
 
     const favoritesOrdered = [...favorites];
+    const childrenArray = [...draggingElement.parentNode.children];
 
-    const sourceIndex = [...draggingElement.parentNode.children].indexOf(
-      draggingElement
-    );
+    const sourceIndex = childrenArray.indexOf(draggingElement);
+    const targetIndex = childrenArray.indexOf(targetElement);
 
-    const targetIndex = [...draggingElement.parentNode.children].indexOf(
-      targetElement
-    );
-
-    favoritesOrdered[sourceIndex] = favorites[targetIndex];
-    favoritesOrdered[targetIndex] = favorites[sourceIndex];
+    const [movedItem] = favoritesOrdered.splice(sourceIndex, 1);
+    
+    const isSourceIndexLessThanTarget = sourceIndex < targetIndex;
+    const isTargetNotAtEnd = targetIndex !== favoritesOrdered.length;
+    const adjustedTargetIndex = isSourceIndexLessThanTarget && isTargetNotAtEnd ? targetIndex - 1 : targetIndex;
+    
+    favoritesOrdered.splice(adjustedTargetIndex, 0, movedItem);
 
     setFavorites(favoritesOrdered);
     saveFavorites(favoritesOrdered);
