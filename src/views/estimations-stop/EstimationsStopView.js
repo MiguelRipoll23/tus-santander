@@ -67,7 +67,7 @@ const EstimationsStopView = (props) => {
             setLines(linesList);
           }
 
-          setRefreshVisible(window.standalone);
+          setRefreshVisible(true);
         })
         .catch((error) => {
           console.error(error);
@@ -84,11 +84,14 @@ const EstimationsStopView = (props) => {
   );
 
   // Refresh
-  const refreshContent = useCallback((update) => {
-    setRefreshVisible(false);
-    setLoading(true);
-    getEstimations(update);
-  }, [getEstimations]);
+  const refreshContent = useCallback(
+    (update) => {
+      setRefreshVisible(false);
+      setLoading(true);
+      getEstimations(update);
+    },
+    [getEstimations]
+  );
 
   // Heart
   const updateFavorite = () => {
@@ -145,7 +148,7 @@ const EstimationsStopView = (props) => {
           <HeartIcon heartState={heartState} updateFavorite={updateFavorite} />
         )}
       </Nav>
-      <Content paddingBottom={window.standalone ? "105px" : "0"}>
+      <Content paddingBottom="105px">
         {loading && <Spinner />}
         {error && (
           <Error
