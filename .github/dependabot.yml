@@ -9,6 +9,15 @@ updates:
     directory: "/"
     schedule:
       interval: "daily"
+    groups:
+      react:
+        patterns:
+          - "react-*"
+
+      actions-artifact:
+        patterns:
+          - "actions/upload-artifact"
+          - "actions/download-artifact"
 
   - package-ecosystem: "npm"
     directory: "/"
