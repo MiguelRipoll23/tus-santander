@@ -12,7 +12,7 @@ updates:
     groups:
       react:
         patterns:
-          - "react-*"
+          - "react*"
 
       actions-artifact:
         patterns:
