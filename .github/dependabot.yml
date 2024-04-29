@@ -10,10 +10,6 @@ updates:
     schedule:
       interval: "daily"
     groups:
-      react:
-        patterns:
-          - "react*"
-
       actions-artifact:
         patterns:
           - "actions/upload-artifact"
@@ -23,4 +19,7 @@ updates:
     directory: "/"
     schedule:
       interval: "daily"
-    open-pull-requests-limit: 5
+    groups:
+      react:
+        patterns:
+          - "react*"
