@@ -4,8 +4,7 @@
 }
 
 body,
-html,
-#app {
+html {
   height: 100%;
 }
 
@@ -45,6 +44,7 @@ button {
 }
 
 #app {
+  height: 100vh;
   display: flex;
   flex-direction: column;
 }
