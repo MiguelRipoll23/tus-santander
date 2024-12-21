@@ -18,7 +18,7 @@ const EstimationsCardStyled = styled.div`
     ${(props) => props.$backgroundColors[0]},
     ${(props) => props.$backgroundColors[1]}
   );
-  animation: fade-in 0.2s;
+  animation: fade-in 0.3s;
 
   &:last-child {
     margin-bottom: 14px;
