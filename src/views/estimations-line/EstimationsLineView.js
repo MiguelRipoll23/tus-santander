@@ -2,7 +2,7 @@ import { Fragment, useState, useEffect, useCallback } from "react";
 import styled from "styled-components";
 
 import { useView } from "../../contexts/ViewContext.js";
-import { getColor } from "../../utils/LineUtils.js";
+import { getLineBackground } from "../../utils/LineUtils.js";
 
 import { VIEW_ID_ROUTE_LINE } from "../../constants/ViewConstants.js";
 
@@ -51,7 +51,7 @@ const EstimationsLineView = (props) => {
   const [stops, setStops] = useState([]);
 
   // Colors
-  const color = getColor(lineLabel, "string");
+  const color = getLineBackground(lineLabel, "string");
 
   const getEstimations = useCallback(
     (update = false) => {
