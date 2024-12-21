@@ -1,11 +1,11 @@
 export const getLineBackgroundColors = (label) => {
-  let color1 = getLineBackground(label, "array");
-  let color2 = getLineBackground(label, "array", true);
+  let color1 = getLineBackgroundColor(label, "array");
+  let color2 = getLineBackgroundColor(label, "array", true);
 
   return ["rgb(" + color1.join(",") + ")", "rgb(" + color2.join(",") + ")"];
 };
 
-export const getLineBackground = (label, type, darker) => {
+export const getLineBackgroundColor = (label, type, darker) => {
   let value = null;
 
   switch (label) {

@@ -1,7 +1,10 @@
 import styled from "styled-components";
 
 import StyleUtils from "../utils/StyleUtils.js";
-import { getLineBackground, getLineTextColor } from "../utils/LineUtils.js";
+import {
+  getLineBackgroundColor,
+  getLineTextColor,
+} from "../utils/LineUtils.js";
 
 const StopLinesStyled = styled.div`
   margin-top: 7px;
@@ -79,7 +82,7 @@ const StopLines = (props) => {
           <StopLineStyled
             key={i}
             size={props.size}
-            backgroundColor={getLineBackground(label, "string")}
+            backgroundColor={getLineBackgroundColor(label, "string")}
             textColor={getLineTextColor(label)}
             disabled={isDisabled(label, props.estimations)}
             onClick={() => handleOnClick(label)}

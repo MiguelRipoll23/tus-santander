@@ -2,7 +2,7 @@ import { Fragment, useState, useEffect, useCallback } from "react";
 import styled from "styled-components";
 
 import { useView } from "../../contexts/ViewContext.js";
-import { getLineBackground } from "../../utils/LineUtils.js";
+import { getLineBackgroundColor } from "../../utils/LineUtils.js";
 
 import { VIEW_ID_ROUTE_LINE } from "../../constants/ViewConstants.js";
 
@@ -49,9 +49,7 @@ const EstimationsLineView = (props) => {
 
   const [estimations, setEstimations] = useState([]);
   const [stops, setStops] = useState([]);
-
-  // Colors
-  const color = getLineBackground(lineLabel, "string");
+  const backgroundColor = getLineBackgroundColor(lineLabel, "string", true);
 
   const getEstimations = useCallback(
     (update = false) => {
@@ -111,7 +109,6 @@ const EstimationsLineView = (props) => {
       stopId,
       lineLabel,
       lineDestination,
-      color,
     });
   };
 
@@ -146,10 +143,10 @@ const EstimationsLineView = (props) => {
         />
         {loading === false && error === false && (
           <ContextActionsStyled>
-            <ButtonStyled color={color} onClick={loadLineRouteView}>
+            <ButtonStyled color={backgroundColor} onClick={loadLineRouteView}>
               Ver recorrido
             </ButtonStyled>
-            <ButtonStyled color={color} onClick={refreshContent}>
+            <ButtonStyled color={backgroundColor} onClick={refreshContent}>
               Actualizar
             </ButtonStyled>
           </ContextActionsStyled>
