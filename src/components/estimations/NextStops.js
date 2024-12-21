@@ -1,14 +1,16 @@
 import { Fragment } from "react";
 import styled from "styled-components";
 
+import { getLineBackgroundColors } from "../../utils/LineUtils.js";
+
 const NextStopsStyled = styled.div`
-  background: ${(props) => props.$colors[0]};
+  background: ${(props) => props.$backgroundColors[1]};
   border-radius: 0 0 30px 30px;
   padding: 6px 0;
 `;
 
 const NextStopStyled = styled.div`
-  border-bottom: 1px solid ${(props) => props.$colors[1]};
+  border-bottom: 1px solid ${(props) => props.$backgroundColors[0]};
   border-bottom-opacity: 0.4;
   margin: 0 24px;
   padding: 12px 0;
@@ -19,12 +21,15 @@ const NextStopStyled = styled.div`
 `;
 
 const NextStopsCard = (props) => {
+  const { label } = props;
+  const backgroundColors = getLineBackgroundColors(label);
+
   return (
     <Fragment>
-      <NextStopsStyled $colors={props.colors}>
+      <NextStopsStyled $backgroundColors={backgroundColors}>
         {props.list.map((stop, i) => {
           return (
-            <NextStopStyled key={i} $colors={props.colors}>
+            <NextStopStyled key={i} $backgroundColors={backgroundColors}>
               {stop}
             </NextStopStyled>
           );

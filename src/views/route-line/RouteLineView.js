@@ -2,7 +2,7 @@ import { Fragment, useState, useCallback, useEffect } from "react";
 import styled from "styled-components";
 
 import { useView } from "../../contexts/ViewContext.js";
-
+import { getLineBackgroundColor } from "../../utils/LineUtils.js";
 import { API_HOST, API_PATH_JSON_ROUTE } from "../../utils/ApiConstants.js";
 
 import Content from "../../components/Content.js";
@@ -68,11 +68,13 @@ const StopStyled = styled.li`
 
 const RouteLineView = (props) => {
   const { data } = useView();
-  const { stopId, lineLabel, lineDestination, color } = data;
+  const { stopId, lineLabel, lineDestination } = data;
 
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
   const [routes, setRoutes] = useState([]);
+
+  const color = getLineBackgroundColor(lineLabel, "string");
 
   const getStops = useCallback(() => {
     // Reset

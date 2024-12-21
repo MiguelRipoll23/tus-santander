@@ -1,6 +1,10 @@
 import styled from "styled-components";
-
 import StyleUtils from "../../utils/StyleUtils.js";
+
+import {
+  getLineBackgroundColors,
+  getLineTextColor,
+} from "../../utils/LineUtils.js";
 
 const EstimationsCardStyled = styled.div`
   border-radius: 30px;
@@ -8,12 +12,11 @@ const EstimationsCardStyled = styled.div`
   margin-left: ${StyleUtils.MARGIN_LR};
   margin-right: ${StyleUtils.MARGIN_LR};
   cursor: pointer;
-  background: #fff;
-  color: #fff;
+  color: ${(props) => props.$textColor};
   background: linear-gradient(
-    to top,
-    ${(props) => props.$colors[0]},
-    ${(props) => props.$colors[1]}
+    to bottom,
+    ${(props) => props.$backgroundColors[0]},
+    ${(props) => props.$backgroundColors[1]}
   );
   animation: fade-in 0.2s;
 
@@ -23,10 +26,15 @@ const EstimationsCardStyled = styled.div`
 `;
 
 const EstimationsCard = (props) => {
+  const { label } = props;
+  const backgroundColors = getLineBackgroundColors(label);
+  const textColor = getLineTextColor(label);
+
   return (
     <EstimationsCardStyled
       id={props.id}
-      $colors={props.colors}
+      $backgroundColors={backgroundColors}
+      $textColor={textColor}
       onClick={props.onClick}
     >
       {props.children}

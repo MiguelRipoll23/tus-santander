@@ -1,105 +1,108 @@
-export const getColors = (label) => {
-  let color1 = getColor(label, "array");
-  let color2 = getColor(label, "array");
-
-  color2[0] = Math.min(255, color2[0] * 1.25);
-  color2[1] = Math.min(255, color2[1] * 1.25);
-  color2[2] = Math.min(255, color2[2] * 1.25);
+export const getLineBackgroundColors = (label) => {
+  let color1 = getLineBackgroundColor(label, "array");
+  let color2 = getLineBackgroundColor(label, "array", true);
 
   return ["rgb(" + color1.join(",") + ")", "rgb(" + color2.join(",") + ")"];
 };
 
-export const getColor = (label, type, bright) => {
+export const getLineBackgroundColor = (label, type, darker) => {
   let value = null;
 
   switch (label) {
-    case "LC":
-      value = [172, 68, 73];
-      break;
-
     case "1":
-      value = [229, 57, 53];
+      value = [255, 0, 0];
       break;
 
     case "2":
-      value = [186, 104, 200];
+      value = [235, 188, 194];
       break;
 
     case "3":
-      value = [255, 183, 77];
+      value = [255, 208, 20];
       break;
 
     case "4":
-      value = [79, 195, 247];
+      value = [58, 242, 229];
       break;
 
     case "5C1":
+      value = [207, 207, 207];
+      break;
+
     case "5C2":
-      value = [73, 73, 73];
+      value = [173, 173, 173];
       break;
 
     case "6C1":
+      value = [14, 199, 88];
+      break;
+
     case "6C2":
-      value = [76, 175, 80];
+      value = [0, 194, 0];
       break;
 
     case "7C1":
+      value = [255, 157, 28];
+      break;
+
     case "7C2":
-      value = [255, 112, 67];
+      value = [255, 157, 28];
       break;
 
     case "11":
-      value = [63, 81, 181];
+      value = [186, 51, 9];
       break;
 
     case "12":
-      value = [139, 195, 74];
+      value = [178, 219, 116];
       break;
 
     case "13":
-      value = [149, 117, 205];
+      value = [212, 176, 211];
       break;
 
     case "14":
-      value = [52, 119, 219];
-      break;
-
-    case "15":
-      value = [249, 149, 127];
+      value = [62, 194, 230];
       break;
 
     case "16":
-      value = [140, 34, 59];
+      value = [212, 68, 178];
       break;
 
     case "17":
-      value = [255, 118, 154];
+      value = [255, 210, 199];
       break;
 
     case "18":
-      value = [0, 164, 166];
+      value = [201, 243, 255];
       break;
 
-    case "19":
-      value = [0, 85, 85];
+    case "24C1":
+      value = [255, 102, 34];
       break;
 
-    case "20":
-      value = [0, 132, 148];
+    case "24C2":
+      value = [255, 102, 34];
       break;
 
-    case "21":
-      value = [90, 120, 29];
+    case "LC":
+      value = [23, 46, 255];
       break;
 
-    case "23":
-      value = [119, 119, 119];
+    case "E1":
+      value = [42, 153, 181];
       break;
 
     case "N1":
+      value = [173, 173, 173];
+      break;
+
     case "N2":
+      value = [105, 105, 105];
+      break;
+
     case "N3":
-      value = [30, 29, 24];
+      value = [171, 171, 171];
       break;
 
     default:
@@ -107,10 +110,8 @@ export const getColor = (label, type, bright) => {
       break;
   }
 
-  if (bright) {
-    value[0] = Math.min(255, value[0] * 1.25);
-    value[1] = Math.min(255, value[1] * 1.25);
-    value[2] = Math.min(255, value[2] * 1.25);
+  if (darker) {
+    value = value.map((value) => Math.max(value - 30, 0));
   }
 
   if (type === "string") {
@@ -118,4 +119,14 @@ export const getColor = (label, type, bright) => {
   }
 
   return value;
+};
+
+export const getLineTextColor = (label) => {
+  switch (label) {
+    case "18":
+      return "#000";
+
+    default:
+      return "#fff";
+  }
 };
