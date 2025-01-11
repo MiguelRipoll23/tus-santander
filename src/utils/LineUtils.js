@@ -1,124 +1,32 @@
-export const getLineBackgroundColors = (label) => {
-  let color1 = getLineBackgroundColor(label, "array");
-  let color2 = getLineBackgroundColor(label, "array", 30);
+import { LINE_COLORS } from "../constants/LineConstants.js";
 
-  return ["rgb(" + color1.join(",") + ")", "rgb(" + color2.join(",") + ")"];
+export const getLineBackgroundColor = (
+  label,
+  type = "array",
+  darkStrength = 0
+) => {
+  // Get the base color or the default color
+  const baseColor = LINE_COLORS[label] || LINE_COLORS.default;
+
+  // Apply darkStrength adjustment
+  const adjustedColor = baseColor.map((value) =>
+    Math.max(value - darkStrength, 0)
+  );
+
+  // Return based on the type
+  return type === "string" ? `rgb(${adjustedColor.join(",")})` : adjustedColor;
 };
 
-export const getLineBackgroundColor = (label, type, darkStrength = 0) => {
-  let value = null;
+export const getLineBackgroundColors = (label) => {
+  // Generate both the primary and darkened background colors
+  const color1 = getLineBackgroundColor(label);
+  const color2 = getLineBackgroundColor(label, "array", 30);
 
-  switch (label) {
-    case "1":
-      value = [255, 0, 0];
-      break;
-
-    case "2":
-      value = [235, 188, 194];
-      break;
-
-    case "3":
-      value = [255, 208, 20];
-      break;
-
-    case "4":
-      value = [58, 242, 229];
-      break;
-
-    case "5C1":
-      value = [207, 207, 207];
-      break;
-
-    case "5C2":
-      value = [173, 173, 173];
-      break;
-
-    case "6C1":
-      value = [14, 199, 88];
-      break;
-
-    case "6C2":
-      value = [0, 194, 0];
-      break;
-
-    case "7C1":
-      value = [255, 157, 28];
-      break;
-
-    case "7C2":
-      value = [255, 157, 28];
-      break;
-
-    case "11":
-      value = [186, 51, 9];
-      break;
-
-    case "12":
-      value = [178, 219, 116];
-      break;
-
-    case "13":
-      value = [212, 176, 211];
-      break;
-
-    case "14":
-      value = [62, 194, 230];
-      break;
-
-    case "16":
-      value = [212, 68, 178];
-      break;
-
-    case "17":
-      value = [255, 210, 199];
-      break;
-
-    case "18":
-      value = [201, 243, 255];
-      break;
-
-    case "24C1":
-      value = [255, 102, 34];
-      break;
-
-    case "24C2":
-      value = [255, 102, 34];
-      break;
-
-    case "LC":
-      value = [23, 46, 255];
-      break;
-
-    case "E1":
-      value = [42, 153, 181];
-      break;
-
-    case "N1":
-      value = [173, 173, 173];
-      break;
-
-    case "N2":
-      value = [105, 105, 105];
-      break;
-
-    case "N3":
-      value = [171, 171, 171];
-      break;
-
-    default:
-      value = [0, 122, 255];
-      break;
-  }
-
-  value = value.map((value) => Math.max(value - darkStrength, 0));
-
-  if (type === "string") {
-    value = `rgb(${value.join(",")})`;
-  }
-
-  return value;
+  // Format as RGB strings
+  return [`rgb(${color1.join(",")})`, `rgb(${color2.join(",")})`];
 };
 
 export const getLineTextColor = (label) => {
+  // Return text color based on label
   return ["18", "17"].includes(label) ? "black" : "white";
 };
