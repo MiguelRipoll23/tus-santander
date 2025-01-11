@@ -1,11 +1,11 @@
 export const getLineBackgroundColors = (label) => {
   let color1 = getLineBackgroundColor(label, "array");
-  let color2 = getLineBackgroundColor(label, "array", true);
+  let color2 = getLineBackgroundColor(label, "array", 30);
 
   return ["rgb(" + color1.join(",") + ")", "rgb(" + color2.join(",") + ")"];
 };
 
-export const getLineBackgroundColor = (label, type, darker) => {
+export const getLineBackgroundColor = (label, type, darkStrength = 0) => {
   let value = null;
 
   switch (label) {
@@ -110,9 +110,7 @@ export const getLineBackgroundColor = (label, type, darker) => {
       break;
   }
 
-  if (darker) {
-    value = value.map((value) => Math.max(value - 30, 0));
-  }
+  value = value.map((value) => Math.max(value - darkStrength, 0));
 
   if (type === "string") {
     value = `rgb(${value.join(",")})`;
@@ -122,11 +120,5 @@ export const getLineBackgroundColor = (label, type, darker) => {
 };
 
 export const getLineTextColor = (label) => {
-  switch (label) {
-    case "18":
-      return "#000";
-
-    default:
-      return "#fff";
-  }
+  return ["18", "17"].includes(label) ? "black" : "white";
 };

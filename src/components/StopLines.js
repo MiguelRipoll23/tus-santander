@@ -22,9 +22,9 @@ const StopLinesStyled = styled.div`
 `;
 
 const StopLineStyled = styled.button`
-  color: ${(props) => props.textColor};
+  color: ${(props) => props.$textColor};
   line-height: 24px;
-  background: ${(props) => props.backgroundColor};
+  background: ${(props) => props.$backgroundColor};
   font-size: ${(props) => (props.size === "small" ? "12px" : "18px")};
   margin-right: ${(props) => (props.size === "small" ? "5px" : "7px")};
   border-radius: 30px;
@@ -82,8 +82,8 @@ const StopLines = (props) => {
           <StopLineStyled
             key={i}
             size={props.size}
-            backgroundColor={getLineBackgroundColor(label, "string")}
-            textColor={getLineTextColor(label)}
+            $backgroundColor={getLineBackgroundColor(label, "string")}
+            $textColor={getLineTextColor(label)}
             disabled={isDisabled(label, props.estimations)}
             onClick={() => handleOnClick(label)}
           >
