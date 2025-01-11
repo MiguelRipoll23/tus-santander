@@ -25,3 +25,5 @@ export const LINE_COLORS = {
   N3: [171, 171, 171],
   default: [0, 122, 255],
 };
+
+export const LINE_DARK_STRENGTH = 30;

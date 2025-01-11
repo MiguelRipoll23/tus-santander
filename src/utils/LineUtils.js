@@ -1,26 +1,25 @@
-import { LINE_COLORS } from "../constants/LineConstants.js";
+import { LINE_COLORS, LINE_DARK_STRENGTH } from "../constants/LineConstants.js";
 
 export const getLineBackgroundColor = (
   label,
   type = "array",
-  darkStrength = 0
+  darker = false
 ) => {
   // Get the base color or the default color
-  const baseColor = LINE_COLORS[label] || LINE_COLORS.default;
+  let rgbColor = LINE_COLORS[label] || LINE_COLORS.default;
 
-  // Apply darkStrength adjustment
-  const adjustedColor = baseColor.map((value) =>
-    Math.max(value - darkStrength, 0)
-  );
+  if (darker) {
+    rgbColor = rgbColor.map((color) => Math.max(0, color - LINE_DARK_STRENGTH));
+  }
 
   // Return based on the type
-  return type === "string" ? `rgb(${adjustedColor.join(",")})` : adjustedColor;
+  return type === "string" ? `rgb(${rgbColor.join(",")})` : rgbColor;
 };
 
 export const getLineBackgroundColors = (label) => {
   // Generate both the primary and darkened background colors
   const color1 = getLineBackgroundColor(label);
-  const color2 = getLineBackgroundColor(label, "array", 30);
+  const color2 = getLineBackgroundColor(label, "array", true);
 
   // Format as RGB strings
   return [`rgb(${color1.join(",")})`, `rgb(${color2.join(",")})`];
