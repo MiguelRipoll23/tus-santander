@@ -26,4 +26,4 @@ export const LINE_COLORS = {
   default: [0, 122, 255],
 };
 
-export const LINE_DARK_STRENGTH = 30;
+export const LINE_DARK_STRENGTH = 50;
