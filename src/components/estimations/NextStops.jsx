@@ -1,7 +1,7 @@
 import { Fragment } from "react";
 import styled from "styled-components";
 
-import { getLineBackgroundColors } from "../../utils/LineUtils.js";
+import { getLineBackgroundColors } from "../../utils/LineUtils.jsx";
 
 const NextStopsStyled = styled.div`
   background: ${(props) => props.$backgroundColors[1]};

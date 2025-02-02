@@ -1,12 +1,12 @@
 import styled from "styled-components";
 
-import { useView } from "../../contexts/ViewContext.js";
+import { useView } from "../../contexts/ViewContext.jsx";
 import {
   SUB_VIEW_ID_FAVORITES,
-  VIEW_ID_MAP,
   SUB_VIEW_ID_MAP,
   SUB_VIEW_ID_SEARCH,
-} from "../../constants/ViewConstants.js";
+  VIEW_ID_MAP,
+} from "../../constants/ViewConstants.jsx";
 
 const HomeMenuStyled = styled.div`
   background: #f7f7f7;
@@ -33,11 +33,11 @@ const Item = styled.div`
   padding-top: 14px;
   padding-bottom: calc(28px + env(safe-area-inset-bottom));
   color: ${(props) =>
-    props.selected ? "var(--color-blue)" : "rgba(0, 0, 0, .55);"};
+  props.selected ? "var(--color-blue)" : "rgba(0, 0, 0, .55);"};
 
   @media (prefers-color-scheme: dark) {
     color: ${(props) =>
-      props.selected ? "var(--color-blue)" : "rgba(255, 255, 255, .55);"};
+  props.selected ? "var(--color-blue)" : "rgba(255, 255, 255, .55);"};
   }
 `;
 

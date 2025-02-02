@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-import StyleUtils from "../utils/StyleUtils.js";
+import StyleUtils from "../utils/StyleUtils.jsx";
 
 const HeaderStyled = styled.div`
   padding-left: ${StyleUtils.MARGIN_LR};

@@ -1,13 +1,13 @@
-import { Fragment, useState, useEffect } from "react";
+import { Fragment, useEffect, useState } from "react";
 import styled from "styled-components";
 
-import { useView } from "../../../contexts/ViewContext.js";
-import { VIEW_ID_ESTIMATIONS_STOP } from "../../../constants/ViewConstants.js";
+import { useView } from "../../../contexts/ViewContext.jsx";
+import { VIEW_ID_ESTIMATIONS_STOP } from "../../../constants/ViewConstants.jsx";
 
-import Nav from "../../../components/Nav.js";
+import Nav from "../../../components/Nav.jsx";
 
 import Stops from "../../../json/stops.min.json";
-import StyleUtils from "../../../utils/StyleUtils.js";
+import StyleUtils from "../../../utils/StyleUtils.jsx";
 
 const ContentStyled = styled.div`
   margin: 0 ${StyleUtils.MARGIN_LR};

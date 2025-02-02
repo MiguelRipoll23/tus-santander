@@ -2,5 +2,5 @@
   "editor.formatOnPaste": true,
   "editor.formatOnSave": true,
   "editor.defaultFormatter": "esbenp.prettier-vscode",
-  "cSpell.words": ["favorited", "subview", "Subview", "subviews"]
+  "cSpell.words": ["favorited", "subview", "Subview", "subviews", "VITE"]
 }

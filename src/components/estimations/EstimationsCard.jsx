@@ -1,10 +1,10 @@
 import styled from "styled-components";
-import StyleUtils from "../../utils/StyleUtils.js";
+import StyleUtils from "../../utils/StyleUtils.jsx";
 
 import {
   getLineBackgroundColors,
   getLineTextColor,
-} from "../../utils/LineUtils.js";
+} from "../../utils/LineUtils.jsx";
 
 const EstimationsCardStyled = styled.div`
   border-radius: 30px;

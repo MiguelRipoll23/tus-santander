@@ -1,9 +1,9 @@
-import { createRoot } from "react-dom/client";
 import { StrictMode } from "react";
+import { createRoot } from "react-dom/client";
 
 import "./index.css";
-import App from "./components/App.js";
-import * as serviceWorkerRegistration from "./serviceWorkerRegistration";
+import App from "./components/App.jsx";
+import * as serviceWorkerRegistration from "./serviceWorkerRegistration.jsx";
 
 const container = document.querySelector("#app");
 const root = createRoot(container);

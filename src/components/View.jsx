@@ -1,19 +1,19 @@
-import { useView } from "../contexts/ViewContext.js";
+import { useView } from "../contexts/ViewContext.jsx";
 import {
+  INITIAL_SUB_VIEW_ID,
+  INITIAL_VIEW_ID,
+  VIEW_ID_ESTIMATIONS_LINE,
+  VIEW_ID_ESTIMATIONS_STOP,
   VIEW_ID_HOME,
   VIEW_ID_MAP,
-  VIEW_ID_ESTIMATIONS_STOP,
-  VIEW_ID_ESTIMATIONS_LINE,
   VIEW_ID_ROUTE_LINE,
-  INITIAL_VIEW_ID,
-  INITIAL_SUB_VIEW_ID,
-} from "../constants/ViewConstants.js";
+} from "../constants/ViewConstants.jsx";
 
-import HomeView from "../views/home/HomeView.js";
-import MapView from "../views/map/MapView.js";
-import EstimationsStopView from "../views/estimations-stop/EstimationsStopView.js";
-import EstimationsLineView from "../views/estimations-line/EstimationsLineView.js";
-import RouteLineView from "../views/route-line/RouteLineView.js";
+import HomeView from "../views/home/HomeView.jsx";
+import MapView from "../views/map/MapView.jsx";
+import EstimationsStopView from "../views/estimations-stop/EstimationsStopView.jsx";
+import EstimationsLineView from "../views/estimations-line/EstimationsLineView.jsx";
+import RouteLineView from "../views/route-line/RouteLineView.jsx";
 
 const SelectedView = (props) => {
   const { viewId } = props;
