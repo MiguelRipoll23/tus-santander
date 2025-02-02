@@ -1,11 +1,11 @@
-import { Fragment, useEffect, useState, useCallback } from "react";
+import { Fragment, useCallback, useEffect, useState } from "react";
 import { APIProvider, Map } from "@vis.gl/react-google-maps";
-import { GOOGLE_MAPS_KEY } from "../../utils/ApiConstants.js";
+import { GOOGLE_MAPS_KEY } from "../../utils/ApiConstants.jsx";
 
-import Nav from "../../components/Nav.js";
-import Content from "../../components/Content.js";
-import Spinner from "../../components/Spinner.js";
-import ClosestMarkers from "../../components/map/ClosestMarkers.js";
+import Nav from "../../components/Nav.jsx";
+import Content from "../../components/Content.jsx";
+import Spinner from "../../components/Spinner.jsx";
+import ClosestMarkers from "../../components/map/ClosestMarkers.jsx";
 
 import Stops from "../../json/stops.min.json";
 
@@ -74,7 +74,7 @@ const MapView = (props) => {
 
     const bounds = new window.google.maps.LatLngBounds(
       { lat: event.detail.bounds.south, lng: event.detail.bounds.west },
-      { lat: event.detail.bounds.north, lng: event.detail.bounds.east }
+      { lat: event.detail.bounds.north, lng: event.detail.bounds.east },
     );
 
     const metersPerPixel =
@@ -88,10 +88,10 @@ const MapView = (props) => {
     const closestMarkers = markers
       .filter((marker) => bounds.contains(marker.position))
       .map((marker) => {
-        const centerDistance =
-          window.google.maps.geometry.spherical.computeDistanceBetween(
+        const centerDistance = window.google.maps.geometry.spherical
+          .computeDistanceBetween(
             marker.position,
-            newCenter
+            newCenter,
           );
         return { ...marker, centerDistance };
       })

@@ -1,16 +1,16 @@
 import { Fragment } from "react";
 
-import { useView } from "../../contexts/ViewContext.js";
+import { useView } from "../../contexts/ViewContext.jsx";
 import {
   SUB_VIEW_ID_FAVORITES,
   SUB_VIEW_ID_MAP,
   SUB_VIEW_ID_SEARCH,
-} from "../../constants/ViewConstants.js";
+} from "../../constants/ViewConstants.jsx";
 
-import Content from "../../components/Content.js";
-import HomeMenu from "../../components/home/HomeMenu.js";
-import HomeSearchSubview from "./subviews/HomeSearchSubview.js";
-import HomeFavoritesSubview from "./subviews/HomeFavoritesSubview.js";
+import Content from "../../components/Content.jsx";
+import HomeMenu from "../../components/home/HomeMenu.jsx";
+import HomeSearchSubview from "./subviews/HomeSearchSubview.jsx";
+import HomeFavoritesSubview from "./subviews/HomeFavoritesSubview.jsx";
 
 const HomeView = (props) => {
   const { subViewId } = useView();
@@ -28,7 +28,7 @@ const HomeView = (props) => {
 
       default:
         throw new Error(
-          `No case for subview identifier ${subViewId} found in HomeView`
+          `No case for subview identifier ${subViewId} found in HomeView`,
         );
     }
   };

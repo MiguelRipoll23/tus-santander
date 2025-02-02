@@ -1,9 +1,12 @@
-import { LINE_COLORS, LINE_DARK_STRENGTH } from "../constants/LineConstants.js";
+import {
+  LINE_COLORS,
+  LINE_DARK_STRENGTH,
+} from "../constants/LineConstants.jsx";
 
 export const getLineBackgroundColor = (
   label,
   type = "array",
-  darker = false
+  darker = false,
 ) => {
   // Get the base color or the default color
   let rgbColor = LINE_COLORS[label] || LINE_COLORS.default;

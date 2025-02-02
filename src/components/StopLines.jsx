@@ -1,15 +1,15 @@
 import styled from "styled-components";
 
-import StyleUtils from "../utils/StyleUtils.js";
+import StyleUtils from "../utils/StyleUtils.jsx";
 import {
   getLineBackgroundColor,
   getLineTextColor,
-} from "../utils/LineUtils.js";
+} from "../utils/LineUtils.jsx";
 
 const StopLinesStyled = styled.div`
   margin-top: 7px;
   padding-left: ${(props) =>
-    props.size === "small" ? "0" : `${StyleUtils.MARGIN_LR}`};
+  props.size === "small" ? "0" : `${StyleUtils.MARGIN_LR}`};
   padding-right: ${StyleUtils.MARGIN_LR};
   color: #fff;
   overflow-x: scroll;

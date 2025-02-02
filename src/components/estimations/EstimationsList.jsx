@@ -1,9 +1,9 @@
 import styled from "styled-components";
 
-import EstimationsCard from "../../components/estimations/EstimationsCard.js";
-import EstimationsHeader from "../../components/estimations/EstimationsHeader.js";
-import EstimationsBody from "../../components/estimations/EstimationsBody.js";
-import NextStops from "../../components/estimations/NextStops.js";
+import EstimationsCard from "../../components/estimations/EstimationsCard.jsx";
+import EstimationsHeader from "../../components/estimations/EstimationsHeader.jsx";
+import EstimationsBody from "../../components/estimations/EstimationsBody.jsx";
+import NextStops from "../../components/estimations/NextStops.jsx";
 
 const EstimationsListStyled = styled.div``;
 

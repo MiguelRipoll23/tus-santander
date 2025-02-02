@@ -1,23 +1,23 @@
-import { Fragment, useState, useEffect, useCallback } from "react";
+import { Fragment, useCallback, useEffect, useState } from "react";
 
-import { useView } from "../../contexts/ViewContext.js";
-import { getFavorite, toggleFavorite } from "../../utils/FavoriteUtils.js";
+import { useView } from "../../contexts/ViewContext.jsx";
+import { getFavorite, toggleFavorite } from "../../utils/FavoriteUtils.jsx";
 
-import { VIEW_ID_ESTIMATIONS_LINE } from "../../constants/ViewConstants.js";
+import { VIEW_ID_ESTIMATIONS_LINE } from "../../constants/ViewConstants.jsx";
 
 import {
   API_HOST,
   API_PATH_JSON_ESTIMATIONS,
-} from "../../utils/ApiConstants.js";
+} from "../../utils/ApiConstants.jsx";
 
-import Nav from "../../components/Nav.js";
-import RefreshIcon from "../../components/RefreshIcon.js";
-import HeartIcon from "../../components/HeartIcon.js";
-import Content from "../../components/Content.js";
-import Spinner from "../../components/Spinner.js";
-import Error from "../../components/Error.js";
-import StopLines from "../../components/StopLines.js";
-import EstimationsList from "../../components/estimations/EstimationsList.js";
+import Nav from "../../components/Nav.jsx";
+import RefreshIcon from "../../components/RefreshIcon.jsx";
+import HeartIcon from "../../components/HeartIcon.jsx";
+import Content from "../../components/Content.jsx";
+import Spinner from "../../components/Spinner.jsx";
+import Error from "../../components/Error.jsx";
+import StopLines from "../../components/StopLines.jsx";
+import EstimationsList from "../../components/estimations/EstimationsList.jsx";
 
 const EstimationsStopView = (props) => {
   const { data, setViewIdWithData } = useView();
@@ -80,7 +80,7 @@ const EstimationsStopView = (props) => {
           setHeartState(heartState);
         });
     },
-    [stopId]
+    [stopId],
   );
 
   // Refresh
@@ -90,7 +90,7 @@ const EstimationsStopView = (props) => {
       setLoading(true);
       getEstimations(update);
     },
-    [getEstimations]
+    [getEstimations],
   );
 
   // Heart
@@ -99,7 +99,7 @@ const EstimationsStopView = (props) => {
 
     if (favorited) {
       const userConfirms = window.confirm(
-        "¿Estás seguro de que quieres quitar esta parada de favoritos?"
+        "¿Estás seguro de que quieres quitar esta parada de favoritos?",
       );
 
       if (userConfirms) {

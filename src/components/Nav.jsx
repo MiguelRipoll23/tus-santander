@@ -1,8 +1,8 @@
-import { Fragment, useState, useEffect } from "react";
+import { Fragment, useEffect, useState } from "react";
 import styled from "styled-components";
-import StyleUtils from "../utils/StyleUtils.js";
+import StyleUtils from "../utils/StyleUtils.jsx";
 
-import Header from "./Header.js";
+import Header from "./Header.jsx";
 
 const NavStyled = styled.nav`
   display: flex;

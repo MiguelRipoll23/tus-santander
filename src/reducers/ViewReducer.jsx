@@ -1,10 +1,10 @@
 import {
+  INITIAL_SUB_VIEW_ID,
+  INITIAL_VIEW_ID,
+  SET_SUB_VIEW_ID,
   SET_VIEW_ID,
   SET_VIEW_ID_WITH_DATA,
-  SET_SUB_VIEW_ID,
-  INITIAL_VIEW_ID,
-  INITIAL_SUB_VIEW_ID,
-} from "../constants/ViewConstants.js";
+} from "../constants/ViewConstants.jsx";
 
 const sessionStorageStateKey = "state";
 

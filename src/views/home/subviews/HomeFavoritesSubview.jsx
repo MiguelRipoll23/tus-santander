@@ -1,17 +1,17 @@
-import { Fragment, useState, useEffect } from "react";
+import { Fragment, useEffect, useState } from "react";
 import styled from "styled-components";
 
-import { useView } from "../../../contexts/ViewContext.js";
-import StyleUtils from "../../../utils/StyleUtils.js";
-import { getFavorites, saveFavorites } from "../../../utils/FavoriteUtils.js";
+import { useView } from "../../../contexts/ViewContext.jsx";
+import StyleUtils from "../../../utils/StyleUtils.jsx";
+import { getFavorites, saveFavorites } from "../../../utils/FavoriteUtils.jsx";
 import {
-  VIEW_ID_MAP,
   VIEW_ID_ESTIMATIONS_STOP,
-} from "../../../constants/ViewConstants.js";
+  VIEW_ID_MAP,
+} from "../../../constants/ViewConstants.jsx";
 
-import Nav from "../../../components/Nav.js";
-import Error from "../../../components/Error.js";
-import HomeDesktop from "../../../components/home/HomeDesktop.js";
+import Nav from "../../../components/Nav.jsx";
+import Error from "../../../components/Error.jsx";
+import HomeDesktop from "../../../components/home/HomeDesktop.jsx";
 
 const SortIconAndDoneLinkStyled = styled.button`
   color: var(--color-blue);
@@ -116,11 +116,13 @@ const HomeFavoritesSubview = (props) => {
     const targetIndex = childrenArray.indexOf(targetElement);
 
     const [movedItem] = favoritesOrdered.splice(sourceIndex, 1);
-    
+
     const isSourceIndexLessThanTarget = sourceIndex < targetIndex;
     const isTargetNotAtEnd = targetIndex !== favoritesOrdered.length;
-    const adjustedTargetIndex = isSourceIndexLessThanTarget && isTargetNotAtEnd ? targetIndex - 1 : targetIndex;
-    
+    const adjustedTargetIndex = isSourceIndexLessThanTarget && isTargetNotAtEnd
+      ? targetIndex - 1
+      : targetIndex;
+
     favoritesOrdered.splice(adjustedTargetIndex, 0, movedItem);
 
     setFavorites(favoritesOrdered);

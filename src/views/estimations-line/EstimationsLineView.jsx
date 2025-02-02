@@ -1,24 +1,24 @@
-import { Fragment, useState, useEffect, useCallback } from "react";
+import { Fragment, useCallback, useEffect, useState } from "react";
 import styled from "styled-components";
 
-import { useView } from "../../contexts/ViewContext.js";
-import { getLineBackgroundColor } from "../../utils/LineUtils.js";
+import { useView } from "../../contexts/ViewContext.jsx";
+import { getLineBackgroundColor } from "../../utils/LineUtils.jsx";
 
-import { VIEW_ID_ROUTE_LINE } from "../../constants/ViewConstants.js";
+import { VIEW_ID_ROUTE_LINE } from "../../constants/ViewConstants.jsx";
 
 import {
   API_HOST,
   API_PATH_JSON_ESTIMATIONS,
-} from "../../utils/ApiConstants.js";
+} from "../../utils/ApiConstants.jsx";
 
-import StyleUtils from "../../utils/StyleUtils.js";
+import StyleUtils from "../../utils/StyleUtils.jsx";
 
-import Nav from "../../components/Nav.js";
-import Content from "../../components/Content.js";
-import Spinner from "../../components/Spinner.js";
-import Error from "../../components/Error.js";
-import Button from "../../components/Button.js";
-import EstimationsList from "../../components/estimations/EstimationsList.js";
+import Nav from "../../components/Nav.jsx";
+import Content from "../../components/Content.jsx";
+import Spinner from "../../components/Spinner.jsx";
+import Error from "../../components/Error.jsx";
+import Button from "../../components/Button.jsx";
+import EstimationsList from "../../components/estimations/EstimationsList.jsx";
 
 const ContextActionsStyled = styled.div`
   margin: 0 ${StyleUtils.MARGIN_LR};
@@ -57,7 +57,8 @@ const EstimationsLineView = (props) => {
       setError(false);
       setEstimations([]);
 
-      let query = `?stopId=${stopId}&lineLabel=${lineLabel}&lineDestination=${lineDestination}`;
+      let query =
+        `?stopId=${stopId}&lineLabel=${lineLabel}&lineDestination=${lineDestination}`;
 
       if (update) {
         query += "&update=true";
@@ -94,7 +95,7 @@ const EstimationsLineView = (props) => {
           setLoading(false);
         });
     },
-    [stopId, lineLabel, lineDestination]
+    [stopId, lineLabel, lineDestination],
   );
 
   // Refresh

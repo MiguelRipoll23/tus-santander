@@ -1,5 +1,5 @@
-import { ViewProvider } from "../providers/ViewProvider.js";
-import View from "./View.js";
+import { ViewProvider } from "../providers/ViewProvider.jsx";
+import View from "./View.jsx";
 
 const App = () => {
   return (

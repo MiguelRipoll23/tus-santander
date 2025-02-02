@@ -1,12 +1,12 @@
 import { useReducer } from "react";
-import { viewReducer, getInitialState } from "../reducers/ViewReducer.js";
-import { ViewContext } from "../contexts/ViewContext.js";
+import { getInitialState, viewReducer } from "../reducers/ViewReducer.jsx";
+import { ViewContext } from "../contexts/ViewContext.jsx";
 
 import {
+  SET_SUB_VIEW_ID,
   SET_VIEW_ID,
   SET_VIEW_ID_WITH_DATA,
-  SET_SUB_VIEW_ID,
-} from "../constants/ViewConstants.js";
+} from "../constants/ViewConstants.jsx";
 
 async function dispatchWithViewTransition(dispatch, data, isBackNavigation) {
   if (!document.startViewTransition) {
@@ -45,7 +45,7 @@ export const ViewProvider = ({ children }) => {
     viewId,
     data,
     pushState = true,
-    isBackNavigation = false
+    isBackNavigation = false,
   ) => {
     const dispatchData = {
       type: SET_VIEW_ID_WITH_DATA,

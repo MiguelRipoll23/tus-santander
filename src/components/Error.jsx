@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-import Button from "./Button.js";
+import Button from "./Button.jsx";
 
 const ErrorStyled = styled.div`
   text-align: center;

@@ -1,15 +1,15 @@
-import { Fragment, useState, useCallback, useEffect } from "react";
+import { Fragment, useCallback, useEffect, useState } from "react";
 import styled from "styled-components";
 
-import { useView } from "../../contexts/ViewContext.js";
-import { getLineBackgroundColor } from "../../utils/LineUtils.js";
-import { API_HOST, API_PATH_JSON_ROUTE } from "../../utils/ApiConstants.js";
+import { useView } from "../../contexts/ViewContext.jsx";
+import { getLineBackgroundColor } from "../../utils/LineUtils.jsx";
+import { API_HOST, API_PATH_JSON_ROUTE } from "../../utils/ApiConstants.jsx";
 
-import Content from "../../components/Content.js";
-import Nav from "../../components/Nav.js";
-import Spinner from "../../components/Spinner.js";
-import Error from "../../components/Error.js";
-import StopLines from "../../components/StopLines.js";
+import Content from "../../components/Content.jsx";
+import Nav from "../../components/Nav.jsx";
+import Spinner from "../../components/Spinner.jsx";
+import Error from "../../components/Error.jsx";
+import StopLines from "../../components/StopLines.jsx";
 
 const RouteLineViewStyled = styled.ul`
   list-style: none;
@@ -81,7 +81,8 @@ const RouteLineView = (props) => {
     setError(false);
     setRoutes([]);
 
-    const query = `?stopId=${stopId}&lineLabel=${lineLabel}&lineDestination=${lineDestination}`;
+    const query =
+      `?stopId=${stopId}&lineLabel=${lineLabel}&lineDestination=${lineDestination}`;
 
     fetch(API_HOST + API_PATH_JSON_ROUTE + query)
       .then((response) => {
