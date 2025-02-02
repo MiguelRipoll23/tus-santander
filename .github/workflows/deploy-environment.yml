@@ -59,14 +59,14 @@ jobs:
           VITE_APP_GOOGLE_MAPS_KEY: ${{ secrets.GOOGLE_MAPS_KEY }}
 
       - name: Prepare package
-        run: cp firebase.json build/
+        run: cp firebase.json dist/
 
       - name: Upload package
         uses: actions/upload-artifact@v4
 
         with:
           name: ${{ inputs.artifact-name }}
-          path: build
+          path: dist
 
   deploy-package:
     name: Deploy
