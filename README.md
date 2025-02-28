@@ -6,6 +6,4 @@ El front-end se ha hecho con `React` y el back-end con `Deno` (anteriormente en 
 
 ## Demo
 
-https://github.com/user-attachments/assets/6ecc84a4-6250-4ccb-9ee2-391408bef50e
-
-
+https://github.com/user-attachments/assets/4b89883f-88b8-42da-ba32-6fde9f53cb67
