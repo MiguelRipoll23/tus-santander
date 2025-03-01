@@ -11,12 +11,9 @@ export const getFavorites = () => {
   // Parse from local storage
   try {
     list = JSON.parse(favoritesItemStorage);
+    fixStopNameTypos(list);
 
-    // Fix incorrect data
-    for (let item of list) {
-      item["stop_id"] = parseInt(item["stop_id"]);
-    }
-
+    // Save fixed data
     localStorage.setItem("favorites", JSON.stringify(list));
   } catch (error) {
     console.error("Error parsing favorites data.", error);
@@ -72,4 +69,11 @@ export const toggleFavorite = (stopId, stopName) => {
 export const saveFavorites = (favorites) => {
   const favoritesData = JSON.stringify(favorites);
   localStorage.setItem("favorites", favoritesData);
+};
+
+export const fixStopNameTypos = (favorites) => {
+  favorites.forEach((favorite) => {
+    favorite.stop_name = favorite.stop_name.replaceAll("Jesus", "Jesús");
+    favorite.stop_name = favorite.stop_name.replaceAll("Pctcan", "PCTCAN");
+  });
 };
