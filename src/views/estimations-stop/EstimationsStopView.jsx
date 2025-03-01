@@ -19,7 +19,7 @@ import Error from "../../components/Error.jsx";
 import StopLines from "../../components/StopLines.jsx";
 import EstimationsList from "../../components/estimations/EstimationsList.jsx";
 
-const EstimationsStopView = (props) => {
+const EstimationsStopView = () => {
   const { data, setViewIdWithData } = useView();
   const { stopId, stopName } = data;
 
@@ -80,7 +80,7 @@ const EstimationsStopView = (props) => {
           setHeartState(heartState);
         });
     },
-    [stopId],
+    [stopId]
   );
 
   // Refresh
@@ -90,7 +90,7 @@ const EstimationsStopView = (props) => {
       setLoading(true);
       getEstimations(update);
     },
-    [getEstimations],
+    [getEstimations]
   );
 
   // Heart
@@ -99,7 +99,7 @@ const EstimationsStopView = (props) => {
 
     if (favorited) {
       const userConfirms = window.confirm(
-        "¿Estás seguro de que quieres quitar esta parada de favoritos?",
+        "¿Estás seguro de que quieres quitar esta parada de favoritos?"
       );
 
       if (userConfirms) {
