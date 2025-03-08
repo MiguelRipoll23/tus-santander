@@ -22,4 +22,7 @@ updates:
     groups:
       react:
         patterns:
-          - "react*"
+          - "*react*"
+      eslint:
+        patterns:
+          - "*eslint*"
