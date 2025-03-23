@@ -14,11 +14,25 @@ root.render(
   </StrictMode>
 );
 
-const updateSW = registerSW({
-  onNeedRefresh() {
-    updateSW(true);
+registerSW({
+  immediate: true,
+  onRegistered(registration) {
+    console.log("Service Worker registered:", registration);
+
+    registration.addEventListener("updatefound", () => {
+      const waitingServiceWorker = registration.waiting;
+
+      if (waitingServiceWorker) {
+        waitingServiceWorker.addEventListener("statechange", () => {
+          if (waitingServiceWorker.state === "activated") {
+            console.log("New service worker activated. Reloading...");
+            window.location.reload();
+          }
+        });
+      }
+    });
   },
-  onOfflineReady() {
-    console.log("App is ready to work offline");
+  onError(error) {
+    console.error("Service Worker registration failed:", error);
   },
 });
