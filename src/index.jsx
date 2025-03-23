@@ -16,23 +16,13 @@ root.render(
 
 registerSW({
   immediate: true,
-  onRegistered(registration) {
+  onRegisteredSW(swScriptUrl, registration) {
     console.log("Service Worker registered:", registration);
+    const installingServiceWorker = registration?.installing;
 
-    registration.addEventListener("updatefound", () => {
-      const waitingServiceWorker = registration.waiting;
-
-      if (waitingServiceWorker) {
-        waitingServiceWorker.addEventListener("statechange", () => {
-          if (waitingServiceWorker.state === "activated") {
-            console.log("New service worker activated. Reloading...");
-            window.location.reload();
-          }
-        });
-      }
-    });
-  },
-  onError(error) {
-    console.error("Service Worker registration failed:", error);
+    if (installingServiceWorker?.state === "activated") {
+      console.log("New service worker activated. Reloading...");
+      window.location.reload();
+    }
   },
 });
