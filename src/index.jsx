@@ -13,16 +13,3 @@ root.render(
     <App />
   </StrictMode>
 );
-
-registerSW({
-  immediate: true,
-  onRegisteredSW(swScriptUrl, registration) {
-    console.log("Service Worker registered:", registration);
-    const installingServiceWorker = registration?.installing;
-
-    if (installingServiceWorker?.state === "activated") {
-      console.log("New service worker activated. Reloading...");
-      window.location.reload();
-    }
-  },
-});
