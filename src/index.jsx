@@ -14,4 +14,11 @@ root.render(
   </StrictMode>
 );
 
-registerSW({ immediate: true });
+const updateSW = registerSW({
+  onNeedRefresh() {
+    updateSW(true);
+  },
+  onOfflineReady() {
+    console.log("App is ready to work offline");
+  },
+});
