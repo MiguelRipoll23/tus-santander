@@ -63,6 +63,11 @@
       "type": "image/png"
     }
   ],
+  "serviceworker": {
+    "scope": "/",
+    "src": "service-worker.js",
+    "update_via_cache": "none"
+  },
   "short_name": "TUS",
   "start_url": "/?utm_source=homescreen&utm_medium=shortcut",
   "theme_color": "#ffffff"
