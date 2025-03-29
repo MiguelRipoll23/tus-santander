@@ -8,7 +8,7 @@ export default defineConfig({
     react(),
     VitePWA({
       strategies: "injectManifest",
-      injectRegister: null,
+      injectRegister: false,
       manifest: {
         background_color: "#ffffff",
         categories: ["navigation", "travel"],
