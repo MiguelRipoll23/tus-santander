@@ -7,6 +7,7 @@ export default defineConfig({
   plugins: [
     react(),
     VitePWA({
+      strategies: "injectManifest",
       injectRegister: null,
       manifest: {
         background_color: "#ffffff",
