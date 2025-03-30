@@ -1,86 +1,42 @@
 import { defineConfig } from "vite";
-import react from "@vitejs/plugin-react-swc";
 import { VitePWA } from "vite-plugin-pwa";
 
-// https://vite.dev/config/
 export default defineConfig({
   plugins: [
-    react(),
     VitePWA({
       registerType: "autoUpdate",
       workbox: {
-        clientsClaim: true,
-        skipWaiting: true,
+        runtimeCaching: [
+          {
+            urlPattern: /.*\/*/, // This will match all requests
+            handler: "CacheFirst", // Cache First strategy
+            options: {
+              cacheName: "my-cache", // Cache name for all assets
+              expiration: {
+                maxEntries: 100, // Limit the cache size to 100 items
+                maxAgeSeconds: 60 * 60 * 24 * 7, // Cache expiration (1 week)
+              },
+            },
+          },
+        ],
       },
       manifest: {
-        background_color: "#ffffff",
-        categories: ["navigation", "travel"],
-        description:
-          "Las estimaciones de llegada y rutas de los autobuses del transporte urbano de Santander.",
-        dir: "ltr",
-        display: "standalone",
+        name: "Simple Vite PWA",
+        short_name: "VitePWA",
+        description: "A simple Progressive Web App using Vite",
+        theme_color: "#ffffff",
         icons: [
           {
-            src: "images/icon-192.png",
+            src: "icons/icon-192x192.png",
             sizes: "192x192",
             type: "image/png",
           },
           {
-            src: "images/icon-512.png",
-            sizes: "512x512",
-            type: "image/png",
-          },
-          {
-            purpose: "maskable",
-            src: "images/icon-192-maskable.png",
-            sizes: "192x192",
-            type: "image/png",
-          },
-          {
-            purpose: "maskable",
-            src: "images/icon-512-maskable.png",
+            src: "icons/icon-512x512.png",
             sizes: "512x512",
             type: "image/png",
           },
         ],
-        id: "/",
-        lang: "es",
-        name: "TUS Santander",
-        orientation: "portrait",
-        scope: "/",
-        screenshots: [
-          {
-            form_factor: "narrow",
-            label: "Favoritos",
-            sizes: "1170x2532",
-            src: "images/screenshot-favorites.png",
-            type: "image/png",
-          },
-          {
-            form_factor: "narrow",
-            label: "Estimaciones de parada",
-            sizes: "1170x2532",
-            src: "images/screenshot-eta1.png",
-            type: "image/png",
-          },
-          {
-            form_factor: "narrow",
-            label: "Estimaciones de línea",
-            sizes: "1170x2532",
-            src: "images/screenshot-eta2.png",
-            type: "image/png",
-          },
-          {
-            form_factor: "narrow",
-            label: "Ruta de línea",
-            sizes: "1170x2532",
-            src: "images/screenshot-route.png",
-            type: "image/png",
-          },
-        ],
-        short_name: "TUS",
-        start_url: "/?utm_source=homescreen&utm_medium=shortcut",
-        theme_color: "#ffffff",
       },
     }),
   ],
