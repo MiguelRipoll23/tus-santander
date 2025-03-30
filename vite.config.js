@@ -9,7 +9,7 @@ export default defineConfig({
         runtimeCaching: [
           {
             urlPattern: /.*\/*/, // This will match all requests
-            handler: "NetworkFirstNetworkFirst", // Cache First strategy
+            handler: "NetworkFirst", // Cache First strategy
             options: {
               cacheName: "my-cache", // Cache name for all assets
               expiration: {
