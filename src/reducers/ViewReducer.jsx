@@ -6,10 +6,10 @@ import {
   SET_VIEW_ID_WITH_DATA,
 } from "../constants/ViewConstants.jsx";
 
-const sessionStorageStateKey = "state";
+const SESSION_STORAGE_STATE_KEY = "state";
 
 export const getInitialState = () => {
-  const state = sessionStorage.getItem(sessionStorageStateKey);
+  const state = sessionStorage.getItem(SESSION_STORAGE_STATE_KEY);
 
   if (state === null) {
     return {
@@ -65,7 +65,7 @@ export const viewReducer = (state, action) => {
 
   // Update session storage
   const updatedStateAsString = JSON.stringify(updatedState);
-  sessionStorage.setItem(sessionStorageStateKey, updatedStateAsString);
+  sessionStorage.setItem(SESSION_STORAGE_STATE_KEY, updatedStateAsString);
 
   // Update history
   if (pushState) {
