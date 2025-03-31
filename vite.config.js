@@ -11,6 +11,7 @@ export default defineConfig({
       workbox: {
         clientsClaim: true,
         skipWaiting: true,
+        navigateFallback: null,
       },
       manifest: {
         background_color: "#ffffff",
