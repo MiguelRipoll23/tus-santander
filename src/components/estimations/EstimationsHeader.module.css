@@ -1,0 +1,15 @@
+.LineHeaderStyled {
+  padding-top: 18px;
+  padding-left: 24px;
+  padding-right: 24px;
+  margin-bottom: 30px;
+}
+
+.LineLabelStyled {
+  font-size: 32px;
+  display: block;
+}
+
+.LineDestinationStyled {
+  font-size: 22px;
+}

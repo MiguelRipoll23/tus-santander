@@ -1,29 +1,13 @@
-import styled from "styled-components";
+import styles from "./HeartIcon.module.css";
 
 import StyleUtils from "../utils/StyleUtils.jsx";
 
-const HeartIconStyled = styled.button`
-  padding: 11px ${StyleUtils.MARGIN_LR};
-  font-family: icons;
-  font-size: 24px;
-  color: #ff2d55;
-  line-height: 24px;
-  position: relative;
-  top: -1px;
-  padding-top: 14px;
-  padding-bottom: 8px;
-  animation: fade-in 0.2s;
-
-  &:after {
-    content: "${(props) => (props.$state > 1 ? "\\e903" : "\\e904")}";
-  }
-`;
-
 const HeartIcon = (props) => {
   return (
-    <HeartIconStyled
+    <button
+      className={styles.HeartIconStyled}
       aria-label="Añadir a favoritos"
-      $state={props.heartState}
+      data-state={props.heartState > 1 ? "\\e903" : "\\e904"}
       onClick={props.updateFavorite}
     />
   );

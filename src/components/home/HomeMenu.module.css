@@ -1,0 +1,52 @@
+.HomeMenuStyled {
+  background: #f7f7f7;
+  border-top: 1px solid rgba(0, 0, 0, 0.15);
+  align-items: center;
+  display: flex;
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  z-index: 9;
+}
+
+@media (prefers-color-scheme: dark) {
+  .HomeMenuStyled {
+    background: #1c1b20;
+    border-top: none;
+  }
+}
+
+.Item {
+  float: left;
+  width: 100px;
+  text-align: center;
+  flex: 1;
+  cursor: pointer;
+  padding-top: 14px;
+  padding-bottom: calc(28px + env(safe-area-inset-bottom));
+  color: rgba(0, 0, 0, .55);
+}
+
+.Item[selected="true"] {
+  color: var(--color-blue);
+}
+
+@media (prefers-color-scheme: dark) {
+  .Item {
+    color: rgba(255, 255, 255, .55);
+  }
+
+  .Item[selected="true"] {
+    color: var(--color-blue);
+  }
+}
+
+.ItemIcon {
+  font-size: 24px;
+  font-family: icons;
+  margin-bottom: 5px;
+}
+
+.ItemText {
+  line-height: 19px;
+}

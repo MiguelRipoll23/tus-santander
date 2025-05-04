@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styles from "./HomeMenu.module.css";
 
 import { useView } from "../../contexts/ViewContext.jsx";
 import {
@@ -7,49 +7,6 @@ import {
   SUB_VIEW_ID_SEARCH,
   VIEW_ID_MAP,
 } from "../../constants/ViewConstants.jsx";
-
-const HomeMenuStyled = styled.div`
-  background: #f7f7f7;
-  border-top: 1px solid rgba(0, 0, 0, 0.15);
-  align-items: center;
-  display: flex;
-  position: fixed;
-  bottom: 0;
-  width: 100%;
-  z-index: 9;
-
-  @media (prefers-color-scheme: dark) {
-    background: #1c1b20;
-    border-top: none;
-  }
-`;
-
-const Item = styled.div`
-  float: left;
-  width: 100px;
-  text-align: center;
-  flex: 1;
-  cursor: pointer;
-  padding-top: 14px;
-  padding-bottom: calc(28px + env(safe-area-inset-bottom));
-  color: ${(props) =>
-  props.selected ? "var(--color-blue)" : "rgba(0, 0, 0, .55);"};
-
-  @media (prefers-color-scheme: dark) {
-    color: ${(props) =>
-  props.selected ? "var(--color-blue)" : "rgba(255, 255, 255, .55);"};
-  }
-`;
-
-const ItemIcon = styled.div`
-  font-size: 24px;
-  font-family: icons;
-  margin-bottom: 5px;
-`;
-
-const ItemText = styled.div`
-  line-height: 19px;
-`;
 
 const HomeMenu = (props) => {
   const { setViewId, subViewId, setSubViewId } = useView();
@@ -67,26 +24,29 @@ const HomeMenu = (props) => {
   };
 
   return (
-    <HomeMenuStyled>
-      <Item
-        selected={subViewId === SUB_VIEW_ID_FAVORITES}
+    <div className={styles.HomeMenuStyled}>
+      <div
+        className={`${styles.Item} ${subViewId === SUB_VIEW_ID_FAVORITES ? styles.selected : ""}`}
         onClick={loadFavoritesSubView}
       >
-        <ItemIcon></ItemIcon>
-        <ItemText>Favoritos</ItemText>
-      </Item>
-      <Item selected={subViewId === SUB_VIEW_ID_MAP} onClick={loadMapSubView}>
-        <ItemIcon></ItemIcon>
-        <ItemText>Mapa</ItemText>
-      </Item>
-      <Item
-        selected={subViewId === SUB_VIEW_ID_SEARCH}
+        <div className={styles.ItemIcon}></div>
+        <div className={styles.ItemText}>Favoritos</div>
+      </div>
+      <div
+        className={`${styles.Item} ${subViewId === SUB_VIEW_ID_MAP ? styles.selected : ""}`}
+        onClick={loadMapSubView}
+      >
+        <div className={styles.ItemIcon}></div>
+        <div className={styles.ItemText}>Mapa</div>
+      </div>
+      <div
+        className={`${styles.Item} ${subViewId === SUB_VIEW_ID_SEARCH ? styles.selected : ""}`}
         onClick={loadSearchSubView}
       >
-        <ItemIcon></ItemIcon>
-        <ItemText>Buscar</ItemText>
-      </Item>
-    </HomeMenuStyled>
+        <div className={styles.ItemIcon}></div>
+        <div className={styles.ItemText}>Buscar</div>
+      </div>
+    </div>
   );
 };
 

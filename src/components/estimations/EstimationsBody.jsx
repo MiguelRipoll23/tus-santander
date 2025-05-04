@@ -1,26 +1,4 @@
-import styled from "styled-components";
-
-const TimeStyled = styled.div`
-  display: inline-block;
-  border-radius: 8px;
-  line-height: 20px;
-  font-size: 26px;
-  padding-bottom: 22px;
-  padding-left: 24px;
-  padding-right: 24px;
-  width: 100%;
-  box-sizing: border-box;
-`;
-
-const Time1Styled = styled.div`
-  display: inline-block;
-  width: 120px;
-`;
-
-const Time2Styled = styled.div`
-  display: inline-block;
-  opacity: 0.6;
-`;
+import styles from "./EstimationsBody.module.css";
 
 const LineHeader = (props) => {
   const getTimeText = (minutes) => {
@@ -36,12 +14,12 @@ const LineHeader = (props) => {
   };
 
   return (
-    <TimeStyled>
-      <Time1Styled id="time1" data-time={props.time1}>
+    <div className={styles.TimeStyled}>
+      <div className={styles.Time1Styled} id="time1" data-time={props.time1}>
         {getTimeText(props.time1)}
-      </Time1Styled>
-      <Time2Styled>{getTimeText(props.time2)}</Time2Styled>
-    </TimeStyled>
+      </div>
+      <div className={styles.Time2Styled}>{getTimeText(props.time2)}</div>
+    </div>
   );
 };
 

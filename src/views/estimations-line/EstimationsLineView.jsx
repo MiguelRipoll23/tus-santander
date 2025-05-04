@@ -1,5 +1,5 @@
 import { Fragment, useCallback, useEffect, useState } from "react";
-import styled from "styled-components";
+import styles from "./EstimationsLineView.module.css";
 
 import { useView } from "../../contexts/ViewContext.jsx";
 import { getLineBackgroundColor } from "../../utils/LineUtils.jsx";
@@ -19,26 +19,6 @@ import Spinner from "../../components/Spinner.jsx";
 import Error from "../../components/Error.jsx";
 import Button from "../../components/Button.jsx";
 import EstimationsList from "../../components/estimations/EstimationsList.jsx";
-
-const ContextActionsStyled = styled.div`
-  margin: 0 ${StyleUtils.MARGIN_LR};
-  position: fixed;
-  bottom: 50px;
-  width: calc(100% - (${StyleUtils.MARGIN_LR} * 2));
-  display: flex;
-  animation: fade-in 0.2s;
-`;
-
-const ButtonStyled = styled(Button)`
-  flex: 1;
-  display: block;
-  margin-right: 20px;
-  padding: 14px;
-
-  &:last-child {
-    margin-right: 0;
-  }
-`;
 
 const EstimationsLineView = (props) => {
   const [loading, setLoading] = useState(true);
@@ -143,14 +123,14 @@ const EstimationsLineView = (props) => {
           lineAction={refreshContent}
         />
         {loading === false && error === false && (
-          <ContextActionsStyled>
-            <ButtonStyled color={backgroundColor} onClick={loadLineRouteView}>
+          <div className={styles.ContextActionsStyled}>
+            <button className={styles.ButtonStyled} color={backgroundColor} onClick={loadLineRouteView}>
               Ver recorrido
-            </ButtonStyled>
-            <ButtonStyled color={backgroundColor} onClick={refreshContent}>
+            </button>
+            <button className={styles.ButtonStyled} color={backgroundColor} onClick={refreshContent}>
               Actualizar
-            </ButtonStyled>
-          </ContextActionsStyled>
+            </button>
+          </div>
         )}
       </Content>
     </Fragment>

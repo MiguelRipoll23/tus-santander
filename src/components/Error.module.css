@@ -1,0 +1,14 @@
+.ErrorStyled {
+  text-align: center;
+  position: fixed;
+  top: calc(50% - (84px / 2));
+  width: 100%;
+  padding: 0 80px;
+  box-sizing: border-box;
+  display: inline-block;
+  animation: "fade-in 0.2s";
+}
+
+.TextStyled {
+  margin-bottom: 14px;
+}

@@ -1,0 +1,18 @@
+.EstimationsCardStyled {
+  border-radius: 30px;
+  margin-top: 14px;
+  margin-left: var(--margin-lr);
+  margin-right: var(--margin-lr);
+  cursor: pointer;
+  color: var(--text-color);
+  background: linear-gradient(
+    to bottom,
+    var(--background-color-1),
+    var(--background-color-2)
+  );
+  animation: fade-in 0.3s;
+}
+
+.EstimationsCardStyled:last-child {
+  margin-bottom: 14px;
+}

@@ -1,4 +1,5 @@
 import { Fragment, useCallback, useEffect, useState } from "react";
+import styles from "./EstimationsStopView.module.css";
 
 import { useView } from "../../contexts/ViewContext.jsx";
 import { getFavorite, toggleFavorite } from "../../utils/FavoriteUtils.jsx";

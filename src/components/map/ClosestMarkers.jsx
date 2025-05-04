@@ -1,6 +1,7 @@
 import { AdvancedMarker } from "@vis.gl/react-google-maps";
 import { useView } from "../../contexts/ViewContext.jsx";
 import { VIEW_ID_ESTIMATIONS_STOP } from "../../constants/ViewConstants.jsx";
+import styles from "./ClosestMarkers.module.css";
 
 import MarkerMin from "../../assets/marker-min.png";
 
@@ -22,7 +23,7 @@ const ClosestMarkers = (props) => {
         position={marker.position}
         onClick={() => loadEstimationsStopView(marker)}
       >
-        <div className="marker">
+        <div className={styles.marker}>
           <img alt="Pin" src={MarkerMin}></img>
           <span>{marker.text}</span>
         </div>

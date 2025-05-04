@@ -1,33 +1,15 @@
-import styled from "styled-components";
-
-const SpinnerStyled = styled.svg`
-  position: fixed;
-  top: calc(50% - 32.5px);
-  left: calc(50% - 32.5px);
-  animation: rotator 0.6s linear infinite;
-`;
-
-const Circle = styled.circle`
-  stroke: #000;
-  stroke-width: 2px;
-  stroke-dasharray: 200;
-  stroke-dashoffset: 100;
-  transform-origin: center;
-
-  @media (prefers-color-scheme: dark) {
-    stroke: #fff;
-  }
-`;
+import styles from "./Spinner.module.css";
 
 const Spinner = (props) => {
   return (
-    <SpinnerStyled
-      className="spinner"
+    <svg
+      className={styles.spinner}
       width="65px"
       height="65px"
       viewBox="0 0 66 66"
     >
-      <Circle
+      <circle
+        className={styles.circle}
         fill="none"
         strokeWidth="5"
         strokeLinecap="round"
@@ -35,7 +17,7 @@ const Spinner = (props) => {
         cy="33"
         r="30"
       />
-    </SpinnerStyled>
+    </svg>
   );
 };
 
