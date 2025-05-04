@@ -1,11 +1,9 @@
-import styled from "styled-components";
+import styles from "./EstimationsList.module.css";
 
 import EstimationsCard from "../../components/estimations/EstimationsCard.jsx";
 import EstimationsHeader from "../../components/estimations/EstimationsHeader.jsx";
 import EstimationsBody from "../../components/estimations/EstimationsBody.jsx";
 import NextStops from "../../components/estimations/NextStops.jsx";
-
-const EstimationsListStyled = styled.div``;
 
 const EstimationsList = (props) => {
   const items = props.estimations.map((item, i) => {
@@ -27,7 +25,7 @@ const EstimationsList = (props) => {
     );
   });
 
-  return <EstimationsListStyled>{items}</EstimationsListStyled>;
+  return <div className={styles.EstimationsListStyled}>{items}</div>;
 };
 
 export default EstimationsList;

@@ -1,0 +1,40 @@
+.StopLinesStyled {
+  margin-top: 7px;
+  padding-left: var(--margin-lr);
+  padding-right: var(--margin-lr);
+  color: #fff;
+  overflow-x: scroll;
+  height: 36px;
+  white-space: nowrap;
+}
+
+.StopLineStyled {
+  color: var(--text-color);
+  line-height: 24px;
+  background: var(--background-color);
+  font-size: 18px;
+  margin-right: 7px;
+  border-radius: 30px;
+  min-width: 48px;
+  text-align: center;
+  display: inline-block;
+  font-weight: normal;
+  padding: 6px 0;
+  cursor: pointer;
+}
+
+.StopLineStyled:disabled {
+  opacity: 0.1;
+  cursor: default;
+}
+
+.StopLineStyled:last-child {
+  margin-right: 0;
+}
+
+@media (prefers-color-scheme: dark) {
+  .StopLineStyled:disabled {
+    background: #fff;
+    color: #000;
+  }
+}

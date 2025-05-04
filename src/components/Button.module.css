@@ -1,0 +1,13 @@
+.button {
+  background: var(--color-light-blue);
+  border-radius: 30px;
+  padding: 16px 22px;
+  text-align: center;
+  color: #fff;
+  font-weight: bold;
+  display: inline-block;
+}
+
+.button-dark {
+  background: #1c1b20;
+}
