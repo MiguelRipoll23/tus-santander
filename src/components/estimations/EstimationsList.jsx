@@ -1,4 +1,4 @@
-import styles from "./EstimationsList.module.css";
+import Styles from "./EstimationsList.module.css";
 
 import EstimationsCard from "../../components/estimations/EstimationsCard.jsx";
 import EstimationsHeader from "../../components/estimations/EstimationsHeader.jsx";
@@ -25,7 +25,7 @@ const EstimationsList = (props) => {
     );
   });
 
-  return <div className={styles.EstimationsList}>{items}</div>;
+  return <div className={Styles.EstimationsList}>{items}</div>;
 };
 
 export default EstimationsList;

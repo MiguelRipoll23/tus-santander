@@ -1,5 +1,5 @@
 import { Fragment, useEffect, useState } from "react";
-import styles from "./Nav.module.css";
+import Styles from "./Nav.module.css";
 import StyleUtils from "../utils/StyleUtils.jsx";
 
 import Header from "./Header.jsx";
@@ -39,19 +39,19 @@ const Nav = (props) => {
       )}
       {props.isHeader === false && (
         <div
-          className={styles.Nav}
+          className={Styles.Nav}
           style={{ borderBottom: `1px solid rgba(0, 0, 0, ${borderOpacity})` }}
         >
-          <div className={styles.NavLeft}>
-            <button className={styles.BackButton} onClick={goBack}>
-              <span className={styles.BackIcon}></span>
+          <div className={Styles.NavLeft}>
+            <button className={Styles.BackButton} onClick={goBack}>
+              <span className={Styles.BackIcon}></span>
               <span>Atrás</span>
             </button>
           </div>
-          <div className={styles.NavCenter}>
-            <span className={styles.NavTitle}>{props.titleText}</span>
+          <div className={Styles.NavCenter}>
+            <span className={Styles.NavTitle}>{props.titleText}</span>
           </div>
-          <div className={styles.NavRight}>{props.children}</div>
+          <div className={Styles.NavRight}>{props.children}</div>
         </div>
       )}
     </Fragment>

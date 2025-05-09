@@ -1,4 +1,4 @@
-import styles from "./StopLines.module.css";
+import Styles from "./StopLines.module.css";
 
 import {
   getLineBackgroundColor,
@@ -29,12 +29,12 @@ const handleOnClick = (label) => {
 
 const StopLines = (props) => {
   return (
-    <div className={styles.StopLines}>
+    <div className={Styles.StopLines}>
       {props.list.map((label, i) => {
         return (
           <button
             key={i}
-            className={styles.StopLine}
+            className={Styles.StopLine}
             style={{
               backgroundColor: getLineBackgroundColor(label, "string"),
               color: getLineTextColor(label),

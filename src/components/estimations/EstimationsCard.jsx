@@ -1,4 +1,4 @@
-import styles from "./EstimationsCard.module.css";
+import Styles from "./EstimationsCard.module.css";
 import StyleUtils from "../../utils/StyleUtils.jsx";
 
 import {
@@ -14,7 +14,7 @@ const EstimationsCard = (props) => {
   return (
     <div
       id={props.id}
-      className={styles.EstimationsCard}
+      className={Styles.EstimationsCard}
       style={{
         background: `linear-gradient(to bottom, ${backgroundColors[0]}, ${backgroundColors[1]})`,
         color: textColor,

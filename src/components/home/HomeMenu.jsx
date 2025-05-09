@@ -1,4 +1,4 @@
-import styles from "./HomeMenu.module.css";
+import Styles from "./HomeMenu.module.css";
 
 import { useView } from "../../contexts/ViewContext.jsx";
 import {
@@ -24,33 +24,33 @@ const HomeMenu = (props) => {
   };
 
   return (
-    <div className={styles.HomeMenu}>
+    <div className={Styles.HomeMenu}>
       <div
-        className={`${styles.Item} ${
-          subViewId === SUB_VIEW_ID_FAVORITES ? styles.selected : ""
+        className={`${Styles.Item} ${
+          subViewId === SUB_VIEW_ID_FAVORITES ? Styles.selected : ""
         }`}
         onClick={loadFavoritesSubView}
       >
-        <div className={styles.ItemIcon}></div>
-        <div className={styles.ItemText}>Favoritos</div>
+        <div className={Styles.ItemIcon}></div>
+        <div className={Styles.ItemText}>Favoritos</div>
       </div>
       <div
-        className={`${styles.Item} ${
-          subViewId === SUB_VIEW_ID_MAP ? styles.selected : ""
+        className={`${Styles.Item} ${
+          subViewId === SUB_VIEW_ID_MAP ? Styles.selected : ""
         }`}
         onClick={loadMapSubView}
       >
-        <div className={styles.ItemIcon}></div>
-        <div className={styles.ItemText}>Mapa</div>
+        <div className={Styles.ItemIcon}></div>
+        <div className={Styles.ItemText}>Mapa</div>
       </div>
       <div
-        className={`${styles.Item} ${
-          subViewId === SUB_VIEW_ID_SEARCH ? styles.selected : ""
+        className={`${Styles.Item} ${
+          subViewId === SUB_VIEW_ID_SEARCH ? Styles.selected : ""
         }`}
         onClick={loadSearchSubView}
       >
-        <div className={styles.ItemIcon}></div>
-        <div className={styles.ItemText}>Buscar</div>
+        <div className={Styles.ItemIcon}></div>
+        <div className={Styles.ItemText}>Buscar</div>
       </div>
     </div>
   );

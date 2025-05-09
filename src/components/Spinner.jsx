@@ -1,15 +1,15 @@
-import styles from "./Spinner.module.css";
+import Styles from "./Spinner.module.css";
 
 const Spinner = (props) => {
   return (
     <svg
-      className={styles.spinner}
+      className={Styles.spinner}
       width="65px"
       height="65px"
       viewBox="0 0 66 66"
     >
       <circle
-        className={styles.circle}
+        className={Styles.circle}
         fill="none"
         strokeWidth="5"
         strokeLinecap="round"

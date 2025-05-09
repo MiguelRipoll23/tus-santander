@@ -11,7 +11,7 @@ import Spinner from "../../components/Spinner.jsx";
 import Error from "../../components/Error.jsx";
 import StopLines from "../../components/StopLines.jsx";
 
-import styles from "./RouteLineView.module.css";
+import Styles from "./RouteLineView.module.css";
 
 const RouteLineViewStyled = styled.ul`
   list-style: none;
@@ -166,7 +166,7 @@ const RouteLineView = (props) => {
                 <span>{stopName}</span>
                 {stopLines.length > 0 && (
                   <StopLines
-                    className={styles.StopLines}
+                    className={Styles.StopLines}
                     list={stopLines}
                     size="small"
                   />

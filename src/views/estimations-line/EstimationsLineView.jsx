@@ -15,7 +15,7 @@ import Spinner from "../../components/Spinner.jsx";
 import Error from "../../components/Error.jsx";
 import Button from "../../components/Button.jsx";
 import EstimationsList from "../../components/estimations/EstimationsList.jsx";
-import styles from "./EstimationsLineView.module.css";
+import Styles from "./EstimationsLineView.module.css";
 
 const EstimationsLineView = () => {
   const [loading, setLoading] = useState(true);
@@ -119,16 +119,16 @@ const EstimationsLineView = () => {
           lineAction={refreshContent}
         />
         {loading === false && error === false && (
-          <div className={styles.ContextActions}>
+          <div className={Styles.ContextActions}>
             <Button
-              className={styles.ContextButton}
+              className={Styles.ContextButton}
               color={backgroundColor}
               onClick={loadLineRouteView}
             >
               Ver recorrido
             </Button>
             <Button
-              className={styles.ContextButton}
+              className={Styles.ContextButton}
               color={backgroundColor}
               onClick={refreshContent}
             >

@@ -1,9 +1,9 @@
-import styles from "./RefreshIcon.module.css";
+import Styles from "./RefreshIcon.module.css";
 
 const RefreshIcon = (props) => {
   return (
     <button
-      className={styles.RefreshIcon}
+      className={Styles.RefreshIcon}
       aria-label="Refrescar"
       onClick={props.refreshContent}
     >

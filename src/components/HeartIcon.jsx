@@ -1,9 +1,9 @@
-import styles from "./HeartIcon.module.css";
+import Styles from "./HeartIcon.module.css";
 
 const HeartIcon = (props) => {
   return (
     <button
-      className={styles.HeartIcon}
+      className={Styles.HeartIcon}
       aria-label="Añadir a favoritos"
       data-state={props.heartState > 1 ? "" : ""}
       onClick={props.updateFavorite}
