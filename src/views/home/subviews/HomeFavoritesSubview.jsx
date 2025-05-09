@@ -10,7 +10,7 @@ import {
 import Nav from "../../../components/Nav.jsx";
 import Error from "../../../components/Error.jsx";
 import HomeDesktop from "../../../components/home/HomeDesktop.jsx";
-import Styles from "./HomeFavoritesSubview.module.css";
+import styles from "./HomeFavoritesSubview.module.css";
 
 const HomeFavoritesSubview = () => {
   const { setViewId, setViewIdWithData } = useView();
@@ -30,11 +30,11 @@ const HomeFavoritesSubview = () => {
   let draggingElement = null;
 
   const handleDragEnter = (event) => {
-    event.target.classList.add(Styles.over);
+    event.target.classList.add(styles.over);
   };
 
   const handleDragLeave = (event) => {
-    event.target.classList.remove(Styles.over);
+    event.target.classList.remove(styles.over);
   };
 
   const handleDragStart = (event) => {
@@ -55,7 +55,7 @@ const HomeFavoritesSubview = () => {
     event.stopPropagation();
 
     const targetElement = event.target;
-    targetElement.classList.remove(Styles.over);
+    targetElement.classList.remove(styles.over);
 
     if (draggingElement === targetElement) {
       return;
@@ -114,7 +114,7 @@ const HomeFavoritesSubview = () => {
         <Fragment>
           <Nav isHeader={true} titleText="Favoritos" hidden={isDesktop}>
             <button
-              className={Styles.SortIconAndDoneLink}
+              className={styles.SortIconAndDoneLink}
               style={{ fontFamily, fontSize }}
               hidden={sortIconHidden}
               onClick={toggleEditMode}
@@ -122,7 +122,7 @@ const HomeFavoritesSubview = () => {
               {editMode ? "Hecho" : ""}
             </button>
           </Nav>
-          <div className={Styles.Content} hidden={isDesktop}>
+          <div className={styles.Content} hidden={isDesktop}>
             {error && (
               <Error
                 errorText="Usa el mapa o el buscador para añadir paradas"
@@ -135,7 +135,7 @@ const HomeFavoritesSubview = () => {
               return (
                 <button
                   key={i}
-                  className={Styles.Favorite}
+                  className={styles.Favorite}
                   draggable={editMode}
                   onClick={() => loadEstimationsStopView(favorite)}
                   onDragEnter={handleDragEnter}

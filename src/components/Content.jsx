@@ -1,10 +1,10 @@
-import Styles from "./Content.module.css";
+import styles from "./Content.module.css";
 
 const View = (props) => {
   const paddingBottom = props.paddingBottom ?? "0";
 
   return (
-    <main className={Styles.Content} style={{ paddingBottom }}>
+    <main className={styles.Content} style={{ paddingBottom }}>
       {props.children}
     </main>
   );

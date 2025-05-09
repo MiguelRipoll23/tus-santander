@@ -9,7 +9,7 @@ import Spinner from "../../components/Spinner.jsx";
 import Error from "../../components/Error.jsx";
 import StopLines from "../../components/StopLines.jsx";
 
-import Styles from "./RouteLineView.module.css";
+import styles from "./RouteLineView.module.css";
 
 const RouteLineView = () => {
   const { data } = useView();
@@ -81,7 +81,7 @@ const RouteLineView = () => {
             retryAction={refreshContent}
           />
         )}
-        <ul className={Styles.routeLineList}>
+        <ul className={styles.routeLineList}>
           {routes.map((item, i) => {
             const [itemStopId, stopName, stopLines] = item;
             const active = isActive(itemStopId);
@@ -89,7 +89,7 @@ const RouteLineView = () => {
             return (
               <li
                 key={i}
-                className={Styles.stopItem}
+                className={styles.stopItem}
                 id={active ? "stop-active" : undefined}
                 style={{
                   "--line-color": color,
@@ -100,7 +100,7 @@ const RouteLineView = () => {
                 <span>{stopName}</span>
                 {stopLines.length > 0 && (
                   <StopLines
-                    className={Styles.StopLines}
+                    className={styles.StopLines}
                     list={stopLines}
                     size="small"
                   />

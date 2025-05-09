@@ -1,9 +1,9 @@
-import Styles from "./Button.module.css";
+import styles from "./Button.module.css";
 
 const Button = (props) => {
   return (
     <button
-      className={`${props.className} ${Styles.button}`}
+      className={`${props.className} ${styles.button}`}
       style={{ backgroundColor: props.color }}
       onClick={props.onClick}
     >

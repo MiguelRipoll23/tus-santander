@@ -1,7 +1,7 @@
 import { AdvancedMarker } from "@vis.gl/react-google-maps";
 import { useView } from "../../contexts/ViewContext.jsx";
 import { VIEW_ID_ESTIMATIONS_STOP } from "../../constants/ViewConstants.jsx";
-import Styles from "./ClosestMarkers.module.css";
+import styles from "./ClosestMarkers.module.css";
 
 import MarkerMin from "../../assets/marker-min.png";
 

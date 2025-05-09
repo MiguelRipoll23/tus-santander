@@ -5,7 +5,7 @@ import { VIEW_ID_ESTIMATIONS_STOP } from "../../../constants/ViewConstants.jsx";
 
 import Nav from "../../../components/Nav.jsx";
 import Stops from "../../../json/stops.min.json";
-import Styles from "./HomeSearchSubview.module.css";
+import styles from "./HomeSearchSubview.module.css";
 
 const HomeSearchSubview = () => {
   const { setViewIdWithData } = useView();
@@ -67,10 +67,10 @@ const HomeSearchSubview = () => {
   return (
     <Fragment>
       <Nav isHeader={true} titleText="Buscar" />
-      <div className={Styles.content}>
-        <div className={Styles.icon} style={{ marginBottom }}>
+      <div className={styles.content}>
+        <div className={styles.icon} style={{ marginBottom }}>
           <input
-            className={Styles.input}
+            className={styles.input}
             type="text"
             placeholder="Buscar"
             aria-label="Buscar"
@@ -82,14 +82,14 @@ const HomeSearchSubview = () => {
         </div>
 
         {results.length > 0 && (
-          <div className={Styles.results}>
+          <div className={styles.results}>
             {results.map((result, i) => {
               const stopId = result[0];
               const stopName = result[3];
 
               return (
                 <button
-                  className={Styles.result}
+                  className={styles.result}
                   key={i}
                   onClick={() => loadEstimationsStopView(stopId, stopName)}
                 >
