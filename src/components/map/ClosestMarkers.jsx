@@ -23,7 +23,7 @@ const ClosestMarkers = (props) => {
         position={marker.position}
         onClick={() => loadEstimationsStopView(marker)}
       >
-        <div className={styles.marker}>
+        <div className="marker">
           <img alt="Pin" src={MarkerMin}></img>
           <span>{marker.text}</span>
         </div>

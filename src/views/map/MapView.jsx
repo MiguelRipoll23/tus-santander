@@ -11,7 +11,7 @@ import Stops from "../../json/stops.min.json";
 
 const markers = [];
 
-const MapView = (props) => {
+const MapView = () => {
   const apiKey = GOOGLE_MAPS_KEY;
   const libraries = ["geometry"];
   const defaultCenter = { lat: 43.462068, lng: -3.810204 };
@@ -74,7 +74,7 @@ const MapView = (props) => {
 
     const bounds = new window.google.maps.LatLngBounds(
       { lat: event.detail.bounds.south, lng: event.detail.bounds.west },
-      { lat: event.detail.bounds.north, lng: event.detail.bounds.east },
+      { lat: event.detail.bounds.north, lng: event.detail.bounds.east }
     );
 
     const metersPerPixel =
@@ -88,10 +88,10 @@ const MapView = (props) => {
     const closestMarkers = markers
       .filter((marker) => bounds.contains(marker.position))
       .map((marker) => {
-        const centerDistance = window.google.maps.geometry.spherical
-          .computeDistanceBetween(
+        const centerDistance =
+          window.google.maps.geometry.spherical.computeDistanceBetween(
             marker.position,
-            newCenter,
+            newCenter
           );
         return { ...marker, centerDistance };
       })
