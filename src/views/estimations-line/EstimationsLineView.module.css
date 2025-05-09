@@ -7,13 +7,13 @@
   animation: fade-in 0.2s;
 }
 
-.ButtonStyled {
+.ContextButtonStyled {
   flex: 1;
   display: block;
   margin-right: 20px;
   padding: 14px;
 }
 
-.ButtonStyled:last-child {
+.ContextButtonStyled:last-child {
   margin-right: 0;
 }

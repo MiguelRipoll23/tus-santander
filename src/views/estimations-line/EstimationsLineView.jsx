@@ -1,6 +1,4 @@
 import { Fragment, useCallback, useEffect, useState } from "react";
-import styles from "./EstimationsLineView.module.css";
-
 import { useView } from "../../contexts/ViewContext.jsx";
 import { getLineBackgroundColor } from "../../utils/LineUtils.jsx";
 
@@ -11,16 +9,15 @@ import {
   API_PATH_JSON_ESTIMATIONS,
 } from "../../utils/ApiConstants.jsx";
 
-import StyleUtils from "../../utils/StyleUtils.jsx";
-
 import Nav from "../../components/Nav.jsx";
 import Content from "../../components/Content.jsx";
 import Spinner from "../../components/Spinner.jsx";
 import Error from "../../components/Error.jsx";
 import Button from "../../components/Button.jsx";
 import EstimationsList from "../../components/estimations/EstimationsList.jsx";
+import styles from "./EstimationsLineView.module.css";
 
-const EstimationsLineView = (props) => {
+const EstimationsLineView = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
 
@@ -37,8 +34,7 @@ const EstimationsLineView = (props) => {
       setError(false);
       setEstimations([]);
 
-      let query =
-        `?stopId=${stopId}&lineLabel=${lineLabel}&lineDestination=${lineDestination}`;
+      let query = `?stopId=${stopId}&lineLabel=${lineLabel}&lineDestination=${lineDestination}`;
 
       if (update) {
         query += "&update=true";
@@ -75,7 +71,7 @@ const EstimationsLineView = (props) => {
           setLoading(false);
         });
     },
-    [stopId, lineLabel, lineDestination],
+    [stopId, lineLabel, lineDestination]
   );
 
   // Refresh
@@ -124,12 +120,20 @@ const EstimationsLineView = (props) => {
         />
         {loading === false && error === false && (
           <div className={styles.ContextActionsStyled}>
-            <button className={styles.ButtonStyled} color={backgroundColor} onClick={loadLineRouteView}>
+            <Button
+              className={styles.ContextButtonStyled}
+              color={backgroundColor}
+              onClick={loadLineRouteView}
+            >
               Ver recorrido
-            </button>
-            <button className={styles.ButtonStyled} color={backgroundColor} onClick={refreshContent}>
+            </Button>
+            <Button
+              className={styles.ContextButtonStyled}
+              color={backgroundColor}
+              onClick={refreshContent}
+            >
               Actualizar
-            </button>
+            </Button>
           </div>
         )}
       </Content>
