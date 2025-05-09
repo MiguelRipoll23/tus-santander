@@ -1,4 +1,4 @@
-.StopLinesStyled {
+.StopLines {
   margin-top: 7px;
   padding-left: var(--margin-lr);
   padding-right: var(--margin-lr);
@@ -8,11 +8,11 @@
   white-space: nowrap;
 }
 
-.StopLinesStyled::-webkit-scrollbar {
+.StopLines::-webkit-scrollbar {
   display: none;
 }
 
-.StopLineStyled {
+.StopLine {
   line-height: 24px;
   font-size: 18px;
   margin-right: 7px;
@@ -30,11 +30,11 @@
   }
 }
 
-.StopLineStyled:disabled {
+.StopLine:disabled {
   opacity: 0.1;
   cursor: default;
 }
 
-.StopLineStyled:last-child {
+.StopLine:last-child {
   margin-right: 0;
 }

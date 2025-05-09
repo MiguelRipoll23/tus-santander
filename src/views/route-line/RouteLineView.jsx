@@ -11,6 +11,8 @@ import Spinner from "../../components/Spinner.jsx";
 import Error from "../../components/Error.jsx";
 import StopLines from "../../components/StopLines.jsx";
 
+import styles from "./RouteLineView.module.css";
+
 const RouteLineViewStyled = styled.ul`
   list-style: none;
   padding-left: 45px;
@@ -81,8 +83,7 @@ const RouteLineView = (props) => {
     setError(false);
     setRoutes([]);
 
-    const query =
-      `?stopId=${stopId}&lineLabel=${lineLabel}&lineDestination=${lineDestination}`;
+    const query = `?stopId=${stopId}&lineLabel=${lineLabel}&lineDestination=${lineDestination}`;
 
     fetch(API_HOST + API_PATH_JSON_ROUTE + query)
       .then((response) => {
@@ -164,7 +165,11 @@ const RouteLineView = (props) => {
               >
                 <span>{stopName}</span>
                 {stopLines.length > 0 && (
-                  <StopLines list={stopLines} size="small" />
+                  <StopLines
+                    className={styles.StopLines}
+                    list={stopLines}
+                    size="small"
+                  />
                 )}
               </StopStyled>
             );

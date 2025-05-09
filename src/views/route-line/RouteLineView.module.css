@@ -1,0 +1,12 @@
+.StopLines {
+  padding-left: 0;
+  height: 28px;
+}
+
+.StopLine {
+  font-size: 12px;
+  margin-right: 5px;
+  min-width: 35px;
+  padding: 2px 0;
+  cursor: default;
+}
