@@ -1,0 +1,72 @@
+/* CSS Module for HomeSearchSubview */
+
+.content {
+  margin: 0 var(--margin-lr);
+}
+
+.icon {
+  position: relative;
+  height: 36px;
+  margin-bottom: var(--icon-margin-bottom);
+}
+
+.icon::before {
+  font-family: icons;
+  content: "\e905";
+  color: #8e8e92;
+  z-index: 1;
+  margin: auto;
+  font-size: 14px;
+  font-weight: 700;
+  position: relative;
+  top: 10px;
+  left: 10px;
+}
+
+.input {
+  background: #f1f1f2;
+  outline: none;
+  border: 0;
+  width: 100%;
+  box-sizing: border-box;
+  font-size: 17px;
+  line-height: normal;
+  padding: 8px 10px;
+  color: #8e8e92;
+  text-indent: 20px;
+  cursor: default;
+  border-radius: 8px;
+  position: absolute;
+  left: 0;
+}
+
+.input-dark {
+  background: #1c1b20;
+}
+
+.results {
+  margin-bottom: 12px;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.result {
+  color: var(--color-blue);
+  padding: 14px 9px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.04);
+  width: 100%;
+  text-align: left;
+}
+
+.result::before {
+  font-family: icons;
+  content: "\e905";
+  color: var(--color-blue);
+  margin-right: 12px;
+  position: relative;
+  top: 2px;
+}
+
+.result:last-child {
+  border-bottom: 0;
+}
