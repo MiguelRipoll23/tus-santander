@@ -1,12 +1,55 @@
-.StopLines {
-  padding-left: 0;
-  height: 28px;
+.routeLineList {
+  list-style: none;
+  padding-left: 45px;
+  margin-top: 14px;
+  margin-bottom: 28px;
 }
 
-.StopLine {
-  font-size: 12px;
-  margin-right: 5px;
-  min-width: 35px;
-  padding: 2px 0;
-  cursor: default;
+.stopItem {
+  line-height: 20px;
+  position: relative;
+  padding-bottom: 12px;
+  font-size: 18px;
+  font-weight: bold;
+  animation: fade-in 0.2s;
+}
+
+.stopItem span {
+  max-width: 200px;
+  display: inline-block;
+}
+
+.stopItem::before {
+  content: "";
+  position: absolute;
+  left: -22.8px;
+  border-left: 3px solid var(--line-color);
+  width: 1px;
+  height: 100%;
+}
+
+.stopItem::after {
+  content: "";
+  position: absolute;
+  left: -31px;
+  top: 0px;
+  width: 13px;
+  height: 13px;
+  border-radius: 50%;
+  border: 3px solid var(--line-color);
+  background: var(--active-color, #fff);
+}
+
+@media (prefers-color-scheme: dark) {
+  .stopItem::after {
+    background: var(--active-color-dark, #000);
+  }
+}
+
+.stopItem:last-child {
+  padding-bottom: 0;
+}
+
+.stopItem:last-child::before {
+  display: none;
 }
