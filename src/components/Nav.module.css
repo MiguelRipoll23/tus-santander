@@ -1,4 +1,4 @@
-.NavStyled {
+.Nav {
   display: flex;
   min-height: 55px;
   align-items: center;
@@ -9,14 +9,14 @@
   }
 }
 
-.NavLeftStyled {
+.NavLeft {
   float: left;
   width: 33.33%;
   display: flex;
   flex: 1;
 }
 
-.NavCenterStyled {
+.NavCenter {
   float: left;
   width: 33.33%;
   text-align: center;
@@ -24,7 +24,7 @@
   flex: 1;
 }
 
-.NavRightStyled {
+.NavRight {
   float: left;
   width: 33.33%;
   justify-content: flex-end;
@@ -32,7 +32,7 @@
   flex: 1;
 }
 
-.BackButtonStyled {
+.BackButton {
   font-size: 15px;
   line-height: 24px;
   color: var(--color-blue);
@@ -43,7 +43,7 @@
   animation: fade-in 0.2s;
 }
 
-.BackIconStyled {
+.BackIcon {
   float: left;
   margin-right: 8px;
   font-family: icons;
@@ -52,7 +52,7 @@
   width: 12.27px;
 }
 
-.NavTitleStyled {
+.NavTitle {
   padding: 14px 0;
   font-size: 15px;
   font-weight: 700;

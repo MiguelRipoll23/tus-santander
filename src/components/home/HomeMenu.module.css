@@ -1,4 +1,4 @@
-.HomeMenuStyled {
+.HomeMenu {
   background: #f7f7f7;
   border-top: 1px solid rgba(0, 0, 0, 0.15);
   align-items: center;
@@ -10,7 +10,7 @@
 }
 
 @media (prefers-color-scheme: dark) {
-  .HomeMenuStyled {
+  .HomeMenu {
     background: #1c1b20;
     border-top: none;
   }
@@ -24,7 +24,7 @@
   cursor: pointer;
   padding-top: 14px;
   padding-bottom: calc(28px + env(safe-area-inset-bottom));
-  color: rgba(0, 0, 0, .55);
+  color: rgba(0, 0, 0, 0.55);
 }
 
 .Item[selected="true"] {
@@ -33,7 +33,7 @@
 
 @media (prefers-color-scheme: dark) {
   .Item {
-    color: rgba(255, 255, 255, .55);
+    color: rgba(255, 255, 255, 0.55);
   }
 
   .Item[selected="true"] {

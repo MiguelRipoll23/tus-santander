@@ -9,14 +9,14 @@ const NextStopsCard = (props) => {
   return (
     <Fragment>
       <div
-        className={styles.NextStopsStyled}
+        className={styles.NextStops}
         style={{ background: backgroundColors[1] }}
       >
         {props.list.map((stop, i) => {
           return (
             <div
               key={i}
-              className={styles.NextStopStyled}
+              className={styles.NextStop}
               style={{ borderColor: backgroundColors[0] }}
             >
               {stop}

@@ -2,10 +2,10 @@ import styles from "./HomeDesktop.module.css";
 
 const HomeDesktop = (props) => {
   return (
-    <div className={styles.HomeDesktopStyled}>
-      <div className={styles.DesktopAreaStyled}>
+    <div className={styles.HomeDesktop}>
+      <div className={styles.DesktopArea}>
         <img
-          className={styles.DesktopQrStyled}
+          className={styles.DesktopQr}
           alt="Código QR"
           src="/images/qr-code-min.png"
           width="250"

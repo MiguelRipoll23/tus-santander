@@ -14,11 +14,11 @@ const LineHeader = (props) => {
   };
 
   return (
-    <div className={styles.TimeStyled}>
-      <div className={styles.Time1Styled} id="time1" data-time={props.time1}>
+    <div className={styles.Time}>
+      <div className={styles.Time1} id="time1" data-time={props.time1}>
         {getTimeText(props.time1)}
       </div>
-      <div className={styles.Time2Styled}>{getTimeText(props.time2)}</div>
+      <div className={styles.Time2}>{getTimeText(props.time2)}</div>
     </div>
   );
 };

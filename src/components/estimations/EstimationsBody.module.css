@@ -1,4 +1,4 @@
-.TimeStyled {
+.Time {
   display: inline-block;
   border-radius: 8px;
   line-height: 20px;
@@ -10,12 +10,12 @@
   box-sizing: border-box;
 }
 
-.Time1Styled {
+.Time1 {
   display: inline-block;
   width: 120px;
 }
 
-.Time2Styled {
+.Time2 {
   display: inline-block;
   opacity: 0.6;
 }

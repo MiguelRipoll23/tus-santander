@@ -1,4 +1,4 @@
-.EstimationsCardStyled {
+.EstimationsCard {
   border-radius: 30px;
   margin-top: 14px;
   margin-left: var(--margin-lr);
@@ -13,6 +13,6 @@
   animation: fade-in 0.3s;
 }
 
-.EstimationsCardStyled:last-child {
+.EstimationsCard:last-child {
   margin-bottom: 14px;
 }

@@ -14,7 +14,7 @@ const EstimationsCard = (props) => {
   return (
     <div
       id={props.id}
-      className={styles.EstimationsCardStyled}
+      className={styles.EstimationsCard}
       style={{
         background: `linear-gradient(to bottom, ${backgroundColors[0]}, ${backgroundColors[1]})`,
         color: textColor,

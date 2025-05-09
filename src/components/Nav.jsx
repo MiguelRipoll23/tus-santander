@@ -38,17 +38,20 @@ const Nav = (props) => {
         <Header text={props.titleText}>{props.children}</Header>
       )}
       {props.isHeader === false && (
-        <div className={styles.NavStyled} style={{ borderBottom: `1px solid rgba(0, 0, 0, ${borderOpacity})` }}>
-          <div className={styles.NavLeftStyled}>
-            <button className={styles.BackButtonStyled} onClick={goBack}>
-              <span className={styles.BackIconStyled}></span>
+        <div
+          className={styles.Nav}
+          style={{ borderBottom: `1px solid rgba(0, 0, 0, ${borderOpacity})` }}
+        >
+          <div className={styles.NavLeft}>
+            <button className={styles.BackButton} onClick={goBack}>
+              <span className={styles.BackIcon}></span>
               <span>Atrás</span>
             </button>
           </div>
-          <div className={styles.NavCenterStyled}>
-            <span className={styles.NavTitleStyled}>{props.titleText}</span>
+          <div className={styles.NavCenter}>
+            <span className={styles.NavTitle}>{props.titleText}</span>
           </div>
-          <div className={styles.NavRightStyled}>{props.children}</div>
+          <div className={styles.NavRight}>{props.children}</div>
         </div>
       )}
     </Fragment>

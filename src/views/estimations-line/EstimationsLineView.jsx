@@ -119,16 +119,16 @@ const EstimationsLineView = () => {
           lineAction={refreshContent}
         />
         {loading === false && error === false && (
-          <div className={styles.ContextActionsStyled}>
+          <div className={styles.ContextActions}>
             <Button
-              className={styles.ContextButtonStyled}
+              className={styles.ContextButton}
               color={backgroundColor}
               onClick={loadLineRouteView}
             >
               Ver recorrido
             </Button>
             <Button
-              className={styles.ContextButtonStyled}
+              className={styles.ContextButton}
               color={backgroundColor}
               onClick={refreshContent}
             >

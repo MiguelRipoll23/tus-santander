@@ -25,7 +25,7 @@ const EstimationsList = (props) => {
     );
   });
 
-  return <div className={styles.EstimationsListStyled}>{items}</div>;
+  return <div className={styles.EstimationsList}>{items}</div>;
 };
 
 export default EstimationsList;

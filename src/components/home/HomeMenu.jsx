@@ -24,23 +24,29 @@ const HomeMenu = (props) => {
   };
 
   return (
-    <div className={styles.HomeMenuStyled}>
+    <div className={styles.HomeMenu}>
       <div
-        className={`${styles.Item} ${subViewId === SUB_VIEW_ID_FAVORITES ? styles.selected : ""}`}
+        className={`${styles.Item} ${
+          subViewId === SUB_VIEW_ID_FAVORITES ? styles.selected : ""
+        }`}
         onClick={loadFavoritesSubView}
       >
         <div className={styles.ItemIcon}></div>
         <div className={styles.ItemText}>Favoritos</div>
       </div>
       <div
-        className={`${styles.Item} ${subViewId === SUB_VIEW_ID_MAP ? styles.selected : ""}`}
+        className={`${styles.Item} ${
+          subViewId === SUB_VIEW_ID_MAP ? styles.selected : ""
+        }`}
         onClick={loadMapSubView}
       >
         <div className={styles.ItemIcon}></div>
         <div className={styles.ItemText}>Mapa</div>
       </div>
       <div
-        className={`${styles.Item} ${subViewId === SUB_VIEW_ID_SEARCH ? styles.selected : ""}`}
+        className={`${styles.Item} ${
+          subViewId === SUB_VIEW_ID_SEARCH ? styles.selected : ""
+        }`}
         onClick={loadSearchSubView}
       >
         <div className={styles.ItemIcon}></div>

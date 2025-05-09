@@ -1,4 +1,4 @@
-.HomeDesktopStyled {
+.HomeDesktop {
   position: fixed;
   top: 0;
   left: 0;
@@ -11,19 +11,19 @@
 }
 
 @media (prefers-color-scheme: dark) {
-  .HomeDesktopStyled {
+  .HomeDesktop {
     color: #fff;
     background: #000;
   }
 }
 
-.DesktopAreaStyled {
+.DesktopArea {
   margin: auto;
   text-align: center;
   width: 500px;
 }
 
-.DesktopQrStyled {
+.DesktopQr {
   border-radius: 40px;
   box-shadow: 0 0 40px rgba(0, 0, 0, 0.3);
   width: 250px;

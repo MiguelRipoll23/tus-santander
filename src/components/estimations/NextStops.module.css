@@ -1,9 +1,9 @@
-.NextStopsStyled {
+.NextStops {
   border-radius: 0 0 30px 30px;
   padding: 6px 0;
 }
 
-.NextStopStyled {
+.NextStop {
   border-bottom-width: 1px;
   border-bottom-style: solid;
   border-bottom-opacity: 0.4;
@@ -11,6 +11,6 @@
   padding: 12px 0;
 }
 
-.NextStopStyled:last-child {
+.NextStop:last-child {
   border-bottom: none;
 }

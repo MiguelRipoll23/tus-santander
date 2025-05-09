@@ -1,4 +1,4 @@
-.ErrorStyled {
+.Error {
   text-align: center;
   position: fixed;
   top: calc(50% - (84px / 2));
@@ -9,6 +9,6 @@
   animation: "fade-in 0.2s";
 }
 
-.TextStyled {
+.Text {
   margin-bottom: 14px;
 }

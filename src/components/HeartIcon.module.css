@@ -1,4 +1,4 @@
-.HeartIconStyled {
+.HeartIcon {
   padding: 11px var(--margin-lr);
   font-family: icons;
   font-size: 24px;
@@ -11,6 +11,6 @@
   animation: fade-in 0.2s;
 }
 
-.HeartIconStyled::after {
+.HeartIcon::after {
   content: attr(data-state);
 }

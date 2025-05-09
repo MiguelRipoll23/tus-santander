@@ -1,4 +1,4 @@
-.RefreshIconStyled {
+.RefreshIcon {
   font-family: icons;
   font-size: 34px;
   color: #fff;
@@ -15,7 +15,7 @@
   bottom: 28px;
 }
 
-.RefreshIconStyled span {
+.RefreshIcon span {
   position: relative;
   top: -0.4px;
 }
