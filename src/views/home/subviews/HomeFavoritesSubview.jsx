@@ -1,8 +1,6 @@
 import { Fragment, useEffect, useState } from "react";
-import styled from "styled-components";
 
 import { useView } from "../../../contexts/ViewContext.jsx";
-import StyleUtils from "../../../utils/StyleUtils.jsx";
 import { getFavorites, saveFavorites } from "../../../utils/FavoriteUtils.jsx";
 import {
   VIEW_ID_ESTIMATIONS_STOP,
@@ -12,55 +10,9 @@ import {
 import Nav from "../../../components/Nav.jsx";
 import Error from "../../../components/Error.jsx";
 import HomeDesktop from "../../../components/home/HomeDesktop.jsx";
+import styles from "./HomeFavoritesSubview.module.css";
 
-const SortIconAndDoneLinkStyled = styled.button`
-  color: var(--color-blue);
-  align-self: flex-end;
-  padding: 0 0px;
-  font-family: ${(props) => (props.$editMode ? "revert" : "icons")};
-  font-size: ${(props) => (props.$editMode ? "inherit" : "24px")};
-`;
-
-const ContentStyled = styled.div`
-  position: relative;
-  height: calc(100% - 91px + env(safe-area-inset-bottom));
-  overflow-y: auto;
-  padding-top: 3px;
-  padding-bottom: 14px;
-  box-sizing: border-box;
-`;
-
-const FavoriteStyled = styled.button`
-  padding: 13px 22px;
-  background: linear-gradient(to right, #ff2e56, #e0002b);
-  color: #fff;
-  font-size: 16px;
-  box-sizing: border-box;
-  line-height: 27px;
-  border-radius: 14px;
-  margin: 0 ${StyleUtils.MARGIN_LR};
-  margin-bottom: 8px;
-  overflow: hidden;
-  font-weight: 700;
-  min-height: 53px;
-  width: calc(100% - 28px);
-  text-align: left;
-  -webkit-user-select: none;
-  user-select: none;
-
-  &.over {
-    padding: 11px 20px;
-    border: 2px dashed #ff2e56;
-    background: none;
-    color: #ff2e56;
-  }
-
-  @media (prefers-color-scheme: dark) {
-    background: #1c1b20;
-  }
-`;
-
-const HomeFavoritesSubview = (props) => {
+const HomeFavoritesSubview = () => {
   const { setViewId, setViewIdWithData } = useView();
 
   const [error, setError] = useState(false);
@@ -78,11 +30,11 @@ const HomeFavoritesSubview = (props) => {
   let draggingElement = null;
 
   const handleDragEnter = (event) => {
-    event.target.classList.add("over");
+    event.target.classList.add(styles.over);
   };
 
   const handleDragLeave = (event) => {
-    event.target.classList.remove("over");
+    event.target.classList.remove(styles.over);
   };
 
   const handleDragStart = (event) => {
@@ -103,7 +55,7 @@ const HomeFavoritesSubview = (props) => {
     event.stopPropagation();
 
     const targetElement = event.target;
-    targetElement.classList.remove("over");
+    targetElement.classList.remove(styles.over);
 
     if (draggingElement === targetElement) {
       return;
@@ -119,9 +71,10 @@ const HomeFavoritesSubview = (props) => {
 
     const isSourceIndexLessThanTarget = sourceIndex < targetIndex;
     const isTargetNotAtEnd = targetIndex !== favoritesOrdered.length;
-    const adjustedTargetIndex = isSourceIndexLessThanTarget && isTargetNotAtEnd
-      ? targetIndex - 1
-      : targetIndex;
+    const adjustedTargetIndex =
+      isSourceIndexLessThanTarget && isTargetNotAtEnd
+        ? targetIndex - 1
+        : targetIndex;
 
     favoritesOrdered.splice(adjustedTargetIndex, 0, movedItem);
 
@@ -150,22 +103,26 @@ const HomeFavoritesSubview = (props) => {
   // Content
   const isDesktop = window.innerWidth >= 1000;
 
-  const Content = (props) => {
+  const Content = () => {
     if (isDesktop) {
       return <HomeDesktop />;
     } else {
+      const fontFamily = editMode ? "revert" : "icons";
+      const fontSize = editMode ? "inherit" : "24px";
+
       return (
         <Fragment>
           <Nav isHeader={true} titleText="Favoritos" hidden={isDesktop}>
-            <SortIconAndDoneLinkStyled
-              $editMode={editMode}
+            <button
+              className={styles.SortIconAndDoneLink}
+              style={{ fontFamily, fontSize }}
               hidden={sortIconHidden}
               onClick={toggleEditMode}
             >
               {editMode ? "Hecho" : ""}
-            </SortIconAndDoneLinkStyled>
+            </button>
           </Nav>
-          <ContentStyled hidden={isDesktop}>
+          <div className={styles.Content} hidden={isDesktop}>
             {error && (
               <Error
                 errorText="Usa el mapa o el buscador para añadir paradas"
@@ -176,8 +133,9 @@ const HomeFavoritesSubview = (props) => {
             )}
             {favorites.map((favorite, i) => {
               return (
-                <FavoriteStyled
+                <button
                   key={i}
+                  className={styles.Favorite}
                   draggable={editMode}
                   onClick={() => loadEstimationsStopView(favorite)}
                   onDragEnter={handleDragEnter}
@@ -187,10 +145,10 @@ const HomeFavoritesSubview = (props) => {
                   onDrop={handleDrop}
                 >
                   {favorite.stop_name}
-                </FavoriteStyled>
+                </button>
               );
             })}
-          </ContentStyled>
+          </div>
         </Fragment>
       );
     }
