@@ -8,10 +8,12 @@
   white-space: nowrap;
 }
 
+.StopLinesStyled::-webkit-scrollbar {
+  display: none;
+}
+
 .StopLineStyled {
-  color: var(--text-color);
   line-height: 24px;
-  background: var(--background-color);
   font-size: 18px;
   margin-right: 7px;
   border-radius: 30px;
@@ -21,6 +23,11 @@
   font-weight: normal;
   padding: 6px 0;
   cursor: pointer;
+
+  @media (prefers-color-scheme: dark) {
+    background: #fff;
+    color: #000;
+  }
 }
 
 .StopLineStyled:disabled {
@@ -30,11 +37,4 @@
 
 .StopLineStyled:last-child {
   margin-right: 0;
-}
-
-@media (prefers-color-scheme: dark) {
-  .StopLineStyled:disabled {
-    background: #fff;
-    color: #000;
-  }
 }

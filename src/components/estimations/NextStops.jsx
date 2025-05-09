@@ -1,7 +1,6 @@
 import { Fragment } from "react";
-import styles from "./NextStops.module.css";
-
 import { getLineBackgroundColors } from "../../utils/LineUtils.jsx";
+import styles from "./NextStops.module.css";
 
 const NextStopsCard = (props) => {
   const { label } = props;
@@ -9,10 +8,17 @@ const NextStopsCard = (props) => {
 
   return (
     <Fragment>
-      <div className={styles.NextStopsStyled} style={{ background: backgroundColors[1] }}>
+      <div
+        className={styles.NextStopsStyled}
+        style={{ background: backgroundColors[1] }}
+      >
         {props.list.map((stop, i) => {
           return (
-            <div key={i} className={styles.NextStopStyled} style={{ borderBottom: `1px solid ${backgroundColors[0]}` }}>
+            <div
+              key={i}
+              className={styles.NextStopStyled}
+              style={{ borderColor: backgroundColors[0] }}
+            >
               {stop}
             </div>
           );

@@ -1,6 +1,5 @@
 import styles from "./StopLines.module.css";
 
-import StyleUtils from "../utils/StyleUtils.jsx";
 import {
   getLineBackgroundColor,
   getLineTextColor,
@@ -30,16 +29,26 @@ const handleOnClick = (label) => {
 
 const StopLines = (props) => {
   return (
-    <div className={styles.StopLinesStyled} size={props.size}>
+    <div
+      className={styles.StopLinesStyled}
+      style={{
+        paddingLeft: props.size === "small" ? "0" : `var(--margin-lr)`,
+        height: props.size === "small" ? "28px" : "36px",
+      }}
+    >
       {props.list.map((label, i) => {
         return (
           <button
             key={i}
             className={styles.StopLineStyled}
-            size={props.size}
             style={{
               backgroundColor: getLineBackgroundColor(label, "string"),
               color: getLineTextColor(label),
+              fontSize: props.size === "small" ? "12px" : "18px",
+              marginRight: props.size === "small" ? "5px" : "7px",
+              minWidth: props.size === "small" ? "35px" : "48px",
+              padding: props.size === "small" ? "2px 0" : "6px 0",
+              cursor: props.size === "small" ? "default" : "pointer",
             }}
             disabled={isDisabled(label, props.estimations)}
             onClick={() => handleOnClick(label)}

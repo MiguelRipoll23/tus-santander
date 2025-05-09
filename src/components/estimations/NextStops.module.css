@@ -1,16 +1,16 @@
 .NextStopsStyled {
-  background: var(--background-color-1);
   border-radius: 0 0 30px 30px;
   padding: 6px 0;
 }
 
 .NextStopStyled {
-  border-bottom: 1px solid var(--background-color-0);
+  border-bottom-width: 1px;
+  border-bottom-style: solid;
   border-bottom-opacity: 0.4;
   margin: 0 24px;
   padding: 12px 0;
 }
 
 .NextStopStyled:last-child {
-  border-bottom: 0;
+  border-bottom: none;
 }
