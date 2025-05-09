@@ -1,4 +1,4 @@
-.HomeMenu {
+.homeMenu {
   background: #f7f7f7;
   border-top: 1px solid rgba(0, 0, 0, 0.15);
   align-items: center;
@@ -10,13 +10,13 @@
 }
 
 @media (prefers-color-scheme: dark) {
-  .HomeMenu {
+  .homeMenu {
     background: #1c1b20;
     border-top: none;
   }
 }
 
-.Item {
+.item {
   float: left;
   width: 100px;
   text-align: center;
@@ -27,26 +27,25 @@
   color: rgba(0, 0, 0, 0.55);
 }
 
-.Item[selected="true"] {
+.itemSelected {
   color: var(--color-blue);
 }
 
 @media (prefers-color-scheme: dark) {
-  .Item {
+  .item {
     color: rgba(255, 255, 255, 0.55);
   }
-
-  .Item[selected="true"] {
+  .itemSelectedDark {
     color: var(--color-blue);
   }
 }
 
-.ItemIcon {
+.itemIcon {
   font-size: 24px;
   font-family: icons;
   margin-bottom: 5px;
 }
 
-.ItemText {
+.itemText {
   line-height: 19px;
 }
