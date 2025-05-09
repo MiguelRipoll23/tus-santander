@@ -1,40 +1,53 @@
-.StopLines {
+.stopLines {
   margin-top: 7px;
-  padding-left: var(--margin-lr);
+  padding-left: var(--padding-left);
   padding-right: var(--margin-lr);
   color: #fff;
   overflow-x: scroll;
-  height: 36px;
+  height: var(--height);
   white-space: nowrap;
 }
 
-.StopLines::-webkit-scrollbar {
+.stopLines::-webkit-scrollbar {
   display: none;
 }
 
-.StopLine {
+.stopLine {
   line-height: 24px;
-  font-size: 18px;
-  margin-right: 7px;
-  border-radius: 30px;
-  min-width: 48px;
   text-align: center;
   display: inline-block;
   font-weight: normal;
-  padding: 6px 0;
+  border-radius: 30px;
   cursor: pointer;
-
-  @media (prefers-color-scheme: dark) {
-    background: #fff;
-    color: #000;
-  }
 }
 
-.StopLine:disabled {
+.stopLineSmall {
+  font-size: 12px;
+  margin-right: 5px;
+  min-width: 35px;
+  padding: 2px 0;
+  cursor: default;
+}
+
+.stopLineLarge {
+  font-size: 18px;
+  margin-right: 7px;
+  min-width: 48px;
+  padding: 6px 0;
+}
+
+.stopLine:last-child {
+  margin-right: 0;
+}
+
+.stopLine:disabled {
   opacity: 0.1;
   cursor: default;
 }
 
-.StopLine:last-child {
-  margin-right: 0;
+@media (prefers-color-scheme: dark) {
+  .stopLine:disabled {
+    background: #fff;
+    color: #000;
+  }
 }
