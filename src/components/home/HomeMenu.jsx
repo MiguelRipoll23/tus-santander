@@ -7,49 +7,51 @@ import {
   VIEW_ID_MAP,
 } from "../../constants/ViewConstants.jsx";
 
+const isDarkMode = window.matchMedia("(prefers-color-scheme: dark)").matches;
+
+const getItemClass = (selected) => {
+  const baseClass = styles.item;
+  if (!selected) return baseClass;
+  return `${baseClass} ${
+    isDarkMode ? styles.itemSelectedDark : styles.itemSelected
+  }`;
+};
+
+const menuItemsData = (setSubViewId, setViewId) => [
+  {
+    id: SUB_VIEW_ID_FAVORITES,
+    icon: "",
+    label: "Favoritos",
+    onClick: () => setSubViewId(SUB_VIEW_ID_FAVORITES),
+  },
+  {
+    id: SUB_VIEW_ID_MAP,
+    icon: "",
+    label: "Mapa",
+    onClick: () => setViewId(VIEW_ID_MAP),
+  },
+  {
+    id: SUB_VIEW_ID_SEARCH,
+    icon: "",
+    label: "Buscar",
+    onClick: () => setSubViewId(SUB_VIEW_ID_SEARCH),
+  },
+];
+
 const HomeMenu = () => {
   const { setViewId, subViewId, setSubViewId } = useView();
-
-  const isDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
-
-  const getItemClass = (selected) => {
-    const base = styles.item;
-    return selected
-      ? `${base} ${isDark ? styles.itemSelectedDark : styles.itemSelected}`
-      : base;
-  };
-
-  const menuItems = [
-    {
-      id: SUB_VIEW_ID_FAVORITES,
-      icon: "",
-      text: "Favoritos",
-      onClick: () => setSubViewId(SUB_VIEW_ID_FAVORITES),
-    },
-    {
-      id: SUB_VIEW_ID_MAP,
-      icon: "",
-      text: "Mapa",
-      onClick: () => setViewId(VIEW_ID_MAP),
-    },
-    {
-      id: SUB_VIEW_ID_SEARCH,
-      icon: "",
-      text: "Buscar",
-      onClick: () => setSubViewId(SUB_VIEW_ID_SEARCH),
-    },
-  ];
+  const menuItems = menuItemsData(setSubViewId, setViewId);
 
   return (
     <div className={styles.homeMenu}>
-      {menuItems.map(({ id, icon, text, onClick }) => (
+      {menuItems.map(({ id, icon, label, onClick }) => (
         <div
           key={id}
           className={getItemClass(subViewId === id)}
           onClick={onClick}
         >
           <div className={styles.itemIcon}>{icon}</div>
-          <div className={styles.itemText}>{text}</div>
+          <div className={styles.itemText}>{label}</div>
         </div>
       ))}
     </div>
