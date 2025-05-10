@@ -2,10 +2,12 @@
   display: flex;
   min-height: 55px;
   align-items: center;
-  border-bottom: 1px solid rgba(0, 0, 0, var(--border-opacity));
+  border-bottom-width: 1px;
+  border-bottom-style: solid;
+  border-bottom-color: rgba(0, 0, 0, var(--border-opacity));
 
   @media (prefers-color-scheme: dark) {
-    border-bottom: 1px solid rgba(255, 255, 255, var(--border-opacity));
+    border-bottom-color: rgba(255, 255, 255, var(--border-opacity));
   }
 }
 

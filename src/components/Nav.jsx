@@ -39,7 +39,7 @@ const Nav = (props) => {
       {props.isHeader === false && (
         <div
           className={styles.Nav}
-          style={{ borderBottom: `1px solid rgba(0, 0, 0, ${borderOpacity})` }}
+          style={{ "--border-opacity": borderOpacity }}
         >
           <div className={styles.NavLeft}>
             <button className={styles.BackButton} onClick={goBack}>
