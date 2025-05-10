@@ -1,8 +1,7 @@
 import { Fragment, useEffect, useState } from "react";
-import styles from "./Nav.module.css";
-import StyleUtils from "../utils/StyleUtils.jsx";
-
 import Header from "./Header.jsx";
+
+import styles from "./Nav.module.css";
 
 const Nav = (props) => {
   const [borderOpacity, setBorderOpacity] = useState(0);

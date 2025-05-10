@@ -1,7 +1,5 @@
 import styles from "./Header.module.css";
 
-import StyleUtils from "../utils/StyleUtils.jsx";
-
 const Header = (props) => {
   return (
     <div className={styles.Header}>

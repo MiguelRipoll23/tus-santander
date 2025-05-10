@@ -1,5 +1,4 @@
 import styles from "./StopLines.module.css";
-import StyleUtils from "../utils/StyleUtils.jsx";
 import {
   getLineBackgroundColor,
   getLineTextColor,
@@ -24,14 +23,13 @@ const handleOnClick = (label) => {
 const StopLines = ({ size, list, estimations }) => {
   const isSmall = size === "small";
   const height = isSmall ? "28px" : "36px";
-  const paddingLeft = isSmall ? "0" : StyleUtils.MARGIN_LR;
+  const paddingLeft = isSmall ? "0" : "var(--margin-lr)";
 
   return (
     <div
       className={styles.stopLines}
       style={{
         "--padding-left": paddingLeft,
-        "--margin-lr": StyleUtils.MARGIN_LR,
         "--height": height,
       }}
     >
