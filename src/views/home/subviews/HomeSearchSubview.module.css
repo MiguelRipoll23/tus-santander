@@ -6,19 +6,19 @@
   position: relative;
   height: 36px;
   margin-bottom: var(--icon-margin-bottom);
-}
 
-.icon::before {
-  font-family: icons;
-  content: "\e905";
-  color: #8e8e92;
-  z-index: 1;
-  margin: auto;
-  font-size: 14px;
-  font-weight: 700;
-  position: relative;
-  top: 10px;
-  left: 10px;
+  &::before {
+    font-family: icons;
+    content: "\e905";
+    color: #8e8e92;
+    z-index: 1;
+    margin: auto;
+    font-size: 14px;
+    font-weight: 700;
+    position: relative;
+    top: 10px;
+    left: 10px;
+  }
 }
 
 .input {
@@ -54,17 +54,17 @@
   border-bottom: 1px solid rgba(0, 0, 0, 0.04);
   width: 100%;
   text-align: left;
-}
 
-.result::before {
-  font-family: icons;
-  content: "\e905";
-  color: var(--color-blue);
-  margin-right: 12px;
-  position: relative;
-  top: 2px;
-}
+  &::before {
+    font-family: icons;
+    content: "\e905";
+    color: var(--color-blue);
+    margin-right: 12px;
+    position: relative;
+    top: 2px;
+  }
 
-.result:last-child {
-  border-bottom: 0;
+  &:last-child {
+    border-bottom: 0;
+  }
 }

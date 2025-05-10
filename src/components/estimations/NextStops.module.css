@@ -11,8 +11,8 @@
   border-bottom-opacity: 0.4;
   margin: 0 24px;
   padding: 12px 0;
-}
 
-.NextStop:last-child {
-  border-bottom: none;
+  &:last-child {
+    border-bottom: none;
+  }
 }

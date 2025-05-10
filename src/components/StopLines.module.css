@@ -6,10 +6,10 @@
   overflow-x: scroll;
   height: var(--height);
   white-space: nowrap;
-}
 
-.stopLines::-webkit-scrollbar {
-  display: none;
+  &::-webkit-scrollbar {
+    display: none;
+  }
 }
 
 .stopLine {
@@ -19,6 +19,22 @@
   font-weight: normal;
   border-radius: 30px;
   cursor: pointer;
+
+  &:last-child {
+    margin-right: 0;
+  }
+
+  &:disabled {
+    opacity: 0.1;
+    cursor: default;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    &:disabled {
+      background: #fff;
+      color: #000;
+    }
+  }
 }
 
 .stopLineSmall {
@@ -34,20 +50,4 @@
   margin-right: 7px;
   min-width: 48px;
   padding: 6px 0;
-}
-
-.stopLine:last-child {
-  margin-right: 0;
-}
-
-.stopLine:disabled {
-  opacity: 0.1;
-  cursor: default;
-}
-
-@media (prefers-color-scheme: dark) {
-  .stopLine:disabled {
-    background: #fff;
-    color: #000;
-  }
 }

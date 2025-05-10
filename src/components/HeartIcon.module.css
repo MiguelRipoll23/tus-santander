@@ -9,8 +9,8 @@
   padding-top: 14px;
   padding-bottom: 8px;
   animation: fade-in 0.2s;
-}
 
-.HeartIcon::after {
-  content: attr(data-state);
+  &::after {
+    content: attr(data-state);
+  }
 }

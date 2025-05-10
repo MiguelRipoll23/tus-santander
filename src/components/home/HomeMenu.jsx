@@ -7,16 +7,6 @@ import {
   VIEW_ID_MAP,
 } from "../../constants/ViewConstants.jsx";
 
-const isDarkMode = window.matchMedia("(prefers-color-scheme: dark)").matches;
-
-const getItemClass = (selected) => {
-  const baseClass = styles.item;
-  if (!selected) return baseClass;
-  return `${baseClass} ${
-    isDarkMode ? styles.itemSelectedDark : styles.itemSelected
-  }`;
-};
-
 const menuItemsData = (setSubViewId, setViewId) => [
   {
     id: SUB_VIEW_ID_FAVORITES,
@@ -47,7 +37,8 @@ const HomeMenu = () => {
       {menuItems.map(({ id, icon, label, onClick }) => (
         <div
           key={id}
-          className={getItemClass(subViewId === id)}
+          className={styles.item}
+          data-selected={subViewId === id}
           onClick={onClick}
         >
           <div className={styles.itemIcon}>{icon}</div>

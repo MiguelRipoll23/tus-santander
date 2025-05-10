@@ -13,9 +13,9 @@
   animation: fade-in 0.2s;
   line-height: 74px;
   bottom: 28px;
-}
 
-.RefreshIcon span {
-  position: relative;
-  top: -0.4px;
+  span {
+    position: relative;
+    top: -0.4px;
+  }
 }

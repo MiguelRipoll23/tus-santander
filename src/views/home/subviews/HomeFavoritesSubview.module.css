@@ -37,6 +37,10 @@
   text-align: left;
   -webkit-user-select: none;
   user-select: none;
+
+  @media (prefers-color-scheme: dark) {
+    background: #1c1b20;
+  }
 }
 
 .Favorite.over {
@@ -44,10 +48,4 @@
   border: 2px dashed #ff2e56;
   background: none;
   color: #ff2e56;
-}
-
-@media (prefers-color-scheme: dark) {
-  .Favorite {
-    background: #1c1b20;
-  }
 }

@@ -11,8 +11,8 @@
     var(--background-color-2)
   );
   animation: fade-in 0.3s;
-}
 
-.EstimationsCard:last-child {
-  margin-bottom: 14px;
+  &:last-child {
+    margin-bottom: 14px;
+  }
 }

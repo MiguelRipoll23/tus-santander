@@ -8,10 +8,8 @@
   display: flex;
   align-items: center;
   z-index: 10;
-}
 
-@media (prefers-color-scheme: dark) {
-  .HomeDesktop {
+  @media (prefers-color-scheme: dark) {
     color: #fff;
     background: #000;
   }
@@ -23,7 +21,7 @@
   width: 500px;
 }
 
-.DesktopQr {
+.DesktopQR {
   border-radius: 40px;
   box-shadow: 0 0 40px rgba(0, 0, 0, 0.3);
   width: 250px;

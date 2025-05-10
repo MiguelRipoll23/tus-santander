@@ -5,7 +5,7 @@ const HomeDesktop = (props) => {
     <div className={styles.HomeDesktop}>
       <div className={styles.DesktopArea}>
         <img
-          className={styles.DesktopQr}
+          className={styles.DesktopQR}
           alt="Código QR"
           src="/images/qr-code-min.png"
           width="250"

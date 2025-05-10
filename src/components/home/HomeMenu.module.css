@@ -7,10 +7,8 @@
   bottom: 0;
   width: 100%;
   z-index: 9;
-}
 
-@media (prefers-color-scheme: dark) {
-  .homeMenu {
+  @media (prefers-color-scheme: dark) {
     background: #1c1b20;
     border-top: none;
   }
@@ -25,18 +23,13 @@
   padding-top: 14px;
   padding-bottom: calc(28px + env(safe-area-inset-bottom));
   color: rgba(0, 0, 0, 0.55);
-}
 
-.itemSelected {
-  color: var(--color-blue);
-}
-
-@media (prefers-color-scheme: dark) {
-  .item {
-    color: rgba(255, 255, 255, 0.55);
-  }
-  .itemSelectedDark {
+  &[data-selected="true"] {
     color: var(--color-blue);
+  }
+
+  @media (prefers-color-scheme: dark) {
+    color: rgba(255, 255, 255, 0.55);
   }
 }
 

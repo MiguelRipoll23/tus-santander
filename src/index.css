@@ -22,10 +22,8 @@ body {
   text-rendering: optimizeLegibility;
   font-size: 16px;
   background: #fff;
-}
 
-@media (prefers-color-scheme: dark) {
-  body {
+  @media (prefers-color-scheme: dark) {
     color: #fff;
     background: #000;
   }

@@ -11,10 +11,8 @@
   stroke-dasharray: 200;
   stroke-dashoffset: 100;
   transform-origin: center;
-}
 
-@media (prefers-color-scheme: dark) {
-  .circle {
+  @media (prefers-color-scheme: dark) {
     stroke: #fff;
   }
 }
