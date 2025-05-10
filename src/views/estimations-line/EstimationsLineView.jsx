@@ -1,6 +1,4 @@
 import { Fragment, useCallback, useEffect, useState } from "react";
-import styled from "styled-components";
-
 import { useView } from "../../contexts/ViewContext.jsx";
 import { getLineBackgroundColor } from "../../utils/LineUtils.jsx";
 
@@ -11,36 +9,15 @@ import {
   API_PATH_JSON_ESTIMATIONS,
 } from "../../utils/ApiConstants.jsx";
 
-import StyleUtils from "../../utils/StyleUtils.jsx";
-
 import Nav from "../../components/Nav.jsx";
-import Content from "../../components/Content.jsx";
+import Main from "../../components/Main.jsx";
 import Spinner from "../../components/Spinner.jsx";
 import Error from "../../components/Error.jsx";
 import Button from "../../components/Button.jsx";
 import EstimationsList from "../../components/estimations/EstimationsList.jsx";
+import styles from "./EstimationsLineView.module.css";
 
-const ContextActionsStyled = styled.div`
-  margin: 0 ${StyleUtils.MARGIN_LR};
-  position: fixed;
-  bottom: 50px;
-  width: calc(100% - (${StyleUtils.MARGIN_LR} * 2));
-  display: flex;
-  animation: fade-in 0.2s;
-`;
-
-const ButtonStyled = styled(Button)`
-  flex: 1;
-  display: block;
-  margin-right: 20px;
-  padding: 14px;
-
-  &:last-child {
-    margin-right: 0;
-  }
-`;
-
-const EstimationsLineView = (props) => {
+const EstimationsLineView = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
 
@@ -57,8 +34,7 @@ const EstimationsLineView = (props) => {
       setError(false);
       setEstimations([]);
 
-      let query =
-        `?stopId=${stopId}&lineLabel=${lineLabel}&lineDestination=${lineDestination}`;
+      let query = `?stopId=${stopId}&lineLabel=${lineLabel}&lineDestination=${lineDestination}`;
 
       if (update) {
         query += "&update=true";
@@ -95,7 +71,7 @@ const EstimationsLineView = (props) => {
           setLoading(false);
         });
     },
-    [stopId, lineLabel, lineDestination],
+    [stopId, lineLabel, lineDestination]
   );
 
   // Refresh
@@ -128,7 +104,7 @@ const EstimationsLineView = (props) => {
   return (
     <Fragment>
       <Nav isHeader={false} titleText={stopName} />
-      <Content>
+      <Main>
         {loading && <Spinner />}
         {error && (
           <Error
@@ -143,16 +119,24 @@ const EstimationsLineView = (props) => {
           lineAction={refreshContent}
         />
         {loading === false && error === false && (
-          <ContextActionsStyled>
-            <ButtonStyled color={backgroundColor} onClick={loadLineRouteView}>
+          <div className={styles.ContextActions}>
+            <Button
+              className={styles.ContextButton}
+              color={backgroundColor}
+              onClick={loadLineRouteView}
+            >
               Ver recorrido
-            </ButtonStyled>
-            <ButtonStyled color={backgroundColor} onClick={refreshContent}>
+            </Button>
+            <Button
+              className={styles.ContextButton}
+              color={backgroundColor}
+              onClick={refreshContent}
+            >
               Actualizar
-            </ButtonStyled>
-          </ContextActionsStyled>
+            </Button>
+          </div>
         )}
-      </Content>
+      </Main>
     </Fragment>
   );
 };

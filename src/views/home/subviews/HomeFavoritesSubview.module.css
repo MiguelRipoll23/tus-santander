@@ -1,0 +1,51 @@
+.SortIconAndDoneLink {
+  color: var(--color-blue);
+  align-self: flex-end;
+  padding: 0 0px;
+  font-family: revert;
+  font-size: inherit;
+}
+
+.SortIconAndDoneLink.icons {
+  font-family: icons;
+  font-size: 24px;
+}
+
+.Content {
+  position: relative;
+  height: calc(100% - 91px + env(safe-area-inset-bottom));
+  overflow-y: auto;
+  padding-top: 3px;
+  padding-bottom: 14px;
+  box-sizing: border-box;
+}
+
+.Favorite {
+  padding: 13px 22px;
+  background: linear-gradient(to right, #ff2e56, #e0002b);
+  color: #fff;
+  font-size: 16px;
+  box-sizing: border-box;
+  line-height: 27px;
+  border-radius: 14px;
+  margin: 0 var(--margin-lr);
+  margin-bottom: 8px;
+  overflow: hidden;
+  font-weight: 700;
+  min-height: 53px;
+  width: calc(100% - 28px);
+  text-align: left;
+  -webkit-user-select: none;
+  user-select: none;
+
+  @media (prefers-color-scheme: dark) {
+    background: #1c1b20;
+  }
+}
+
+.Favorite.over {
+  padding: 11px 20px;
+  border: 2px dashed #ff2e56;
+  background: none;
+  color: #ff2e56;
+}

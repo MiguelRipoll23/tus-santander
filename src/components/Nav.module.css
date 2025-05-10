@@ -1,0 +1,63 @@
+.Nav {
+  display: flex;
+  min-height: 55px;
+  align-items: center;
+  border-bottom-width: 1px;
+  border-bottom-style: solid;
+  border-bottom-color: rgba(0, 0, 0, var(--border-opacity));
+
+  @media (prefers-color-scheme: dark) {
+    border-bottom-color: rgba(255, 255, 255, var(--border-opacity));
+  }
+}
+
+.NavLeft {
+  float: left;
+  width: 33.33%;
+  display: flex;
+  flex: 1;
+}
+
+.NavCenter {
+  float: left;
+  width: 33.33%;
+  text-align: center;
+  display: flex;
+  flex: 1;
+}
+
+.NavRight {
+  float: left;
+  width: 33.33%;
+  justify-content: flex-end;
+  display: flex;
+  flex: 1;
+}
+
+.BackButton {
+  font-size: 15px;
+  line-height: 24px;
+  color: var(--color-blue);
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  padding: 11px var(--margin-lr);
+  animation: fade-in 0.2s;
+}
+
+.BackIcon {
+  float: left;
+  margin-right: 8px;
+  font-family: icons;
+  font-size: 23px;
+  line-height: 24px;
+  width: 12.27px;
+}
+
+.NavTitle {
+  padding: 14px 0;
+  font-size: 15px;
+  font-weight: 700;
+  text-align: center;
+  width: 100%;
+}

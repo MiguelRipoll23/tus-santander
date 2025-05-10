@@ -1,5 +1,4 @@
-import styled from "styled-components";
-
+import styles from "./HomeMenu.module.css";
 import { useView } from "../../contexts/ViewContext.jsx";
 import {
   SUB_VIEW_ID_FAVORITES,
@@ -8,85 +7,45 @@ import {
   VIEW_ID_MAP,
 } from "../../constants/ViewConstants.jsx";
 
-const HomeMenuStyled = styled.div`
-  background: #f7f7f7;
-  border-top: 1px solid rgba(0, 0, 0, 0.15);
-  align-items: center;
-  display: flex;
-  position: fixed;
-  bottom: 0;
-  width: 100%;
-  z-index: 9;
+const menuItemsData = (setSubViewId, setViewId) => [
+  {
+    id: SUB_VIEW_ID_FAVORITES,
+    icon: "",
+    label: "Favoritos",
+    onClick: () => setSubViewId(SUB_VIEW_ID_FAVORITES),
+  },
+  {
+    id: SUB_VIEW_ID_MAP,
+    icon: "",
+    label: "Mapa",
+    onClick: () => setViewId(VIEW_ID_MAP),
+  },
+  {
+    id: SUB_VIEW_ID_SEARCH,
+    icon: "",
+    label: "Buscar",
+    onClick: () => setSubViewId(SUB_VIEW_ID_SEARCH),
+  },
+];
 
-  @media (prefers-color-scheme: dark) {
-    background: #1c1b20;
-    border-top: none;
-  }
-`;
-
-const Item = styled.div`
-  float: left;
-  width: 100px;
-  text-align: center;
-  flex: 1;
-  cursor: pointer;
-  padding-top: 14px;
-  padding-bottom: calc(28px + env(safe-area-inset-bottom));
-  color: ${(props) =>
-  props.selected ? "var(--color-blue)" : "rgba(0, 0, 0, .55);"};
-
-  @media (prefers-color-scheme: dark) {
-    color: ${(props) =>
-  props.selected ? "var(--color-blue)" : "rgba(255, 255, 255, .55);"};
-  }
-`;
-
-const ItemIcon = styled.div`
-  font-size: 24px;
-  font-family: icons;
-  margin-bottom: 5px;
-`;
-
-const ItemText = styled.div`
-  line-height: 19px;
-`;
-
-const HomeMenu = (props) => {
+const HomeMenu = () => {
   const { setViewId, subViewId, setSubViewId } = useView();
-
-  const loadFavoritesSubView = () => {
-    setSubViewId(SUB_VIEW_ID_FAVORITES);
-  };
-
-  const loadMapSubView = () => {
-    setViewId(VIEW_ID_MAP);
-  };
-
-  const loadSearchSubView = () => {
-    setSubViewId(SUB_VIEW_ID_SEARCH);
-  };
+  const menuItems = menuItemsData(setSubViewId, setViewId);
 
   return (
-    <HomeMenuStyled>
-      <Item
-        selected={subViewId === SUB_VIEW_ID_FAVORITES}
-        onClick={loadFavoritesSubView}
-      >
-        <ItemIcon></ItemIcon>
-        <ItemText>Favoritos</ItemText>
-      </Item>
-      <Item selected={subViewId === SUB_VIEW_ID_MAP} onClick={loadMapSubView}>
-        <ItemIcon></ItemIcon>
-        <ItemText>Mapa</ItemText>
-      </Item>
-      <Item
-        selected={subViewId === SUB_VIEW_ID_SEARCH}
-        onClick={loadSearchSubView}
-      >
-        <ItemIcon></ItemIcon>
-        <ItemText>Buscar</ItemText>
-      </Item>
-    </HomeMenuStyled>
+    <div className={styles.homeMenu}>
+      {menuItems.map(({ id, icon, label, onClick }) => (
+        <div
+          key={id}
+          className={styles.item}
+          data-selected={subViewId === id}
+          onClick={onClick}
+        >
+          <div className={styles.itemIcon}>{icon}</div>
+          <div className={styles.itemText}>{label}</div>
+        </div>
+      ))}
+    </div>
   );
 };
 

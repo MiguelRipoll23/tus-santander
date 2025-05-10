@@ -1,6 +1,7 @@
 :root {
   --color-blue: #0070f0;
   --color-light-blue: #32b0fd;
+  --margin-lr: 14px;
 }
 
 body,
@@ -21,10 +22,8 @@ body {
   text-rendering: optimizeLegibility;
   font-size: 16px;
   background: #fff;
-}
 
-@media (prefers-color-scheme: dark) {
-  body {
+  @media (prefers-color-scheme: dark) {
     color: #fff;
     background: #000;
   }

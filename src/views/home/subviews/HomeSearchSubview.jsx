@@ -1,86 +1,13 @@
 import { Fragment, useEffect, useState } from "react";
-import styled from "styled-components";
 
 import { useView } from "../../../contexts/ViewContext.jsx";
 import { VIEW_ID_ESTIMATIONS_STOP } from "../../../constants/ViewConstants.jsx";
 
 import Nav from "../../../components/Nav.jsx";
-
 import Stops from "../../../json/stops.min.json";
-import StyleUtils from "../../../utils/StyleUtils.jsx";
+import styles from "./HomeSearchSubview.module.css";
 
-const ContentStyled = styled.div`
-  margin: 0 ${StyleUtils.MARGIN_LR};
-`;
-
-const IconStyled = styled.div`
-  position: relative;
-  height: 36px;
-  margin-bottom: ${(props) => (props.$anyResults ? "0" : "12px")};
-
-  &:before {
-    font-family: icons;
-    content: "\\e905";
-    color: #8e8e92;
-    z-index: 1;
-    margin: auto;
-    font-size: 14px;
-    font-weight: 700;
-    position: relative;
-    top: 10px;
-    left: 10px;
-  }
-`;
-
-const InputStyled = styled.input`
-  background: #f1f1f2;
-  outline: none;
-  border: 0;
-  width: 100%;
-  box-sizing: border-box;
-  font-size: 17px;
-  line-height: normal;
-  padding: 8px 10px;
-  color: #8e8e92;
-  text-indent: 20px;
-  cursor: default;
-  border-radius: 8px;
-  position: absolute;
-  left: 0;
-
-  @media (prefers-color-scheme: dark) {
-    background: #1c1b20;
-  }
-`;
-
-const ResultsStyled = styled.div`
-  margin-bottom: 12px;
-  border-radius: 8px;
-  overflow: hidden;
-`;
-
-const ResultStyled = styled.button`
-  color: var(--color-blue);
-  padding: 14px 9px;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.04);
-  width: 100%;
-  text-align: left;
-
-  &:before {
-    font-family: icons;
-    content: "\\e905";
-    color: var(--color-blue);
-    margin-right: 12px;
-    position: relative;
-    top: 2px;
-  }
-
-  &:last-child {
-    border-bottom: 0;
-  }
-`;
-
-const HomeSearchSubview = (props) => {
+const HomeSearchSubview = () => {
   const { setViewIdWithData } = useView();
 
   const [searchText, setSearchText] = useState("");
@@ -135,12 +62,15 @@ const HomeSearchSubview = (props) => {
     });
   };
 
+  const marginBottom = results.length > 0 ? "0" : "12px";
+
   return (
     <Fragment>
       <Nav isHeader={true} titleText="Buscar" />
-      <ContentStyled>
-        <IconStyled $anyResults={results.length > 0}>
-          <InputStyled
+      <div className={styles.content}>
+        <div className={styles.icon} style={{ marginBottom }}>
+          <input
+            className={styles.input}
             type="text"
             placeholder="Buscar"
             aria-label="Buscar"
@@ -149,26 +79,27 @@ const HomeSearchSubview = (props) => {
             autoComplete="off"
             onInput={updateValue}
           />
-        </IconStyled>
+        </div>
 
         {results.length > 0 && (
-          <ResultsStyled>
+          <div className={styles.results}>
             {results.map((result, i) => {
               const stopId = result[0];
               const stopName = result[3];
 
               return (
-                <ResultStyled
+                <button
+                  className={styles.result}
                   key={i}
                   onClick={() => loadEstimationsStopView(stopId, stopName)}
                 >
                   {`${stopName} (${stopId})`}
-                </ResultStyled>
+                </button>
               );
             })}
-          </ResultsStyled>
+          </div>
         )}
-      </ContentStyled>
+      </div>
     </Fragment>
   );
 };

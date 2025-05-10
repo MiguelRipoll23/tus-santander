@@ -37,16 +37,17 @@ export const viewReducer = (state, action) => {
 
       break;
 
-    case SET_VIEW_ID_WITH_DATA:
+    case SET_VIEW_ID_WITH_DATA: {
       const { viewId, data } = payload;
 
       updatedState = {
         ...state,
-        viewId: viewId,
-        data: data,
+        viewId,
+        data,
       };
 
       break;
+    }
 
     case SET_SUB_VIEW_ID:
       updatedState = {
@@ -60,7 +61,6 @@ export const viewReducer = (state, action) => {
       throw new Error(`No case for type ${type} found in viewReducer`);
   }
 
-  // eslint-disable-next-line no-restricted-globals
   updatedState.index = history.state ? history.state.index + 1 : 1;
 
   // Update session storage

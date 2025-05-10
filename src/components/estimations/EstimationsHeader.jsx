@@ -1,29 +1,13 @@
-import styled from "styled-components";
-
-const LineHeaderStyled = styled.div`
-  padding-top: 18px;
-  padding-left: 24px;
-  padding-right: 24px;
-  margin-bottom: 30px;
-`;
-
-const LineLabelStyled = styled.span`
-  font-size: 32px;
-  display: block;
-`;
-
-const LineDestinationStyled = styled.span`
-  font-size: 22px;
-`;
+import styles from "./EstimationsHeader.module.css";
 
 const LineHeader = (props) => {
   return (
-    <LineHeaderStyled>
-      <LineLabelStyled>{props.label}</LineLabelStyled>
-      <LineDestinationStyled>
+    <div className={styles.LineHeader}>
+      <span className={styles.LineLabel}>{props.label}</span>
+      <span className={styles.LineDestination}>
         {props.destination.toUpperCase()}
-      </LineDestinationStyled>
-    </LineHeaderStyled>
+      </span>
+    </div>
   );
 };
 

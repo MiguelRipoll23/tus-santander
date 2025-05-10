@@ -1,5 +1,4 @@
 import { Fragment, useCallback, useEffect, useState } from "react";
-
 import { useView } from "../../contexts/ViewContext.jsx";
 import { getFavorite, toggleFavorite } from "../../utils/FavoriteUtils.jsx";
 
@@ -13,7 +12,7 @@ import {
 import Nav from "../../components/Nav.jsx";
 import RefreshIcon from "../../components/RefreshIcon.jsx";
 import HeartIcon from "../../components/HeartIcon.jsx";
-import Content from "../../components/Content.jsx";
+import Main from "../../components/Main.jsx";
 import Spinner from "../../components/Spinner.jsx";
 import Error from "../../components/Error.jsx";
 import StopLines from "../../components/StopLines.jsx";
@@ -148,7 +147,7 @@ const EstimationsStopView = () => {
           <HeartIcon heartState={heartState} updateFavorite={updateFavorite} />
         )}
       </Nav>
-      <Content paddingBottom="105px">
+      <Main paddingBottom="105px">
         {loading && <Spinner />}
         {error && (
           <Error
@@ -167,7 +166,7 @@ const EstimationsStopView = () => {
         {refreshVisible && (
           <RefreshIcon refreshContent={() => refreshContent(true)} />
         )}
-      </Content>
+      </Main>
     </Fragment>
   );
 };

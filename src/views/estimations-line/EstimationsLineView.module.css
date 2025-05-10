@@ -1,0 +1,19 @@
+.ContextActions {
+  margin: 0 var(--margin-lr);
+  position: fixed;
+  bottom: 50px;
+  width: calc(100% - (var(--margin-lr) * 2));
+  display: flex;
+  animation: fade-in 0.2s;
+}
+
+.ContextButton {
+  flex: 1;
+  display: block;
+  margin-right: 20px;
+  padding: 14px;
+
+  &:last-child {
+    margin-right: 0;
+  }
+}
