@@ -1,6 +1,6 @@
 import styles from "./HomeDesktop.module.css";
 
-const HomeDesktop = (props) => {
+const HomeDesktop = () => {
   return (
     <div className={styles.HomeDesktop}>
       <div className={styles.DesktopArea}>

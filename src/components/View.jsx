@@ -41,7 +41,7 @@ const SelectedView = (props) => {
   }
 };
 
-const View = (props) => {
+const View = () => {
   const { index, viewId, setViewId, setSubViewId, setViewIdWithData } =
     useView();
 

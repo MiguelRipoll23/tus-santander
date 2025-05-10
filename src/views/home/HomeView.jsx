@@ -12,10 +12,10 @@ import HomeMenu from "../../components/home/HomeMenu.jsx";
 import HomeSearchSubview from "./subviews/HomeSearchSubview.jsx";
 import HomeFavoritesSubview from "./subviews/HomeFavoritesSubview.jsx";
 
-const HomeView = (props) => {
+const HomeView = () => {
   const { subViewId } = useView();
 
-  const SelectedContent = (props) => {
+  const SelectedContent = () => {
     switch (subViewId) {
       case SUB_VIEW_ID_FAVORITES:
         return <HomeFavoritesSubview />;
