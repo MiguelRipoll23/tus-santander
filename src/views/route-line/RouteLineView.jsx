@@ -3,7 +3,7 @@ import { useView } from "../../contexts/ViewContext.jsx";
 import { getLineBackgroundColor } from "../../utils/LineUtils.jsx";
 import { API_HOST, API_PATH_JSON_ROUTE } from "../../utils/ApiConstants.jsx";
 
-import Content from "../../components/Content.jsx";
+import Main from "../../components/Main.jsx";
 import Nav from "../../components/Nav.jsx";
 import Spinner from "../../components/Spinner.jsx";
 import Error from "../../components/Error.jsx";
@@ -72,7 +72,7 @@ const RouteLineView = () => {
         isHeader={false}
         titleText={`${lineLabel} ${lineDestination.toUpperCase()}`}
       />
-      <Content>
+      <Main>
         {loading && <Spinner />}
         {error && (
           <Error
@@ -109,7 +109,7 @@ const RouteLineView = () => {
             );
           })}
         </ul>
-      </Content>
+      </Main>
     </Fragment>
   );
 };

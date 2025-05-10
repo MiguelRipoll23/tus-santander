@@ -7,7 +7,7 @@ import {
   SUB_VIEW_ID_SEARCH,
 } from "../../constants/ViewConstants.jsx";
 
-import Content from "../../components/Content.jsx";
+import Main from "../../components/Main.jsx";
 import HomeMenu from "../../components/home/HomeMenu.jsx";
 import HomeSearchSubview from "./subviews/HomeSearchSubview.jsx";
 import HomeFavoritesSubview from "./subviews/HomeFavoritesSubview.jsx";
@@ -28,17 +28,17 @@ const HomeView = (props) => {
 
       default:
         throw new Error(
-          `No case for subview identifier ${subViewId} found in HomeView`,
+          `No case for subview identifier ${subViewId} found in HomeView`
         );
     }
   };
 
   return (
     <Fragment>
-      <Content>
+      <Main>
         <SelectedContent />
         <HomeMenu />
-      </Content>
+      </Main>
     </Fragment>
   );
 };

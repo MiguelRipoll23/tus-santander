@@ -3,7 +3,7 @@ import { APIProvider, Map } from "@vis.gl/react-google-maps";
 import { GOOGLE_MAPS_KEY } from "../../utils/ApiConstants.jsx";
 
 import Nav from "../../components/Nav.jsx";
-import Content from "../../components/Content.jsx";
+import Main from "../../components/Main.jsx";
 import Spinner from "../../components/Spinner.jsx";
 import ClosestMarkers from "../../components/map/ClosestMarkers.jsx";
 
@@ -116,7 +116,7 @@ const MapView = () => {
   return (
     <Fragment>
       <Nav isHeader={false} titleText="Mapa" />
-      <Content>
+      <Main>
         <APIProvider
           apiKey={apiKey}
           libraries={libraries}
@@ -124,7 +124,7 @@ const MapView = () => {
         >
           {loading ? <Spinner /> : getMap()}
         </APIProvider>
-      </Content>
+      </Main>
     </Fragment>
   );
 };

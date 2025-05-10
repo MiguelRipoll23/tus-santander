@@ -1,6 +1,6 @@
-import styles from "./Content.module.css";
+import styles from "./Main.module.css";
 
-const View = (props) => {
+const Main = (props) => {
   const paddingBottom = props.paddingBottom ?? "0";
 
   return (
@@ -10,4 +10,4 @@ const View = (props) => {
   );
 };
 
-export default View;
+export default Main;

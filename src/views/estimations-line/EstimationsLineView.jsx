@@ -10,7 +10,7 @@ import {
 } from "../../utils/ApiConstants.jsx";
 
 import Nav from "../../components/Nav.jsx";
-import Content from "../../components/Content.jsx";
+import Main from "../../components/Main.jsx";
 import Spinner from "../../components/Spinner.jsx";
 import Error from "../../components/Error.jsx";
 import Button from "../../components/Button.jsx";
@@ -104,7 +104,7 @@ const EstimationsLineView = () => {
   return (
     <Fragment>
       <Nav isHeader={false} titleText={stopName} />
-      <Content>
+      <Main>
         {loading && <Spinner />}
         {error && (
           <Error
@@ -136,7 +136,7 @@ const EstimationsLineView = () => {
             </Button>
           </div>
         )}
-      </Content>
+      </Main>
     </Fragment>
   );
 };
