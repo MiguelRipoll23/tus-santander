@@ -13,11 +13,6 @@
   font-weight: bold;
   animation: fade-in 0.2s;
 
-  span {
-    max-width: 200px;
-    display: inline-block;
-  }
-
   &::before {
     content: "";
     position: absolute;
