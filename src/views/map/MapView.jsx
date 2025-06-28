@@ -1,6 +1,7 @@
 import { Fragment, useCallback, useEffect, useState } from "react";
 import { APIProvider, Map } from "@vis.gl/react-google-maps";
 import { GOOGLE_MAPS_KEY } from "../../utils/ApiConstants.jsx";
+import { useI18n } from "../../contexts/I18nContext.jsx";
 
 import Nav from "../../components/Nav.jsx";
 import Main from "../../components/Main.jsx";
@@ -12,6 +13,7 @@ import Stops from "../../json/stops.min.json";
 const markers = [];
 
 const MapView = () => {
+  const { t } = useI18n();
   const apiKey = GOOGLE_MAPS_KEY;
   const libraries = ["geometry"];
   const defaultCenter = { lat: 43.462068, lng: -3.810204 };
@@ -33,7 +35,7 @@ const MapView = () => {
       if (error.code === 1 || error.code === 3) {
         return;
       }
-      alert("La ubicación no está disponible");
+      alert(t("location_not_available"));
     };
 
     navigator.geolocation.getCurrentPosition(successCallback, errorCallback);
@@ -115,7 +117,7 @@ const MapView = () => {
 
   return (
     <Fragment>
-      <Nav isHeader={false} titleText="Mapa" />
+      <Nav isHeader={false} titleText={t("map")} />
       <Main>
         <APIProvider
           apiKey={apiKey}

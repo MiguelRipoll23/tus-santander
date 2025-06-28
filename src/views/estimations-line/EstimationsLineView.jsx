@@ -16,8 +16,10 @@ import Error from "../../components/Error.jsx";
 import Button from "../../components/Button.jsx";
 import EstimationsList from "../../components/estimations/EstimationsList.jsx";
 import styles from "./EstimationsLineView.module.css";
+import { useI18n } from "../../contexts/I18nContext.jsx";
 
 const EstimationsLineView = () => {
+  const { t } = useI18n();
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
 
@@ -108,8 +110,8 @@ const EstimationsLineView = () => {
         {loading && <Spinner />}
         {error && (
           <Error
-            errorText="No disponible"
-            retryText="Volver a intentar"
+            errorText={t("no_available")}
+            retryText={t("try_again")}
             retryAction={refreshContent}
           />
         )}
@@ -125,14 +127,14 @@ const EstimationsLineView = () => {
               color={backgroundColor}
               onClick={loadLineRouteView}
             >
-              Ver recorrido
+              {t("view_route")}
             </Button>
             <Button
               className={styles.ContextButton}
               color={backgroundColor}
               onClick={refreshContent}
             >
-              Actualizar
+              {t("refresh")}
             </Button>
           </div>
         )}

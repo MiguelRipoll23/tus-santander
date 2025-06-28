@@ -1,0 +1,18 @@
+{
+  "back": "Atrás",
+  "favorites": "Favoritos",
+  "map": "Mapa",
+  "search": "Buscar",
+  "done": "Hecho",
+  "use_map_or_search": "Usa el mapa o el buscador para añadir paradas",
+  "see_nearby_stops": "Ver paradas cercanas",
+  "confirm_remove_favorite": "¿Estás seguro de que quieres quitar esta parada de favoritos?",
+  "location_not_available": "La ubicación no está disponible",
+  "no_available": "No disponible",
+  "try_again": "Volver a intentar",
+  "view_route": "Ver recorrido",
+  "refresh": "Actualizar",
+  "add_to_favorites": "Añadir a favoritos",
+  "qr_code": "Código QR",
+  "desktop_instructions": "Escanea el código QR que se muestra en la pantalla usando la app <b>Cámara</b> de tu móvil para acceder a la aplicación"
+}

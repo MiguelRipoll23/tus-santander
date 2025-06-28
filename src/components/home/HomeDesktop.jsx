@@ -1,21 +1,20 @@
 import styles from "./HomeDesktop.module.css";
+import { useI18n } from "../../contexts/I18nContext.jsx";
 
 const HomeDesktop = () => {
+  const { t } = useI18n();
   return (
     <div className={styles.HomeDesktop}>
       <div className={styles.DesktopArea}>
         <img
           className={styles.DesktopQR}
-          alt="Código QR"
+          alt={t("qr_code")}
           src="/images/qr-code-min.png"
           width="250"
           height="250"
         />
         <h1>TUS Santander</h1>
-        <span>
-          Escanea el código QR que se muestra en la pantalla usando la app{" "}
-          <b>Cámara</b> de tu móvil para acceder a la aplicación
-        </span>
+        <span dangerouslySetInnerHTML={{ __html: t("desktop_instructions") }} />
       </div>
     </div>
   );

@@ -8,10 +8,12 @@ import Nav from "../../components/Nav.jsx";
 import Spinner from "../../components/Spinner.jsx";
 import Error from "../../components/Error.jsx";
 import StopLines from "../../components/StopLines.jsx";
+import { useI18n } from "../../contexts/I18nContext.jsx";
 
 import styles from "./RouteLineView.module.css";
 
 const RouteLineView = () => {
+  const { t } = useI18n();
   const { data } = useView();
   const { stopId, lineLabel, lineDestination } = data;
 
@@ -76,8 +78,8 @@ const RouteLineView = () => {
         {loading && <Spinner />}
         {error && (
           <Error
-            errorText="No disponible"
-            retryText="Volver a intentar"
+            errorText={t("no_available")}
+            retryText={t("try_again")}
             retryAction={refreshContent}
           />
         )}

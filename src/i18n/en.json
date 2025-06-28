@@ -1,0 +1,18 @@
+{
+  "back": "Back",
+  "favorites": "Favorites",
+  "map": "Map",
+  "search": "Search",
+  "done": "Done",
+  "use_map_or_search": "Use the map or search to add stops",
+  "see_nearby_stops": "See nearby stops",
+  "confirm_remove_favorite": "Are you sure you want to remove this stop from favorites?",
+  "location_not_available": "Location is not available",
+  "no_available": "Not available",
+  "try_again": "Try again",
+  "view_route": "View route",
+  "refresh": "Refresh",
+  "add_to_favorites": "Add to favorites",
+  "qr_code": "QR code",
+  "desktop_instructions": "Scan the QR code shown on screen using the <b>Camera</b> app on your phone to access the application"
+}

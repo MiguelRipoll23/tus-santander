@@ -1,5 +1,6 @@
 import styles from "./HomeMenu.module.css";
 import { useView } from "../../contexts/ViewContext.jsx";
+import { useI18n } from "../../contexts/I18nContext.jsx";
 import {
   SUB_VIEW_ID_FAVORITES,
   SUB_VIEW_ID_MAP,
@@ -7,30 +8,31 @@ import {
   VIEW_ID_MAP,
 } from "../../constants/ViewConstants.jsx";
 
-const menuItemsData = (setSubViewId, setViewId) => [
+const menuItemsData = (t, setSubViewId, setViewId) => [
   {
     id: SUB_VIEW_ID_FAVORITES,
     icon: "",
-    label: "Favoritos",
+    label: t("favorites"),
     onClick: () => setSubViewId(SUB_VIEW_ID_FAVORITES),
   },
   {
     id: SUB_VIEW_ID_MAP,
     icon: "",
-    label: "Mapa",
+    label: t("map"),
     onClick: () => setViewId(VIEW_ID_MAP),
   },
   {
     id: SUB_VIEW_ID_SEARCH,
     icon: "",
-    label: "Buscar",
+    label: t("search"),
     onClick: () => setSubViewId(SUB_VIEW_ID_SEARCH),
   },
 ];
 
 const HomeMenu = () => {
+  const { t } = useI18n();
   const { setViewId, subViewId, setSubViewId } = useView();
-  const menuItems = menuItemsData(setSubViewId, setViewId);
+  const menuItems = menuItemsData(t, setSubViewId, setViewId);
 
   return (
     <div className={styles.homeMenu}>
