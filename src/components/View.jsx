@@ -61,7 +61,7 @@ const View = () => {
     setSubViewId(state.subViewId, false);
   };
 
-  return <SelectedView viewId={viewId} className={styles.SelectedView} />;
+  return <SelectedView viewId={viewId} />;
 };
 
 export default View;
