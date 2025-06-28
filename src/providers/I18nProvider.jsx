@@ -6,28 +6,44 @@ import en from "../i18n/en.json";
 const translations = { es, en };
 
 export const I18nProvider = ({ children }) => {
-  const defaultLang =
-    (typeof navigator !== "undefined" && navigator.language?.startsWith("en"))
-      ? "en"
-      : "es";
-  const [lang, setLang] = useState(defaultLang);
+  const browserLanguage = (() => {
+    if (typeof navigator === "undefined") return "es";
+
+    const browserLang = navigator.language?.toLowerCase() || "";
+    const supportedLangs = Object.keys(translations);
+
+    // Check for exact match first
+    if (supportedLangs.includes(browserLang)) {
+      return browserLang;
+    }
+
+    // Check for language prefix match
+    const langPrefix = browserLang.split("-")[0];
+    if (supportedLangs.includes(langPrefix)) {
+      return langPrefix;
+    }
+
+    return "es"; // Default fallback
+  })();
+
+  const [language, setLanguage] = useState(browserLanguage);
 
   useEffect(() => {
     if (typeof document !== "undefined") {
-      document.documentElement.lang = lang;
+      document.documentElement.lang = language;
     }
-  }, [lang]);
+  }, [language]);
 
   const getText = useCallback(
     (key) => {
-      const dict = translations[lang] || {};
+      const dict = translations[language] || {};
       return dict[key] || key;
     },
-    [lang]
+    [language]
   );
 
   return (
-    <I18nContext.Provider value={{ getText, lang, setLang }}>
+    <I18nContext.Provider value={{ getText, language, setLanguage }}>
       {children}
     </I18nContext.Provider>
   );
