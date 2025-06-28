@@ -20,7 +20,7 @@ import { useI18n } from "../../contexts/I18nContext.jsx";
 import EstimationsList from "../../components/estimations/EstimationsList.jsx";
 
 const EstimationsStopView = () => {
-  const { t } = useI18n();
+  const { getText } = useI18n();
   const { data, setViewIdWithData } = useView();
   const { stopId, stopName } = data;
 
@@ -100,7 +100,7 @@ const EstimationsStopView = () => {
 
     if (favorited) {
       const userConfirms = window.confirm(
-        t("confirm_remove_favorite")
+        getText("confirm_remove_favorite")
       );
 
       if (userConfirms) {
@@ -153,8 +153,8 @@ const EstimationsStopView = () => {
         {loading && <Spinner />}
         {error && (
           <Error
-            errorText={t("no_available")}
-            retryText={t("try_again")}
+            errorText={getText("no_available")}
+            retryText={getText("try_again")}
             retryAction={() => refreshContent(false)}
           />
         )}

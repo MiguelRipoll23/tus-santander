@@ -18,7 +18,7 @@ export const I18nProvider = ({ children }) => {
     }
   }, [lang]);
 
-  const t = useCallback(
+  const getText = useCallback(
     (key) => {
       const dict = translations[lang] || {};
       return dict[key] || key;
@@ -27,7 +27,7 @@ export const I18nProvider = ({ children }) => {
   );
 
   return (
-    <I18nContext.Provider value={{ t, lang, setLang }}>
+    <I18nContext.Provider value={{ getText, lang, setLang }}>
       {children}
     </I18nContext.Provider>
   );

@@ -8,31 +8,31 @@ import {
   VIEW_ID_MAP,
 } from "../../constants/ViewConstants.jsx";
 
-const menuItemsData = (t, setSubViewId, setViewId) => [
+const menuItemsData = (getText, setSubViewId, setViewId) => [
   {
     id: SUB_VIEW_ID_FAVORITES,
     icon: "",
-    label: t("favorites"),
+    label: getText("favorites"),
     onClick: () => setSubViewId(SUB_VIEW_ID_FAVORITES),
   },
   {
     id: SUB_VIEW_ID_MAP,
     icon: "",
-    label: t("map"),
+    label: getText("map"),
     onClick: () => setViewId(VIEW_ID_MAP),
   },
   {
     id: SUB_VIEW_ID_SEARCH,
     icon: "",
-    label: t("search"),
+    label: getText("search"),
     onClick: () => setSubViewId(SUB_VIEW_ID_SEARCH),
   },
 ];
 
 const HomeMenu = () => {
-  const { t } = useI18n();
+  const { getText } = useI18n();
   const { setViewId, subViewId, setSubViewId } = useView();
-  const menuItems = menuItemsData(t, setSubViewId, setViewId);
+  const menuItems = menuItemsData(getText, setSubViewId, setViewId);
 
   return (
     <div className={styles.homeMenu}>

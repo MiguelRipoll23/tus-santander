@@ -5,7 +5,7 @@ import { useI18n } from "../contexts/I18nContext.jsx";
 import styles from "./Nav.module.css";
 
 const Nav = (props) => {
-  const { t } = useI18n();
+  const { getText } = useI18n();
   const [borderOpacity, setBorderOpacity] = useState(0);
 
   const goBack = () => {
@@ -46,7 +46,7 @@ const Nav = (props) => {
           <div className={styles.NavLeft}>
             <button className={styles.BackButton} onClick={goBack}>
               <span className={styles.BackIcon}></span>
-              <span>{t("back")}</span>
+              <span>{getText("back")}</span>
             </button>
           </div>
           <div className={styles.NavCenter}>

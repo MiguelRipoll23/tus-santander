@@ -13,7 +13,7 @@ import Stops from "../../json/stops.min.json";
 const markers = [];
 
 const MapView = () => {
-  const { t } = useI18n();
+  const { getText } = useI18n();
   const apiKey = GOOGLE_MAPS_KEY;
   const libraries = ["geometry"];
   const defaultCenter = { lat: 43.462068, lng: -3.810204 };
@@ -35,7 +35,7 @@ const MapView = () => {
       if (error.code === 1 || error.code === 3) {
         return;
       }
-      alert(t("location_not_available"));
+      alert(getText("location_not_available"));
     };
 
     navigator.geolocation.getCurrentPosition(successCallback, errorCallback);
@@ -117,7 +117,7 @@ const MapView = () => {
 
   return (
     <Fragment>
-      <Nav isHeader={false} titleText={t("map")} />
+      <Nav isHeader={false} titleText={getText("map")} />
       <Main>
         <APIProvider
           apiKey={apiKey}

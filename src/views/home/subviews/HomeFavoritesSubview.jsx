@@ -14,7 +14,7 @@ import { useI18n } from "../../../contexts/I18nContext.jsx";
 import styles from "./HomeFavoritesSubview.module.css";
 
 const HomeFavoritesSubview = () => {
-  const { t } = useI18n();
+  const { getText } = useI18n();
   const { setViewId, setViewIdWithData } = useView();
 
   const [error, setError] = useState(false);
@@ -114,21 +114,21 @@ const HomeFavoritesSubview = () => {
 
       return (
         <Fragment>
-          <Nav isHeader={true} titleText={t("favorites")} hidden={isDesktop}>
+          <Nav isHeader={true} titleText={getText("favorites")} hidden={isDesktop}>
             <button
               className={styles.SortIconAndDoneLink}
               style={{ fontFamily, fontSize }}
               hidden={sortIconHidden}
               onClick={toggleEditMode}
             >
-              {editMode ? t("done") : ""}
+              {editMode ? getText("done") : ""}
             </button>
           </Nav>
           <div className={styles.Content} hidden={isDesktop}>
             {error && (
               <Error
-                errorText={t("use_map_or_search")}
-                retryText={t("see_nearby_stops")}
+                errorText={getText("use_map_or_search")}
+                retryText={getText("see_nearby_stops")}
                 retryAction={loadMapSubview}
                 animation="none"
               />

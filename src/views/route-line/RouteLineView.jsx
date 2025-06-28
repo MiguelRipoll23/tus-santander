@@ -13,7 +13,7 @@ import { useI18n } from "../../contexts/I18nContext.jsx";
 import styles from "./RouteLineView.module.css";
 
 const RouteLineView = () => {
-  const { t } = useI18n();
+  const { getText } = useI18n();
   const { data } = useView();
   const { stopId, lineLabel, lineDestination } = data;
 
@@ -78,8 +78,8 @@ const RouteLineView = () => {
         {loading && <Spinner />}
         {error && (
           <Error
-            errorText={t("no_available")}
-            retryText={t("try_again")}
+            errorText={getText("no_available")}
+            retryText={getText("try_again")}
             retryAction={refreshContent}
           />
         )}
