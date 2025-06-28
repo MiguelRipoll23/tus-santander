@@ -15,8 +15,6 @@ import EstimationsStopView from "../views/estimations-stop/EstimationsStopView.j
 import EstimationsLineView from "../views/estimations-line/EstimationsLineView.jsx";
 import RouteLineView from "../views/route-line/RouteLineView.jsx";
 
-import styles from "./View.module.css";
-
 const SelectedView = (props) => {
   const { viewId } = props;
 
@@ -61,7 +59,7 @@ const View = () => {
     setSubViewId(state.subViewId, false);
   };
 
-  return <SelectedView viewId={viewId} className={styles.SelectedView} />;
+  return <SelectedView viewId={viewId} />;
 };
 
 export default View;
