@@ -15,9 +15,9 @@ export const SUB_VIEW_ID_MAP = "map";
 export const SUB_VIEW_ID_SEARCH = "search";
 
 // Sub view titles
-export const SUB_VIEW_TITLE_FAVORITES = "Favoritos";
-export const SUB_VIEW_TITLE_MAP = "Mapa";
-export const SUB_VIEW_TITLE_SEARCH = "Buscar";
+export const SUB_VIEW_TITLE_FAVORITES = "favorites";
+export const SUB_VIEW_TITLE_MAP = "map";
+export const SUB_VIEW_TITLE_SEARCH = "search";
 
 // Reducer actions
 export const SET_VIEW_ID = "SET_VIEW_ID";

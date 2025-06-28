@@ -10,9 +10,11 @@ import {
 import Nav from "../../../components/Nav.jsx";
 import Error from "../../../components/Error.jsx";
 import HomeDesktop from "../../../components/home/HomeDesktop.jsx";
+import { useI18n } from "../../../contexts/I18nContext.jsx";
 import styles from "./HomeFavoritesSubview.module.css";
 
 const HomeFavoritesSubview = () => {
+  const { getText } = useI18n();
   const { setViewId, setViewIdWithData } = useView();
 
   const [error, setError] = useState(false);
@@ -112,21 +114,21 @@ const HomeFavoritesSubview = () => {
 
       return (
         <Fragment>
-          <Nav isHeader={true} titleText="Favoritos" hidden={isDesktop}>
+          <Nav isHeader={true} titleText={getText("favorites")} hidden={isDesktop}>
             <button
               className={styles.SortIconAndDoneLink}
               style={{ fontFamily, fontSize }}
               hidden={sortIconHidden}
               onClick={toggleEditMode}
             >
-              {editMode ? "Hecho" : ""}
+              {editMode ? getText("done") : ""}
             </button>
           </Nav>
           <div className={styles.Content} hidden={isDesktop}>
             {error && (
               <Error
-                errorText="Usa el mapa o el buscador para añadir paradas"
-                retryText="Ver paradas cercanas"
+                errorText={getText("use_map_or_search")}
+                retryText={getText("see_nearby_stops")}
                 retryAction={loadMapSubview}
                 animation="none"
               />

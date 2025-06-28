@@ -16,9 +16,11 @@ import Main from "../../components/Main.jsx";
 import Spinner from "../../components/Spinner.jsx";
 import Error from "../../components/Error.jsx";
 import StopLines from "../../components/StopLines.jsx";
+import { useI18n } from "../../contexts/I18nContext.jsx";
 import EstimationsList from "../../components/estimations/EstimationsList.jsx";
 
 const EstimationsStopView = () => {
+  const { getText } = useI18n();
   const { data, setViewIdWithData } = useView();
   const { stopId, stopName } = data;
 
@@ -98,7 +100,7 @@ const EstimationsStopView = () => {
 
     if (favorited) {
       const userConfirms = window.confirm(
-        "¿Estás seguro de que quieres quitar esta parada de favoritos?"
+        getText("confirm_remove_favorite")
       );
 
       if (userConfirms) {
@@ -151,8 +153,8 @@ const EstimationsStopView = () => {
         {loading && <Spinner />}
         {error && (
           <Error
-            errorText="No disponible"
-            retryText="Volver a intentar"
+            errorText={getText("no_available")}
+            retryText={getText("try_again")}
             retryAction={() => refreshContent(false)}
           />
         )}

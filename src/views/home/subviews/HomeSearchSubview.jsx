@@ -6,8 +6,10 @@ import { VIEW_ID_ESTIMATIONS_STOP } from "../../../constants/ViewConstants.jsx";
 import Nav from "../../../components/Nav.jsx";
 import Stops from "../../../json/stops.min.json";
 import styles from "./HomeSearchSubview.module.css";
+import { useI18n } from "../../../contexts/I18nContext.jsx";
 
 const HomeSearchSubview = () => {
+  const { getText } = useI18n();
   const { setViewIdWithData } = useView();
 
   const [searchText, setSearchText] = useState("");
@@ -66,14 +68,14 @@ const HomeSearchSubview = () => {
 
   return (
     <Fragment>
-      <Nav isHeader={true} titleText="Buscar" />
+      <Nav isHeader={true} titleText={getText("search")} />
       <div className={styles.content}>
         <div className={styles.icon} style={{ marginBottom }}>
           <input
             className={styles.input}
             type="text"
-            placeholder="Buscar"
-            aria-label="Buscar"
+            placeholder={getText("search")}
+            aria-label={getText("search")}
             inputMode="search"
             autoFocus={true}
             autoComplete="off"

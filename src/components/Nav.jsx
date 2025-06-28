@@ -1,9 +1,11 @@
 import { Fragment, useEffect, useState } from "react";
 import Header from "./Header.jsx";
+import { useI18n } from "../contexts/I18nContext.jsx";
 
 import styles from "./Nav.module.css";
 
 const Nav = (props) => {
+  const { getText } = useI18n();
   const [borderOpacity, setBorderOpacity] = useState(0);
 
   const goBack = () => {
@@ -44,7 +46,7 @@ const Nav = (props) => {
           <div className={styles.NavLeft}>
             <button className={styles.BackButton} onClick={goBack}>
               <span className={styles.BackIcon}></span>
-              <span>Atrás</span>
+              <span>{getText("back")}</span>
             </button>
           </div>
           <div className={styles.NavCenter}>
