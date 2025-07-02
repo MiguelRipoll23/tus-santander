@@ -34,14 +34,24 @@ const EstimationsStopView = () => {
   const [estimations, setEstimations] = useState([]);
 
   const getTelemetryParams = () => {
-    if (!navigator.userAgent.includes("iPhone") || !window.navigator.standalone)
-      return "";
+    try {
+      const isAppleMobile = /iPhone/i.test(navigator.userAgent);
+      const isStandalone = window.navigator.standalone === true;
 
-    return (
-      `&standalone=${window.navigator.standalone}` +
-      `&screenWidth=${window.screen.width}` +
-      `&screenHeight=${window.screen.height}`
-    );
+      if (!isAppleMobile || !isStandalone) return "";
+
+      const screenWidth = window.screen?.width || 0;
+      const screenHeight = window.screen?.height || 0;
+
+      return (
+        `&standalone=${isStandalone}` +
+        `&screenWidth=${screenWidth}` +
+        `&screenHeight=${screenHeight}`
+      );
+    } catch (error) {
+      console.warn("Failed to get telemetry params:", error);
+      return "";
+    }
   };
 
   const getEstimations = useCallback(
