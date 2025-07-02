@@ -33,13 +33,34 @@ const EstimationsStopView = () => {
   const [lines, setLines] = useState([]);
   const [estimations, setEstimations] = useState([]);
 
+  const getTelemetryParams = () => {
+    try {
+      const isAppleMobile = /iPhone/i.test(navigator.userAgent);
+      const isStandalone = window.navigator.standalone === true;
+
+      if (!isAppleMobile || !isStandalone) return "";
+
+      const screenWidth = window.screen?.width || 0;
+      const screenHeight = window.screen?.height || 0;
+
+      return (
+        `&standalone=${isStandalone}` +
+        `&screenWidth=${screenWidth}` +
+        `&screenHeight=${screenHeight}`
+      );
+    } catch (error) {
+      console.warn("Failed to get telemetry params:", error);
+      return "";
+    }
+  };
+
   const getEstimations = useCallback(
     async (update = false) => {
       // Reset
       setError(false);
       setEstimations([]);
 
-      let query = `?stopId=${stopId}`;
+      let query = `?stopId=${stopId}` + getTelemetryParams();
 
       if (update) {
         query += "&update=true";
@@ -99,9 +120,7 @@ const EstimationsStopView = () => {
     const favorited = getFavorite(stopId);
 
     if (favorited) {
-      const userConfirms = window.confirm(
-        getText("confirm_remove_favorite")
-      );
+      const userConfirms = window.confirm(getText("confirm_remove_favorite"));
 
       if (userConfirms) {
         syncFavoriteState();
