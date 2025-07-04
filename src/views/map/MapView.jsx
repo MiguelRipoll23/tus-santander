@@ -8,9 +8,7 @@ import Main from "../../components/Main.jsx";
 import Spinner from "../../components/Spinner.jsx";
 import ClosestMarkers from "../../components/map/ClosestMarkers.jsx";
 
-import Stops from "../../json/stops.min.json";
-
-const markers = [];
+import markers from "../../utils/MarkerUtils.jsx";
 
 const MapView = () => {
   const { getText } = useI18n();
@@ -23,7 +21,7 @@ const MapView = () => {
   const [center, setCenter] = useState(defaultCenter);
   const [closestMarkers, setClosestMarkers] = useState([]);
 
-  const getCurrentLocation = () => {
+  const getCurrentLocation = useCallback(() => {
     const successCallback = (position) => {
       setCenter({
         lat: position.coords.latitude,
@@ -39,24 +37,8 @@ const MapView = () => {
     };
 
     navigator.geolocation.getCurrentPosition(successCallback, errorCallback);
-  };
+  }, [getText]);
 
-  const getMarkers = () => {
-    for (let key in Stops) {
-      const [id, latitude, longitude, name] = Stops[key];
-
-      const marker = {
-        id: id,
-        text: name,
-        position: {
-          lat: latitude,
-          lng: longitude,
-        },
-      };
-
-      markers.push(marker);
-    }
-  };
 
   const mapOptions = {
     mapId: "map",
@@ -112,8 +94,7 @@ const MapView = () => {
   // Mount
   useEffect(() => {
     getCurrentLocation();
-    getMarkers();
-  }, []);
+  }, [getCurrentLocation]);
 
   return (
     <Fragment>
