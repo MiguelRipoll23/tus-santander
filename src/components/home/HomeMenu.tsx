@@ -1,12 +1,12 @@
 import styles from "./HomeMenu.module.css";
-import { useView } from "../../contexts/ViewContext.jsx";
-import { useI18n } from "../../contexts/I18nContext.jsx";
+import { useView } from "../../contexts/ViewContext";
+import { useI18n } from "../../contexts/I18nContext";
 import {
   SUB_VIEW_ID_FAVORITES,
   SUB_VIEW_ID_MAP,
   SUB_VIEW_ID_SEARCH,
   VIEW_ID_MAP,
-} from "../../constants/ViewConstants.jsx";
+} from "../../constants/ViewConstants";
 
 const menuItemsData = (getText, setSubViewId, setViewId) => [
   {

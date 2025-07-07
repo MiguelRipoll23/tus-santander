@@ -1,9 +1,9 @@
 import styles from "./EstimationsList.module.css";
 
-import EstimationsCard from "../../components/estimations/EstimationsCard.jsx";
-import EstimationsHeader from "../../components/estimations/EstimationsHeader.jsx";
-import EstimationsBody from "../../components/estimations/EstimationsBody.jsx";
-import NextStops from "../../components/estimations/NextStops.jsx";
+import EstimationsCard from "../../components/estimations/EstimationsCard";
+import EstimationsHeader from "../../components/estimations/EstimationsHeader";
+import EstimationsBody from "../../components/estimations/EstimationsBody";
+import NextStops from "../../components/estimations/NextStops";
 
 const EstimationsList = (props) => {
   const items = props.estimations.map((item, i) => {

@@ -1,7 +1,7 @@
 import {
   LINE_COLORS,
   LINE_DARK_STRENGTH,
-} from "../constants/LineConstants.jsx";
+} from "../constants/LineConstants";
 
 export const getLineBackgroundColor = (
   label,

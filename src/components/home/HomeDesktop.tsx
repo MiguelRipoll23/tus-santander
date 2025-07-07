@@ -1,5 +1,5 @@
 import styles from "./HomeDesktop.module.css";
-import { useI18n } from "../../contexts/I18nContext.jsx";
+import { useI18n } from "../../contexts/I18nContext";
 
 const HomeDesktop = () => {
   const { getText } = useI18n();

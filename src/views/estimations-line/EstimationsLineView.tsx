@@ -1,22 +1,22 @@
 import { Fragment, useCallback, useEffect, useState } from "react";
-import { useView } from "../../contexts/ViewContext.jsx";
-import { getLineBackgroundColor } from "../../utils/LineUtils.jsx";
+import { useView } from "../../contexts/ViewContext";
+import { getLineBackgroundColor } from "../../utils/LineUtils";
 
-import { VIEW_ID_ROUTE_LINE } from "../../constants/ViewConstants.jsx";
+import { VIEW_ID_ROUTE_LINE } from "../../constants/ViewConstants";
 
 import {
   API_HOST,
   API_PATH_JSON_ESTIMATIONS,
-} from "../../utils/ApiConstants.jsx";
+} from "../../utils/ApiConstants";
 
-import Nav from "../../components/Nav.jsx";
-import Main from "../../components/Main.jsx";
-import Spinner from "../../components/Spinner.jsx";
-import Error from "../../components/Error.jsx";
-import Button from "../../components/Button.jsx";
-import EstimationsList from "../../components/estimations/EstimationsList.jsx";
+import Nav from "../../components/Nav";
+import Main from "../../components/Main";
+import Spinner from "../../components/Spinner";
+import Error from "../../components/Error";
+import Button from "../../components/Button";
+import EstimationsList from "../../components/estimations/EstimationsList";
 import styles from "./EstimationsLineView.module.css";
-import { useI18n } from "../../contexts/I18nContext.jsx";
+import { useI18n } from "../../contexts/I18nContext";
 
 const EstimationsLineView = () => {
   const { getText } = useI18n();

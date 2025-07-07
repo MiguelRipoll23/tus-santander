@@ -1,23 +1,23 @@
 import { Fragment, useCallback, useEffect, useState } from "react";
-import { useView } from "../../contexts/ViewContext.jsx";
-import { getFavorite, toggleFavorite } from "../../utils/FavoriteUtils.jsx";
+import { useView } from "../../contexts/ViewContext";
+import { getFavorite, toggleFavorite } from "../../utils/FavoriteUtils";
 
-import { VIEW_ID_ESTIMATIONS_LINE } from "../../constants/ViewConstants.jsx";
+import { VIEW_ID_ESTIMATIONS_LINE } from "../../constants/ViewConstants";
 
 import {
   API_HOST,
   API_PATH_JSON_ESTIMATIONS,
-} from "../../utils/ApiConstants.jsx";
+} from "../../utils/ApiConstants";
 
-import Nav from "../../components/Nav.jsx";
-import RefreshIcon from "../../components/RefreshIcon.jsx";
-import HeartIcon from "../../components/HeartIcon.jsx";
-import Main from "../../components/Main.jsx";
-import Spinner from "../../components/Spinner.jsx";
-import Error from "../../components/Error.jsx";
-import StopLines from "../../components/StopLines.jsx";
-import { useI18n } from "../../contexts/I18nContext.jsx";
-import EstimationsList from "../../components/estimations/EstimationsList.jsx";
+import Nav from "../../components/Nav";
+import RefreshIcon from "../../components/RefreshIcon";
+import HeartIcon from "../../components/HeartIcon";
+import Main from "../../components/Main";
+import Spinner from "../../components/Spinner";
+import Error from "../../components/Error";
+import StopLines from "../../components/StopLines";
+import { useI18n } from "../../contexts/I18nContext";
+import EstimationsList from "../../components/estimations/EstimationsList";
 
 const EstimationsStopView = () => {
   const { getText } = useI18n();

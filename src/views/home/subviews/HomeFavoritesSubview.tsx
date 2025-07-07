@@ -1,16 +1,16 @@
 import { Fragment, useEffect, useState } from "react";
 
-import { useView } from "../../../contexts/ViewContext.jsx";
-import { getFavorites, saveFavorites } from "../../../utils/FavoriteUtils.jsx";
+import { useView } from "../../../contexts/ViewContext";
+import { getFavorites, saveFavorites } from "../../../utils/FavoriteUtils";
 import {
   VIEW_ID_ESTIMATIONS_STOP,
   VIEW_ID_MAP,
-} from "../../../constants/ViewConstants.jsx";
+} from "../../../constants/ViewConstants";
 
-import Nav from "../../../components/Nav.jsx";
-import Error from "../../../components/Error.jsx";
-import HomeDesktop from "../../../components/home/HomeDesktop.jsx";
-import { useI18n } from "../../../contexts/I18nContext.jsx";
+import Nav from "../../../components/Nav";
+import Error from "../../../components/Error";
+import HomeDesktop from "../../../components/home/HomeDesktop";
+import { useI18n } from "../../../contexts/I18nContext";
 import styles from "./HomeFavoritesSubview.module.css";
 
 const HomeFavoritesSubview = () => {

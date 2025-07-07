@@ -3,7 +3,7 @@ import styles from "./EstimationsCard.module.css";
 import {
   getLineBackgroundColors,
   getLineTextColor,
-} from "../../utils/LineUtils.jsx";
+} from "../../utils/LineUtils";
 
 const EstimationsCard = (props) => {
   const { label } = props;

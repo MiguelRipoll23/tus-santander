@@ -1,5 +1,5 @@
 import { createContext, useContext } from "react";
-import { getInitialState } from "../reducers/ViewReducer.jsx";
+import { getInitialState } from "../reducers/ViewReducer";
 
 const initialState = getInitialState();
 export const ViewContext = createContext(initialState);

@@ -1,6 +1,6 @@
 import { AdvancedMarker } from "@vis.gl/react-google-maps";
-import { useView } from "../../contexts/ViewContext.jsx";
-import { VIEW_ID_ESTIMATIONS_STOP } from "../../constants/ViewConstants.jsx";
+import { useView } from "../../contexts/ViewContext";
+import { VIEW_ID_ESTIMATIONS_STOP } from "../../constants/ViewConstants";
 
 import MarkerMin from "../../assets/marker-min.png";
 

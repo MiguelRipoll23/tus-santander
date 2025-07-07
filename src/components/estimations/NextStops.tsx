@@ -1,5 +1,5 @@
 import { Fragment } from "react";
-import { getLineBackgroundColors } from "../../utils/LineUtils.jsx";
+import { getLineBackgroundColors } from "../../utils/LineUtils";
 import styles from "./NextStops.module.css";
 
 const NextStopsCard = (props) => {

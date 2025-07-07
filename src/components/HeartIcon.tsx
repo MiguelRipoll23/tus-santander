@@ -1,5 +1,5 @@
 import styles from "./HeartIcon.module.css";
-import { useI18n } from "../contexts/I18nContext.jsx";
+import { useI18n } from "../contexts/I18nContext";
 
 const HeartIcon = (props) => {
   const { getText } = useI18n();

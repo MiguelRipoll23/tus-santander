@@ -1,12 +1,12 @@
 import { Fragment, useEffect, useState } from "react";
 
-import { useView } from "../../../contexts/ViewContext.jsx";
-import { VIEW_ID_ESTIMATIONS_STOP } from "../../../constants/ViewConstants.jsx";
+import { useView } from "../../../contexts/ViewContext";
+import { VIEW_ID_ESTIMATIONS_STOP } from "../../../constants/ViewConstants";
 
-import Nav from "../../../components/Nav.jsx";
+import Nav from "../../../components/Nav";
 import Stops from "../../../json/stops.min.json";
 import styles from "./HomeSearchSubview.module.css";
-import { useI18n } from "../../../contexts/I18nContext.jsx";
+import { useI18n } from "../../../contexts/I18nContext";
 
 const HomeSearchSubview = () => {
   const { getText } = useI18n();

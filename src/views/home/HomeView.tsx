@@ -1,16 +1,16 @@
 import { Fragment } from "react";
 
-import { useView } from "../../contexts/ViewContext.jsx";
+import { useView } from "../../contexts/ViewContext";
 import {
   SUB_VIEW_ID_FAVORITES,
   SUB_VIEW_ID_MAP,
   SUB_VIEW_ID_SEARCH,
-} from "../../constants/ViewConstants.jsx";
+} from "../../constants/ViewConstants";
 
-import Main from "../../components/Main.jsx";
-import HomeMenu from "../../components/home/HomeMenu.jsx";
-import HomeSearchSubview from "./subviews/HomeSearchSubview.jsx";
-import HomeFavoritesSubview from "./subviews/HomeFavoritesSubview.jsx";
+import Main from "../../components/Main";
+import HomeMenu from "../../components/home/HomeMenu";
+import HomeSearchSubview from "./subviews/HomeSearchSubview";
+import HomeFavoritesSubview from "./subviews/HomeFavoritesSubview";
 
 const HomeView = () => {
   const { subViewId } = useView();

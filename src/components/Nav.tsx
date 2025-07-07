@@ -1,6 +1,6 @@
 import { Fragment, useEffect, useState } from "react";
-import Header from "./Header.jsx";
-import { useI18n } from "../contexts/I18nContext.jsx";
+import Header from "./Header";
+import { useI18n } from "../contexts/I18nContext";
 
 import styles from "./Nav.module.css";
 

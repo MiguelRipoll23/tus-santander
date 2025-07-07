@@ -27,7 +27,6 @@
 *.ini             text
 *.js              text
 *.json            text
-*.jsx             text
 *.less            text
 *.ls              text
 *.map             text -diff

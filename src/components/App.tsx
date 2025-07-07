@@ -1,6 +1,6 @@
-import { ViewProvider } from "../providers/ViewProvider.jsx";
-import { I18nProvider } from "../providers/I18nProvider.jsx";
-import View from "./View.jsx";
+import { ViewProvider } from "../providers/ViewProvider";
+import { I18nProvider } from "../providers/I18nProvider";
+import View from "./View";
 
 const App = () => {
   return (

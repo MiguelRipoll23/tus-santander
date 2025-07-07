@@ -4,7 +4,7 @@ import {
   SET_SUB_VIEW_ID,
   SET_VIEW_ID,
   SET_VIEW_ID_WITH_DATA,
-} from "../constants/ViewConstants.jsx";
+} from "../constants/ViewConstants";
 
 const SESSION_STORAGE_STATE_KEY = "state";
 

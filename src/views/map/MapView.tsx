@@ -1,14 +1,14 @@
 import { Fragment, useCallback, useEffect, useState } from "react";
 import { APIProvider, Map } from "@vis.gl/react-google-maps";
-import { GOOGLE_MAPS_KEY } from "../../utils/ApiConstants.jsx";
-import { useI18n } from "../../contexts/I18nContext.jsx";
+import { GOOGLE_MAPS_KEY } from "../../utils/ApiConstants";
+import { useI18n } from "../../contexts/I18nContext";
 
-import Nav from "../../components/Nav.jsx";
-import Main from "../../components/Main.jsx";
-import Spinner from "../../components/Spinner.jsx";
-import ClosestMarkers from "../../components/map/ClosestMarkers.jsx";
+import Nav from "../../components/Nav";
+import Main from "../../components/Main";
+import Spinner from "../../components/Spinner";
+import ClosestMarkers from "../../components/map/ClosestMarkers";
 
-import markers from "../../utils/MarkerUtils.jsx";
+import markers from "../../utils/MarkerUtils";
 
 const MapView = () => {
   const { getText } = useI18n();

@@ -1,14 +1,14 @@
 import { Fragment, useCallback, useEffect, useState } from "react";
-import { useView } from "../../contexts/ViewContext.jsx";
-import { getLineBackgroundColor } from "../../utils/LineUtils.jsx";
-import { API_HOST, API_PATH_JSON_ROUTE } from "../../utils/ApiConstants.jsx";
+import { useView } from "../../contexts/ViewContext";
+import { getLineBackgroundColor } from "../../utils/LineUtils";
+import { API_HOST, API_PATH_JSON_ROUTE } from "../../utils/ApiConstants";
 
-import Main from "../../components/Main.jsx";
-import Nav from "../../components/Nav.jsx";
-import Spinner from "../../components/Spinner.jsx";
-import Error from "../../components/Error.jsx";
-import StopLines from "../../components/StopLines.jsx";
-import { useI18n } from "../../contexts/I18nContext.jsx";
+import Main from "../../components/Main";
+import Nav from "../../components/Nav";
+import Spinner from "../../components/Spinner";
+import Error from "../../components/Error";
+import StopLines from "../../components/StopLines";
+import { useI18n } from "../../contexts/I18nContext";
 
 import styles from "./RouteLineView.module.css";
 

@@ -1,12 +1,12 @@
 import { useReducer } from "react";
-import { getInitialState, viewReducer } from "../reducers/ViewReducer.jsx";
-import { ViewContext } from "../contexts/ViewContext.jsx";
+import { getInitialState, viewReducer } from "../reducers/ViewReducer";
+import { ViewContext } from "../contexts/ViewContext";
 
 import {
   SET_SUB_VIEW_ID,
   SET_VIEW_ID,
   SET_VIEW_ID_WITH_DATA,
-} from "../constants/ViewConstants.jsx";
+} from "../constants/ViewConstants";
 
 async function dispatchWithViewTransition(dispatch, data, isBackNavigation) {
   if (!document.startViewTransition) {

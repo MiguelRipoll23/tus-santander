@@ -2,7 +2,7 @@ import styles from "./StopLines.module.css";
 import {
   getLineBackgroundColor,
   getLineTextColor,
-} from "../utils/LineUtils.jsx";
+} from "../utils/LineUtils";
 
 const isDisabled = (label, estimations) => {
   if (estimations === undefined) return false;

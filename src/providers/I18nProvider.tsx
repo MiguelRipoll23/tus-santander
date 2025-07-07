@@ -1,5 +1,5 @@
 import { useState, useCallback, useEffect } from "react";
-import { I18nContext } from "../contexts/I18nContext.jsx";
+import { I18nContext } from "../contexts/I18nContext";
 import es from "../i18n/es.json";
 import en from "../i18n/en.json";
 

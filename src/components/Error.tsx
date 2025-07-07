@@ -1,6 +1,6 @@
 import styles from "./Error.module.css";
 
-import Button from "./Button.jsx";
+import Button from "./Button";
 
 const Error = (props) => {
   return (
