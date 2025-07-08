@@ -35,11 +35,14 @@ const EstimationsStopView = () => {
 
   const getTelemetryParams = () => {
     try {
-      const isAppleMobile = /iPhone/i.test(navigator.userAgent);
+      const ua = navigator.userAgent;
+      const isIphone = /iPhone/i.test(ua);
+      const versionMatch = /OS (\d+)_/i.exec(ua);
+      const iosVersion = versionMatch ? parseInt(versionMatch[1], 10) : 0;
+
+      if (!isIphone || iosVersion < 18) return "";
+
       const isStandalone = window.navigator.standalone === true;
-
-      if (!isAppleMobile || !isStandalone) return "";
-
       const screenWidth = window.screen?.width || 0;
       const screenHeight = window.screen?.height || 0;
 
