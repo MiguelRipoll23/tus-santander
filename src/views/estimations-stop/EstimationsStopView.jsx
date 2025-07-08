@@ -33,37 +33,13 @@ const EstimationsStopView = () => {
   const [lines, setLines] = useState([]);
   const [estimations, setEstimations] = useState([]);
 
-  const getTelemetryParams = () => {
-    try {
-      const ua = navigator.userAgent;
-      const isIphone = /iPhone/i.test(ua);
-      const versionMatch = /OS (\d+)_/i.exec(ua);
-      const iosVersion = versionMatch ? parseInt(versionMatch[1], 10) : 0;
-
-      if (!isIphone || iosVersion < 18) return "";
-
-      const isStandalone = window.navigator.standalone === true;
-      const screenWidth = window.screen?.width || 0;
-      const screenHeight = window.screen?.height || 0;
-
-      return (
-        `&standalone=${isStandalone}` +
-        `&screenWidth=${screenWidth}` +
-        `&screenHeight=${screenHeight}`
-      );
-    } catch (error) {
-      console.warn("Failed to get telemetry params:", error);
-      return "";
-    }
-  };
-
   const getEstimations = useCallback(
     async (update = false) => {
       // Reset
       setError(false);
       setEstimations([]);
 
-      let query = `?stopId=${stopId}` + getTelemetryParams();
+      let query = `?stopId=${stopId}`;
 
       if (update) {
         query += "&update=true";
