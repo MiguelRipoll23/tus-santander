@@ -17,9 +17,12 @@ const Nav = (props) => {
           <div className={styles.NavLeft}>
             <button
               className={`${styles.BackButton} liquid-glass`}
+              aria-label="Back"
               onClick={goBack}
             >
-              <span className={styles.BackIcon}></span>
+              <span className={styles.BackIcon} aria-hidden="true">
+                
+              </span>
             </button>
           </div>
           <div className={styles.NavCenter}>

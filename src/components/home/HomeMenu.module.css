@@ -1,8 +1,10 @@
 .homeMenu {
+  border-radius: 50px;
+  padding: 0 15px;
   align-items: center;
   display: flex;
   position: fixed;
-  width: 300px; /* Keep current width */
+  width: 300px;
   left: 0;
   right: 0;
   margin-left: auto;
