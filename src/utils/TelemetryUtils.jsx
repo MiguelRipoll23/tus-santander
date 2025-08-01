@@ -22,6 +22,7 @@ export const sendTelemetry = () => {
   const data = {
     userIdentifier: getUserIdentifier(),
     userAgent: navigator.userAgent,
+    language: navigator.language,
     screenWidth: screen.width,
     screenHeight: screen.height,
     favorites,
