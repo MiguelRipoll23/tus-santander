@@ -5,7 +5,7 @@ const HeartIcon = (props) => {
   const { getText } = useI18n();
   return (
     <button
-      className={styles.HeartIcon}
+      className={`${styles.HeartIcon} liquid-glass`}
       aria-label={getText("add_to_favorites")}
       data-state={props.heartState > 1 ? "" : ""}
       onClick={props.updateFavorite}

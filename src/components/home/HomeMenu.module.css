@@ -1,11 +1,13 @@
 .homeMenu {
-  background: #f7f7f7;
-  border-top: 1px solid rgba(0, 0, 0, 0.15);
   align-items: center;
   display: flex;
   position: fixed;
-  bottom: 0;
-  width: 100%;
+  width: 300px; /* Keep current width */
+  left: 0;
+  right: 0;
+  margin-left: auto;
+  margin-right: auto;
+  bottom: calc(var(--margin-lr) + env(safe-area-inset-bottom));
   z-index: 9;
 
   @media (prefers-color-scheme: dark) {
@@ -20,9 +22,8 @@
   text-align: center;
   flex: 1;
   cursor: pointer;
-  padding-top: 14px;
-  padding-bottom: calc(28px + env(safe-area-inset-bottom));
-  color: rgba(0, 0, 0, 0.55);
+  padding: 14px 0;
+  color: #000;
 
   &[data-selected="true"] {
     color: var(--color-blue);

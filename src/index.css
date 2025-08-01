@@ -38,14 +38,19 @@ button {
   padding: 0;
 }
 
+.liquid-glass {
+  background: rgba(255, 255, 255, 0.2); /* Lower opacity for more depth */
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  border-radius: 24px;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  box-shadow: 0 8px 32px rgba(31, 38, 135, 0.37);
+  background: rgba(255, 255, 255, 0.4);
+}
+
 *[draggable="true"] {
   animation: wiggle 0.5s linear infinite;
   cursor: move;
-}
-
-#app {
-  display: flex;
-  flex-direction: column;
 }
 
 #time1[data-time="0"] {

@@ -1,14 +1,9 @@
 .Nav {
+  position: fixed;
+  width: 100%;
   display: flex;
   min-height: 55px;
   align-items: center;
-  border-bottom-width: 1px;
-  border-bottom-style: solid;
-  border-bottom-color: rgba(0, 0, 0, var(--border-opacity));
-
-  @media (prefers-color-scheme: dark) {
-    border-bottom-color: rgba(255, 255, 255, var(--border-opacity));
-  }
 }
 
 .NavLeft {
@@ -37,11 +32,11 @@
 .BackButton {
   font-size: 15px;
   line-height: 24px;
-  color: var(--color-blue);
+  color: #000;
   overflow: hidden;
   white-space: nowrap;
-  text-overflow: ellipsis;
-  padding: 11px var(--margin-lr);
+  padding: 8px;
+  margin: 11px var(--margin-lr);
   animation: fade-in 0.2s;
 }
 
@@ -55,9 +50,8 @@
 }
 
 .NavTitle {
-  padding: 14px 0;
   font-size: 15px;
   font-weight: 700;
-  text-align: center;
-  width: 100%;
+  margin: auto;
+  padding: 4px 12px;
 }
