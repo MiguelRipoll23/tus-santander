@@ -11,10 +11,8 @@
   animation: fade-in 0.2s;
   line-height: 74px;
   bottom: 28px;
-
-  @media (prefers-color-scheme: dark) {
-    color: #fff;
-  }
+  background: rgba(0, 112, 240, 0.6);
+  color: #fff;
 
   span {
     position: relative;

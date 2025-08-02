@@ -18,7 +18,6 @@
 }
 
 .item {
-  float: left;
   text-align: center;
   flex: 1;
   cursor: pointer;
@@ -30,7 +29,7 @@
 
   &[data-selected="true"] {
     color: var(--color-blue);
-    background-color: rgba(0, 0, 0, 0.1);
+    background-color: rgba(0, 112, 240, 0.1);
     backdrop-filter: blur(20px) saturate(180%);
     opacity: 1;
   }
