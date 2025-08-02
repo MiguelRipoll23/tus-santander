@@ -39,6 +39,11 @@
   padding: 8px;
   margin: 11px var(--margin-lr);
   animation: fade-in 0.2s;
+
+  @media (prefers-color-scheme: dark) {
+    background: #FFF;
+    border-top: none;
+  }
 }
 
 .BackIcon {
