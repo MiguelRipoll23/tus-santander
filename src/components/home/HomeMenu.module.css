@@ -1,15 +1,14 @@
 .homeMenu {
   border-radius: 50px;
-  padding: 0 15px;
   align-items: center;
   display: flex;
   position: fixed;
-  width: 300px;
   left: 0;
   right: 0;
+  bottom: calc(env(safe-area-inset-bottom) + 28px);
+  max-width: 310px;
   margin-left: auto;
   margin-right: auto;
-  bottom: calc(var(--margin-lr) + env(safe-area-inset-bottom));
   z-index: 9;
 
   @media (prefers-color-scheme: dark) {
@@ -20,19 +19,25 @@
 
 .item {
   float: left;
-  width: 100px;
   text-align: center;
   flex: 1;
   cursor: pointer;
-  padding: 14px 0;
+  border-radius: 50px;
+  margin: 4px;
+  padding: 6px 24px;
   color: #000;
+  transition: color 0.2s ease-in-out, background-color 0.2s ease-in-out;
 
   &[data-selected="true"] {
     color: var(--color-blue);
+    background-color: rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(20px) saturate(180%);
+    opacity: 1;
   }
 
   @media (prefers-color-scheme: dark) {
     color: rgba(255, 255, 255, 0.55);
+    opacity: 0.6;
   }
 }
 
