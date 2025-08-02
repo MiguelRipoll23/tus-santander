@@ -33,7 +33,7 @@
 .BackButton {
   font-size: 15px;
   line-height: 24px;
-  color: var(--color-blue);
+  color: #000;
   overflow: hidden;
   white-space: nowrap;
   padding: 8px;
@@ -41,8 +41,7 @@
   animation: fade-in 0.2s;
 
   @media (prefers-color-scheme: dark) {
-    background: #fff;
-    border-top: none;
+    color: #fff;
   }
 }
 
