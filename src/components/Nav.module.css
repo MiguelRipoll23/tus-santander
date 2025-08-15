@@ -38,6 +38,7 @@
   white-space: nowrap;
   padding: 8px;
   margin: 11px var(--margin-lr);
+  background-color: rgba(0, 112, 240, 0.1);
   animation: fade-in 0.2s;
 
   @media (prefers-color-scheme: dark) {
@@ -59,4 +60,5 @@
   font-weight: 700;
   margin: auto;
   padding: 4px 12px;
+  background-color: rgba(0, 112, 240, 0.1);
 }
