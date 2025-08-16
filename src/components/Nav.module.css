@@ -39,6 +39,7 @@
   padding: 8px;
   margin: 11px var(--margin-lr);
   animation: fade-in 0.2s;
+  box-shadow: none;
 
   @media (prefers-color-scheme: dark) {
     color: #fff;
@@ -59,4 +60,5 @@
   font-weight: 700;
   margin: auto;
   padding: 4px 12px;
+  box-shadow: none;
 }
