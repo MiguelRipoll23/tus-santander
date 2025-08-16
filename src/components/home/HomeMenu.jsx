@@ -35,7 +35,7 @@ const HomeMenu = () => {
   const menuItems = menuItemsData(getText, setSubViewId, setViewId);
 
   return (
-    <div className={styles.homeMenu}>
+    <div className={`${styles.homeMenu} liquid-glass`}>
       {menuItems.map(({ id, icon, label, onClick }) => (
         <div
           key={id}

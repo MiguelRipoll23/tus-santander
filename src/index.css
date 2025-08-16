@@ -38,14 +38,18 @@ button {
   padding: 0;
 }
 
+.liquid-glass {
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  border-radius: 24px;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  background-color: rgba(255, 255, 255, 0.1);
+  box-shadow: 0 0px 12px rgba(0, 0, 0, 0.05);
+}
+
 *[draggable="true"] {
   animation: wiggle 0.5s linear infinite;
   cursor: move;
-}
-
-#app {
-  display: flex;
-  flex-direction: column;
 }
 
 #time1[data-time="0"] {
