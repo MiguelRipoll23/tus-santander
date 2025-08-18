@@ -23,7 +23,7 @@ export const I18nProvider = ({ children }) => {
       return langPrefix;
     }
 
-    return "es"; // Default fallback
+    return "en"; // Default fallback
   })();
 
   const [language, setLanguage] = useState(browserLanguage);
