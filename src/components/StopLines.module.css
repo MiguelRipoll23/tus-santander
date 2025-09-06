@@ -33,6 +33,7 @@
     &:disabled {
       background: #fff;
       color: #000;
+      opacity: 0.4;
     }
   }
 }
