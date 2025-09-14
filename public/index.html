@@ -2,7 +2,10 @@
 <html dir="ltr" lang="es">
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, viewport-fit=cover"
+    />
     <title>TUS Santander - App</title>
     <style type="text/css">
       @font-face {
@@ -12,6 +15,12 @@
         font-weight: normal;
         font-style: normal;
         font-display: swap;
+      }
+
+      #app {
+        box-sizing: border-box;
+        padding: env(safe-area-inset-top) env(safe-area-inset-right) 0
+          env(safe-area-inset-left);
       }
     </style>
     <link href="https://tusestimaciones.web.app" rel="canonical" />

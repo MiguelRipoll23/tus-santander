@@ -1,4 +1,4 @@
-import { Fragment, useEffect, useState } from "react";
+import { Fragment } from "react";
 import Header from "./Header.jsx";
 import styles from "./Nav.module.css";
 
