@@ -1,0 +1,17 @@
+{
+  "favorites": "Favoris",
+  "map": "Carte",
+  "search": "Rechercher",
+  "done": "Terminé",
+  "use_map_or_search": "Utilisez la carte ou la recherche pour ajouter des arrêts",
+  "see_nearby_stops": "Voir les arrêts à proximité",
+  "confirm_remove_favorite": "Êtes-vous sûr de vouloir supprimer cet arrêt des favoris ?",
+  "location_not_available": "Localisation indisponible",
+  "no_available": "Non disponible",
+  "try_again": "Réessayer",
+  "view_route": "Voir l'itinéraire",
+  "refresh": "Actualiser",
+  "add_to_favorites": "Ajouter aux favoris",
+  "qr_code": "Code QR",
+  "desktop_instructions": "Scannez le code QR affiché à l'écran avec l'application <b>Appareil photo</b> de votre téléphone pour accéder à l'application"
+}
