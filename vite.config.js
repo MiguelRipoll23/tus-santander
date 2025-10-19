@@ -14,7 +14,6 @@ export default defineConfig({
         navigateFallback: null,
       },
       manifest: {
-        background_color: "#ffffff",
         categories: ["navigation", "travel"],
         description:
           "Las estimaciones de llegada y rutas de los autobuses del transporte urbano de Santander.",
@@ -81,7 +80,6 @@ export default defineConfig({
         ],
         short_name: "TUS",
         start_url: "/?utm_source=homescreen&utm_medium=shortcut",
-        theme_color: "#ffffff",
       },
     }),
   ],
