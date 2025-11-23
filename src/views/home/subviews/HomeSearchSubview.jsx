@@ -2,6 +2,10 @@ import { Fragment, useEffect, useState } from "react";
 
 import { useView } from "../../../contexts/ViewContext.jsx";
 import { VIEW_ID_ESTIMATIONS_STOP } from "../../../constants/ViewConstants.jsx";
+import {
+  sendTelemetryEvent,
+  trackNavigation,
+} from "../../../utils/TelemetryUtils.jsx";
 
 import Nav from "../../../components/Nav.jsx";
 import Stops from "../../../json/stops.min.json";
@@ -58,6 +62,15 @@ const HomeSearchSubview = () => {
   }, [searchText]);
 
   const loadEstimationsStopView = (stopId, stopName) => {
+    // Track search result selection
+    sendTelemetryEvent("search_select", {
+      stop_id: stopId,
+      search_term: searchText?.substring(0, 20) || "", // Limit search term length
+      results_count: results.length,
+    });
+
+    trackNavigation("search", "stop_estimations");
+
     setViewIdWithData(VIEW_ID_ESTIMATIONS_STOP, {
       stopId,
       stopName,
