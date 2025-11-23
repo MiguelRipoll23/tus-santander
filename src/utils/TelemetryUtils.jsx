@@ -105,13 +105,39 @@ const addEventToBatch = (event) => {
   }
 };
 
+// Helper function to check if telemetry should be enabled
+const shouldTrackTelemetry = () => {
+  if (typeof navigator === "undefined") {
+    console.log("Telemetry skipped: navigator undefined");
+    return false;
+  }
+
+  if (!/iphone/i.test(navigator.userAgent)) {
+    console.log("Telemetry skipped: not iPhone device");
+    return false;
+  }
+
+  return true;
+};
+
+// Helper function to send remaining events using sendBeacon
+const sendRemainingEvents = () => {
+  if (eventQueue.length > 0) {
+    const payload = {
+      userId: getUserId(),
+      sessionId: getSessionId(),
+      deviceInformation: getDeviceInformation(),
+      events: eventQueue,
+    };
+
+    navigator.sendBeacon(TELEMETRY_URL, JSON.stringify(payload));
+    eventQueue = [];
+  }
+};
+
 // Main telemetry functions
 export const sendTelemetry = () => {
-  // Only track on iPhone devices
-  if (
-    typeof navigator === "undefined" ||
-    !/iphone/i.test(navigator.userAgent)
-  ) {
+  if (!shouldTrackTelemetry()) {
     return;
   }
 
@@ -126,11 +152,7 @@ export const sendTelemetry = () => {
 };
 
 export const sendTelemetryEvent = (eventType, eventData = {}) => {
-  // Only track on iPhone devices
-  if (
-    typeof navigator === "undefined" ||
-    !/iphone/i.test(navigator.userAgent)
-  ) {
+  if (!shouldTrackTelemetry()) {
     return;
   }
 
@@ -180,16 +202,12 @@ export const trackFavoriteToggle = (stopId, added) => {
 
 // Cleanup on page unload
 if (typeof window !== "undefined") {
-  window.addEventListener("beforeunload", () => {
-    if (eventQueue.length > 0) {
-      processBatch();
-    }
-  });
+  window.addEventListener("beforeunload", sendRemainingEvents);
 
   // Process remaining events when page becomes hidden
   document.addEventListener("visibilitychange", () => {
-    if (document.visibilityState === "hidden" && eventQueue.length > 0) {
-      processBatch();
+    if (document.visibilityState === "hidden") {
+      sendRemainingEvents();
     }
   });
 }
