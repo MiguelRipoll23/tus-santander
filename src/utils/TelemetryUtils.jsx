@@ -150,6 +150,13 @@ export const trackLineEstimations = (lineLabel, lineDestination) => {
   });
 };
 
+export const trackRouteView = (lineLabel, lineDestination) => {
+  sendTelemetryEvent("route_view", {
+    line: lineLabel,
+    destination: lineDestination?.substring(0, 30) || "unknown",
+  });
+};
+
 export const trackRefresh = (viewType, isAutoRefresh = false) => {
   sendTelemetryEvent("refresh", {
     view: viewType,
