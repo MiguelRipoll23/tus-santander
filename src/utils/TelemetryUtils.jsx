@@ -199,7 +199,7 @@ export const trackMapView = () => {
 export const trackRefresh = (viewType, isAutoRefresh = false) => {
   sendTelemetryEvent("refresh", {
     view: viewType,
-    refresh: isAutoRefresh,
+    automatic: isAutoRefresh,
   });
 };
 
