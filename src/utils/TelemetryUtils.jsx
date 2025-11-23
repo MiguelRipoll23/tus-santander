@@ -49,20 +49,15 @@ const getDeviceInformation = () => {
 
 // Send data to server
 const sendToServer = async (payload) => {
-  try {
-    await fetch(TELEMETRY_URL, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "X-Client-Version": "1.0",
-      },
-      body: JSON.stringify(payload),
-      keepalive: true,
-    });
-  } catch (error) {
-    // Silently fail - don't impact user experience
-    console.debug("Telemetry send failed:", error.message);
-  }
+  await fetch(TELEMETRY_URL, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      "X-Client-Version": "1.0",
+    },
+    body: JSON.stringify(payload),
+    keepalive: true,
+  });
 };
 
 // Batch event processing
@@ -84,7 +79,13 @@ const processBatch = () => {
     events,
   };
 
-  sendToServer(payload);
+  sendToServer(payload).catch((error) => {
+    // If sending fails, add the events back to the front of the queue
+    // to be retried with the next batch.
+    eventQueue.unshift(...events);
+    // Silently fail - don't impact user experience
+    console.debug("Telemetry send failed:", error.message);
+  });
 };
 
 const addEventToBatch = (event) => {
