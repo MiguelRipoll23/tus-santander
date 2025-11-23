@@ -107,7 +107,7 @@ export const sendTelemetry = () => {
   // Only track on iPhone devices
   if (
     typeof navigator === "undefined" ||
-    !navigator.userAgent.includes("iPhone")
+    !/iphone/i.test(navigator.userAgent)
   ) {
     return;
   }
@@ -126,7 +126,7 @@ export const sendTelemetryEvent = (eventType, eventData = {}) => {
   // Only track on iPhone devices
   if (
     typeof navigator === "undefined" ||
-    !navigator.userAgent.includes("iPhone")
+    !/iphone/i.test(navigator.userAgent)
   ) {
     return;
   }
