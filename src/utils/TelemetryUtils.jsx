@@ -157,6 +157,10 @@ export const trackRouteView = (lineLabel, lineDestination) => {
   });
 };
 
+export const trackMapView = () => {
+  sendTelemetryEvent("map_view", {});
+};
+
 export const trackRefresh = (viewType, isAutoRefresh = false) => {
   sendTelemetryEvent("refresh", {
     view: viewType,

@@ -1,6 +1,7 @@
 import { Fragment, useCallback, useEffect, useState } from "react";
 import { APIProvider, Map } from "@vis.gl/react-google-maps";
 import { GOOGLE_MAPS_KEY } from "../../utils/ApiConstants.jsx";
+import { trackMapView } from "../../utils/TelemetryUtils.jsx";
 import { useI18n } from "../../contexts/I18nContext.jsx";
 
 import Nav from "../../components/Nav.jsx";
@@ -93,6 +94,9 @@ const MapView = () => {
 
   // Mount
   useEffect(() => {
+    // Track map view
+    trackMapView();
+    
     getCurrentLocation();
   }, [getCurrentLocation]);
 
