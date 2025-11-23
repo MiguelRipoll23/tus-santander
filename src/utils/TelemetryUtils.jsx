@@ -8,7 +8,7 @@ import { getFavorites } from "./FavoriteUtils.jsx";
 // Constants
 const TELEMETRY_ENABLED =
   typeof TELEMETRY_HOST === "string" && TELEMETRY_HOST.length > 0;
-const TELEMETRY_URL = TELEMETRY_ENABLED ? `${TELEMETRY_HOST}/collect` : null;
+const TELEMETRY_URL = TELEMETRY_ENABLED ? `${TELEMETRY_HOST}/save` : null;
 const USER_IDENTIFIER_KEY = "user_identifier";
 const SESSION_START_KEY = "session_start";
 const BATCH_SIZE = 5;
