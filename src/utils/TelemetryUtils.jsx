@@ -1,9 +1,35 @@
-import { API_HOST, API_PATH_JSON_TELEMETRY } from "./ApiConstants.jsx";
+import {
+  API_HOST,
+  API_PATH_JSON_TELEMETRY,
+  TELEMETRY_HOST,
+} from "./ApiConstants.jsx";
 import { getFavorites } from "./FavoriteUtils.jsx";
 
-export const USER_IDENTIFIER_KEY = "user_identifier";
+// Constants
+const TELEMETRY_ENABLED =
+  typeof TELEMETRY_HOST === "string" && TELEMETRY_HOST.length > 0;
+const TELEMETRY_URL = TELEMETRY_ENABLED ? `${TELEMETRY_HOST}/save` : null;
+const USER_IDENTIFIER_KEY = "user_identifier";
+const SESSION_START_KEY = "session_start";
+const BATCH_SIZE = 5;
+const BATCH_TIMEOUT = 10000; // 10 seconds
 
-export const getUserIdentifier = () => {
+// Event queue for batching
+let eventQueue = [];
+let batchTimeout = null;
+
+// Session management
+const getSessionId = () => {
+  const sessionStart = sessionStorage.getItem(SESSION_START_KEY);
+  if (!sessionStart) {
+    const timestamp = Date.now();
+    sessionStorage.setItem(SESSION_START_KEY, timestamp.toString());
+    return timestamp;
+  }
+  return parseInt(sessionStart, 10);
+};
+
+const getUserId = () => {
   let identifier = localStorage.getItem(USER_IDENTIFIER_KEY);
   if (!identifier) {
     identifier = crypto.randomUUID();
@@ -12,26 +38,185 @@ export const getUserIdentifier = () => {
   return identifier;
 };
 
-export const sendTelemetry = () => {
-  if (typeof navigator === "undefined" || !/iPhone/i.test(navigator.userAgent)) {
+// Device fingerprinting (minimal data)
+const getDeviceInformation = () => {
+  const userAgent = navigator.userAgent;
+
+  return {
+    // Shortened keys to reduce payload size
+    timeStamp: Date.now(), // timestamp
+    userAgent,
+    browserLanguage: navigator.language.split("-")[0], // Just language, not region
+    screenWidth: screen.width,
+    screenHeight: screen.height,
+  };
+};
+
+// Send data to server
+const sendToServer = async (payload) => {
+  await fetch(TELEMETRY_URL, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      "X-Client-Version": "1.0",
+    },
+    body: JSON.stringify(payload),
+    keepalive: true,
+  });
+};
+
+// Batch event processing
+const processBatch = () => {
+  if (eventQueue.length === 0) return;
+
+  const events = [...eventQueue];
+  eventQueue = [];
+
+  if (batchTimeout) {
+    clearTimeout(batchTimeout);
+    batchTimeout = null;
+  }
+
+  const payload = {
+    userId: getUserId(),
+    sessionId: getSessionId(),
+    deviceInformation: getDeviceInformation(),
+    events,
+  };
+
+  sendToServer(payload).catch((error) => {
+    // If sending fails, add the events back to the front of the queue
+    // to be retried with the next batch.
+    eventQueue.unshift(...events);
+    // Silently fail - don't impact user experience
+    console.debug("Telemetry send failed:", error.message);
+  });
+};
+
+const addEventToBatch = (event) => {
+  eventQueue.push({
+    ...event,
+    timeStamp: Date.now(),
+  });
+
+  // Process batch if it's full or start timeout
+  if (eventQueue.length >= BATCH_SIZE) {
+    processBatch();
+  } else if (!batchTimeout) {
+    batchTimeout = setTimeout(processBatch, BATCH_TIMEOUT);
+  }
+};
+
+// Helper function to check if telemetry should be enabled
+const shouldTrackTelemetry = () => {
+  if (!TELEMETRY_ENABLED) {
+    console.log("Telemetry skipped: TELEMETRY_HOST not configured");
+    return false;
+  }
+
+  if (typeof navigator === "undefined") {
+    console.log("Telemetry skipped: navigator undefined");
+    return false;
+  }
+
+  if (!/iphone/i.test(navigator.userAgent)) {
+    console.log("Telemetry skipped: not iPhone device");
+    return false;
+  }
+
+  return true;
+};
+
+// Helper function to send remaining events using sendBeacon
+const sendRemainingEvents = () => {
+  if (!TELEMETRY_ENABLED || eventQueue.length === 0) {
     return;
   }
 
-  const favorites = getFavorites().map((f) => f.stop_name);
-
-  const data = {
-    userIdentifier: getUserIdentifier(),
-    userAgent: navigator.userAgent,
-    language: navigator.language,
-    screenWidth: screen.width,
-    screenHeight: screen.height,
-    favorites,
+  const payload = {
+    userId: getUserId(),
+    sessionId: getSessionId(),
+    deviceInformation: getDeviceInformation(),
+    events: eventQueue,
   };
 
-  fetch(API_HOST + API_PATH_JSON_TELEMETRY, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(data),
-    keepalive: true,
-  }).catch(() => {});
+  navigator.sendBeacon(TELEMETRY_URL, JSON.stringify(payload));
+  eventQueue = [];
 };
+
+// Main telemetry functions
+export const sendTelemetry = () => {
+  if (!shouldTrackTelemetry()) {
+    return;
+  }
+
+  const favorites = getFavorites();
+
+  addEventToBatch({
+    type: "app_start",
+    data: {
+      favorite_stops: favorites.map((f) => f.stop_name), // Stop names for better analytics
+    },
+  });
+};
+
+export const sendTelemetryEvent = (eventType, eventData = {}) => {
+  if (!shouldTrackTelemetry()) {
+    return;
+  }
+
+  addEventToBatch({
+    type: eventType,
+    data: eventData,
+  });
+};
+
+// Specific event helpers
+export const trackStopEstimations = (stopId, stopName) => {
+  sendTelemetryEvent("stop_view", {
+    stop_name: stopName?.substring(0, 50) || "unknown", // Limit length
+  });
+};
+
+export const trackLineEstimations = (lineLabel, lineDestination) => {
+  sendTelemetryEvent("line_view", {
+    line: lineLabel,
+    destination: lineDestination?.substring(0, 30) || "unknown",
+  });
+};
+
+export const trackRouteView = (lineLabel, lineDestination) => {
+  sendTelemetryEvent("route_view", {
+    line: lineLabel,
+    destination: lineDestination?.substring(0, 30) || "unknown",
+  });
+};
+
+export const trackMapView = () => {
+  sendTelemetryEvent("map_view", {});
+};
+
+export const trackRefresh = (viewType, isAutoRefresh = false) => {
+  sendTelemetryEvent("refresh", {
+    view: viewType,
+    refresh: isAutoRefresh,
+  });
+};
+
+export const trackFavoriteToggle = (stopId, added) => {
+  sendTelemetryEvent("favorite", {
+    action: added ? "add" : "remove",
+  });
+};
+
+// Cleanup on page unload
+if (typeof window !== "undefined") {
+  window.addEventListener("beforeunload", sendRemainingEvents);
+
+  // Process remaining events when page becomes hidden
+  document.addEventListener("visibilitychange", () => {
+    if (document.visibilityState === "hidden") {
+      sendRemainingEvents();
+    }
+  });
+}

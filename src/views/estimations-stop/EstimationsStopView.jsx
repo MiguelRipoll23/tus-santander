@@ -1,6 +1,11 @@
 import { Fragment, useCallback, useEffect, useState } from "react";
 import { useView } from "../../contexts/ViewContext.jsx";
 import { getFavorite, toggleFavorite } from "../../utils/FavoriteUtils.jsx";
+import {
+  trackStopEstimations,
+  trackRefresh,
+  trackFavoriteToggle,
+} from "../../utils/TelemetryUtils.jsx";
 
 import { VIEW_ID_ESTIMATIONS_LINE } from "../../constants/ViewConstants.jsx";
 
@@ -38,6 +43,11 @@ const EstimationsStopView = () => {
       // Reset
       setError(false);
       setEstimations([]);
+
+      // Track refresh events
+      if (update) {
+        trackRefresh("stop_estimations", false);
+      }
 
       let query = `?stopId=${stopId}`;
 
@@ -110,8 +120,12 @@ const EstimationsStopView = () => {
   };
 
   const syncFavoriteState = () => {
+    const wasFavorited = getFavorite(stopId) !== null;
     const heartState = toggleFavorite(stopId, stopName) ? 2 : 1;
     setHeartState(heartState);
+
+    // Track favorite toggle
+    trackFavoriteToggle(stopId, !wasFavorited);
   };
 
   // Line
@@ -126,19 +140,24 @@ const EstimationsStopView = () => {
 
   // Mount
   useEffect(() => {
+    // Track page view
+    trackStopEstimations(stopId, stopName);
+
     getEstimations();
 
     // Auto-refresh
-    document.onvisibilitychange = () => {
+    const handleVisibilityChange = () => {
       if (document.visibilityState === "visible") {
+        trackRefresh("stop_estimations", true);
         refreshContent(true);
       }
     };
+    document.addEventListener("visibilitychange", handleVisibilityChange);
 
     return () => {
-      document.onvisibilitychange = null;
+      document.removeEventListener("visibilitychange", handleVisibilityChange);
     };
-  }, [getEstimations, refreshContent]);
+  }, [getEstimations, refreshContent, stopId, stopName]);
 
   return (
     <Fragment>

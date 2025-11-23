@@ -1,6 +1,10 @@
 import { Fragment, useCallback, useEffect, useState } from "react";
 import { useView } from "../../contexts/ViewContext.jsx";
 import { getLineBackgroundColor } from "../../utils/LineUtils.jsx";
+import {
+  trackLineEstimations,
+  trackRefresh,
+} from "../../utils/TelemetryUtils.jsx";
 
 import { VIEW_ID_ROUTE_LINE } from "../../constants/ViewConstants.jsx";
 
@@ -35,6 +39,11 @@ const EstimationsLineView = () => {
       // Reset
       setError(false);
       setEstimations([]);
+
+      // Track refresh events
+      if (update) {
+        trackRefresh("line_estimations", false);
+      }
 
       let query = `?stopId=${stopId}&lineLabel=${lineLabel}&lineDestination=${lineDestination}`;
 
@@ -93,15 +102,24 @@ const EstimationsLineView = () => {
 
   // Mount
   useEffect(() => {
+    // Track page view
+    trackLineEstimations(lineLabel, lineDestination);
+
     getEstimations();
 
     // Auto-refresh
-    document.onvisibilitychange = () => {
+    const handleVisibilityChange = () => {
       if (document.visibilityState === "visible") {
+        trackRefresh("line_estimations", true);
         refreshContent();
       }
     };
-  }, [getEstimations, refreshContent]);
+    document.addEventListener("visibilitychange", handleVisibilityChange);
+
+    return () => {
+      document.removeEventListener("visibilitychange", handleVisibilityChange);
+    };
+  }, [getEstimations, refreshContent, lineLabel, lineDestination]);
 
   return (
     <Fragment>

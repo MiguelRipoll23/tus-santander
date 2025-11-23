@@ -1,6 +1,7 @@
 import { Fragment, useCallback, useEffect, useState } from "react";
 import { useView } from "../../contexts/ViewContext.jsx";
 import { getLineBackgroundColor } from "../../utils/LineUtils.jsx";
+import { trackRouteView } from "../../utils/TelemetryUtils.jsx";
 import { API_HOST, API_PATH_JSON_ROUTE } from "../../utils/ApiConstants.jsx";
 
 import Main from "../../components/Main.jsx";
@@ -60,8 +61,11 @@ const RouteLineView = () => {
   }, [routes]);
 
   useEffect(() => {
+    // Track route view
+    trackRouteView(lineLabel, lineDestination);
+
     getStops();
-  }, [getStops]);
+  }, [getStops, lineLabel, lineDestination]);
 
   const refreshContent = () => {
     setLoading(true);

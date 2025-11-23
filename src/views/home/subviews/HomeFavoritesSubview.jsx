@@ -6,6 +6,7 @@ import {
   VIEW_ID_ESTIMATIONS_STOP,
   VIEW_ID_MAP,
 } from "../../../constants/ViewConstants.jsx";
+import { sendTelemetryEvent } from "../../../utils/TelemetryUtils.jsx";
 
 import Nav from "../../../components/Nav.jsx";
 import Error from "../../../components/Error.jsx";
@@ -83,6 +84,12 @@ const HomeFavoritesSubview = () => {
     setFavorites(favoritesOrdered);
     saveFavorites(favoritesOrdered);
 
+    // Track favorite reorder
+    sendTelemetryEvent("favorite_reorder", {
+      from_pos: sourceIndex,
+      to_pos: adjustedTargetIndex,
+    });
+
     return false;
   };
 
@@ -95,6 +102,11 @@ const HomeFavoritesSubview = () => {
     if (editMode) {
       return;
     }
+
+    // Track favorite selection
+    sendTelemetryEvent("favorite_select", {
+      stop_id: favorite.stop_id,
+    });
 
     setViewIdWithData(VIEW_ID_ESTIMATIONS_STOP, {
       stopId: favorite.stop_id,
@@ -114,7 +126,11 @@ const HomeFavoritesSubview = () => {
 
       return (
         <Fragment>
-          <Nav isHeader={true} titleText={getText("favorites")} hidden={isDesktop}>
+          <Nav
+            isHeader={true}
+            titleText={getText("favorites")}
+            hidden={isDesktop}
+          >
             <button
               className={styles.SortIconAndDoneLink}
               style={{ fontFamily, fontSize }}
