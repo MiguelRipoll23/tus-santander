@@ -1,9 +1,12 @@
-import { API_HOST, API_PATH_JSON_TELEMETRY } from "./ApiConstants.jsx";
+import {
+  API_HOST,
+  API_PATH_JSON_TELEMETRY,
+  TELEMETRY_HOST,
+} from "./ApiConstants.jsx";
 import { getFavorites } from "./FavoriteUtils.jsx";
 
 // Constants
-const TELEMETRY_URL =
-  "https://tusestimaciones-telemetry.miguelripoll23.deno.net/collect";
+const TELEMETRY_URL = `${TELEMETRY_HOST}/collect`;
 const USER_IDENTIFIER_KEY = "user_identifier";
 const SESSION_START_KEY = "session_start";
 const BATCH_SIZE = 5;
