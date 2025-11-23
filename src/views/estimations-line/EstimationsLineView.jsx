@@ -108,11 +108,16 @@ const EstimationsLineView = () => {
     getEstimations();
 
     // Auto-refresh
-    document.onvisibilitychange = () => {
+    const handleVisibilityChange = () => {
       if (document.visibilityState === "visible") {
         trackRefresh("line_estimations", true);
         refreshContent();
       }
+    };
+    document.addEventListener("visibilitychange", handleVisibilityChange);
+
+    return () => {
+      document.removeEventListener("visibilitychange", handleVisibilityChange);
     };
   }, [getEstimations, refreshContent, lineLabel, lineDestination]);
 

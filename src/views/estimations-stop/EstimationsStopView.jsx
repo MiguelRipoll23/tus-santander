@@ -146,15 +146,16 @@ const EstimationsStopView = () => {
     getEstimations();
 
     // Auto-refresh
-    document.onvisibilitychange = () => {
+    const handleVisibilityChange = () => {
       if (document.visibilityState === "visible") {
         trackRefresh("stop_estimations", true);
         refreshContent(true);
       }
     };
+    document.addEventListener("visibilitychange", handleVisibilityChange);
 
     return () => {
-      document.onvisibilitychange = null;
+      document.removeEventListener("visibilitychange", handleVisibilityChange);
     };
   }, [getEstimations, refreshContent, stopId, stopName]);
 
