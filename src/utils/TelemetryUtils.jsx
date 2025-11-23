@@ -6,7 +6,9 @@ import {
 import { getFavorites } from "./FavoriteUtils.jsx";
 
 // Constants
-const TELEMETRY_URL = `${TELEMETRY_HOST}/collect`;
+const TELEMETRY_ENABLED =
+  typeof TELEMETRY_HOST === "string" && TELEMETRY_HOST.length > 0;
+const TELEMETRY_URL = TELEMETRY_ENABLED ? `${TELEMETRY_HOST}/collect` : null;
 const USER_IDENTIFIER_KEY = "user_identifier";
 const SESSION_START_KEY = "session_start";
 const BATCH_SIZE = 5;
@@ -107,6 +109,11 @@ const addEventToBatch = (event) => {
 
 // Helper function to check if telemetry should be enabled
 const shouldTrackTelemetry = () => {
+  if (!TELEMETRY_ENABLED) {
+    console.log("Telemetry skipped: TELEMETRY_HOST not configured");
+    return false;
+  }
+
   if (typeof navigator === "undefined") {
     console.log("Telemetry skipped: navigator undefined");
     return false;
@@ -122,17 +129,19 @@ const shouldTrackTelemetry = () => {
 
 // Helper function to send remaining events using sendBeacon
 const sendRemainingEvents = () => {
-  if (eventQueue.length > 0) {
-    const payload = {
-      userId: getUserId(),
-      sessionId: getSessionId(),
-      deviceInformation: getDeviceInformation(),
-      events: eventQueue,
-    };
-
-    navigator.sendBeacon(TELEMETRY_URL, JSON.stringify(payload));
-    eventQueue = [];
+  if (!TELEMETRY_ENABLED || eventQueue.length === 0) {
+    return;
   }
+
+  const payload = {
+    userId: getUserId(),
+    sessionId: getSessionId(),
+    deviceInformation: getDeviceInformation(),
+    events: eventQueue,
+  };
+
+  navigator.sendBeacon(TELEMETRY_URL, JSON.stringify(payload));
+  eventQueue = [];
 };
 
 // Main telemetry functions
