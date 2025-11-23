@@ -63,7 +63,7 @@ const RouteLineView = () => {
   useEffect(() => {
     // Track route view
     trackRouteView(lineLabel, lineDestination);
-    
+
     getStops();
   }, [getStops, lineLabel, lineDestination]);
 

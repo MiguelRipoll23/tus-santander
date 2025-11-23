@@ -6,10 +6,7 @@ import {
   VIEW_ID_ESTIMATIONS_STOP,
   VIEW_ID_MAP,
 } from "../../../constants/ViewConstants.jsx";
-import {
-  sendTelemetryEvent,
-  trackNavigation,
-} from "../../../utils/TelemetryUtils.jsx";
+import { sendTelemetryEvent } from "../../../utils/TelemetryUtils.jsx";
 
 import Nav from "../../../components/Nav.jsx";
 import Error from "../../../components/Error.jsx";
@@ -110,8 +107,6 @@ const HomeFavoritesSubview = () => {
     sendTelemetryEvent("favorite_select", {
       stop_id: favorite.stop_id,
     });
-
-    trackNavigation("favorites", "stop_estimations");
 
     setViewIdWithData(VIEW_ID_ESTIMATIONS_STOP, {
       stopId: favorite.stop_id,

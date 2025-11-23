@@ -170,13 +170,6 @@ export const trackFavoriteToggle = (stopId, added) => {
   });
 };
 
-export const trackNavigation = (fromView, toView) => {
-  sendTelemetryEvent("navigate", {
-    from: fromView,
-    to: toView,
-  });
-};
-
 // Cleanup on page unload
 if (typeof window !== "undefined") {
   window.addEventListener("beforeunload", () => {

@@ -4,7 +4,6 @@ import { getLineBackgroundColor } from "../../utils/LineUtils.jsx";
 import {
   trackLineEstimations,
   trackRefresh,
-  trackNavigation,
 } from "../../utils/TelemetryUtils.jsx";
 
 import { VIEW_ID_ROUTE_LINE } from "../../constants/ViewConstants.jsx";
@@ -94,8 +93,6 @@ const EstimationsLineView = () => {
 
   // Route
   const loadLineRouteView = () => {
-    trackNavigation("line_estimations", "route_view");
-
     setViewIdWithData(VIEW_ID_ROUTE_LINE, {
       stopId,
       lineLabel,

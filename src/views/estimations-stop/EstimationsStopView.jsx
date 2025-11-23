@@ -5,7 +5,6 @@ import {
   trackStopEstimations,
   trackRefresh,
   trackFavoriteToggle,
-  trackNavigation,
 } from "../../utils/TelemetryUtils.jsx";
 
 import { VIEW_ID_ESTIMATIONS_LINE } from "../../constants/ViewConstants.jsx";
@@ -131,8 +130,6 @@ const EstimationsStopView = () => {
 
   // Line
   const loadEstimationsLineView = (result) => {
-    trackNavigation("stop_estimations", "line_estimations");
-
     setViewIdWithData(VIEW_ID_ESTIMATIONS_LINE, {
       stopId,
       stopName,
