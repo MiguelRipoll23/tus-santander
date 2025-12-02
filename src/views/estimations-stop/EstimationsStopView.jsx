@@ -40,59 +40,65 @@ const EstimationsStopView = () => {
 
   const getEstimations = useCallback(
     (update = false) => {
-      // Reset
-      setError(false);
-      setEstimations([]);
+      try {
+        // Reset
+        setError(false);
+        setEstimations([]);
 
-      // Track refresh events
-      if (update) {
-        trackRefresh("stop_estimations", false);
+        // Track refresh events
+        if (update) {
+          trackRefresh("stop_estimations", false);
+        }
+
+        fetch(API_HOST + API_ESTIMATIONS_GET_COMPACT_PATH, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            stopId,
+            refresh: update,
+          }),
+        })
+          .then((response) => {
+            if (response.ok === false) {
+              throw new Error("Network response was not ok");
+            }
+
+            return response.json();
+          })
+          .then((data) => {
+            const estimationsList = data[0];
+
+            // Check if response is empty
+            if (estimationsList.length === 0) {
+              throw new Error("Empty response");
+            }
+
+            setEstimations(estimationsList);
+
+            if (update === false) {
+              const linesList = data[1];
+              setLines(linesList);
+            }
+
+            setRefreshVisible(true);
+          })
+          .catch((error) => {
+            console.error(error);
+            setError(true);
+          })
+          .finally(() => {
+            const heartState = getFavorite(stopId) === null ? 1 : 2;
+
+            setLoading(false);
+            setHeartState(heartState);
+          });
+      } catch (error) {
+        console.error(error);
+        setError(true);
+        setLoading(false);
       }
-
-      fetch(API_HOST + API_ESTIMATIONS_GET_COMPACT_PATH, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          stopId,
-          refresh: update,
-        }),
-      })
-        .then((response) => {
-          if (response.ok === false) {
-            throw new Error("Network response was not ok");
-          }
-
-          return response.json();
-        })
-        .then((data) => {
-          const estimationsList = data[0];
-
-          // Check if response is empty
-          if (estimationsList.length === 0) {
-            throw new Error("Empty response");
-          }
-
-          setEstimations(estimationsList);
-
-          if (update === false) {
-            const linesList = data[1];
-            setLines(linesList);
-          }
-
-          setRefreshVisible(true);
-        })
-        .catch((error) => {
-          console.error(error);
-          setError(true);
-        })
-        .finally(() => {
-          const heartState = getFavorite(stopId) === null ? 1 : 2;
-
-          setLoading(false);
-          setHeartState(heartState);
-        });
     },
     [stopId]
   );

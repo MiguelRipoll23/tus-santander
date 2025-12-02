@@ -36,55 +36,61 @@ const EstimationsLineView = () => {
 
   const getEstimations = useCallback(
     (update = false) => {
-      // Reset
-      setError(false);
-      setEstimations([]);
+      try {
+        // Reset
+        setError(false);
+        setEstimations([]);
 
-      // Track refresh events
-      if (update) {
-        trackRefresh("line_estimations", false);
+        // Track refresh events
+        if (update) {
+          trackRefresh("line_estimations", false);
+        }
+
+        fetch(API_HOST + API_ESTIMATIONS_GET_COMPACT_PATH, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            stopId,
+            lineLabel,
+            refresh: update,
+          }),
+        })
+          .then((response) => {
+            if (response.ok === false) {
+              throw new Error("Network response was not ok");
+            }
+
+            return response.json();
+          })
+          .then((data) => {
+            const estimationsList = data[0];
+
+            // Check if response is empty
+            if (estimationsList.length === 0) {
+              throw new Error("Empty response");
+            }
+
+            setEstimations(estimationsList);
+
+            if (update === false) {
+              const stopsList = data[1];
+              setStops(stopsList);
+            }
+          })
+          .catch((error) => {
+            console.error(error);
+            setError(true);
+          })
+          .finally(() => {
+            setLoading(false);
+          });
+      } catch (error) {
+        console.error(error);
+        setError(true);
+        setLoading(false);
       }
-
-      fetch(API_HOST + API_ESTIMATIONS_GET_COMPACT_PATH, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          stopId,
-          lineLabel,
-          refresh: update,
-        }),
-      })
-        .then((response) => {
-          if (response.ok === false) {
-            throw new Error("Network response was not ok");
-          }
-
-          return response.json();
-        })
-        .then((data) => {
-          const estimationsList = data[0];
-
-          // Check if response is empty
-          if (estimationsList.length === 0) {
-            throw new Error("Empty response");
-          }
-
-          setEstimations(estimationsList);
-
-          if (update === false) {
-            const stopsList = data[1];
-            setStops(stopsList);
-          }
-        })
-        .catch((error) => {
-          console.error(error);
-          setError(true);
-        })
-        .finally(() => {
-          setLoading(false);
-        });
     },
     [stopId, lineLabel, lineDestination]
   );

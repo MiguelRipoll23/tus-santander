@@ -28,38 +28,44 @@ const RouteLineView = () => {
   const color = getLineBackgroundColor(lineLabel, "string");
 
   const getStops = useCallback(() => {
-    setError(false);
-    setRoutes([]);
+    try {
+      setError(false);
+      setRoutes([]);
 
-    fetch(API_HOST + API_ROUTES_GET_COMPACT_PATH, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        stopId,
-        lineLabel,
-      }),
-    })
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error("Network response was not ok");
-        }
-        return response.json();
+      fetch(API_HOST + API_ROUTES_GET_COMPACT_PATH, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          stopId,
+          lineLabel,
+        }),
       })
-      .then((data) => {
-        if (data.length === 0) {
-          throw new Error("Empty response");
-        }
-        setRoutes(data);
-      })
-      .catch((error) => {
-        console.error(error);
-        setError(true);
-      })
-      .finally(() => {
-        setLoading(false);
-      });
+        .then((response) => {
+          if (!response.ok) {
+            throw new Error("Network response was not ok");
+          }
+          return response.json();
+        })
+        .then((data) => {
+          if (data.length === 0) {
+            throw new Error("Empty response");
+          }
+          setRoutes(data);
+        })
+        .catch((error) => {
+          console.error(error);
+          setError(true);
+        })
+        .finally(() => {
+          setLoading(false);
+        });
+    } catch (error) {
+      console.error(error);
+      setError(true);
+      setLoading(false);
+    }
   }, [stopId, lineLabel, lineDestination]);
 
   const isActive = (itemStopId) => itemStopId === stopId;
