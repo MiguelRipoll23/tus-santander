@@ -11,7 +11,7 @@ import { VIEW_ID_ESTIMATIONS_LINE } from "../../constants/ViewConstants.jsx";
 
 import {
   API_HOST,
-  API_PATH_JSON_ESTIMATIONS,
+  API_ESTIMATIONS_GET_COMPACT_PATH,
 } from "../../utils/ApiConstants.jsx";
 
 import Nav from "../../components/Nav.jsx";
@@ -39,57 +39,66 @@ const EstimationsStopView = () => {
   const [estimations, setEstimations] = useState([]);
 
   const getEstimations = useCallback(
-    async (update = false) => {
-      // Reset
-      setError(false);
-      setEstimations([]);
+    (update = false) => {
+      try {
+        // Reset
+        setError(false);
+        setEstimations([]);
 
-      // Track refresh events
-      if (update) {
-        trackRefresh("stop_estimations", false);
+        // Track refresh events
+        if (update) {
+          trackRefresh("stop_estimations", false);
+        }
+
+        fetch(API_HOST + API_ESTIMATIONS_GET_COMPACT_PATH, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            stopId,
+            refresh: update,
+          }),
+        })
+          .then((response) => {
+            if (response.ok === false) {
+              throw new Error("Network response was not ok");
+            }
+
+            return response.json();
+          })
+          .then((data) => {
+            const estimationsList = data[0];
+
+            // Check if response is empty
+            if (estimationsList.length === 0) {
+              throw new Error("Empty response");
+            }
+
+            setEstimations(estimationsList);
+
+            if (update === false) {
+              const linesList = data[1];
+              setLines(linesList);
+            }
+
+            setRefreshVisible(true);
+          })
+          .catch((error) => {
+            console.error(error);
+            setError(true);
+          })
+          .finally(() => {
+            const heartState = getFavorite(stopId) === null ? 1 : 2;
+
+            setLoading(false);
+            setHeartState(heartState);
+          });
+      } catch (error) {
+        console.error(error);
+        setError(true);
+        setLoading(false);
       }
-
-      let query = `?stopId=${stopId}`;
-
-      if (update) {
-        query += "&update=true";
-      }
-
-      fetch(API_HOST + API_PATH_JSON_ESTIMATIONS + query)
-        .then((response) => {
-          if (response.ok === false) {
-            throw new Error("Network response was not ok");
-          }
-
-          return response.json();
-        })
-        .then((data) => {
-          const estimationsList = data[0];
-
-          // Check if response is empty
-          if (estimationsList.length === 0) {
-            throw new Error("Empty response");
-          }
-
-          setEstimations(estimationsList);
-
-          if (update === false) {
-            const linesList = data[1];
-            setLines(linesList);
-          }
-
-          setRefreshVisible(true);
-        })
-        .catch((error) => {
-          console.error(error);
-          setError(true);
-        })
-        .finally(() => {
-          const heartState = getFavorite(stopId) === null ? 1 : 2;
-
-          setLoading(false);
-          setHeartState(heartState);
-        });
     },
     [stopId]
   );
@@ -109,7 +118,9 @@ const EstimationsStopView = () => {
     const favorited = getFavorite(stopId);
 
     if (favorited) {
-      const userConfirms = window.confirm(getText("confirm_remove_favorite"));
+      const userConfirms = globalThis.confirm(
+        getText("confirm_remove_favorite")
+      );
 
       if (userConfirms) {
         syncFavoriteState();

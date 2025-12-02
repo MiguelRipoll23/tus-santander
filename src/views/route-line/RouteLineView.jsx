@@ -2,7 +2,10 @@ import { Fragment, useCallback, useEffect, useState } from "react";
 import { useView } from "../../contexts/ViewContext.jsx";
 import { getLineBackgroundColor } from "../../utils/LineUtils.jsx";
 import { trackRouteView } from "../../utils/TelemetryUtils.jsx";
-import { API_HOST, API_PATH_JSON_ROUTE } from "../../utils/ApiConstants.jsx";
+import {
+  API_HOST,
+  API_ROUTES_GET_COMPACT_PATH,
+} from "../../utils/ApiConstants.jsx";
 
 import Main from "../../components/Main.jsx";
 import Nav from "../../components/Nav.jsx";
@@ -25,31 +28,44 @@ const RouteLineView = () => {
   const color = getLineBackgroundColor(lineLabel, "string");
 
   const getStops = useCallback(() => {
-    setError(false);
-    setRoutes([]);
+    try {
+      setError(false);
+      setRoutes([]);
 
-    const query = `?stopId=${stopId}&lineLabel=${lineLabel}&lineDestination=${lineDestination}`;
-
-    fetch(API_HOST + API_PATH_JSON_ROUTE + query)
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error("Network response was not ok");
-        }
-        return response.json();
+      fetch(API_HOST + API_ROUTES_GET_COMPACT_PATH, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          stopId,
+          lineLabel,
+        }),
       })
-      .then((data) => {
-        if (data.length === 0) {
-          throw new Error("Empty response");
-        }
-        setRoutes(data);
-      })
-      .catch((error) => {
-        console.error(error);
-        setError(true);
-      })
-      .finally(() => {
-        setLoading(false);
-      });
+        .then((response) => {
+          if (!response.ok) {
+            throw new Error("Network response was not ok");
+          }
+          return response.json();
+        })
+        .then((data) => {
+          if (data.length === 0) {
+            throw new Error("Empty response");
+          }
+          setRoutes(data);
+        })
+        .catch((error) => {
+          console.error(error);
+          setError(true);
+        })
+        .finally(() => {
+          setLoading(false);
+        });
+    } catch (error) {
+      console.error(error);
+      setError(true);
+      setLoading(false);
+    }
   }, [stopId, lineLabel, lineDestination]);
 
   const isActive = (itemStopId) => itemStopId === stopId;

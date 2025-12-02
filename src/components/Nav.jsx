@@ -1,10 +1,10 @@
-import { Fragment, useEffect, useState } from "react";
+import { Fragment } from "react";
 import Header from "./Header.jsx";
 import styles from "./Nav.module.css";
 
 const Nav = (props) => {
   const goBack = () => {
-    window.history.back();
+    globalThis.history.back();
   };
 
   return (
@@ -16,6 +16,7 @@ const Nav = (props) => {
         <div className={styles.Nav}>
           <div className={styles.NavLeft}>
             <button
+              type="button"
               className={`${styles.BackButton} liquid-glass`}
               aria-label="Back"
               onClick={goBack}

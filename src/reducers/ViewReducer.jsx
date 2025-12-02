@@ -69,7 +69,7 @@ export const viewReducer = (state, action) => {
 
   // Update history
   if (pushState) {
-    window.history.pushState(updatedState, "");
+    globalThis.history.pushState(updatedState, "");
     console.log("pushState", updatedState);
   }
 

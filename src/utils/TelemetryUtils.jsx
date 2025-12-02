@@ -1,14 +1,15 @@
 import {
-  API_HOST,
-  API_PATH_JSON_TELEMETRY,
-  TELEMETRY_HOST,
+  TELEMETRY_API_HOST,
+  TELEMETRY_API_SAVE_PATH,
 } from "./ApiConstants.jsx";
 import { getFavorites } from "./FavoriteUtils.jsx";
 
 // Constants
 const TELEMETRY_ENABLED =
-  typeof TELEMETRY_HOST === "string" && TELEMETRY_HOST.length > 0;
-const TELEMETRY_URL = TELEMETRY_ENABLED ? `${TELEMETRY_HOST}/save` : null;
+  typeof TELEMETRY_API_HOST === "string" && TELEMETRY_API_HOST.length > 0;
+const TELEMETRY_URL = TELEMETRY_ENABLED
+  ? `${TELEMETRY_API_HOST}/${TELEMETRY_API_SAVE_PATH}`
+  : null;
 const USER_IDENTIFIER_KEY = "user_identifier";
 const SESSION_START_KEY = "session_start";
 const BATCH_SIZE = 5;
@@ -172,7 +173,7 @@ export const sendTelemetryEvent = (eventType, eventData = {}) => {
 };
 
 // Specific event helpers
-export const trackStopEstimations = (stopId, stopName) => {
+export const trackStopEstimations = (_stopId, stopName) => {
   sendTelemetryEvent("stop_view", {
     stop_name: stopName?.substring(0, 50) || "unknown", // Limit length
   });
@@ -203,7 +204,7 @@ export const trackRefresh = (viewType, isAutoRefresh = false) => {
   });
 };
 
-export const trackFavoriteToggle = (stopId, added) => {
+export const trackFavoriteToggle = (_stopId, added) => {
   sendTelemetryEvent("favorite", {
     action: added ? "add" : "remove",
   });
@@ -211,7 +212,7 @@ export const trackFavoriteToggle = (stopId, added) => {
 
 // Cleanup on page unload
 if (typeof window !== "undefined") {
-  window.addEventListener("beforeunload", sendRemainingEvents);
+  globalThis.addEventListener("beforeunload", sendRemainingEvents);
 
   // Process remaining events when page becomes hidden
   document.addEventListener("visibilitychange", () => {

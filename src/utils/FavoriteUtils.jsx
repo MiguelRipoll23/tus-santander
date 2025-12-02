@@ -26,7 +26,7 @@ export const getFavorite = (stopId) => {
   let result = null;
   const favorites = getFavorites();
 
-  for (let favorite of favorites) {
+  for (const favorite of favorites) {
     if (favorite.stop_id !== stopId) {
       continue;
     }

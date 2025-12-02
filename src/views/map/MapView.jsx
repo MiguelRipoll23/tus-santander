@@ -57,7 +57,7 @@ const MapView = () => {
     const { zoom, center } = event.detail;
     setCenter(center);
 
-    const bounds = new window.google.maps.LatLngBounds(
+    const bounds = new globalThis.google.maps.LatLngBounds(
       { lat: event.detail.bounds.south, lng: event.detail.bounds.west },
       { lat: event.detail.bounds.north, lng: event.detail.bounds.east }
     );
@@ -74,7 +74,7 @@ const MapView = () => {
       .filter((marker) => bounds.contains(marker.position))
       .map((marker) => {
         const centerDistance =
-          window.google.maps.geometry.spherical.computeDistanceBetween(
+          globalThis.google.maps.geometry.spherical.computeDistanceBetween(
             marker.position,
             newCenter
           );

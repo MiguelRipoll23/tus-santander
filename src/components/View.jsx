@@ -43,7 +43,7 @@ const View = () => {
   const { index, viewId, setViewId, setSubViewId, setViewIdWithData } =
     useView();
 
-  window.onpopstate = (event) => {
+  globalThis.onpopstate = (event) => {
     const state = event.state;
     console.log("onpopstate", state);
 
