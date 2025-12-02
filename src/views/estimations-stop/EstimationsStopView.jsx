@@ -11,7 +11,7 @@ import { VIEW_ID_ESTIMATIONS_LINE } from "../../constants/ViewConstants.jsx";
 
 import {
   API_HOST,
-  API_PATH_JSON_ESTIMATIONS,
+  API_ESTIMATIONS_GET_COMPACT_PATH,
 } from "../../utils/ApiConstants.jsx";
 
 import Nav from "../../components/Nav.jsx";
@@ -39,7 +39,7 @@ const EstimationsStopView = () => {
   const [estimations, setEstimations] = useState([]);
 
   const getEstimations = useCallback(
-    async (update = false) => {
+    (update = false) => {
       // Reset
       setError(false);
       setEstimations([]);
@@ -49,13 +49,16 @@ const EstimationsStopView = () => {
         trackRefresh("stop_estimations", false);
       }
 
-      let query = `?stopId=${stopId}`;
-
-      if (update) {
-        query += "&update=true";
-      }
-
-      fetch(API_HOST + API_PATH_JSON_ESTIMATIONS + query)
+      fetch(API_HOST + API_ESTIMATIONS_GET_COMPACT_PATH, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          stopId,
+          refresh: update,
+        }),
+      })
         .then((response) => {
           if (response.ok === false) {
             throw new Error("Network response was not ok");
@@ -109,7 +112,9 @@ const EstimationsStopView = () => {
     const favorited = getFavorite(stopId);
 
     if (favorited) {
-      const userConfirms = window.confirm(getText("confirm_remove_favorite"));
+      const userConfirms = globalThis.confirm(
+        getText("confirm_remove_favorite")
+      );
 
       if (userConfirms) {
         syncFavoriteState();

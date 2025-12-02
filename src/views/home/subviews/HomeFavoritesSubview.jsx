@@ -115,7 +115,7 @@ const HomeFavoritesSubview = () => {
   };
 
   // Content
-  const isDesktop = window.innerWidth >= 1000;
+  const isDesktop = globalThis.innerWidth >= 1000;
 
   const Content = () => {
     if (isDesktop) {
@@ -126,12 +126,9 @@ const HomeFavoritesSubview = () => {
 
       return (
         <Fragment>
-          <Nav
-            isHeader={true}
-            titleText={getText("favorites")}
-            hidden={isDesktop}
-          >
+          <Nav isHeader titleText={getText("favorites")} hidden={isDesktop}>
             <button
+              type="button"
               className={styles.SortIconAndDoneLink}
               style={{ fontFamily, fontSize }}
               hidden={sortIconHidden}
@@ -152,6 +149,7 @@ const HomeFavoritesSubview = () => {
             {favorites.map((favorite, i) => {
               return (
                 <button
+                  type="button"
                   key={i}
                   className={styles.Favorite}
                   draggable={editMode}

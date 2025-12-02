@@ -27,7 +27,7 @@ const HomeSearchSubview = () => {
     if (searchText.length > 0) {
       if (isNaN(searchText)) {
         // Search stop name
-        for (let stopKey in Stops) {
+        for (const stopKey in Stops) {
           const stop = Stops[stopKey];
 
           let stopName = stop[3];
@@ -76,7 +76,7 @@ const HomeSearchSubview = () => {
 
   return (
     <Fragment>
-      <Nav isHeader={true} titleText={getText("search")} />
+      <Nav isHeader titleText={getText("search")} />
       <div className={styles.content}>
         <div className={styles.icon} style={{ marginBottom }}>
           <input
@@ -85,7 +85,7 @@ const HomeSearchSubview = () => {
             placeholder={getText("search")}
             aria-label={getText("search")}
             inputMode="search"
-            autoFocus={true}
+            autoFocus
             autoComplete="off"
             onInput={updateValue}
           />
@@ -99,6 +99,7 @@ const HomeSearchSubview = () => {
 
               return (
                 <button
+                  type="button"
                   className={styles.result}
                   key={i}
                   onClick={() => loadEstimationsStopView(stopId, stopName)}

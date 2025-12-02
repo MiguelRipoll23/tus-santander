@@ -41,6 +41,7 @@ const StopLines = ({ size, list, estimations }) => {
 
         return (
           <button
+            type="button"
             key={i}
             className={buttonClass}
             disabled={isDisabledBtn}

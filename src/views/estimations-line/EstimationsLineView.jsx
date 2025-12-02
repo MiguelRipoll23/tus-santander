@@ -10,7 +10,7 @@ import { VIEW_ID_ROUTE_LINE } from "../../constants/ViewConstants.jsx";
 
 import {
   API_HOST,
-  API_PATH_JSON_ESTIMATIONS,
+  API_ESTIMATIONS_GET_COMPACT_PATH,
 } from "../../utils/ApiConstants.jsx";
 
 import Nav from "../../components/Nav.jsx";
@@ -45,13 +45,17 @@ const EstimationsLineView = () => {
         trackRefresh("line_estimations", false);
       }
 
-      let query = `?stopId=${stopId}&lineLabel=${lineLabel}&lineDestination=${lineDestination}`;
-
-      if (update) {
-        query += "&update=true";
-      }
-
-      fetch(API_HOST + API_PATH_JSON_ESTIMATIONS + query)
+      fetch(API_HOST + API_ESTIMATIONS_GET_COMPACT_PATH, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          stopId,
+          lineLabel,
+          refresh: update,
+        }),
+      })
         .then((response) => {
           if (response.ok === false) {
             throw new Error("Network response was not ok");
