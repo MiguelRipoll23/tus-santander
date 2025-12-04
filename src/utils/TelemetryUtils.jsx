@@ -66,6 +66,14 @@ const sendToServer = async (payload) => {
   });
 };
 
+// Helper to clear batch timeout
+const clearBatchTimeout = () => {
+  if (batchTimeout) {
+    clearTimeout(batchTimeout);
+    batchTimeout = null;
+  }
+};
+
 // Batch event processing
 const processBatch = () => {
   if (eventQueue.length === 0) return;
@@ -73,10 +81,7 @@ const processBatch = () => {
   const events = [...eventQueue];
   eventQueue = [];
 
-  if (batchTimeout) {
-    clearTimeout(batchTimeout);
-    batchTimeout = null;
-  }
+  clearBatchTimeout();
 
   const payload = {
     userId: getUserId(),
@@ -134,11 +139,14 @@ const sendRemainingEvents = () => {
     return;
   }
 
+  // Cancel any pending batch timeout to avoid duplicate sends
+  clearBatchTimeout();
+
   const payload = {
     userId: getUserId(),
     sessionId: getSessionId(),
     deviceInformation: getDeviceInformation(),
-    events: eventQueue,
+    events: [...eventQueue], // Copy the events
   };
 
   navigator.sendBeacon(TELEMETRY_URL, JSON.stringify(payload));
