@@ -134,11 +134,17 @@ const sendRemainingEvents = () => {
     return;
   }
 
+  // Cancel any pending batch timeout to avoid duplicate sends
+  if (batchTimeout) {
+    clearTimeout(batchTimeout);
+    batchTimeout = null;
+  }
+
   const payload = {
     userId: getUserId(),
     sessionId: getSessionId(),
     deviceInformation: getDeviceInformation(),
-    events: eventQueue,
+    events: [...eventQueue], // Copy the events
   };
 
   navigator.sendBeacon(TELEMETRY_URL, JSON.stringify(payload));
