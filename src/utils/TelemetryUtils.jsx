@@ -66,6 +66,14 @@ const sendToServer = async (payload) => {
   });
 };
 
+// Helper to clear batch timeout
+const clearBatchTimeout = () => {
+  if (batchTimeout) {
+    clearTimeout(batchTimeout);
+    batchTimeout = null;
+  }
+};
+
 // Batch event processing
 const processBatch = () => {
   if (eventQueue.length === 0) return;
@@ -73,10 +81,7 @@ const processBatch = () => {
   const events = [...eventQueue];
   eventQueue = [];
 
-  if (batchTimeout) {
-    clearTimeout(batchTimeout);
-    batchTimeout = null;
-  }
+  clearBatchTimeout();
 
   const payload = {
     userId: getUserId(),
@@ -135,10 +140,7 @@ const sendRemainingEvents = () => {
   }
 
   // Cancel any pending batch timeout to avoid duplicate sends
-  if (batchTimeout) {
-    clearTimeout(batchTimeout);
-    batchTimeout = null;
-  }
+  clearBatchTimeout();
 
   const payload = {
     userId: getUserId(),
