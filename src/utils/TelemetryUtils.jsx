@@ -47,6 +47,10 @@ const getSession = () => {
     sessionStart = Date.now().toString();
     sessionStorage.setItem(SESSION_ID_KEY, sessionId);
     sessionStorage.setItem(`${SESSION_ID_KEY}_start`, sessionStart);
+  } else if (!sessionStart) {
+    // Set start time for existing sessions that don't have one.
+    sessionStart = Date.now().toString();
+    sessionStorage.setItem(`${SESSION_ID_KEY}_start`, sessionStart);
   }
 
   return { id: sessionId, start: Number(sessionStart) };
