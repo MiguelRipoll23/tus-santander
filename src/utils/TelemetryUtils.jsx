@@ -17,11 +17,19 @@ const BATCH_TIMEOUT = 10000; // 10 seconds
 let eventQueue = [];
 let batchTimeout = null;
 
-// Session management (updated!)
+// Helper to generate UUID with fallback
+const generateUUID = () => {
+  // Fallback to a non-persistent ID if crypto.randomUUID is unavailable
+  return window.crypto && window.crypto.randomUUID
+    ? window.crypto.randomUUID()
+    : `session-${Date.now()}-${Math.random()}`;
+};
+
+// Session management
 const getSessionId = () => {
   let sessionId = sessionStorage.getItem(SESSION_ID_KEY);
   if (!sessionId) {
-    sessionId = crypto.randomUUID(); // properly unique session ID
+    sessionId = generateUUID();
     sessionStorage.setItem(SESSION_ID_KEY, sessionId);
   }
   return sessionId;
@@ -30,7 +38,7 @@ const getSessionId = () => {
 const getUserId = () => {
   let identifier = localStorage.getItem(USER_IDENTIFIER_KEY);
   if (!identifier) {
-    identifier = crypto.randomUUID();
+    identifier = generateUUID();
     localStorage.setItem(USER_IDENTIFIER_KEY, identifier);
   }
   return identifier;
