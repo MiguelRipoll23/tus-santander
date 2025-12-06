@@ -7,8 +7,9 @@ const TELEMETRY_ENABLED =
 const TELEMETRY_URL = TELEMETRY_ENABLED
   ? TELEMETRY_HOST + TELEMETRY_API_SAVE_PATH
   : null;
+
 const USER_IDENTIFIER_KEY = "user_identifier";
-const SESSION_START_KEY = "session_start";
+const SESSION_ID_KEY = "session_id";
 const BATCH_SIZE = 5;
 const BATCH_TIMEOUT = 10000; // 10 seconds
 
@@ -16,21 +17,28 @@ const BATCH_TIMEOUT = 10000; // 10 seconds
 let eventQueue = [];
 let batchTimeout = null;
 
+// Helper to generate UUID with fallback
+const generateUUID = () => {
+  // Fallback to a non-persistent ID if crypto.randomUUID is unavailable
+  return window.crypto && window.crypto.randomUUID
+    ? window.crypto.randomUUID()
+    : `session-${Date.now()}-${Math.random()}`;
+};
+
 // Session management
 const getSessionId = () => {
-  const sessionStart = sessionStorage.getItem(SESSION_START_KEY);
-  if (!sessionStart) {
-    const timestamp = Date.now();
-    sessionStorage.setItem(SESSION_START_KEY, timestamp.toString());
-    return timestamp;
+  let sessionId = sessionStorage.getItem(SESSION_ID_KEY);
+  if (!sessionId) {
+    sessionId = generateUUID();
+    sessionStorage.setItem(SESSION_ID_KEY, sessionId);
   }
-  return parseInt(sessionStart, 10);
+  return sessionId;
 };
 
 const getUserId = () => {
   let identifier = localStorage.getItem(USER_IDENTIFIER_KEY);
   if (!identifier) {
-    identifier = crypto.randomUUID();
+    identifier = generateUUID();
     localStorage.setItem(USER_IDENTIFIER_KEY, identifier);
   }
   return identifier;
@@ -41,10 +49,9 @@ const getDeviceInformation = () => {
   const userAgent = navigator.userAgent;
 
   return {
-    // Shortened keys to reduce payload size
-    timeStamp: Date.now(), // timestamp
+    timeStamp: Date.now(),
     userAgent,
-    browserLanguage: navigator.language.split("-")[0], // Just language, not region
+    browserLanguage: navigator.language.split("-")[0],
     screenWidth: screen.width,
     screenHeight: screen.height,
   };
@@ -88,10 +95,7 @@ const processBatch = () => {
   };
 
   sendToServer(payload).catch((error) => {
-    // If sending fails, add the events back to the front of the queue
-    // to be retried with the next batch.
     eventQueue.unshift(...events);
-    // Silently fail - don't impact user experience
     console.debug("Telemetry send failed:", error.message);
   });
 };
@@ -102,7 +106,6 @@ const addEventToBatch = (event) => {
     timeStamp: Date.now(),
   });
 
-  // Process batch if it's full or start timeout
   if (eventQueue.length >= BATCH_SIZE) {
     processBatch();
   } else if (!batchTimeout) {
@@ -110,7 +113,7 @@ const addEventToBatch = (event) => {
   }
 };
 
-// Helper function to check if telemetry should be enabled
+// Should track?
 const shouldTrackTelemetry = () => {
   if (!TELEMETRY_ENABLED) {
     console.log("Telemetry skipped: TELEMETRY_HOST not configured");
@@ -130,20 +133,19 @@ const shouldTrackTelemetry = () => {
   return true;
 };
 
-// Helper function to send remaining events using sendBeacon
+// Send remaining events via sendBeacon
 const sendRemainingEvents = () => {
   if (!TELEMETRY_ENABLED || eventQueue.length === 0) {
     return;
   }
 
-  // Cancel any pending batch timeout to avoid duplicate sends
   clearBatchTimeout();
 
   const payload = {
     userId: getUserId(),
     sessionId: getSessionId(),
     deviceInformation: getDeviceInformation(),
-    events: [...eventQueue], // Copy the events
+    events: [...eventQueue],
   };
 
   navigator.sendBeacon(TELEMETRY_URL, JSON.stringify(payload));
@@ -152,24 +154,20 @@ const sendRemainingEvents = () => {
 
 // Main telemetry functions
 export const sendTelemetry = () => {
-  if (!shouldTrackTelemetry()) {
-    return;
-  }
+  if (!shouldTrackTelemetry()) return;
 
   const favorites = getFavorites();
 
   addEventToBatch({
     type: "app_start",
     data: {
-      favorite_stops: favorites.map((f) => f.stop_name), // Stop names for better analytics
+      favorite_stops: favorites.map((f) => f.stop_name),
     },
   });
 };
 
 export const sendTelemetryEvent = (eventType, eventData = {}) => {
-  if (!shouldTrackTelemetry()) {
-    return;
-  }
+  if (!shouldTrackTelemetry()) return;
 
   addEventToBatch({
     type: eventType,
@@ -180,7 +178,7 @@ export const sendTelemetryEvent = (eventType, eventData = {}) => {
 // Specific event helpers
 export const trackStopEstimations = (_stopId, stopName) => {
   sendTelemetryEvent("stop_view", {
-    stop_name: stopName?.substring(0, 50) || "unknown", // Limit length
+    stop_name: stopName?.substring(0, 50) || "unknown",
   });
 };
 
@@ -215,11 +213,10 @@ export const trackFavoriteToggle = (_stopId, added) => {
   });
 };
 
-// Cleanup on page unload
+// Cleanup
 if (typeof window !== "undefined") {
   globalThis.addEventListener("beforeunload", sendRemainingEvents);
 
-  // Process remaining events when page becomes hidden
   document.addEventListener("visibilitychange", () => {
     if (document.visibilityState === "hidden") {
       sendRemainingEvents();
