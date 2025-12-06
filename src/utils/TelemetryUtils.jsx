@@ -18,12 +18,12 @@ let batchTimeout = null;
 
 // ----- UUID Helper -----
 const generateUUID = () => {
-  if (crypto) {
-    if (crypto.randomUUID) return crypto.randomUUID();
+  if (window.crypto) {
+    if (window.crypto.randomUUID) return window.crypto.randomUUID();
 
-    if (crypto.getRandomValues) {
+    if (window.crypto.getRandomValues) {
       const bytes = new Uint8Array(16);
-      crypto.getRandomValues(bytes);
+      window.crypto.getRandomValues(bytes);
       bytes[6] = (bytes[6] & 0x0f) | 0x40;
       bytes[8] = (bytes[8] & 0x3f) | 0x80;
 
