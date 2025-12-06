@@ -1,14 +1,11 @@
-import {
-  TELEMETRY_API_HOST,
-  TELEMETRY_API_SAVE_PATH,
-} from "./ApiConstants.jsx";
+import { TELEMETRY_HOST, TELEMETRY_API_SAVE_PATH } from "./ApiConstants.jsx";
 import { getFavorites } from "./FavoriteUtils.jsx";
 
 // Constants
 const TELEMETRY_ENABLED =
-  typeof TELEMETRY_API_HOST === "string" && TELEMETRY_API_HOST.length > 0;
+  typeof TELEMETRY_HOST === "string" && TELEMETRY_HOST.length > 0;
 const TELEMETRY_URL = TELEMETRY_ENABLED
-  ? `${TELEMETRY_API_HOST}/${TELEMETRY_API_SAVE_PATH}`
+  ? `${TELEMETRY_HOST}/${TELEMETRY_API_SAVE_PATH}`
   : null;
 const USER_IDENTIFIER_KEY = "user_identifier";
 const SESSION_START_KEY = "session_start";
