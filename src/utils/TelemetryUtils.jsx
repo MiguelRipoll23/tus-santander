@@ -9,7 +9,7 @@ const TELEMETRY_URL = TELEMETRY_ENABLED
   : null;
 
 const USER_IDENTIFIER_KEY = "user_identifier";
-const SESSION_ID_KEY = "session_id"; // updated!
+const SESSION_ID_KEY = "session_id";
 const BATCH_SIZE = 5;
 const BATCH_TIMEOUT = 10000; // 10 seconds
 
