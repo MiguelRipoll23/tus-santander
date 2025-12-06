@@ -19,10 +19,32 @@ let batchTimeout = null;
 
 // Helper to generate UUID with fallback
 const generateUUID = () => {
-  // Fallback to a non-persistent ID if crypto.randomUUID is unavailable
-  return window.crypto && window.crypto.randomUUID
-    ? window.crypto.randomUUID()
-    : `session-${Date.now()}-${Math.random()}`;
+  // Try crypto.randomUUID first
+  if (window.crypto && window.crypto.randomUUID) {
+    return window.crypto.randomUUID();
+  }
+
+  // Fallback to crypto.getRandomValues for UUIDv4
+  if (window.crypto && window.crypto.getRandomValues) {
+    const bytes = new Uint8Array(16);
+    window.crypto.getRandomValues(bytes);
+
+    // Set version (4) and variant bits
+    bytes[6] = (bytes[6] & 0x0f) | 0x40;
+    bytes[8] = (bytes[8] & 0x3f) | 0x80;
+
+    const hex = Array.from(bytes, (b) => b.toString(16).padStart(2, "0")).join(
+      ""
+    );
+
+    return `${hex.slice(0, 8)}-${hex.slice(8, 12)}-${hex.slice(
+      12,
+      16
+    )}-${hex.slice(16, 20)}-${hex.slice(20)}`;
+  }
+
+  // Last resort fallback
+  return `session-${Date.now()}-${Math.random()}`;
 };
 
 // Session management
@@ -207,9 +229,10 @@ export const trackRefresh = (viewType, isAutoRefresh = false) => {
   });
 };
 
-export const trackFavoriteToggle = (_stopId, added) => {
+export const trackFavoriteToggle = (stopId, added) => {
   sendTelemetryEvent("favorite", {
     action: added ? "add" : "remove",
+    stop_id: stopId,
   });
 };
 
