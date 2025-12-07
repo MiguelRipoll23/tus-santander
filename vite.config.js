@@ -8,6 +8,7 @@ export default defineConfig({
     react(),
     VitePWA({
       registerType: "autoUpdate",
+      filename: "sw.js",
       workbox: {
         clientsClaim: true,
         skipWaiting: true,
