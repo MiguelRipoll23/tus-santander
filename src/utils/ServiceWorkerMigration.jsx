@@ -5,26 +5,7 @@
  */
 
 export function initServiceWorkerMigration() {
-  if (!('serviceWorker' in navigator)) return;
-
-  // Listen for migration messages from old service worker
-  navigator.serviceWorker.addEventListener('message', async (event) => {
-    if (event.data.type === 'MIGRATE_SW') {
-      console.log('Migrating to new service worker:', event.data.newSW);
-      
-      // Unregister old service worker
-      const registrations = await navigator.serviceWorker.getRegistrations();
-      for (const registration of registrations) {
-        if (registration.active?.scriptURL.includes('service-worker.js')) {
-          await registration.unregister();
-          console.log('Old service worker unregistered');
-        }
-      }
-      
-      // Force reload to register new service worker
-      window.location.reload();
-    }
-  });
+  if (!("serviceWorker" in navigator)) return;
 
   // Proactively check and migrate on app load
   checkAndMigrate();
@@ -33,28 +14,28 @@ export function initServiceWorkerMigration() {
 async function checkAndMigrate() {
   try {
     const registrations = await navigator.serviceWorker.getRegistrations();
-    
-    for (const registration of registrations) {
-      const scriptURL = registration.active?.scriptURL || registration.installing?.scriptURL;
-      
-      if (scriptURL && scriptURL.includes('service-worker.js')) {
-        console.log('Found old service worker, triggering migration...');
-        
-        // Track migration event if analytics available
-        if (typeof gtag !== 'undefined') {
-          gtag('event', 'sw_migration', { 
-            from: 'service-worker.js', 
-            to: 'sw.js' 
-          });
-        }
-        
-        await registration.unregister();
-        // The vite-plugin-pwa will automatically register sw.js
-        window.location.reload();
-        break;
+    const oldRegistration = registrations.find((registration) => {
+      const scriptURL =
+        registration.active?.scriptURL || registration.installing?.scriptURL;
+      return scriptURL && scriptURL.includes("service-worker.js");
+    });
+
+    if (oldRegistration) {
+      console.log("Found old service worker, triggering migration...");
+
+      // Track migration event if analytics available
+      if (typeof gtag !== "undefined") {
+        gtag("event", "sw_migration", {
+          from: "service-worker.js",
+          to: "sw.js",
+        });
       }
+
+      await oldRegistration.unregister();
+      // The vite-plugin-pwa will automatically register sw.js
+      window.location.reload();
     }
   } catch (error) {
-    console.error('Service worker migration check failed:', error);
+    console.error("Service worker migration check failed:", error);
   }
 }
