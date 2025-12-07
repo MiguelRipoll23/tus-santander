@@ -4,13 +4,17 @@
     "ignore": ["firebase.json", "**/.*", "**/node_modules/**"],
     "rewrites": [
       {
+        "source": "/service-worker.js",
+        "destination": "/sw.js"
+      },
+      {
         "source": "**",
         "destination": "/index.html"
       }
     ],
     "headers": [
       {
-        "source": "/sw.js",
+        "source": "{/sw.js,/service-worker.js}",
         "headers": [
           {
             "key": "Cache-Control",
