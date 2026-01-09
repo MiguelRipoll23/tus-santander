@@ -3,6 +3,7 @@ import { APIProvider, Map } from "@vis.gl/react-google-maps";
 import { GOOGLE_MAPS_KEY } from "../../utils/ApiConstants.jsx";
 import { trackMapView } from "../../utils/TelemetryUtils.jsx";
 import { useI18n } from "../../contexts/I18nContext.jsx";
+import { DARK_MODE_STYLES } from "../../constants/MapStyles.jsx";
 
 import Nav from "../../components/Nav.jsx";
 import Main from "../../components/Main.jsx";
@@ -21,6 +22,10 @@ const MapView = () => {
   const [loading, setLoading] = useState(true);
   const [center, setCenter] = useState(defaultCenter);
   const [closestMarkers, setClosestMarkers] = useState([]);
+  const [isDarkMode, setIsDarkMode] = useState(
+    globalThis.matchMedia &&
+      globalThis.matchMedia("(prefers-color-scheme: dark)").matches
+  );
 
   const getCurrentLocation = useCallback(() => {
     const successCallback = (position) => {
@@ -40,13 +45,13 @@ const MapView = () => {
     navigator.geolocation.getCurrentPosition(successCallback, errorCallback);
   }, [getText]);
 
-
   const mapOptions = {
     mapId: "map",
     defaultZoom,
     fullscreenControl: false,
     disableDefaultUI: true,
     center,
+    styles: isDarkMode ? DARK_MODE_STYLES : [],
   };
 
   const handleApiLoaded = () => {
@@ -87,7 +92,11 @@ const MapView = () => {
   }, []);
 
   const getMap = () => (
-    <Map {...mapOptions} onCameraChanged={handleCameraChange}>
+    <Map
+      {...mapOptions}
+      onCameraChanged={handleCameraChange}
+      style={{ flex: 1 }}
+    >
       <ClosestMarkers markers={closestMarkers} />
     </Map>
   );
@@ -98,6 +107,15 @@ const MapView = () => {
     trackMapView();
     
     getCurrentLocation();
+
+    // Dark mode listener
+    const darkModeQuery = globalThis.matchMedia("(prefers-color-scheme: dark)");
+    const handleColorSchemeChange = (e) => setIsDarkMode(e.matches);
+    darkModeQuery.addEventListener("change", handleColorSchemeChange);
+
+    return () => {
+      darkModeQuery.removeEventListener("change", handleColorSchemeChange);
+    };
   }, [getCurrentLocation]);
 
   return (

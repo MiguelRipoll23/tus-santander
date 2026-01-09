@@ -35,7 +35,7 @@ const HomeView = () => {
 
   return (
     <Fragment>
-      <Main>
+      <Main paddingBottom="100px">
         <SelectedContent />
         <HomeMenu />
       </Main>

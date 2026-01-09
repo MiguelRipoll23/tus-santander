@@ -134,7 +134,7 @@ const EstimationsLineView = () => {
   return (
     <Fragment>
       <Nav isHeader={false} titleText={stopName} />
-      <Main paddingTop="64px">
+      <Main paddingTop="64px" paddingBottom="120px">
         {loading && <Spinner />}
         {error && (
           <Error
