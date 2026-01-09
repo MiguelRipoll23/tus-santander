@@ -89,7 +89,7 @@ const MapView = () => {
     <Map
       {...mapOptions}
       onCameraChanged={handleCameraChange}
-      style={{ flex: 1 }}
+      style={{ position: "absolute" }}
     >
       <ClosestMarkers markers={closestMarkers} />
     </Map>
