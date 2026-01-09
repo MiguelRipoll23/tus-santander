@@ -3,7 +3,6 @@ import { APIProvider, Map } from "@vis.gl/react-google-maps";
 import { GOOGLE_MAPS_KEY } from "../../utils/ApiConstants.jsx";
 import { trackMapView } from "../../utils/TelemetryUtils.jsx";
 import { useI18n } from "../../contexts/I18nContext.jsx";
-import { DARK_MODE_STYLES } from "../../constants/MapStyles.jsx";
 
 import Nav from "../../components/Nav.jsx";
 import Main from "../../components/Main.jsx";
@@ -22,10 +21,6 @@ const MapView = () => {
   const [loading, setLoading] = useState(true);
   const [center, setCenter] = useState(defaultCenter);
   const [closestMarkers, setClosestMarkers] = useState([]);
-  const [isDarkMode, setIsDarkMode] = useState(
-    globalThis.matchMedia &&
-      globalThis.matchMedia("(prefers-color-scheme: dark)").matches
-  );
 
   const getCurrentLocation = useCallback(() => {
     const successCallback = (position) => {
@@ -51,7 +46,6 @@ const MapView = () => {
     fullscreenControl: false,
     disableDefaultUI: true,
     center,
-    styles: isDarkMode ? DARK_MODE_STYLES : [],
   };
 
   const handleApiLoaded = () => {
@@ -64,7 +58,7 @@ const MapView = () => {
 
     const bounds = new globalThis.google.maps.LatLngBounds(
       { lat: event.detail.bounds.south, lng: event.detail.bounds.west },
-      { lat: event.detail.bounds.north, lng: event.detail.bounds.east }
+      { lat: event.detail.bounds.north, lng: event.detail.bounds.east },
     );
 
     const metersPerPixel =
@@ -78,10 +72,10 @@ const MapView = () => {
     const closestMarkers = markers
       .filter((marker) => bounds.contains(marker.position))
       .map((marker) => {
-        const centerDistance =
-          globalThis.google.maps.geometry.spherical.computeDistanceBetween(
+        const centerDistance = globalThis.google.maps.geometry.spherical
+          .computeDistanceBetween(
             marker.position,
-            newCenter
+            newCenter,
           );
         return { ...marker, centerDistance };
       })
@@ -105,17 +99,8 @@ const MapView = () => {
   useEffect(() => {
     // Track map view
     trackMapView();
-    
+
     getCurrentLocation();
-
-    // Dark mode listener
-    const darkModeQuery = globalThis.matchMedia("(prefers-color-scheme: dark)");
-    const handleColorSchemeChange = (e) => setIsDarkMode(e.matches);
-    darkModeQuery.addEventListener("change", handleColorSchemeChange);
-
-    return () => {
-      darkModeQuery.removeEventListener("change", handleColorSchemeChange);
-    };
   }, [getCurrentLocation]);
 
   return (
