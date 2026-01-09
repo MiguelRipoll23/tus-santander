@@ -94,7 +94,7 @@ const RouteLineView = () => {
         isHeader={false}
         titleText={`${lineLabel} ${lineDestination.toUpperCase()}`}
       />
-      <Main paddingTop="64px">
+      <Main paddingTop="64px" paddingBottom="40px">
         {loading && <Spinner />}
         {error && (
           <Error
