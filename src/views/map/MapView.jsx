@@ -92,11 +92,7 @@ const MapView = () => {
   }, []);
 
   const getMap = () => (
-    <Map
-      {...mapOptions}
-      onCameraChanged={handleCameraChange}
-      style={{ flex: 1 }}
-    >
+    <Map {...mapOptions} onCameraChanged={handleCameraChange}>
       <ClosestMarkers markers={closestMarkers} />
     </Map>
   );
