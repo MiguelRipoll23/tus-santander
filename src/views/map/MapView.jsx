@@ -41,7 +41,7 @@ const MapView = () => {
   }, [getText]);
 
   const mapOptions = {
-    mapId: "map",
+    mapId: "91bb8a184defe594b79354e1",
     defaultZoom,
     fullscreenControl: false,
     disableDefaultUI: true,
@@ -58,7 +58,7 @@ const MapView = () => {
 
     const bounds = new globalThis.google.maps.LatLngBounds(
       { lat: event.detail.bounds.south, lng: event.detail.bounds.west },
-      { lat: event.detail.bounds.north, lng: event.detail.bounds.east },
+      { lat: event.detail.bounds.north, lng: event.detail.bounds.east }
     );
 
     const metersPerPixel =
@@ -72,10 +72,10 @@ const MapView = () => {
     const closestMarkers = markers
       .filter((marker) => bounds.contains(marker.position))
       .map((marker) => {
-        const centerDistance = globalThis.google.maps.geometry.spherical
-          .computeDistanceBetween(
+        const centerDistance =
+          globalThis.google.maps.geometry.spherical.computeDistanceBetween(
             marker.position,
-            newCenter,
+            newCenter
           );
         return { ...marker, centerDistance };
       })
