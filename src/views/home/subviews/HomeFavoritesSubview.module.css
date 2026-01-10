@@ -18,6 +18,15 @@
   box-sizing: border-box;
 }
 
+.SortableWrapper {
+  margin: 0 var(--margin-lr);
+  margin-bottom: 8px;
+  width: calc(100% - 28px);
+  box-sizing: border-box;
+  position: relative;
+  /* Ensure it has layout even if empty, though it won't be */
+}
+
 .Favorite {
   padding: 13px 22px;
   background: linear-gradient(to right, #ff2e56, #e0002b);
@@ -26,12 +35,12 @@
   box-sizing: border-box;
   line-height: 27px;
   border-radius: 14px;
-  margin: 0 var(--margin-lr);
-  margin-bottom: 8px;
+  margin: 0; /* Reset margin */
+  width: 100%; /* Fill wrapper */
+  display: block; /* Ensure button behaves like a block */
   overflow: hidden;
   font-weight: 700;
   min-height: 53px;
-  width: calc(100% - 28px);
   text-align: left;
   -webkit-user-select: none;
   user-select: none;
@@ -46,4 +55,27 @@
   border: 2px dashed #ff2e56;
   background: none;
   color: #ff2e56;
+}
+
+@keyframes wiggle {
+  0% {
+    transform: rotate(0deg);
+  }
+  25% {
+    transform: rotate(-0.5deg);
+  }
+  50% {
+    transform: rotate(0.5deg);
+  }
+  75% {
+    transform: rotate(-0.5deg);
+  }
+  100% {
+    transform: rotate(0deg);
+  }
+}
+
+.Wiggle {
+  animation: wiggle 0.5s linear infinite;
+  cursor: move;
 }
