@@ -40,9 +40,10 @@ const SortableFavorite = ({ favorite, editMode, loadEstimationsStopView }) => {
     isDragging,
   } = useSortable({ id: favorite.stop_id });
 
+  const transformString = CSS.Transform.toString(transform);
   const style = {
-    transform: CSS.Transform.toString(transform)
-      ? `${CSS.Transform.toString(transform)} ${isDragging ? "scale(1.05)" : ""}`
+    transform: transformString
+      ? `${transformString} ${isDragging ? "scale(1.05)" : ""}`
       : undefined,
     transition,
     zIndex: isDragging ? 1 : "auto",
@@ -105,7 +106,7 @@ const HomeFavoritesSubview = () => {
   const handleDragEnd = (event) => {
     const { active, over } = event;
 
-    if (active.id !== over.id) {
+    if (over && active.id !== over.id) {
       setFavorites((items) => {
         const oldIndex = items.findIndex((item) => item.stop_id === active.id);
         const newIndex = items.findIndex((item) => item.stop_id === over.id);
