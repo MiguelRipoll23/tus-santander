@@ -157,7 +157,7 @@ const HomeFavoritesSubview = () => {
 
   return (
     <Fragment>
-      <Nav isHeader titleText={getText("favorites")} hidden={isDesktop}>
+      <Nav isHeader titleText={getText("favorites")}>
         <button
           type="button"
           className={styles.SortIconAndDoneLink}
@@ -168,7 +168,7 @@ const HomeFavoritesSubview = () => {
           {editMode ? getText("done") : ""}
         </button>
       </Nav>
-      <div className={styles.Content} hidden={isDesktop}>
+      <div className={styles.Content}>
         {error && (
           <Error
             errorText={getText("use_map_or_search")}
