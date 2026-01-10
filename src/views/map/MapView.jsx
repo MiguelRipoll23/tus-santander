@@ -42,6 +42,7 @@ const MapView = () => {
 
   const mapOptions = {
     mapId: "91bb8a184defe594b79354e1",
+    colorScheme: "FOLLOW_SYSTEM",
     defaultZoom,
     fullscreenControl: false,
     disableDefaultUI: true,
