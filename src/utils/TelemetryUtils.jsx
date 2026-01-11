@@ -192,9 +192,9 @@ export const trackFavoriteToggle = (stopId, added) =>
     stop_id: stopId,
   });
 
-export const trackDonationClick = () => sendTelemetryEvent("donation_click");
+export const trackDonationTipButton = () => sendTelemetryEvent("donation_click");
 
-export const trackDonationClose = () => sendTelemetryEvent("donation_close");
+export const trackDonationCloseButton = () => sendTelemetryEvent("donation_close");
 
 // ----- Cleanup -----
 if (typeof window !== "undefined") {
