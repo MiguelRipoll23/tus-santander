@@ -10,7 +10,7 @@ import styles from "./DonationBubble.module.css";
 const LOCAL_STORAGE_KEY = "donation_bubble_hidden_until";
 const DONATION_URL = "https://buymeacoffee.com/miguelripoll23";
 const DAY_IN_MILLISECONDS = 24 * 60 * 60 * 1000;
-const THREE_MONTHS_IN_MILLISECONDS = 90 * DAY_IN_MILLISECONDS;
+const ONE_MONTH_IN_MILLISECONDS = 30 * DAY_IN_MILLISECONDS;
 const SIX_MONTHS_IN_MILLISECONDS = 180 * DAY_IN_MILLISECONDS;
 
 const DonationBubble = ({ favoritesCount }) => {
@@ -29,7 +29,7 @@ const DonationBubble = ({ favoritesCount }) => {
 
   const handleClose = () => {
     trackDonationCloseButton();
-    hideBubble(THREE_MONTHS_IN_MILLISECONDS);
+    hideBubble(ONE_MONTH_IN_MILLISECONDS);
   };
 
   const handleTip = () => {
