@@ -28,7 +28,7 @@ const DonationBubble = ({ favoritesCount }) => {
   };
 
   const handleTip = () => {
-    window.open(DONATION_URL, "_blank");
+    window.open(DONATION_URL, "_blank", "noopener,noreferrer");
     hideBubble(SIX_MONTHS_IN_MILLISECONDS);
   };
 
