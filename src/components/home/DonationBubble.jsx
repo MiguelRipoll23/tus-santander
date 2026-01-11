@@ -3,32 +3,33 @@ import { useI18n } from "../../contexts/I18nContext.jsx";
 import Button from "../Button.jsx";
 import styles from "./DonationBubble.module.css";
 
+const LOCAL_STORAGE_KEY = "donation_bubble_hidden_until";
+const DONATION_URL = "https://buymeacoffee.com/miguelripoll23";
+const DAY_IN_MILLISECONDS = 24 * 60 * 60 * 1000;
+const THREE_MONTHS_IN_MILLISECONDS = 90 * DAY_IN_MILLISECONDS;
+const SIX_MONTHS_IN_MILLISECONDS = 180 * DAY_IN_MILLISECONDS;
+
 const DonationBubble = ({ favoritesCount }) => {
   const { getText } = useI18n();
   const [isHidden, setIsHidden] = useState(() => {
-    const hiddenUntil = localStorage.getItem("donation_bubble_hidden_until");
+    const hiddenUntil = localStorage.getItem(LOCAL_STORAGE_KEY);
     return hiddenUntil && Date.now() < parseInt(hiddenUntil, 10);
   });
 
   const isVisible = !isHidden && favoritesCount > 1;
 
-  const handleClose = () => {
-    const threeMonths = 3 * 30 * 24 * 60 * 60 * 1000;
-    localStorage.setItem(
-      "donation_bubble_hidden_until",
-      Date.now() + threeMonths
-    );
+  const hideBubble = (duration) => {
+    localStorage.setItem(LOCAL_STORAGE_KEY, Date.now() + duration);
     setIsHidden(true);
   };
 
+  const handleClose = () => {
+    hideBubble(THREE_MONTHS_IN_MILLISECONDS);
+  };
+
   const handleTip = () => {
-    const sixMonths = 6 * 30 * 24 * 60 * 60 * 1000;
-    localStorage.setItem(
-      "donation_bubble_hidden_until",
-      Date.now() + sixMonths
-    );
-    window.open("https://buymeacoffee.com/miguelripoll23", "_blank");
-    setIsHidden(true);
+    window.open(DONATION_URL, "_blank");
+    hideBubble(SIX_MONTHS_IN_MILLISECONDS);
   };
 
   if (!isVisible) return null;
