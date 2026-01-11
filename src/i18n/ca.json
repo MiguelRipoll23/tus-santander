@@ -1,0 +1,20 @@
+{
+  "favorites": "Preferits",
+  "map": "Mapa",
+  "search": "Cerca",
+  "done": "Fet",
+  "use_map_or_search": "Utilitza el mapa o la cerca per afegir parades",
+  "see_nearby_stops": "Mira les parades properes",
+  "confirm_remove_favorite": "Estàs segur que vols eliminar aquesta parada dels preferits?",
+  "location_not_available": "La ubicació no està disponible",
+  "no_available": "No disponible",
+  "try_again": "Torna-ho a provar",
+  "view_route": "Veure ruta",
+  "refresh": "Actualitza",
+  "add_to_favorites": "Afegeix als preferits",
+  "qr_code": "Codi QR",
+  "desktop_instructions": "Escaneja el codi QR que apareix a la pantalla amb l'aplicació <b>Càmera</b> del teu telèfon per accedir a l'aplicació",
+  "donation_message": "Si trobes útil aquesta aplicació no oficial, pots donar-me suport amb una donació.",
+  "tip": "Propina",
+  "maybe_later": "Potser més tard"
+}

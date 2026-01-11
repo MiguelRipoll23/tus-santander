@@ -1,12 +1,15 @@
 import { useState, useCallback, useEffect } from "react";
 import { I18nContext } from "../contexts/I18nContext.jsx";
-import es from "../i18n/es.json";
+import ca from "../i18n/ca.json";
+import da from "../i18n/da.json";
 import en from "../i18n/en.json";
-import pt from "../i18n/pt.json";
+import es from "../i18n/es.json";
 import fr from "../i18n/fr.json";
 import it from "../i18n/it.json";
+import pl from "../i18n/pl.json";
+import pt from "../i18n/pt.json";
 
-const translations = { es, en, pt, fr, it };
+const translations = { ca, da, en, es, fr, it, pl, pt };
 
 export const I18nProvider = ({ children }) => {
   const browserLanguage = (() => {
