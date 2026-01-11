@@ -13,5 +13,8 @@
   "refresh": "Refresh",
   "add_to_favorites": "Add to favorites",
   "qr_code": "QR code",
-  "desktop_instructions": "Scan the QR code shown on screen using the <b>Camera</b> app on your phone to access the application"
+  "desktop_instructions": "Scan the QR code shown on screen using the <b>Camera</b> app on your phone to access the application",
+  "donation_message": "If you like this unofficial app, you can support me with a donation.",
+  "tip": "Tip",
+  "maybe_later": "Maybe later"
 }

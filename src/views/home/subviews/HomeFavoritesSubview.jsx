@@ -29,6 +29,7 @@ import Error from "../../../components/Error.jsx";
 import HomeDesktop from "../../../components/home/HomeDesktop.jsx";
 import { useI18n } from "../../../contexts/I18nContext.jsx";
 import styles from "./HomeFavoritesSubview.module.css";
+import DonationBubble from "../../../components/home/DonationBubble.jsx";
 
 const SortableFavorite = ({ favorite, editMode, loadEstimationsStopView }) => {
   const {
@@ -169,6 +170,7 @@ const HomeFavoritesSubview = () => {
         </button>
       </Nav>
       <div className={styles.Content}>
+        {!error && <DonationBubble favoritesCount={favorites.length} />}
         {error && (
           <Error
             errorText={getText("use_map_or_search")}
