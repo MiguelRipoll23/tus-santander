@@ -1,5 +1,16 @@
 import { TELEMETRY_HOST, TELEMETRY_API_SAVE_PATH } from "./ApiConstants.jsx";
 import { getFavorites } from "./FavoriteUtils.jsx";
+import {
+  EVENT_TYPE_APP_START,
+  EVENT_TYPE_STOP_VIEW,
+  EVENT_TYPE_LINE_VIEW,
+  EVENT_TYPE_ROUTE_VIEW,
+  EVENT_TYPE_MAP_VIEW,
+  EVENT_TYPE_REFRESH,
+  EVENT_TYPE_FAVORITE,
+  EVENT_TYPE_DONATION_CLICK,
+  EVENT_TYPE_DONATION_CLOSE,
+} from "../constants/TelemetryConstants.jsx";
 
 // ----- Constants -----
 const TELEMETRY_ENABLED = Boolean(TELEMETRY_HOST?.length);
@@ -153,7 +164,7 @@ export const sendTelemetry = () => {
 
   const favorites = getFavorites();
   addEventToBatch({
-    type: "app_start",
+    type: EVENT_TYPE_APP_START,
     data: { favorite_stops: favorites.map((f) => f.stop_name) },
   });
 };
@@ -165,36 +176,36 @@ export const sendTelemetryEvent = (type, data = {}) => {
 
 // ----- Specific event helpers -----
 export const trackStopEstimations = (_, stopName) =>
-  sendTelemetryEvent("stop_view", {
+  sendTelemetryEvent(EVENT_TYPE_STOP_VIEW, {
     stop_name: stopName?.substring(0, 50) || "unknown",
   });
 
 export const trackLineEstimations = (lineLabel, lineDestination) =>
-  sendTelemetryEvent("line_view", {
+  sendTelemetryEvent(EVENT_TYPE_LINE_VIEW, {
     line: lineLabel,
     destination: lineDestination?.substring(0, 30) || "unknown",
   });
 
 export const trackRouteView = (lineLabel, lineDestination) =>
-  sendTelemetryEvent("route_view", {
+  sendTelemetryEvent(EVENT_TYPE_ROUTE_VIEW, {
     line: lineLabel,
     destination: lineDestination?.substring(0, 30) || "unknown",
   });
 
-export const trackMapView = () => sendTelemetryEvent("map_view");
+export const trackMapView = () => sendTelemetryEvent(EVENT_TYPE_MAP_VIEW);
 
 export const trackRefresh = (viewType, isAutoRefresh = false) =>
-  sendTelemetryEvent("refresh", { view: viewType, automatic: isAutoRefresh });
+  sendTelemetryEvent(EVENT_TYPE_REFRESH, { view: viewType, automatic: isAutoRefresh });
 
 export const trackFavoriteToggle = (stopId, added) =>
-  sendTelemetryEvent("favorite", {
+  sendTelemetryEvent(EVENT_TYPE_FAVORITE, {
     action: added ? "add" : "remove",
     stop_id: stopId,
   });
 
-export const trackDonationTipButton = () => sendTelemetryEvent("donation_click");
+export const trackDonationTipButton = () => sendTelemetryEvent(EVENT_TYPE_DONATION_CLICK);
 
-export const trackDonationCloseButton = () => sendTelemetryEvent("donation_close");
+export const trackDonationCloseButton = () => sendTelemetryEvent(EVENT_TYPE_DONATION_CLOSE);
 
 // ----- Cleanup -----
 if (typeof window !== "undefined") {

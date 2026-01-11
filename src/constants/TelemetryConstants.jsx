@@ -1,0 +1,12 @@
+export const EVENT_TYPE_APP_START = "app_start";
+export const EVENT_TYPE_STOP_VIEW = "stop_view";
+export const EVENT_TYPE_LINE_VIEW = "line_view";
+export const EVENT_TYPE_ROUTE_VIEW = "route_view";
+export const EVENT_TYPE_MAP_VIEW = "map_view";
+export const EVENT_TYPE_REFRESH = "refresh";
+export const EVENT_TYPE_FAVORITE = "favorite";
+export const EVENT_TYPE_FAVORITE_REORDER = "favorite_reorder";
+export const EVENT_TYPE_FAVORITE_SELECT = "favorite_select";
+export const EVENT_TYPE_SEARCH_SELECT = "search_select";
+export const EVENT_TYPE_DONATION_CLICK = "donation_click";
+export const EVENT_TYPE_DONATION_CLOSE = "donation_close";
