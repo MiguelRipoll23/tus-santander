@@ -1,5 +1,9 @@
 import { useState } from "react";
 import { useI18n } from "../../contexts/I18nContext.jsx";
+import {
+  trackDonationTipButton,
+  trackDonationCloseButton,
+} from "../../utils/TelemetryUtils.jsx";
 import Button from "../Button.jsx";
 import styles from "./DonationBubble.module.css";
 
@@ -24,10 +28,12 @@ const DonationBubble = ({ favoritesCount }) => {
   };
 
   const handleClose = () => {
+    trackDonationCloseButton();
     hideBubble(THREE_MONTHS_IN_MILLISECONDS);
   };
 
   const handleTip = () => {
+    trackDonationTipButton();
     window.open(DONATION_URL, "_blank", "noopener,noreferrer");
     hideBubble(SIX_MONTHS_IN_MILLISECONDS);
   };

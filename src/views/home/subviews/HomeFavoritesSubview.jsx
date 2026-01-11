@@ -22,6 +22,10 @@ import {
   VIEW_ID_ESTIMATIONS_STOP,
   VIEW_ID_MAP,
 } from "../../../constants/ViewConstants.jsx";
+import {
+  EVENT_TYPE_FAVORITE_REORDER,
+  EVENT_TYPE_FAVORITE_SELECT,
+} from "../../../constants/TelemetryConstants.jsx";
 import { sendTelemetryEvent } from "../../../utils/TelemetryUtils.jsx";
 
 import Nav from "../../../components/Nav.jsx";
@@ -116,7 +120,7 @@ const HomeFavoritesSubview = () => {
         saveFavorites(newFavorites);
 
         // Track favorite reorder
-        sendTelemetryEvent("favorite_reorder", {
+        sendTelemetryEvent(EVENT_TYPE_FAVORITE_REORDER, {
           from_pos: oldIndex,
           to_pos: newIndex,
         });
@@ -137,7 +141,7 @@ const HomeFavoritesSubview = () => {
     }
 
     // Track favorite selection
-    sendTelemetryEvent("favorite_select", {
+    sendTelemetryEvent(EVENT_TYPE_FAVORITE_SELECT, {
       stop_id: favorite.stop_id,
     });
 
