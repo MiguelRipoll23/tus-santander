@@ -13,5 +13,8 @@
   "refresh": "Atualizar",
   "add_to_favorites": "Adicionar aos favoritos",
   "qr_code": "Código QR",
-  "desktop_instructions": "Digitalize o código QR mostrado no ecrã com a aplicação <b>Câmara</b> do seu telemóvel para aceder à aplicação"
+  "desktop_instructions": "Digitalize o código QR mostrado no ecrã com a aplicação <b>Câmara</b> do seu telemóvel para aceder à aplicação",
+  "donation_message": "Se você acha esta app não oficial útil e gosta dela, pode me apoiar com uma doação.",
+  "tip": "Gorjeta",
+  "maybe_later": "Talvez mais tarde"
 }

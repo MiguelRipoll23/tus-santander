@@ -13,5 +13,8 @@
   "refresh": "Aggiorna",
   "add_to_favorites": "Aggiungi ai preferiti",
   "qr_code": "Codice QR",
-  "desktop_instructions": "Scansiona il codice QR mostrato sullo schermo con l'app <b>Fotocamera</b> del tuo telefono per accedere all'applicazione"
+  "desktop_instructions": "Scansiona il codice QR mostrato sullo schermo con l'app <b>Fotocamera</b> del tuo telefono per accedere all'applicazione",
+  "donation_message": "Se trovi utile questa app non ufficiale e ti piace, puoi sostenermi con una donazione.",
+  "tip": "Mancia",
+  "maybe_later": "Forse più tardi"
 }
