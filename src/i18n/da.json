@@ -1,0 +1,20 @@
+{
+  "favorites": "Favoritter",
+  "map": "Kort",
+  "search": "Søg",
+  "done": "Færdig",
+  "use_map_or_search": "Brug kortet eller søg for at tilføje stoppesteder",
+  "see_nearby_stops": "Se stoppesteder i nærheden",
+  "confirm_remove_favorite": "Er du sikker på, at du vil fjerne dette stoppested fra favoritter?",
+  "location_not_available": "Placering er ikke tilgængelig",
+  "no_available": "Ikke tilgængelig",
+  "try_again": "Prøv igen",
+  "view_route": "Vis rute",
+  "refresh": "Opdater",
+  "add_to_favorites": "Tilføj til favoritter",
+  "qr_code": "QR-kode",
+  "desktop_instructions": "Scan QR-koden på skærmen med din telefons <b>Kamera</b>-app for at få adgang til applikationen",
+  "donation_message": "Hvis du finder denne uofficielle app nyttig, kan du støtte mig med en donation.",
+  "tip": "Tip",
+  "maybe_later": "Måske senere"
+}

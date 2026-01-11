@@ -1,0 +1,20 @@
+{
+  "favorites": "Ulubione",
+  "map": "Mapa",
+  "search": "Szukaj",
+  "done": "Gotowe",
+  "use_map_or_search": "Użyj mapy lub wyszukiwarki, aby dodać przystanki",
+  "see_nearby_stops": "Zobacz pobliskie przystanki",
+  "confirm_remove_favorite": "Czy na pewno chcesz usunąć ten przystanek z ulubionych?",
+  "location_not_available": "Lokalizacja jest niedostępna",
+  "no_available": "Niedostępne",
+  "try_again": "Spróbuj ponownie",
+  "view_route": "Zobacz trasę",
+  "refresh": "Odśwież",
+  "add_to_favorites": "Dodaj do ulubionych",
+  "qr_code": "Kod QR",
+  "desktop_instructions": "Zeskanuj kod QR widoczny na ekranie za pomocą aplikacji <b>Aparat</b> w telefonie, aby uzyskać dostęp do aplikacji",
+  "donation_message": "Jeśli uważasz tę nieoficjalną aplikację za przydatną, możesz wesprzeć mnie darowizną.",
+  "tip": "Napiwek",
+  "maybe_later": "Może później"
+}

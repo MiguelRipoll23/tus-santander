@@ -5,8 +5,11 @@ import en from "../i18n/en.json";
 import pt from "../i18n/pt.json";
 import fr from "../i18n/fr.json";
 import it from "../i18n/it.json";
+import da from "../i18n/da.json";
+import pl from "../i18n/pl.json";
+import ca from "../i18n/ca.json";
 
-const translations = { es, en, pt, fr, it };
+const translations = { es, en, pt, fr, it, da, pl, ca };
 
 export const I18nProvider = ({ children }) => {
   const browserLanguage = (() => {
