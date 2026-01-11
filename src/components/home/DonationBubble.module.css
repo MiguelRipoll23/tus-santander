@@ -1,0 +1,50 @@
+.DonationBubble {
+  background-color: #ffe4e6;
+  color: #881337;
+  padding: 16px;
+  border-radius: 14px;
+  margin: 0 var(--margin-lr) 14px;
+  position: relative;
+}
+
+.DonationText {
+  margin-bottom: 12px;
+  font-size: 14px;
+  line-height: 1.4;
+}
+
+.ButtonContainer {
+  display: flex;
+  gap: 8px;
+}
+
+.DonationButton {
+  padding: 8px 16px !important;
+  font-size: 14px !important;
+  background-color: #be123c !important;
+}
+
+.MaybeLaterButton {
+  padding: 8px 16px !important;
+  font-size: 14px !important;
+  background-color: transparent !important;
+  border: 2px solid #be123c !important;
+  color: #be123c !important;
+}
+
+@media (prefers-color-scheme: dark) {
+  .DonationBubble {
+    background-color: #3f0e18;
+    color: #ffe4e6;
+  }
+  
+  .DonationButton {
+    background-color: #e11d48 !important;
+  }
+
+  .MaybeLaterButton {
+    background-color: transparent !important;
+    border-color: #e11d48 !important;
+    color: #e11d48 !important;
+  }
+}
