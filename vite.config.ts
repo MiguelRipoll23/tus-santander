@@ -81,7 +81,7 @@ export default defineConfig({
           },
         ],
         short_name: "TUS",
-        start_url: "/?utm_source=homescreen&amp;utm_medium=shortcut",
+        start_url: "/?utm_source=homescreen&utm_medium=shortcut",
         theme_color: "#ffffff",
       },
     }),
