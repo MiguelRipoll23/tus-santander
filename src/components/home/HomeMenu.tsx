@@ -25,19 +25,19 @@ function buildMenuItems(
   return [
     {
       id: SUB_VIEW_ID_FAVORITES,
-      icon: "⭐",
+      icon: "",
       label: getText("favorites"),
       onClick: () => setSubViewId(SUB_VIEW_ID_FAVORITES),
     },
     {
       id: SUB_VIEW_ID_MAP,
-      icon: "🗺",
+      icon: "",
       label: getText("map"),
       onClick: () => setViewId(VIEW_ID_MAP),
     },
     {
       id: SUB_VIEW_ID_SEARCH,
-      icon: "🔍",
+      icon: "",
       label: getText("search"),
       onClick: () => setSubViewId(SUB_VIEW_ID_SEARCH),
     },

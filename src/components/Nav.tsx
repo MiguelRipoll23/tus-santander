@@ -28,7 +28,7 @@ function Nav({ isHeader, titleText, children }: NavProps): React.JSX.Element {
               onClick={goBack}
             >
               <span className={styles.BackIcon} aria-hidden="true">
-                ‹
+                
               </span>
             </button>
           </div>

@@ -14,7 +14,7 @@ function RefreshIcon({ refreshContent }: RefreshIconProps): React.JSX.Element {
       aria-label="Refrescar"
       onClick={refreshContent}
     >
-      <span></span>
+      <span></span>
     </button>
   );
 }

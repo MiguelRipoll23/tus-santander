@@ -175,7 +175,7 @@ function HomeFavoritesSubview(): React.JSX.Element {
           hidden={sortIconHidden}
           onClick={toggleEditMode}
         >
-          {editMode ? getText("done") : "⇅"}
+          {editMode ? getText("done") : ""}
         </button>
       </Nav>
       <div className={styles.Content}>
