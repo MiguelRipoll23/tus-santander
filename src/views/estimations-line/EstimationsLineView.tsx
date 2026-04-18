@@ -46,62 +46,55 @@ function EstimationsLineView(): React.JSX.Element {
 
   const getEstimations = useCallback(
     (update = false): void => {
-      try {
-        setError(false);
-        setEstimations([]);
-
-        if (update) {
-          trackRefresh("line_estimations", false);
-        }
-
-        fetch(API_HOST + API_ESTIMATIONS_GET_COMPACT_PATH, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            stopId,
-            lineLabel,
-            refresh: update,
-          }),
-        })
-          .then((response) => {
-            if (!response.ok) {
-              throw new Error("Network response was not ok");
-            }
-            return response.json() as Promise<CompactLineEstimationsResponse>;
-          })
-          .then((responseData) => {
-            const estimationsList = responseData[0];
-
-            if (estimationsList.length === 0) {
-              throw new Error("Empty response");
-            }
-
-            setEstimations(estimationsList);
-
-            if (!update) {
-              setStops(responseData[1]);
-            }
-          })
-          .catch((err: unknown) => {
-            console.error(err);
-            setError(true);
-          })
-          .finally(() => {
-            setLoading(false);
-          });
-      } catch (err) {
-        console.error(err);
-        setError(true);
-        setLoading(false);
+      if (update) {
+        trackRefresh("line_estimations", false);
       }
+
+      fetch(API_HOST + API_ESTIMATIONS_GET_COMPACT_PATH, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          stopId,
+          lineLabel,
+          refresh: update,
+        }),
+      })
+        .then((response) => {
+          if (!response.ok) {
+            throw new Error("Network response was not ok");
+          }
+          return response.json() as Promise<CompactLineEstimationsResponse>;
+        })
+        .then((responseData) => {
+          const estimationsList = responseData[0];
+
+          if (estimationsList.length === 0) {
+            throw new Error("Empty response");
+          }
+
+          setEstimations(estimationsList);
+
+          if (!update) {
+            setStops(responseData[1]);
+          }
+        })
+        .catch((err: unknown) => {
+          console.error(err);
+          setError(true);
+        })
+        .finally(() => {
+          setLoading(false);
+        });
     },
-    [stopId, lineLabel, lineDestination]
+    [stopId, lineLabel]
   );
 
   const refreshContent = useCallback((): void => {
     setLoading(true);
+    setError(false);
+    setEstimations([]);
     getEstimations(true);
   }, [getEstimations]);
 

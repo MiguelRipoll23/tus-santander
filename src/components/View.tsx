@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useView } from "../contexts/ViewContext";
 import type { ViewId } from "../types/view";
 import {
@@ -48,23 +48,30 @@ function View(): React.JSX.Element {
   const { index, viewId, setViewId, setSubViewId, setViewIdWithData } =
     useView();
 
-  globalThis.onpopstate = (event: PopStateEvent): void => {
-    // event.state is `any` in the DOM lib; we always pushState ViewState objects
-    const rawState: unknown = event.state;
-    console.log("onpopstate", rawState);
+  useEffect(() => {
+    const handlePopState = (event: PopStateEvent): void => {
+      // event.state is `any` in the DOM lib; we always pushState ViewState objects
+      const rawState: unknown = event.state;
 
-    if (rawState === null || rawState === undefined) {
-      setViewId(INITIAL_VIEW_ID, false, true);
-      setSubViewId(INITIAL_SUB_VIEW_ID, false);
-      return;
-    }
+      if (rawState === null || rawState === undefined) {
+        setViewId(INITIAL_VIEW_ID, false, true);
+        setSubViewId(INITIAL_SUB_VIEW_ID, false);
+        return;
+      }
 
-    const state = rawState as ViewState;
-    const isBackNavigation = state.index < index;
+      const state = rawState as ViewState;
+      const isBackNavigation = state.index < index;
 
-    setViewIdWithData(state.viewId, state.data, false, isBackNavigation);
-    setSubViewId(state.subViewId, false);
-  };
+      setViewIdWithData(state.viewId, state.data, false, isBackNavigation);
+      setSubViewId(state.subViewId, false);
+    };
+
+    globalThis.onpopstate = handlePopState;
+
+    return () => {
+      globalThis.onpopstate = null;
+    };
+  }, [index, setViewId, setSubViewId, setViewIdWithData]);
 
   return <SelectedView viewId={viewId} />;
 }

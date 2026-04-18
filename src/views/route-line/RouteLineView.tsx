@@ -32,45 +32,36 @@ function RouteLineView(): React.JSX.Element {
   const color = getLineBackgroundColor(lineLabel, "string");
 
   const getStops = useCallback((): void => {
-    try {
-      setError(false);
-      setRoutes([]);
-
-      fetch(API_HOST + API_ROUTES_GET_COMPACT_PATH, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          stopId,
-          lineLabel,
-        }),
+    fetch(API_HOST + API_ROUTES_GET_COMPACT_PATH, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        stopId,
+        lineLabel,
+      }),
+    })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Network response was not ok");
+        }
+        return response.json() as Promise<RouteItemTuple[]>;
       })
-        .then((response) => {
-          if (!response.ok) {
-            throw new Error("Network response was not ok");
-          }
-          return response.json() as Promise<RouteItemTuple[]>;
-        })
-        .then((responseData) => {
-          if (responseData.length === 0) {
-            throw new Error("Empty response");
-          }
-          setRoutes(responseData);
-        })
-        .catch((err: unknown) => {
-          console.error(err);
-          setError(true);
-        })
-        .finally(() => {
-          setLoading(false);
-        });
-    } catch (err) {
-      console.error(err);
-      setError(true);
-      setLoading(false);
-    }
-  }, [stopId, lineLabel, lineDestination]);
+      .then((responseData) => {
+        if (responseData.length === 0) {
+          throw new Error("Empty response");
+        }
+        setRoutes(responseData);
+      })
+      .catch((err: unknown) => {
+        console.error(err);
+        setError(true);
+      })
+      .finally(() => {
+        setLoading(false);
+      });
+  }, [stopId, lineLabel]);
 
   const isActive = (itemStopId: number): boolean => itemStopId === stopId;
 
@@ -87,6 +78,8 @@ function RouteLineView(): React.JSX.Element {
 
   const refreshContent = (): void => {
     setLoading(true);
+    setError(false);
+    setRoutes([]);
     getStops();
   };
 
