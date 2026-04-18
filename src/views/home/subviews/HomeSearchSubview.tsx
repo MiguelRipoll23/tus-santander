@@ -1,6 +1,6 @@
 import React from "react";
 import type { FormEvent } from "react";
-import { Fragment, useEffect, useState } from "react";
+import { Fragment, useMemo, useState } from "react";
 import type { StopTuple, StopsData } from "../../../types/stops";
 
 import { useView } from "../../../contexts/ViewContext";
@@ -21,20 +21,19 @@ function HomeSearchSubview(): React.JSX.Element {
   const { setViewIdWithData } = useView();
 
   const [searchText, setSearchText] = useState("");
-  const [results, setResults] = useState<StopTuple[]>([]);
 
   const updateValue = (event: FormEvent<HTMLInputElement>): void => {
     setSearchText(event.currentTarget.value.toLowerCase());
   };
 
-  useEffect(() => {
+  const results = useMemo<StopTuple[]>(() => {
     const list: StopTuple[] = [];
 
     if (searchText.length > 0) {
       if (isNaN(Number(searchText))) {
         for (const stopKey in Stops) {
           const stop = Stops[stopKey];
-          let stopName = stop[3].toLowerCase();
+          const stopName = stop[3].toLowerCase();
 
           if (searchText.length < 4) {
             if (stopName.substring(0, searchText.length) !== searchText) {
@@ -55,7 +54,7 @@ function HomeSearchSubview(): React.JSX.Element {
       }
     }
 
-    setResults(list);
+    return list;
   }, [searchText]);
 
   const loadEstimationsStopView = (stopId: number, stopName: string): void => {

@@ -49,59 +49,50 @@ function EstimationsStopView(): React.JSX.Element {
 
   const getEstimations = useCallback(
     (update = false): void => {
-      try {
-        setError(false);
-        setEstimations([]);
-
-        if (update) {
-          trackRefresh("stop_estimations", false);
-        }
-
-        fetch(API_HOST + API_ESTIMATIONS_GET_COMPACT_PATH, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            stopId,
-            refresh: update,
-          }),
-        })
-          .then((response) => {
-            if (!response.ok) {
-              throw new Error("Network response was not ok");
-            }
-            return response.json() as Promise<CompactEstimationsResponse>;
-          })
-          .then((responseData) => {
-            const estimationsList = responseData[0];
-
-            if (estimationsList.length === 0) {
-              throw new Error("Empty response");
-            }
-
-            setEstimations(estimationsList);
-
-            if (!update) {
-              setLines(responseData[1]);
-            }
-
-            setRefreshVisible(true);
-          })
-          .catch((err: unknown) => {
-            console.error(err);
-            setError(true);
-          })
-          .finally(() => {
-            const newHeartState = getFavorite(stopId) === null ? 1 : 2;
-            setLoading(false);
-            setHeartState(newHeartState);
-          });
-      } catch (err) {
-        console.error(err);
-        setError(true);
-        setLoading(false);
+      if (update) {
+        trackRefresh("stop_estimations", false);
       }
+
+      fetch(API_HOST + API_ESTIMATIONS_GET_COMPACT_PATH, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          stopId,
+          refresh: update,
+        }),
+      })
+        .then((response) => {
+          if (!response.ok) {
+            throw new Error("Network response was not ok");
+          }
+          return response.json() as Promise<CompactEstimationsResponse>;
+        })
+        .then((responseData) => {
+          const estimationsList = responseData[0];
+
+          if (estimationsList.length === 0) {
+            throw new Error("Empty response");
+          }
+
+          setEstimations(estimationsList);
+
+          if (!update) {
+            setLines(responseData[1]);
+          }
+
+          setRefreshVisible(true);
+        })
+        .catch((err: unknown) => {
+          console.error(err);
+          setError(true);
+        })
+        .finally(() => {
+          const newHeartState = getFavorite(stopId) === null ? 1 : 2;
+          setLoading(false);
+          setHeartState(newHeartState);
+        });
     },
     [stopId]
   );
@@ -110,6 +101,8 @@ function EstimationsStopView(): React.JSX.Element {
     (update: boolean): void => {
       setRefreshVisible(false);
       setLoading(true);
+      setError(false);
+      setEstimations([]);
       getEstimations(update);
     },
     [getEstimations]
