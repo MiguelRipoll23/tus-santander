@@ -1,0 +1,13 @@
+export type TelemetryEventType =
+  | "app_start"
+  | "stop_view"
+  | "line_view"
+  | "route_view"
+  | "map_view"
+  | "refresh"
+  | "favorite"
+  | "favorite_reorder"
+  | "favorite_select"
+  | "search_select"
+  | "donation_click"
+  | "donation_close";
