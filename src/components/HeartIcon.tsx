@@ -8,13 +8,15 @@ interface HeartIconProps {
   updateFavorite: MouseEventHandler<HTMLButtonElement>;
 }
 
-function HeartIcon({ heartState, updateFavorite }: HeartIconProps): React.JSX.Element {
+function HeartIcon(
+  { heartState, updateFavorite }: HeartIconProps,
+): React.JSX.Element {
   const { getText } = useI18n();
   return (
     <button
       className={`${styles.HeartIcon} liquid-glass`}
       aria-label={getText("add_to_favorites")}
-      data-state={heartState > 1 ? "❤️" : "🤍"}
+      data-state={heartState > 1 ? "" : ""}
       onClick={updateFavorite}
     />
   );
