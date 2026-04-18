@@ -7,10 +7,11 @@ interface ErrorProps {
   errorText: string;
   retryText: string;
   retryAction: MouseEventHandler<HTMLButtonElement>;
-  animation?: string;
 }
 
-function Error({ errorText, retryText, retryAction }: ErrorProps): React.JSX.Element {
+function Error(
+  { errorText, retryText, retryAction }: ErrorProps,
+): React.JSX.Element {
   return (
     <div className={styles.Error}>
       <div className={styles.Text}>{errorText}</div>
