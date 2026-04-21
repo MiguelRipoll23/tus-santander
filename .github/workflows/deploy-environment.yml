@@ -63,7 +63,7 @@ jobs:
         run: cp firebase.json dist/
 
       - name: Upload package
-        uses: actions/upload-artifact@v6
+        uses: actions/upload-artifact@v7
 
         with:
           name: ${{ inputs.artifact-name }}
@@ -87,7 +87,7 @@ jobs:
         run: npm install -g firebase-tools
 
       - name: Download artifact
-        uses: actions/download-artifact@v7
+        uses: actions/download-artifact@v8
 
         with:
           name: ${{ inputs.artifact-name }}
