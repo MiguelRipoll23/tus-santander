@@ -1,7 +1,5 @@
 .RefreshIcon {
-  font-family: icons;
-  font-size: 34px;
-  color: #000;
+  color: #fff;
   position: fixed;
   border-radius: 100%;
   width: 74px;
@@ -9,13 +7,9 @@
   left: 50%;
   margin-left: -37px;
   animation: fade-in 0.2s;
-  line-height: 74px;
   bottom: 28px;
   background-color: rgba(0, 112, 240, 0.6);
-  color: #fff;
-
-  span {
-    position: relative;
-    top: -0.4px;
-  }
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }

@@ -6,19 +6,15 @@
   position: relative;
   height: 36px;
   margin-bottom: var(--icon-margin-bottom);
+}
 
-  &::before {
-    font-family: icons;
-    content: "\e905";
-    color: #8e8e92;
-    z-index: 1;
-    margin: auto;
-    font-size: 14px;
-    font-weight: 700;
-    position: relative;
-    top: 10px;
-    left: 10px;
-  }
+.searchIcon {
+  color: #8e8e92;
+  position: absolute;
+  z-index: 1;
+  top: 50%;
+  left: 10px;
+  transform: translateY(-50%);
 }
 
 .input {
@@ -54,17 +50,17 @@
   border-bottom: 1px solid rgba(0, 0, 0, 0.04);
   width: 100%;
   text-align: left;
-
-  &::before {
-    font-family: icons;
-    content: "\e905";
-    color: var(--color-blue);
-    margin-right: 12px;
-    position: relative;
-    top: 2px;
-  }
+  display: flex;
+  align-items: center;
+  gap: 12px;
 
   &:last-child {
     border-bottom: 0;
   }
+}
+
+.resultIcon {
+  flex-shrink: 0;
+  position: relative;
+  top: 1px;
 }

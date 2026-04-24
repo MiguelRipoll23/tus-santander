@@ -1,14 +1,22 @@
-.SortIconAndDoneLink {
-  color: var(--color-blue);
-  align-self: flex-end;
-  padding: 0 0px;
-  font-family: revert;
-  font-size: inherit;
+.SortButton {
+  color: #000;
+  padding: 8px;
+  margin: 0 var(--margin-lr);
+  animation: fade-in 0.2s;
+  box-shadow: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  @media (prefers-color-scheme: dark) {
+    color: #fff;
+  }
 }
 
-.SortIconAndDoneLink.icons {
-  font-family: icons;
-  font-size: 24px;
+.DoneLink {
+  color: var(--color-blue);
+  padding: 0 var(--margin-lr);
+  font-size: inherit;
 }
 
 .Content {

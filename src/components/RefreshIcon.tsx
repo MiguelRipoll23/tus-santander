@@ -1,5 +1,6 @@
 import React from "react";
 import type { MouseEventHandler } from "react";
+import { RefreshCw } from "lucide-react";
 import styles from "./RefreshIcon.module.css";
 
 interface RefreshIconProps {
@@ -14,7 +15,7 @@ function RefreshIcon({ refreshContent }: RefreshIconProps): React.JSX.Element {
       aria-label="Refrescar"
       onClick={refreshContent}
     >
-      <span></span>
+      <RefreshCw size={28} aria-hidden="true" />
     </button>
   );
 }
