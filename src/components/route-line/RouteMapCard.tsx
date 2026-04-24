@@ -19,6 +19,7 @@ interface RouteMapCardProps {
   routes: RouteItemTuple[];
   activeStopId: number;
   lineLabel: string;
+  lineDestination: string;
 }
 
 interface StopMarker {
@@ -68,13 +69,26 @@ function RoutePolyline({ path, color }: RoutePolylineProps): null {
   return null;
 }
 
-function RouteMapCard({ routes, activeStopId, lineLabel }: RouteMapCardProps): ReactNode {
+function RouteMapCard({
+  routes,
+  activeStopId,
+  lineLabel,
+  lineDestination,
+}: RouteMapCardProps): ReactNode {
   const { getText } = useI18n();
   const { setViewIdWithData } = useView();
-  const [isFullscreen, setIsFullscreen] = useState(false);
+  const [isCollapsed, setIsCollapsed] = useState(false);
+  const [mapMounted, setMapMounted] = useState(false);
+
+  useEffect(() => {
+    const raf = requestAnimationFrame(() => setMapMounted(true));
+    return () => cancelAnimationFrame(raf);
+  }, []);
 
   const apiKey = GOOGLE_MAPS_KEY ?? "";
   const lineColor = getLineBackgroundColor(lineLabel, "string");
+  const defaultCenter = { lat: 43.462068, lng: -3.810204 };
+  const defaultZoom = 12;
 
   const stopMarkers: StopMarker[] = routes.reduce<StopMarker[]>((acc, [id, name]) => {
     const found = allMarkers.find((m) => m.id === id);
@@ -114,72 +128,45 @@ function RouteMapCard({ routes, activeStopId, lineLabel }: RouteMapCardProps): R
       );
     });
 
-  const defaultCenter = { lat: 43.462068, lng: -3.810204 };
-  const defaultZoom = 12;
-
-  const renderMapContent = (): ReactNode => (
-    <>
-      <BoundsFitter positions={positions} />
-      <RoutePolyline path={positions} color={lineColor} />
-      {renderMarkers()}
-    </>
-  );
-
-  const fullscreenOverlay = createPortal(
-    <div className={styles.fullscreen}>
-      <APIProvider apiKey={apiKey}>
-        <Map
-          mapId="91bb8a184defe594b79354e1"
-          colorScheme="FOLLOW_SYSTEM"
-          defaultZoom={defaultZoom}
-          defaultCenter={defaultCenter}
-          disableDefaultUI={true}
-          fullscreenControl={false}
-          gestureHandling="greedy"
-          style={{ width: "100%", height: "100%" }}
-        >
-          {renderMapContent()}
-        </Map>
-      </APIProvider>
+  return createPortal(
+    <div className={styles.sheet} data-collapsed={isCollapsed}>
       <button
         type="button"
-        className={`${styles.closeBtn} liquid-glass`}
-        aria-label={getText("close_map")}
-        onClick={() => setIsFullscreen(false)}
+        className={styles.sheetHandle}
+        aria-label={isCollapsed ? getText("expand_map") : getText("close_map")}
+        onClick={() => setIsCollapsed((c) => !c)}
       >
-        ✕
+        <span className={styles.pill} />
+        <div className={styles.sheetHeader}>
+          <span className={styles.sheetTitle}>
+            {lineLabel} {lineDestination.toUpperCase()}
+          </span>
+          <span className={styles.chevron} data-collapsed={isCollapsed}>
+            ∨
+          </span>
+        </div>
       </button>
+      <div className={styles.sheetMap}>
+        {mapMounted && (
+          <APIProvider apiKey={apiKey}>
+            <Map
+              mapId="91bb8a184defe594b79354e1"
+              colorScheme="FOLLOW_SYSTEM"
+              defaultZoom={defaultZoom}
+              defaultCenter={defaultCenter}
+              disableDefaultUI={true}
+              gestureHandling="greedy"
+              style={{ width: "100%", height: "100%" }}
+            >
+              <BoundsFitter positions={positions} />
+              <RoutePolyline path={positions} color={lineColor} />
+              {renderMarkers()}
+            </Map>
+          </APIProvider>
+        )}
+      </div>
     </div>,
     document.body
-  );
-
-  return (
-    <>
-      <div className={styles.card}>
-        <APIProvider apiKey={apiKey}>
-          <Map
-            mapId="91bb8a184defe594b79354e1"
-            colorScheme="FOLLOW_SYSTEM"
-            defaultZoom={defaultZoom}
-            defaultCenter={defaultCenter}
-            disableDefaultUI={true}
-            gestureHandling="cooperative"
-            style={{ width: "100%", height: "100%" }}
-          >
-            {renderMapContent()}
-          </Map>
-        </APIProvider>
-        <button
-          type="button"
-          className={`${styles.expandBtn} liquid-glass`}
-          aria-label={getText("expand_map")}
-          onClick={() => setIsFullscreen(true)}
-        >
-          ⛶
-        </button>
-      </div>
-      {isFullscreen && fullscreenOverlay}
-    </>
   );
 }
 
