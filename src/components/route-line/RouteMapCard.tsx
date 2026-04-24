@@ -128,7 +128,7 @@ function RouteMapCard({ routes, activeStopId, lineLabel }: RouteMapCardProps): R
         <Map
           mapId="91bb8a184defe594b79354e1"
           colorScheme="FOLLOW_SYSTEM"
-          disableDefaultUI={false}
+          disableDefaultUI={true}
           fullscreenControl={false}
           gestureHandling="greedy"
           style={{ width: "100%", height: "100%" }}
