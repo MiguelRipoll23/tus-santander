@@ -16,5 +16,7 @@
   "desktop_instructions": "Scansiona il codice QR mostrato sullo schermo con l'app <b>Fotocamera</b> del tuo telefono per accedere all'applicazione",
   "donation_message": "Se trovi utile questa app non ufficiale, puoi sostenermi con una donazione.",
   "tip": "Offrimi un caffè",
-  "maybe_later": "Forse più tardi"
+  "maybe_later": "Forse più tardi",
+  "expand_map": "Espandi mappa",
+  "close_map": "Chiudi mappa"
 }

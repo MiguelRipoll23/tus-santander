@@ -16,5 +16,7 @@
   "desktop_instructions": "Escanea el código QR que se muestra en la pantalla usando la app <b>Cámara</b> de tu móvil para acceder a la aplicación",
   "donation_message": "Si encuentras útil esta app no oficial, puedes apoyarme con un donativo.",
   "tip": "Invítame a un café",
-  "maybe_later": "Quizás luego"
+  "maybe_later": "Quizás luego",
+  "expand_map": "Ampliar mapa",
+  "close_map": "Cerrar mapa"
 }

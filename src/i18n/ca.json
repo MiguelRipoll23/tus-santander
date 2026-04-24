@@ -16,5 +16,7 @@
   "desktop_instructions": "Escaneja el codi QR que apareix a la pantalla amb l'aplicació <b>Càmera</b> del teu telèfon per accedir a l'aplicació",
   "donation_message": "Si trobes útil aquesta aplicació no oficial, pots donar-me suport amb una donació.",
   "tip": "Convida'm a un cafè",
-  "maybe_later": "Potser més tard"
+  "maybe_later": "Potser més tard",
+  "expand_map": "Ampliar mapa",
+  "close_map": "Tancar mapa"
 }

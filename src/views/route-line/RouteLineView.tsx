@@ -15,6 +15,7 @@ import Nav from "../../components/Nav";
 import Spinner from "../../components/Spinner";
 import ErrorDisplay from "../../components/Error";
 import StopLines from "../../components/StopLines";
+import RouteMapCard from "../../components/route-line/RouteMapCard";
 import { useI18n } from "../../contexts/I18nContext";
 
 import styles from "./RouteLineView.module.css";
@@ -96,6 +97,13 @@ function RouteLineView(): React.JSX.Element {
             errorText={getText("no_available")}
             retryText={getText("try_again")}
             retryAction={refreshContent}
+          />
+        )}
+        {routes.length > 0 && (
+          <RouteMapCard
+            routes={routes}
+            activeStopId={stopId}
+            lineLabel={lineLabel}
           />
         )}
         <ul className={styles.routeLineList}>

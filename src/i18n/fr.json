@@ -16,5 +16,7 @@
   "desktop_instructions": "Scannez le code QR affiché à l'écran avec l'application <b>Appareil photo</b> de votre téléphone pour accéder à l'application",
   "donation_message": "Si vous trouvez cette app non officielle utile, vous pouvez me soutenir par un don.",
   "tip": "Offrez-moi un café",
-  "maybe_later": "Peut-être plus tard"
+  "maybe_later": "Peut-être plus tard",
+  "expand_map": "Agrandir la carte",
+  "close_map": "Fermer la carte"
 }

@@ -16,5 +16,7 @@
   "desktop_instructions": "Zeskanuj kod QR widoczny na ekranie za pomocą aplikacji <b>Aparat</b> w telefonie, aby uzyskać dostęp do aplikacji",
   "donation_message": "Jeśli uważasz tę nieoficjalną aplikację za przydatną, możesz wesprzeć mnie darowizną.",
   "tip": "Postaw mi kawę",
-  "maybe_later": "Może później"
+  "maybe_later": "Może później",
+  "expand_map": "Rozwiń mapę",
+  "close_map": "Zamknij mapę"
 }

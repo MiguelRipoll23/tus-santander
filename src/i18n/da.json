@@ -16,5 +16,7 @@
   "desktop_instructions": "Scan QR-koden på skærmen med din telefons <b>Kamera</b>-app for at få adgang til applikationen",
   "donation_message": "Hvis du finder denne uofficielle app nyttig, kan du støtte mig med en donation.",
   "tip": "Køb en kaffe til mig",
-  "maybe_later": "Måske senere"
+  "maybe_later": "Måske senere",
+  "expand_map": "Udvid kort",
+  "close_map": "Luk kort"
 }
