@@ -19,7 +19,6 @@ interface RouteMapCardProps {
   routes: RouteItemTuple[];
   activeStopId: number;
   lineLabel: string;
-  lineDestination: string;
 }
 
 interface StopMarker {
@@ -69,15 +68,10 @@ function RoutePolyline({ path, color }: RoutePolylineProps): null {
   return null;
 }
 
-function RouteMapCard({
-  routes,
-  activeStopId,
-  lineLabel,
-  lineDestination,
-}: RouteMapCardProps): ReactNode {
+function RouteMapCard({ routes, activeStopId, lineLabel }: RouteMapCardProps): ReactNode {
   const { getText } = useI18n();
   const { setViewIdWithData } = useView();
-  const [isCollapsed, setIsCollapsed] = useState(false);
+  const [isFullscreen, setIsFullscreen] = useState(false);
   const [mapMounted, setMapMounted] = useState(false);
 
   useEffect(() => {
@@ -128,25 +122,47 @@ function RouteMapCard({
       );
     });
 
-  return createPortal(
-    <div className={styles.sheet} data-collapsed={isCollapsed}>
+  const renderMapContent = (): ReactNode => (
+    <>
+      <BoundsFitter positions={positions} />
+      <RoutePolyline path={positions} color={lineColor} />
+      {renderMarkers()}
+    </>
+  );
+
+  const fullscreenOverlay = createPortal(
+    <div className={styles.fullscreen}>
+      {mapMounted && (
+        <APIProvider apiKey={apiKey}>
+          <Map
+            mapId="91bb8a184defe594b79354e1"
+            colorScheme="FOLLOW_SYSTEM"
+            defaultZoom={defaultZoom}
+            defaultCenter={defaultCenter}
+            disableDefaultUI={true}
+            fullscreenControl={false}
+            gestureHandling="greedy"
+            style={{ width: "100%", height: "100%" }}
+          >
+            {renderMapContent()}
+          </Map>
+        </APIProvider>
+      )}
       <button
         type="button"
-        className={styles.sheetHandle}
-        aria-label={isCollapsed ? getText("expand_map") : getText("close_map")}
-        onClick={() => setIsCollapsed((c) => !c)}
+        className={`${styles.closeBtn} liquid-glass`}
+        aria-label={getText("close_map")}
+        onClick={() => setIsFullscreen(false)}
       >
-        <span className={styles.pill} />
-        <div className={styles.sheetHeader}>
-          <span className={styles.sheetTitle}>
-            {lineLabel} {lineDestination.toUpperCase()}
-          </span>
-          <span className={styles.chevron} data-collapsed={isCollapsed}>
-            ∨
-          </span>
-        </div>
+        ✕
       </button>
-      <div className={styles.sheetMap}>
+    </div>,
+    document.body
+  );
+
+  return (
+    <>
+      <div className={styles.card}>
         {mapMounted && (
           <APIProvider apiKey={apiKey}>
             <Map
@@ -155,18 +171,24 @@ function RouteMapCard({
               defaultZoom={defaultZoom}
               defaultCenter={defaultCenter}
               disableDefaultUI={true}
-              gestureHandling="greedy"
+              gestureHandling="cooperative"
               style={{ width: "100%", height: "100%" }}
             >
-              <BoundsFitter positions={positions} />
-              <RoutePolyline path={positions} color={lineColor} />
-              {renderMarkers()}
+              {renderMapContent()}
             </Map>
           </APIProvider>
         )}
+        <button
+          type="button"
+          className={`${styles.expandBtn} liquid-glass`}
+          aria-label={getText("expand_map")}
+          onClick={() => setIsFullscreen(true)}
+        >
+          ⛶
+        </button>
       </div>
-    </div>,
-    document.body
+      {isFullscreen && fullscreenOverlay}
+    </>
   );
 }
 

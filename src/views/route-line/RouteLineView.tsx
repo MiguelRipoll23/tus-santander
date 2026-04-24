@@ -90,7 +90,7 @@ function RouteLineView(): React.JSX.Element {
         isHeader={false}
         titleText={`${lineLabel} ${lineDestination.toUpperCase()}`}
       />
-      <Main paddingTop="64px" paddingBottom="300px">
+      <Main paddingTop="64px" paddingBottom="40px">
         {loading && <Spinner />}
         {error && (
           <ErrorDisplay
@@ -104,7 +104,6 @@ function RouteLineView(): React.JSX.Element {
             routes={routes}
             activeStopId={stopId}
             lineLabel={lineLabel}
-            lineDestination={lineDestination}
           />
         )}
         <ul className={styles.routeLineList}>

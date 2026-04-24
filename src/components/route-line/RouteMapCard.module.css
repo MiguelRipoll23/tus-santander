@@ -1,81 +1,26 @@
-.sheet {
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  z-index: 10;
-  height: 300px;
-  border-radius: 20px 20px 0 0;
+.card {
+  position: relative;
+  height: 200px;
+  margin: 14px var(--margin-lr);
+  border-radius: 16px;
   overflow: hidden;
-  backdrop-filter: blur(24px) saturate(180%);
-  -webkit-backdrop-filter: blur(24px) saturate(180%);
-  background-color: rgba(255, 255, 255, 0.88);
-  border-top: 1px solid rgba(255, 255, 255, 0.5);
-  box-shadow: 0 -2px 24px rgba(0, 0, 0, 0.1);
-  transition: height 0.35s cubic-bezier(0.4, 0, 0.2, 1);
   animation: fade-in 0.2s;
-
-  &[data-collapsed="true"] {
-    height: 68px;
-  }
-
-  @media (prefers-color-scheme: dark) {
-    background-color: rgba(28, 28, 30, 0.88);
-    border-top-color: rgba(255, 255, 255, 0.1);
-  }
 }
 
-.sheetHandle {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  width: 100%;
-  padding: 10px 16px 12px;
+.expandBtn {
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+  z-index: 1;
+  padding: 6px 10px;
+  font-size: 18px;
+  line-height: 1;
   color: #000;
+  box-shadow: none;
 
   @media (prefers-color-scheme: dark) {
     color: #fff;
   }
-}
-
-.pill {
-  width: 36px;
-  height: 4px;
-  border-radius: 2px;
-  background: rgba(0, 0, 0, 0.18);
-  margin-bottom: 10px;
-  flex-shrink: 0;
-
-  @media (prefers-color-scheme: dark) {
-    background: rgba(255, 255, 255, 0.28);
-  }
-}
-
-.sheetHeader {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  width: 100%;
-}
-
-.sheetTitle {
-  font-size: 15px;
-  font-weight: 700;
-}
-
-.chevron {
-  font-size: 18px;
-  line-height: 1;
-  display: inline-block;
-  transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
-
-  &[data-collapsed="true"] {
-    transform: rotate(180deg);
-  }
-}
-
-.sheetMap {
-  height: 224px;
 }
 
 .activePin {
@@ -84,4 +29,26 @@
   border-radius: 50%;
   border: 3px solid #fff;
   box-shadow: 0 1px 4px rgba(0, 0, 0, 0.4);
+}
+
+.fullscreen {
+  position: fixed;
+  inset: 0;
+  z-index: 999;
+}
+
+.closeBtn {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  z-index: 1000;
+  padding: 6px 12px;
+  font-size: 18px;
+  line-height: 1;
+  color: #000;
+  box-shadow: none;
+
+  @media (prefers-color-scheme: dark) {
+    color: #fff;
+  }
 }
