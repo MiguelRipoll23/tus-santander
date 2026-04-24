@@ -114,6 +114,9 @@ function RouteMapCard({ routes, activeStopId, lineLabel }: RouteMapCardProps): R
       );
     });
 
+  const defaultCenter = { lat: 43.462068, lng: -3.810204 };
+  const defaultZoom = 12;
+
   const renderMapContent = (): ReactNode => (
     <>
       <BoundsFitter positions={positions} />
@@ -128,6 +131,8 @@ function RouteMapCard({ routes, activeStopId, lineLabel }: RouteMapCardProps): R
         <Map
           mapId="91bb8a184defe594b79354e1"
           colorScheme="FOLLOW_SYSTEM"
+          defaultZoom={defaultZoom}
+          defaultCenter={defaultCenter}
           disableDefaultUI={true}
           fullscreenControl={false}
           gestureHandling="greedy"
@@ -155,6 +160,8 @@ function RouteMapCard({ routes, activeStopId, lineLabel }: RouteMapCardProps): R
           <Map
             mapId="91bb8a184defe594b79354e1"
             colorScheme="FOLLOW_SYSTEM"
+            defaultZoom={defaultZoom}
+            defaultCenter={defaultCenter}
             disableDefaultUI={true}
             gestureHandling="cooperative"
             style={{ width: "100%", height: "100%" }}
