@@ -1,5 +1,6 @@
-import React, { createPortal } from "react";
+import React from "react";
 import { useEffect, useState } from "react";
+import { createPortal } from "react-dom";
 import type { ReactNode } from "react";
 import { APIProvider, AdvancedMarker, Map, useMap } from "@vis.gl/react-google-maps";
 import type { RouteItemTuple } from "../../types/estimations";
