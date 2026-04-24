@@ -32,14 +32,14 @@
 
 .BackButton {
   font-size: 15px;
-  line-height: 24px;
   color: #000;
-  overflow: hidden;
-  white-space: nowrap;
   padding: 8px;
   margin: 11px var(--margin-lr);
   animation: fade-in 0.2s;
   box-shadow: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 
   @media (prefers-color-scheme: dark) {
     color: #fff;

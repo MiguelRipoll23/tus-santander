@@ -27,13 +27,13 @@ function buildMenuItems(
   return [
     {
       id: SUB_VIEW_ID_FAVORITES,
-      icon: <Heart size={24} aria-hidden="true" />,
+      icon: <Heart size={24} fill="currentColor" aria-hidden="true" />,
       label: getText("favorites"),
       onClick: () => setSubViewId(SUB_VIEW_ID_FAVORITES),
     },
     {
       id: SUB_VIEW_ID_MAP,
-      icon: <Map size={24} aria-hidden="true" />,
+      icon: <Map size={24} fill="currentColor" aria-hidden="true" />,
       label: getText("map"),
       onClick: () => setViewId(VIEW_ID_MAP),
     },
