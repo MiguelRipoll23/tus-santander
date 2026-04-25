@@ -7,15 +7,17 @@ function loadMapsApi(): Promise<void> {
   if (!GOOGLE_MAPS_KEY) return Promise.reject(new Error("No API key"));
 
   loadPromise = new Promise<void>((resolve, reject) => {
-    if ((window as Window & typeof globalThis & { google?: { maps?: unknown } }).google?.maps) {
+    const w = window as Window & typeof globalThis & { google?: { maps?: unknown } };
+    if (w.google?.maps) {
       resolve();
       return;
     }
-    const cb = "__mapsReady";
-    (window as Record<string, unknown>)[cb] = resolve;
     const script = document.createElement("script");
-    script.src = `https://maps.googleapis.com/maps/api/js?key=${GOOGLE_MAPS_KEY}&libraries=places&callback=${cb}&language=es`;
+    // loading=async is the recommended pattern (no callback, no explicit library list)
+    script.src = `https://maps.googleapis.com/maps/api/js?key=${GOOGLE_MAPS_KEY}&loading=async&language=es`;
     script.async = true;
+    script.defer = true;
+    script.onload = () => resolve();
     script.onerror = () => reject(new Error("Failed to load Maps API"));
     document.head.appendChild(script);
   });
@@ -27,71 +29,66 @@ export interface PlacePrediction {
   placeId: string;
   mainText: string;
   secondaryText: string;
+  // Held internally so we can call toPlace() on it without re-fetching
+  _prediction: google.maps.places.PlacePrediction;
 }
 
-let autocompleteService: google.maps.places.AutocompleteService | null = null;
-let placesService: google.maps.places.PlacesService | null = null;
-let placesDiv: HTMLDivElement | null = null;
+// Santander bounding box used for locationBias
+const SANTANDER_BOUNDS: google.maps.LatLngBoundsLiteral = {
+  north: 43.55,
+  south: 43.38,
+  east: -3.65,
+  west: -4.0,
+};
 
 export async function getPlacePredictions(input: string): Promise<PlacePrediction[]> {
   if (!input.trim() || !GOOGLE_MAPS_KEY) return [];
 
   try {
     await loadMapsApi();
-    if (!autocompleteService) {
-      autocompleteService = new google.maps.places.AutocompleteService();
-    }
+    const { AutocompleteSuggestion, AutocompleteSessionToken } =
+      await google.maps.importLibrary("places") as google.maps.PlacesLibrary;
 
-    return new Promise((resolve) => {
-      autocompleteService!.getPlacePredictions(
-        {
-          input,
-          location: new google.maps.LatLng(43.4628, -3.8099),
-          radius: 20000,
-          componentRestrictions: { country: "es" },
-        },
-        (predictions, status) => {
-          if (status !== google.maps.places.PlacesServiceStatus.OK || !predictions) {
-            resolve([]);
-            return;
-          }
-          resolve(
-            predictions.slice(0, 5).map((p) => ({
-              placeId: p.place_id,
-              mainText: p.structured_formatting.main_text,
-              secondaryText: p.structured_formatting.secondary_text ?? "",
-            }))
-          );
-        }
-      );
+    const sessionToken = new AutocompleteSessionToken();
+
+    const { suggestions } = await AutocompleteSuggestion.fetchAutocompleteSuggestions({
+      input,
+      locationBias: SANTANDER_BOUNDS,
+      includedRegionCodes: ["es"],
+      language: "es",
+      region: "es",
+      sessionToken,
     });
+
+    return suggestions
+      .filter((s) => s.placePrediction !== null)
+      .slice(0, 5)
+      .map((s) => {
+        const pred = s.placePrediction!;
+        return {
+          placeId: pred.placeId,
+          mainText: pred.mainText.text,
+          secondaryText: pred.secondaryText?.text ?? "",
+          _prediction: pred,
+        };
+      });
   } catch {
     return [];
   }
 }
 
 export async function getPlaceCoordinates(
-  placeId: string
+  prediction: PlacePrediction
 ): Promise<{ lat: number; lng: number } | null> {
   try {
     await loadMapsApi();
-    if (!placesDiv) placesDiv = document.createElement("div");
-    if (!placesService) {
-      placesService = new google.maps.places.PlacesService(placesDiv);
-    }
+    await google.maps.importLibrary("places");
 
-    return new Promise((resolve) => {
-      placesService!.getDetails({ placeId, fields: ["geometry"] }, (place, status) => {
-        if (
-          status !== google.maps.places.PlacesServiceStatus.OK ||
-          !place?.geometry?.location
-        ) {
-          resolve(null);
-          return;
-        }
-        resolve({ lat: place.geometry.location.lat(), lng: place.geometry.location.lng() });
-      });
-    });
+    const place = prediction._prediction.toPlace();
+    await place.fetchFields({ fields: ["location"] });
+
+    if (!place.location) return null;
+    return { lat: place.location.lat(), lng: place.location.lng() };
   } catch {
     return null;
   }

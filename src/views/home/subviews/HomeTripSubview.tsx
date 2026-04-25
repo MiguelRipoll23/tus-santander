@@ -420,7 +420,7 @@ function HomeTripSubview(): React.JSX.Element {
   const resolvePlace = async (
     pred: PlacePrediction
   ): Promise<SelectedPlace | null> => {
-    const coords = await getPlaceCoordinates(pred.placeId);
+    const coords = await getPlaceCoordinates(pred);
     if (!coords) return null;
     const nearest = findNearestStop(coords.lat, coords.lng, Stops);
     return { name: pred.mainText, lat: coords.lat, lng: coords.lng, nearest };
