@@ -1,14 +1,31 @@
 .SortIconAndDoneLink {
   color: var(--color-blue);
-  align-self: flex-end;
-  padding: 0 0px;
-  font-family: revert;
+  padding: 8px;
+  animation: fade-in 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   font-size: inherit;
+  border-radius: 50%;
+  position: fixed;
+  top: 17px;
+  right: var(--margin-lr);
+  z-index: 2;
+  border: 1px solid rgba(0, 112, 240, 0.15);
 }
 
-.SortIconAndDoneLink.icons {
-  font-family: icons;
-  font-size: 24px;
+.DoneLink {
+  color: var(--color-blue);
+  padding: 8px;
+  animation: fade-in 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: inherit;
+  position: fixed;
+  top: 17px;
+  right: var(--margin-lr);
+  z-index: 2;
 }
 
 .Content {

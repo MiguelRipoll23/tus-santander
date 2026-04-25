@@ -18,6 +18,7 @@ import {
   useSortable,
 } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
+import { ArrowUpDown } from "lucide-react";
 
 import type { Favorite } from "../../../interfaces/favorite";
 import { useView } from "../../../contexts/ViewContext";
@@ -158,8 +159,6 @@ function HomeFavoritesSubview(): React.JSX.Element {
   };
 
   const isDesktop = globalThis.innerWidth >= 1000;
-  const fontFamily = editMode ? "revert" : "icons";
-  const fontSize = editMode ? "inherit" : "24px";
 
   if (isDesktop) {
     return <HomeDesktop />;
@@ -167,17 +166,19 @@ function HomeFavoritesSubview(): React.JSX.Element {
 
   return (
     <Fragment>
-      <Nav isHeader titleText={getText("favorites")}>
-        <button
-          type="button"
-          className={styles.SortIconAndDoneLink}
-          style={{ fontFamily, fontSize }}
-          hidden={sortIconHidden}
-          onClick={toggleEditMode}
-        >
-          {editMode ? getText("done") : ""}
-        </button>
-      </Nav>
+      <Nav isHeader titleText={getText("favorites")} />
+      <button
+        type="button"
+        className={`${editMode ? styles.DoneLink : `${styles.SortIconAndDoneLink} liquid-glass`}`}
+        hidden={sortIconHidden}
+        onClick={toggleEditMode}
+      >
+        {editMode ? (
+          getText("done")
+        ) : (
+          <ArrowUpDown size={20} aria-hidden="true" />
+        )}
+      </button>
       <div className={styles.Content}>
         {!error && <DonationBubble favoritesCount={favorites.length} />}
         {error && (

@@ -2,6 +2,7 @@ import React from "react";
 import type { FormEvent } from "react";
 import { Fragment, useMemo, useState } from "react";
 import type { StopTuple, StopsData } from "../../../types/stops";
+import { Search } from "lucide-react";
 
 import { useView } from "../../../contexts/ViewContext";
 import { VIEW_ID_ESTIMATIONS_STOP } from "../../../constants/ViewConstants";
@@ -77,6 +78,11 @@ function HomeSearchSubview(): React.JSX.Element {
       <Nav isHeader titleText={getText("search")} />
       <div className={styles.content}>
         <div className={styles.icon} style={{ marginBottom }}>
+          <Search
+            size={14}
+            className={styles.searchIcon}
+            aria-hidden="true"
+          />
           <input
             className={styles.input}
             type="text"
@@ -102,6 +108,7 @@ function HomeSearchSubview(): React.JSX.Element {
                   key={i}
                   onClick={() => loadEstimationsStopView(stopId, stopName)}
                 >
+                  <Search size={14} className={styles.resultIcon} aria-hidden="true" />
                   {`${stopName} (${stopId})`}
                 </button>
               );

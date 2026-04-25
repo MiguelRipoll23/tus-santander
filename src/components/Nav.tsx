@@ -1,6 +1,7 @@
 import React from "react";
 import type { ReactNode } from "react";
 import { Fragment } from "react";
+import { ChevronLeft } from "lucide-react";
 import Header from "./Header";
 import styles from "./Nav.module.css";
 
@@ -27,9 +28,7 @@ function Nav({ isHeader, titleText, children }: NavProps): React.JSX.Element {
               aria-label="Back"
               onClick={goBack}
             >
-              <span className={styles.BackIcon} aria-hidden="true">
-                
-              </span>
+              <ChevronLeft size={28} aria-hidden="true" />
             </button>
           </div>
           <div className={styles.NavCenter}>

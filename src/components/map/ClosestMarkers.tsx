@@ -1,10 +1,9 @@
 import type { ReactNode } from "react";
 import { AdvancedMarker } from "@vis.gl/react-google-maps";
+import { MapPin } from "lucide-react";
 import type { Marker } from "../../interfaces/marker";
 import { useView } from "../../contexts/ViewContext";
 import { VIEW_ID_ESTIMATIONS_STOP } from "../../constants/ViewConstants";
-
-import MarkerMin from "../../assets/marker-min.png";
 
 interface ClosestMarkersProps {
   markers: Marker[];
@@ -28,8 +27,8 @@ function ClosestMarkers({ markers }: ClosestMarkersProps): ReactNode {
         onClick={() => loadEstimationsStopView(marker)}
       >
         <div className="marker">
-          <img alt="Pin" src={MarkerMin}></img>
-          <span>{marker.text}</span>
+          <MapPin size={24} color="rgb(0, 112, 240)" aria-hidden="true" />
+          <span className="markerLabel">{marker.text}</span>
         </div>
       </AdvancedMarker>
     );
