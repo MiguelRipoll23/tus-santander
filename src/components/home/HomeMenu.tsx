@@ -1,7 +1,7 @@
 import React from "react";
 import type { ReactNode } from "react";
 import type { SubViewId, ViewId } from "../../types/view";
-import { Heart, Map, Search } from "lucide-react";
+import { Heart, Map, Search, Route } from "lucide-react";
 import styles from "./HomeMenu.module.css";
 import { useView } from "../../contexts/ViewContext";
 import { useI18n } from "../../contexts/I18nContext";
@@ -9,6 +9,7 @@ import {
   SUB_VIEW_ID_FAVORITES,
   SUB_VIEW_ID_MAP,
   SUB_VIEW_ID_SEARCH,
+  SUB_VIEW_ID_TRIP,
   VIEW_ID_MAP,
 } from "../../constants/ViewConstants";
 
@@ -30,6 +31,12 @@ function buildMenuItems(
       icon: <Heart size={26} fill="currentColor" aria-hidden="true" />,
       label: getText("favorites"),
       onClick: () => setSubViewId(SUB_VIEW_ID_FAVORITES),
+    },
+    {
+      id: SUB_VIEW_ID_TRIP,
+      icon: <Route size={26} aria-hidden="true" />,
+      label: getText("trip"),
+      onClick: () => setSubViewId(SUB_VIEW_ID_TRIP),
     },
     {
       id: SUB_VIEW_ID_MAP,

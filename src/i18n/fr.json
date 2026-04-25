@@ -2,6 +2,7 @@
   "favorites": "Favoris",
   "map": "Carte",
   "search": "Rechercher",
+  "trip": "Trajet",
   "done": "Terminé",
   "use_map_or_search": "Utilisez la carte ou la recherche pour ajouter des arrêts",
   "see_nearby_stops": "Voir les arrêts à proximité",
@@ -18,5 +19,17 @@
   "tip": "Offrez-moi un café",
   "maybe_later": "Peut-être plus tard",
   "expand_map": "Agrandir la carte",
-  "close_map": "Fermer la carte"
+  "close_map": "Fermer la carte",
+  "from": "De",
+  "to": "Destination",
+  "current_location": "Position actuelle",
+  "no_routes_found": "Aucun itinéraire trouvé",
+  "plan_trip": "Planifier un trajet",
+  "trip_empty_hint": "Entrez une origine et une destination pour trouver les itinéraires disponibles",
+  "bus": "Bus",
+  "walk": "Marcher",
+  "transfer": "Correspondance",
+  "minutes": "min",
+  "arrival": "Arrivée",
+  "departure": "Départ"
 }

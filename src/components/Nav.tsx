@@ -9,10 +9,12 @@ interface NavProps {
   isHeader: boolean;
   titleText: string;
   children?: ReactNode;
+  onBack?: () => void;
 }
 
-function Nav({ isHeader, titleText, children }: NavProps): React.JSX.Element {
+function Nav({ isHeader, titleText, children, onBack }: NavProps): React.JSX.Element {
   const goBack = (): void => {
+    if (onBack) { onBack(); return; }
     globalThis.history.back();
   };
 

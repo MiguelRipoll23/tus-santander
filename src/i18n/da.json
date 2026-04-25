@@ -2,6 +2,7 @@
   "favorites": "Favoritter",
   "map": "Kort",
   "search": "Søg",
+  "trip": "Tur",
   "done": "Færdig",
   "use_map_or_search": "Brug kortet eller søg for at tilføje stoppesteder",
   "see_nearby_stops": "Se stoppesteder i nærheden",
@@ -18,5 +19,16 @@
   "tip": "Køb en kaffe til mig",
   "maybe_later": "Måske senere",
   "expand_map": "Udvid kort",
-  "close_map": "Luk kort"
+  "close_map": "Luk kort",
+  "from": "Fra",
+  "to": "Til",
+  "current_location": "Aktuel placering",
+  "no_routes_found": "Ingen ruter fundet",
+  "plan_trip": "Planlæg tur",
+  "bus": "Bus",
+  "walk": "Gå",
+  "transfer": "Skift",
+  "minutes": "min",
+  "arrival": "Ankomst",
+  "departure": "Afgang"
 }

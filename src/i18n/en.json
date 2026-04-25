@@ -2,6 +2,7 @@
   "favorites": "Favorites",
   "map": "Map",
   "search": "Search",
+  "trip": "Trip",
   "done": "Done",
   "use_map_or_search": "Use the map or search to add stops",
   "see_nearby_stops": "See nearby stops",
@@ -18,5 +19,17 @@
   "tip": "Buy me a coffee",
   "maybe_later": "Maybe later",
   "expand_map": "Expand map",
-  "close_map": "Close map"
+  "close_map": "Close map",
+  "from": "From",
+  "to": "To",
+  "current_location": "Current Location",
+  "no_routes_found": "No routes found",
+  "plan_trip": "Plan Trip",
+  "trip_empty_hint": "Enter an origin and destination to find available routes",
+  "bus": "Bus",
+  "walk": "Walk",
+  "transfer": "Transfer",
+  "minutes": "min",
+  "arrival": "Arrival",
+  "departure": "Departure"
 }
