@@ -6,6 +6,7 @@ import {
   SUB_VIEW_ID_FAVORITES,
   SUB_VIEW_ID_MAP,
   SUB_VIEW_ID_SEARCH,
+  SUB_VIEW_ID_TRIP,
 } from "../../constants/ViewConstants";
 import type { SubViewId } from "../../types/view";
 
@@ -13,6 +14,7 @@ import Main from "../../components/Main";
 import HomeMenu from "../../components/home/HomeMenu";
 import HomeSearchSubview from "./subviews/HomeSearchSubview";
 import HomeFavoritesSubview from "./subviews/HomeFavoritesSubview";
+import HomeTripSubview from "./subviews/HomeTripSubview";
 
 interface SelectedContentProps {
   subViewId: SubViewId;
@@ -28,6 +30,9 @@ function SelectedContent({ subViewId }: SelectedContentProps): React.JSX.Element
 
     case SUB_VIEW_ID_SEARCH:
       return <HomeSearchSubview />;
+
+    case SUB_VIEW_ID_TRIP:
+      return <HomeTripSubview />;
 
     default:
       throw new Error(

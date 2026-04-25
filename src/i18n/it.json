@@ -2,6 +2,7 @@
   "favorites": "Preferiti",
   "map": "Mappa",
   "search": "Cerca",
+  "trip": "Viaggio",
   "done": "Fatto",
   "use_map_or_search": "Usa la mappa o la ricerca per aggiungere fermate",
   "see_nearby_stops": "Vedi le fermate vicine",
@@ -18,5 +19,16 @@
   "tip": "Offrimi un caffè",
   "maybe_later": "Forse più tardi",
   "expand_map": "Espandi mappa",
-  "close_map": "Chiudi mappa"
+  "close_map": "Chiudi mappa",
+  "from": "Da",
+  "to": "A",
+  "current_location": "Posizione attuale",
+  "no_routes_found": "Nessun itinerario trovato",
+  "plan_trip": "Pianifica viaggio",
+  "bus": "Bus",
+  "walk": "Cammina",
+  "transfer": "Cambio",
+  "minutes": "min",
+  "arrival": "Arrivo",
+  "departure": "Partenza"
 }

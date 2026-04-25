@@ -2,6 +2,7 @@
   "favorites": "Preferits",
   "map": "Mapa",
   "search": "Cerca",
+  "trip": "Viatge",
   "done": "Fet",
   "use_map_or_search": "Utilitza el mapa o la cerca per afegir parades",
   "see_nearby_stops": "Mira les parades properes",
@@ -18,5 +19,16 @@
   "tip": "Convida'm a un cafè",
   "maybe_later": "Potser més tard",
   "expand_map": "Ampliar mapa",
-  "close_map": "Tancar mapa"
+  "close_map": "Tancar mapa",
+  "from": "Des de",
+  "to": "Fins a",
+  "current_location": "Ubicació actual",
+  "no_routes_found": "No s'han trobat rutes",
+  "plan_trip": "Planificar viatge",
+  "bus": "Autobús",
+  "walk": "Caminar",
+  "transfer": "Transbordo",
+  "minutes": "min",
+  "arrival": "Arribada",
+  "departure": "Sortida"
 }

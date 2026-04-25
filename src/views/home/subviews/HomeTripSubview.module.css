@@ -1,0 +1,442 @@
+.content {
+  margin: 0 var(--margin-lr);
+  padding-bottom: 16px;
+}
+
+.searchContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 24px;
+}
+
+.inputGroup {
+  position: relative;
+}
+
+.inputWrapper {
+  position: relative;
+  height: 36px;
+}
+
+.icon {
+  color: #8e8e92;
+  position: absolute;
+  z-index: 2;
+  top: 50%;
+  left: 10px;
+  transform: translateY(-50%);
+  pointer-events: none;
+}
+
+.input {
+  background: #f1f1f2;
+  outline: none;
+  border: 0;
+  width: 100%;
+  box-sizing: border-box;
+  font-size: 17px;
+  line-height: normal;
+  padding: 8px 10px;
+  color: #333;
+  text-indent: 20px;
+  cursor: default;
+  border-radius: 8px;
+  position: relative;
+  z-index: 1;
+  transition: background-color 0.2s ease-in-out;
+
+  &:focus {
+    background: #e8e8e8;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    background: #1c1b20;
+    color: rgba(255, 255, 255, 0.8);
+
+    &:focus {
+      background: #2a2a2f;
+    }
+  }
+}
+
+.results {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  background: #fff;
+  border-radius: 8px;
+  overflow: hidden;
+  margin-top: 8px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.12);
+  z-index: 10;
+
+  @media (prefers-color-scheme: dark) {
+    background: #1c1b20;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+  }
+}
+
+.resultItem {
+  padding: 12px 12px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.04);
+  width: 100%;
+  text-align: left;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+  transition: background-color 0.15s ease-in-out;
+  background: transparent;
+  border: 0;
+  font-size: 15px;
+  color: var(--color-blue);
+
+  &:last-child {
+    border-bottom: 0;
+  }
+
+  &:active {
+    background: rgba(0, 112, 240, 0.1);
+  }
+
+  @media (prefers-color-scheme: dark) {
+    color: var(--color-blue);
+    border-bottom-color: rgba(255, 255, 255, 0.1);
+  }
+}
+
+.resultIcon {
+  flex-shrink: 0;
+  color: #8e8e92;
+}
+
+.routesContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.routeCard {
+  background: #fff;
+  border-radius: 12px;
+  padding: 16px;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+  border: 1px solid rgba(0, 0, 0, 0.06);
+
+  &:active {
+    background: #f5f5f7;
+    transform: scale(0.98);
+  }
+
+  @media (prefers-color-scheme: dark) {
+    background: #1c1b20;
+    border-color: rgba(255, 255, 255, 0.1);
+
+    &:active {
+      background: #2a2a2f;
+    }
+  }
+}
+
+.routeHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.routeTime {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex: 1;
+}
+
+.departure {
+  font-size: 17px;
+  font-weight: 600;
+  color: #000;
+
+  @media (prefers-color-scheme: dark) {
+    color: #fff;
+  }
+}
+
+.durationBadge {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px 10px;
+  background: rgba(0, 112, 240, 0.1);
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--color-blue);
+  white-space: nowrap;
+}
+
+.arrival {
+  font-size: 17px;
+  font-weight: 600;
+  color: #000;
+
+  @media (prefers-color-scheme: dark) {
+    color: #fff;
+  }
+}
+
+.arrowIcon {
+  color: #8e8e92;
+  flex-shrink: 0;
+}
+
+.routeDetails {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  color: #8e8e92;
+}
+
+.directRoute,
+.transferRoute {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.emptyState {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 60px 20px;
+  text-align: center;
+  color: #8e8e92;
+}
+
+.emptyIcon {
+  margin-bottom: 16px;
+  opacity: 0.5;
+}
+
+.noResults {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 20px;
+  text-align: center;
+  color: #8e8e92;
+  background: #f5f5f7;
+  border-radius: 12px;
+
+  @media (prefers-color-scheme: dark) {
+    background: #1c1b20;
+  }
+}
+
+.noResultsIcon {
+  margin-bottom: 12px;
+}
+
+.routeDetail {
+  padding-top: 8px;
+}
+
+.backButton {
+  background: transparent;
+  border: 0;
+  color: var(--color-blue);
+  font-size: 15px;
+  font-weight: 600;
+  padding: 8px 0;
+  cursor: pointer;
+  margin-bottom: 16px;
+  transition: color 0.2s ease-in-out;
+
+  &:active {
+    color: #0051d5;
+  }
+}
+
+.routeDetailHeader {
+  background: #fff;
+  border-radius: 12px;
+  padding: 16px;
+  margin-bottom: 20px;
+  border: 1px solid rgba(0, 0, 0, 0.06);
+
+  @media (prefers-color-scheme: dark) {
+    background: #1c1b20;
+    border-color: rgba(255, 255, 255, 0.1);
+  }
+}
+
+.routeTimeDetail {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.departureDetail {
+  font-size: 17px;
+  font-weight: 600;
+  color: #000;
+
+  @media (prefers-color-scheme: dark) {
+    color: #fff;
+  }
+}
+
+.durationBadgeDetail {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  background: rgba(0, 112, 240, 0.1);
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--color-blue);
+}
+
+.arrivalDetail {
+  font-size: 17px;
+  font-weight: 600;
+  color: #000;
+
+  @media (prefers-color-scheme: dark) {
+    color: #fff;
+  }
+}
+
+.stepsContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.stepCard {
+  background: #fff;
+  border-radius: 12px;
+  padding: 16px;
+  display: flex;
+  gap: 16px;
+  border: 1px solid rgba(0, 0, 0, 0.06);
+
+  @media (prefers-color-scheme: dark) {
+    background: #1c1b20;
+    border-color: rgba(255, 255, 255, 0.1);
+  }
+}
+
+.stepIcon {
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  width: 40px;
+  min-width: 40px;
+  height: 40px;
+  border-radius: 8px;
+  background: rgba(0, 112, 240, 0.1);
+  font-size: 20px;
+  line-height: 40px;
+  text-align: center;
+}
+
+.walkIcon {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.busIcon {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-blue);
+}
+
+.transferIcon {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-blue);
+  font-weight: bold;
+}
+
+.stepContent {
+  flex: 1;
+}
+
+.stepTitle {
+  font-size: 15px;
+  font-weight: 600;
+  color: #000;
+  margin-bottom: 6px;
+
+  @media (prefers-color-scheme: dark) {
+    color: #fff;
+  }
+}
+
+.busLineBadge {
+  display: inline-block;
+  background: rgba(0, 112, 240, 0.2);
+  color: var(--color-blue);
+  padding: 3px 8px;
+  border-radius: 4px;
+  font-size: 12px;
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+
+.stepDescription {
+  font-size: 13px;
+  color: #8e8e92;
+  margin-bottom: 8px;
+}
+
+.stopInfo {
+  background: rgba(0, 0, 0, 0.02);
+  border-radius: 8px;
+  padding: 8px;
+  margin-bottom: 8px;
+  font-size: 12px;
+
+  @media (prefers-color-scheme: dark) {
+    background: rgba(255, 255, 255, 0.05);
+  }
+}
+
+.fromStop {
+  font-weight: 600;
+  color: #000;
+  margin-bottom: 4px;
+
+  @media (prefers-color-scheme: dark) {
+    color: rgba(255, 255, 255, 0.9);
+  }
+}
+
+.toStop {
+  color: #8e8e92;
+  font-size: 12px;
+}
+
+.stepDuration {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--color-blue);
+}
