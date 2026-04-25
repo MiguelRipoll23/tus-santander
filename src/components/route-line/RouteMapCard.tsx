@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { createPortal } from "react-dom";
 import type { ReactNode } from "react";
 import { APIProvider, AdvancedMarker, Map, useMap } from "@vis.gl/react-google-maps";
+import { MapPin } from "lucide-react";
 import type { RouteItemTuple } from "../../types/estimations";
 import type { MarkerPosition } from "../../interfaces/marker";
 import { GOOGLE_MAPS_KEY } from "../../utils/ApiConstants";
@@ -11,7 +12,6 @@ import { useView } from "../../contexts/ViewContext";
 import { useI18n } from "../../contexts/I18nContext";
 import { VIEW_ID_ESTIMATIONS_STOP } from "../../constants/ViewConstants";
 import allMarkers from "../../utils/MarkerUtils";
-import MarkerMin from "../../assets/marker-min.png";
 
 import styles from "./RouteMapCard.module.css";
 
@@ -114,9 +114,7 @@ function RouteMapCard({ routes, activeStopId, lineLabel }: RouteMapCardProps): R
               style={{ backgroundColor: lineColor }}
             />
           ) : (
-            <div className="marker">
-              <img alt="Pin" src={MarkerMin} />
-            </div>
+            <MapPin size={20} color="#ccc" aria-hidden="true" />
           )}
         </AdvancedMarker>
       );
