@@ -9,7 +9,7 @@ import {
   Footprints,
   ArrowUpDown,
   ArrowRight,
-  ChevronRight,
+  ChevronsRight,
 } from "lucide-react";
 
 import { useI18n } from "../../../contexts/I18nContext";
@@ -51,10 +51,20 @@ interface RouteOption {
   segments: RouteSegment[];
   transfers: number;
   lines: string[];
+  scheduleText: string;
+  etaText: string;
+  serviceEndText?: string;
 }
 
 function formatTime(date: Date): string {
   return `${String(date.getHours()).padStart(2, "0")}:${String(date.getMinutes()).padStart(2, "0")}`;
+}
+
+function formatTime12h(date: Date): string {
+  const h = date.getHours() % 12 || 12;
+  const m = String(date.getMinutes()).padStart(2, "0");
+  const ampm = date.getHours() >= 12 ? "PM" : "AM";
+  return `${h}:${m} ${ampm}`;
 }
 
 function addMinutes(date: Date, minutes: number): Date {
@@ -89,6 +99,9 @@ function buildRoutes(from: SelectedPlace, to: SelectedPlace): RouteOption[] {
       arrival: formatTime(addMinutes(dep1, total1)),
       transfers: 0,
       lines: ["1"],
+      scheduleText: `Bus scheduled in ${3 + walkToDep} min`,
+      etaText: `${formatTime12h(addMinutes(dep1, total1))} ETA`,
+      serviceEndText: `Service ends at ${formatTime12h(addMinutes(dep1, total1 + 42))}`,
       segments: [
         {
           type: "walk",
@@ -120,6 +133,8 @@ function buildRoutes(from: SelectedPlace, to: SelectedPlace): RouteOption[] {
       arrival: formatTime(addMinutes(dep2, total2)),
       transfers: 1,
       lines: ["3", "7"],
+      scheduleText: `Bus scheduled in ${9 + walkToDep} min`,
+      etaText: `${formatTime12h(addMinutes(dep2, total2))} ETA`,
       segments: [
         {
           type: "walk",
@@ -172,6 +187,7 @@ interface InputFieldProps {
   onLocation?: () => void;
   isLocating?: boolean;
   dot?: "origin" | "destination";
+  onKeyDown?: (e: React.KeyboardEvent<HTMLInputElement>) => void;
 }
 
 function InputField({
@@ -185,6 +201,7 @@ function InputField({
   onLocation,
   isLocating,
   dot,
+  onKeyDown,
 }: InputFieldProps): React.JSX.Element {
   const inputRef = useRef<HTMLInputElement>(null);
   const [focused, setFocused] = useState(false);
@@ -205,6 +222,7 @@ function InputField({
           onFocus={() => setFocused(true)}
           onBlur={() => setTimeout(() => setFocused(false), 150)}
           onChange={(e) => onChange(e.target.value)}
+          onKeyDown={onKeyDown}
         />
 
         <div className={styles.fieldActions}>
@@ -266,40 +284,50 @@ function InputField({
 }
 
 function RoutePills({ segments }: { segments: RouteSegment[] }): React.JSX.Element {
-  return (
-    <div className={styles.pills}>
-      {segments.map((seg, i) => {
-        if (seg.type === "walk") {
-          return (
-            <div key={i} className={styles.pillWalk}>
-              <Footprints size={12} aria-hidden="true" />
-              <span>{seg.duration} min</span>
-            </div>
+  const elements: React.JSX.Element[] = [];
+
+  for (let i = 0; i < segments.length; i++) {
+    const seg = segments[i];
+
+    if (seg.type === "walk") {
+      elements.push(
+        <div key={`w${i}`} className={styles.pillWalk}>
+          <Footprints size={12} aria-hidden="true" />
+          <span>{seg.duration} min</span>
+        </div>
+      );
+      if (i + 1 < segments.length) {
+        elements.push(
+          <span key={`ws${i}`} className={styles.pillSep} aria-hidden="true">▶</span>
+        );
+      }
+    } else if (seg.type === "bus" && seg.busLine) {
+      const bg = getLineBackgroundColor(seg.busLine, "string");
+      const fg = getLineTextColor(seg.busLine);
+      elements.push(
+        <div key={`b${i}`} className={styles.pillBusLine} style={{ background: bg, color: fg }}>
+          <span>{seg.busLine}</span>
+        </div>
+      );
+      const next = segments[i + 1];
+      if (!next || next.type !== "bus") {
+        elements.push(
+          <Bus key={`bi${i}`} size={14} className={styles.pillBusIcon} aria-hidden="true" />
+        );
+        if (next?.type === "walk") {
+          elements.push(
+            <span key={`bs${i}`} className={styles.pillSep} aria-hidden="true">▶</span>
           );
         }
-        if (seg.type === "bus" && seg.busLine) {
-          const bg = getLineBackgroundColor(seg.busLine, "string");
-          const fg = getLineTextColor(seg.busLine);
-          return (
-            <div key={i} className={styles.pillBus} style={{ background: bg, color: fg }}>
-              <Bus size={12} aria-hidden="true" />
-              <span>{seg.busLine}</span>
-              <span className={styles.pillBusDuration}>{seg.duration} min</span>
-            </div>
-          );
-        }
-        if (seg.type === "transfer") {
-          return (
-            <div key={i} className={styles.pillTransfer}>
-              <ArrowUpDown size={12} aria-hidden="true" />
-              <span>Transfer</span>
-            </div>
-          );
-        }
-        return null;
-      })}
-    </div>
-  );
+      }
+    } else if (seg.type === "transfer") {
+      elements.push(
+        <span key={`t${i}`} className={styles.pillSep} aria-hidden="true">▶</span>
+      );
+    }
+  }
+
+  return <div className={styles.pills}>{elements}</div>;
 }
 
 interface RouteCardProps {
@@ -312,19 +340,19 @@ function RouteCard({ route, onClick }: RouteCardProps): React.JSX.Element {
     <button type="button" className={styles.routeCard} onClick={onClick}>
       <div className={styles.routeCardInner}>
         <div className={styles.routeCardLeft}>
+          <div className={styles.routeDurationText}>{route.totalMinutes} min</div>
+          <div className={styles.routeScheduleText}>{route.scheduleText} · {route.etaText}</div>
           <RoutePills segments={route.segments} />
-          <div className={styles.routeCardTimes}>
-            <span className={styles.routeDepTime}>{route.departure}</span>
-            <ArrowRight size={14} className={styles.routeTimeSep} aria-hidden="true" />
-            <span className={styles.routeArrTime}>{route.arrival}</span>
-          </div>
+          {route.serviceEndText && (
+            <div className={styles.routeServiceInfo}>
+              <Clock size={13} aria-hidden="true" />
+              <span>{route.serviceEndText}</span>
+            </div>
+          )}
         </div>
-        <div className={styles.routeCardRight}>
-          <div className={styles.routeDuration}>
-            <Clock size={12} aria-hidden="true" />
-            <span>{route.totalMinutes} min</span>
-          </div>
-          <ChevronRight size={16} className={styles.routeChevron} aria-hidden="true" />
+        <div className={styles.stepsBtn} aria-hidden="true">
+          <ChevronsRight size={22} className={styles.stepsBtnIcon} />
+          <span className={styles.stepsBtnLabel}>Steps</span>
         </div>
       </div>
     </button>
@@ -475,7 +503,20 @@ function HomeTripSubview(): React.JSX.Element {
     setToText(pred.mainText);
     setToPreds([]);
     const place = await resolvePlace(pred);
-    if (place) setToPlace(place);
+    if (place) {
+      setToPlace(place);
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+  };
+
+  const handleToKeyDown = (e: React.KeyboardEvent<HTMLInputElement>): void => {
+    if (e.key === "Enter") {
+      if (toPreds.length > 0) {
+        void selectTo(toPreds[0]);
+      } else {
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      }
+    }
   };
 
   const handleLocate = (): void => {
@@ -613,6 +654,7 @@ function HomeTripSubview(): React.JSX.Element {
             predictions={toPreds}
             onSelect={(p) => void selectTo(p)}
             dot="destination"
+            onKeyDown={handleToKeyDown}
           />
         </div>
       </div>

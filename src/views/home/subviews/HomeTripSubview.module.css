@@ -258,7 +258,7 @@
 .pills {
   display: flex;
   align-items: center;
-  gap: 6px;
+  gap: 5px;
   flex-wrap: wrap;
 }
 
@@ -266,127 +266,134 @@
   display: flex;
   align-items: center;
   gap: 4px;
-  padding: 4px 9px;
-  border-radius: 6px;
+  padding: 4px 10px;
+  border-radius: 20px;
   font-size: 12px;
   font-weight: 600;
-  background: #aeaeb2;
-  color: #fff;
+  background: #e5e5ea;
+  color: #3c3c43;
+
+  @media (prefers-color-scheme: dark) {
+    background: #3a3a3c;
+    color: #aeaeb2;
+  }
 }
 
-.pillBus {
+.pillBusLine {
   display: flex;
   align-items: center;
-  gap: 5px;
-  padding: 4px 9px;
+  justify-content: center;
+  padding: 4px 8px;
   border-radius: 6px;
-  font-size: 12px;
+  font-size: 13px;
   font-weight: 700;
+  min-width: 26px;
 }
 
-.pillBusDuration {
-  font-weight: 400;
-  opacity: 0.85;
+.pillBusIcon {
+  color: #636366;
+
+  @media (prefers-color-scheme: dark) { color: #aeaeb2; }
 }
 
-.pillTransfer {
-  display: flex;
-  align-items: center;
-  gap: 4px;
-  padding: 4px 9px;
-  border-radius: 6px;
-  font-size: 12px;
-  font-weight: 600;
-  background: #ff9500;
-  color: #fff;
+.pillSep {
+  font-size: 10px;
+  color: #aeaeb2;
+  line-height: 1;
 }
 
 /* ── Route list ── */
 .routesList {
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 12px;
 }
 
 .routeCard {
   display: block;
   width: 100%;
   text-align: left;
-  background: #f2f2f7;
-  border-radius: 14px;
-  padding: 14px 16px;
+  background: #fff;
+  border-radius: 16px;
+  padding: 16px;
   transition: transform 0.15s;
+  box-shadow: 0 1px 6px rgba(0, 0, 0, 0.07);
 
   &:active { transform: scale(0.98); }
 
   @media (prefers-color-scheme: dark) {
     background: #1c1b20;
+    box-shadow: none;
   }
 }
 
 .routeCardInner {
   display: flex;
-  justify-content: space-between;
-  align-items: center;
+  align-items: stretch;
   gap: 12px;
 }
 
 .routeCardLeft {
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 6px;
   flex: 1;
   min-width: 0;
 }
 
-.routeCardTimes {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-}
-
-.routeDepTime {
-  font-size: 17px;
+.routeDurationText {
+  font-size: 26px;
   font-weight: 700;
   color: #000;
+  line-height: 1.1;
 
   @media (prefers-color-scheme: dark) { color: #fff; }
 }
 
-.routeTimeSep {
-  color: #aeaeb2;
+.routeScheduleText {
+  font-size: 14px;
+  color: #636366;
+  line-height: 1.4;
+
+  @media (prefers-color-scheme: dark) { color: #aeaeb2; }
 }
 
-.routeArrTime {
-  font-size: 17px;
-  font-weight: 700;
-  color: #000;
-
-  @media (prefers-color-scheme: dark) { color: #fff; }
-}
-
-.routeCardRight {
+.routeServiceInfo {
   display: flex;
   align-items: center;
   gap: 6px;
-  flex-shrink: 0;
-}
-
-.routeDuration {
-  display: flex;
-  align-items: center;
-  gap: 5px;
-  background: var(--color-blue);
-  color: #fff;
-  border-radius: 8px;
-  padding: 5px 10px;
   font-size: 13px;
-  font-weight: 600;
-  white-space: nowrap;
+  color: #636366;
+  margin-top: 2px;
+
+  @media (prefers-color-scheme: dark) { color: #aeaeb2; }
 }
 
-.routeChevron {
-  color: #c7c7cc;
+.stepsBtn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 112, 240, 0.1);
+  border-radius: 14px;
+  padding: 12px 14px;
+  gap: 4px;
+  flex-shrink: 0;
+  min-width: 58px;
+
+  @media (prefers-color-scheme: dark) {
+    background: rgba(0, 112, 240, 0.18);
+  }
+}
+
+.stepsBtnIcon {
+  color: var(--color-blue);
+}
+
+.stepsBtnLabel {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--color-blue);
 }
 
 /* ── Detail summary ── */
