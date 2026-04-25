@@ -21,7 +21,7 @@ function HeartIcon(
       onClick={updateFavorite}
     >
       <Heart
-        size={24}
+        size={26}
         fill={isFavorite ? "currentColor" : "none"}
         aria-hidden="true"
       />
