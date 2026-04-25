@@ -313,17 +313,15 @@
   display: block;
   width: 100%;
   text-align: left;
-  background: #fff;
+  background: rgba(0, 112, 240, 0.1);
   border-radius: 16px;
   padding: 16px;
   transition: transform 0.15s;
-  box-shadow: 0 1px 6px rgba(0, 0, 0, 0.07);
 
   &:active { transform: scale(0.98); }
 
   @media (prefers-color-scheme: dark) {
-    background: #1c1b20;
-    box-shadow: none;
+    background: rgba(0, 112, 240, 0.08);
   }
 }
 
@@ -374,15 +372,15 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  background: rgba(0, 112, 240, 0.1);
+  background: transparent;
   border-radius: 14px;
-  padding: 12px 14px;
-  gap: 4px;
+  padding: 4px;
+  gap: 0;
   flex-shrink: 0;
-  min-width: 58px;
+  min-width: auto;
 
   @media (prefers-color-scheme: dark) {
-    background: rgba(0, 112, 240, 0.18);
+    background: transparent;
   }
 }
 
@@ -391,21 +389,12 @@
 }
 
 .stepsBtnLabel {
-  font-size: 12px;
-  font-weight: 600;
-  color: var(--color-blue);
+  display: none;
 }
 
 /* ── Detail summary ── */
 .detailSummary {
-  background: #f2f2f7;
-  border-radius: 14px;
-  padding: 14px 16px;
-  margin-bottom: 16px;
-
-  @media (prefers-color-scheme: dark) {
-    background: #1c1b20;
-  }
+  display: none;
 }
 
 .detailSummaryRow {
@@ -524,6 +513,7 @@
   align-items: center;
   width: 32px;
   flex-shrink: 0;
+  padding-bottom: 12px;
 }
 
 .stepDot {
@@ -531,7 +521,7 @@
   height: 12px;
   border-radius: 50%;
   flex-shrink: 0;
-  margin-top: 14px;
+  margin-top: 8px;
   z-index: 1;
 
   &[data-type="walk"] { background: #aeaeb2; }
@@ -542,8 +532,8 @@
 .stepLine {
   width: 2px;
   flex: 1;
-  min-height: 16px;
-  margin: 2px 0;
+  min-height: 20px;
+  margin: 4px 0;
 
   &[data-type="walk"] {
     background-image: repeating-linear-gradient(
