@@ -33,8 +33,8 @@ export interface PlacePrediction {
   _prediction: google.maps.places.PlacePrediction;
 }
 
-// Santander bounding box used for locationBias
-const SANTANDER_BOUNDS: google.maps.LatLngBoundsLiteral = {
+// Santander, Spain bounds for restricting results to this city
+const SANTANDER_RESTRICTION: google.maps.LatLngBoundsLiteral = {
   north: 43.55,
   south: 43.38,
   east: -3.65,
@@ -53,7 +53,7 @@ export async function getPlacePredictions(input: string): Promise<PlacePredictio
 
     const { suggestions } = await AutocompleteSuggestion.fetchAutocompleteSuggestions({
       input,
-      locationBias: SANTANDER_BOUNDS,
+      locationRestriction: SANTANDER_RESTRICTION,
       includedRegionCodes: ["es"],
       language: "es",
       region: "es",

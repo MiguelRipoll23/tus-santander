@@ -269,12 +269,12 @@ function RoutePills({ segments }: { segments: RouteSegment[] }): React.JSX.Eleme
     <div className={styles.pills}>
       {segments.map((seg, i) => (
         <div key={i} className={styles.pill} data-type={seg.type}>
-          {seg.type === "walk" && <Footprints size={11} aria-hidden="true" />}
+          {seg.type === "walk" && <span>Walk</span>}
           {seg.type === "bus" && seg.busLine && (
-            <span className={styles.pillLine}>{seg.busLine}</span>
+            <span className={styles.pillLine}>Line {seg.busLine}</span>
           )}
-          {seg.type === "transfer" && <ArrowUpDown size={11} aria-hidden="true" />}
-          <span>{seg.duration}′</span>
+          {seg.type === "transfer" && <span>Transfer</span>}
+          <span>{seg.duration}m</span>
         </div>
       ))}
     </div>
@@ -302,7 +302,7 @@ function RouteCard({ route, onClick }: RouteCardProps): React.JSX.Element {
         <div className={styles.routeCardRight}>
           <div className={styles.routeDuration}>
             <Clock size={12} aria-hidden="true" />
-            <span>{route.totalMinutes}′</span>
+            <span>{route.totalMinutes}m</span>
           </div>
           <ChevronRight size={16} className={styles.routeChevron} aria-hidden="true" />
         </div>
@@ -326,47 +326,37 @@ function StepRow({ segment, isLast }: StepRowProps): React.JSX.Element {
       <div className={styles.stepBody}>
         {segment.type === "walk" && (
           <div className={styles.stepCard} data-type="walk">
-            <div className={styles.stepCardIcon} data-type="walk">
-              <Footprints size={15} aria-hidden="true" />
-            </div>
             <div className={styles.stepCardContent}>
               <div className={styles.stepCardTitle}>
-                Caminar{segment.distanceMeters ? ` ${segment.distanceMeters} m` : ""}
+                Walk{segment.distanceMeters ? ` ${segment.distanceMeters} m` : ""}
               </div>
               <div className={styles.stepCardSub}>{segment.label}</div>
-              <div className={styles.stepCardTime}>{segment.duration} min</div>
+              <div className={styles.stepCardTime}>{segment.duration} minutes</div>
             </div>
           </div>
         )}
         {segment.type === "bus" && (
           <div className={styles.stepCard} data-type="bus">
-            <div className={styles.stepCardIcon} data-type="bus">
-              <Bus size={15} aria-hidden="true" />
-            </div>
             <div className={styles.stepCardContent}>
               <div className={styles.stepCardTitleRow}>
-                <div className={styles.lineBadge}>{segment.busLine}</div>
-                <div className={styles.stepCardTitle}>{segment.label}</div>
+                <div className={styles.lineBadge}>Line {segment.busLine}</div>
               </div>
               <div className={styles.stepCardSub}>
-                Subir en <strong>{segment.fromStop}</strong>
+                Board at <strong>{segment.fromStop}</strong>
               </div>
               <div className={styles.stepCardSub}>
-                Bajar en <strong>{segment.toStop}</strong>
+                Alight at <strong>{segment.toStop}</strong>
               </div>
-              <div className={styles.stepCardTime}>{segment.duration} min</div>
+              <div className={styles.stepCardTime}>{segment.duration} minutes</div>
             </div>
           </div>
         )}
         {segment.type === "transfer" && (
           <div className={styles.stepCard} data-type="transfer">
-            <div className={styles.stepCardIcon} data-type="transfer">
-              <ArrowUpDown size={15} aria-hidden="true" />
-            </div>
             <div className={styles.stepCardContent}>
-              <div className={styles.stepCardTitle}>Transbordo</div>
+              <div className={styles.stepCardTitle}>Transfer</div>
               <div className={styles.stepCardSub}>{segment.label}</div>
-              <div className={styles.stepCardTime}>{segment.duration} min</div>
+              <div className={styles.stepCardTime}>{segment.duration} minutes</div>
             </div>
           </div>
         )}
@@ -478,7 +468,7 @@ function HomeTripSubview(): React.JSX.Element {
   if (selectedRoute) {
     return (
       <Fragment>
-        <Nav isHeader={false} titleText={`${selectedRoute.departure} → ${selectedRoute.arrival}`} />
+        <Nav isHeader titleText={getText("trip")} />
         <div className={styles.detailContent}>
           <div className={styles.detailSummary}>
             <div className={styles.detailSummaryRow}>
@@ -489,7 +479,7 @@ function HomeTripSubview(): React.JSX.Element {
               </div>
               <div className={styles.detailDuration}>
                 <Clock size={13} aria-hidden="true" />
-                {selectedRoute.totalMinutes} min
+                {selectedRoute.totalMinutes} minutes
               </div>
             </div>
             <div className={styles.detailRoute}>
@@ -509,10 +499,7 @@ function HomeTripSubview(): React.JSX.Element {
               />
             ))}
             <div className={styles.arriveRow}>
-              <div className={styles.arriveIcon}>
-                <Navigation2 size={14} aria-hidden="true" />
-              </div>
-              <span className={styles.arriveLabel}>{getText("arrival")}: {selectedRoute.arrival}</span>
+              <span className={styles.arriveLabel}>Arrive at {selectedRoute.arrival}</span>
             </div>
           </div>
         </div>
