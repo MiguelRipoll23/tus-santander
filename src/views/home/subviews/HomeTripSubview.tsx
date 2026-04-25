@@ -375,18 +375,17 @@ function StepRow({ segment, isLast }: StepRowProps): React.JSX.Element {
         {segment.type === "bus" && segment.busLine && (
           <div className={styles.stepCard}>
             <div
-              className={styles.stepCardBusHeader}
-              style={{ background: lineBg, color: lineFg }}
-            >
-              <Bus size={16} aria-hidden="true" />
-              <span className={styles.stepCardBusNumber}>{segment.busLine}</span>
-              {segment.busDestination && (
-                <span className={styles.stepCardBusDestination}>
-                  towards {segment.busDestination}
-                </span>
-              )}
-            </div>
+              className={styles.stepCardAccent}
+              data-type="bus"
+              style={{ background: lineBg }}
+            />
             <div className={styles.stepCardContent}>
+              <div className={styles.stepWalkHeader}>
+                <Bus size={15} style={{ color: lineBg }} aria-hidden="true" />
+                <span className={styles.stepCardTitle}>
+                  {segment.busLine}{segment.busDestination ? ` · towards ${segment.busDestination}` : ""}
+                </span>
+              </div>
               <div className={styles.stepCardSub}>
                 Board at <strong>{segment.fromStop}</strong>
               </div>

@@ -1,14 +1,11 @@
-/* ── Sticky search (always visible above routes) ── */
+/* ── Search card fixed above the home menu ── */
 .stickySearch {
-  position: sticky;
-  top: 0;
+  position: fixed;
+  bottom: calc(env(safe-area-inset-bottom) + 120px);
+  left: 0;
+  right: 0;
   z-index: 8;
-  padding: 0 var(--margin-lr) 12px;
-  background: #fff;
-
-  @media (prefers-color-scheme: dark) {
-    background: #000;
-  }
+  padding: 0 var(--margin-lr);
 }
 
 .searchCard {
@@ -21,9 +18,9 @@
   }
 }
 
-/* ── Scrollable content below sticky search ── */
+/* ── Scrollable content (extra bottom clearance for fixed search + menu) ── */
 .content {
-  padding: 0 var(--margin-lr) 120px;
+  padding: 0 var(--margin-lr) calc(env(safe-area-inset-bottom) + 240px);
 }
 
 /* ── Detail content (journey steps) ── */
@@ -40,7 +37,7 @@
   display: flex;
   align-items: center;
   gap: 10px;
-  padding: 10px 14px;
+  padding: 7px 14px;
 }
 
 .fieldDot {
@@ -111,7 +108,8 @@
 /* ── Dropdown ── */
 .dropdown {
   position: absolute;
-  top: calc(100% + 4px);
+  bottom: calc(100% + 4px);
+  top: auto;
   left: 0;
   right: 0;
   background: #fff;
@@ -561,6 +559,7 @@
   background: #f2f2f7;
   border-radius: 12px;
   overflow: hidden;
+  display: flex;
 
   @media (prefers-color-scheme: dark) {
     background: #1c1b20;
@@ -568,30 +567,12 @@
 }
 
 .stepCardAccent {
-  height: 4px;
+  width: 4px;
+  flex-shrink: 0;
+  align-self: stretch;
 
   &[data-type="walk"] { background: #aeaeb2; }
   &[data-type="transfer"] { background: #ff9500; }
-}
-
-.stepCardBusHeader {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  padding: 10px 14px;
-}
-
-.stepCardBusNumber {
-  font-size: 18px;
-  font-weight: 700;
-  letter-spacing: -0.3px;
-}
-
-.stepCardBusDestination {
-  font-size: 13px;
-  font-weight: 400;
-  margin-left: auto;
-  opacity: 0.9;
 }
 
 .stepCardContent {
