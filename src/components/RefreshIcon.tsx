@@ -15,7 +15,7 @@ function RefreshIcon({ refreshContent }: RefreshIconProps): React.JSX.Element {
       aria-label="Refrescar"
       onClick={refreshContent}
     >
-      <RotateCw size={30} aria-hidden="true" />
+      <RotateCw size={34} aria-hidden="true" />
     </button>
   );
 }

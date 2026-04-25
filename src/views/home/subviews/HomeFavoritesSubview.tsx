@@ -166,28 +166,19 @@ function HomeFavoritesSubview(): React.JSX.Element {
 
   return (
     <Fragment>
-      <Nav isHeader titleText={getText("favorites")}>
+      <Nav isHeader titleText={getText("favorites")} />
+      <button
+        type="button"
+        className={`${editMode ? styles.DoneLink : `${styles.SortIconAndDoneLink} liquid-glass`}`}
+        hidden={sortIconHidden}
+        onClick={toggleEditMode}
+      >
         {editMode ? (
-          <button
-            type="button"
-            className={styles.DoneLink}
-            hidden={sortIconHidden}
-            onClick={toggleEditMode}
-          >
-            {getText("done")}
-          </button>
+          getText("done")
         ) : (
-          <button
-            type="button"
-            className={`${styles.SortButton} liquid-glass`}
-            aria-label="Reorder"
-            hidden={sortIconHidden}
-            onClick={toggleEditMode}
-          >
-            <ArrowUpDown size={20} aria-hidden="true" />
-          </button>
+          <ArrowUpDown size={20} aria-hidden="true" />
         )}
-      </Nav>
+      </button>
       <div className={styles.Content}>
         {!error && <DonationBubble favoritesCount={favorites.length} />}
         {error && (

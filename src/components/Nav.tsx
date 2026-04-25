@@ -28,7 +28,7 @@ function Nav({ isHeader, titleText, children }: NavProps): React.JSX.Element {
               aria-label="Back"
               onClick={goBack}
             >
-              <ChevronLeft size={24} aria-hidden="true" />
+              <ChevronLeft size={28} aria-hidden="true" />
             </button>
           </div>
           <div className={styles.NavCenter}>
