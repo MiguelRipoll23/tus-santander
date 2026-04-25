@@ -37,6 +37,7 @@ interface RouteSegment {
   duration: number;
   label: string;
   busLine?: string;
+  busDestination?: string;
   fromStop?: string;
   toStop?: string;
   distanceMeters?: number;
@@ -100,6 +101,7 @@ function buildRoutes(from: SelectedPlace, to: SelectedPlace): RouteOption[] {
           duration: busDurationMin,
           label: "Bus 1",
           busLine: "1",
+          busDestination: "Estación",
           fromStop: from.nearest.stop[3],
           toStop: to.nearest.stop[3],
         },
@@ -130,6 +132,7 @@ function buildRoutes(from: SelectedPlace, to: SelectedPlace): RouteOption[] {
           duration: halfBus,
           label: "Bus 3",
           busLine: "3",
+          busDestination: "Avenida",
           fromStop: from.nearest.stop[3],
           toStop: "Jardines de Pereda",
         },
@@ -143,6 +146,7 @@ function buildRoutes(from: SelectedPlace, to: SelectedPlace): RouteOption[] {
           duration: halfBus,
           label: "Bus 7",
           busLine: "7",
+          busDestination: "Estación",
           fromStop: "Jardines de Pereda",
           toStop: to.nearest.stop[3],
         },
@@ -376,6 +380,11 @@ function StepRow({ segment, isLast }: StepRowProps): React.JSX.Element {
             >
               <Bus size={16} aria-hidden="true" />
               <span className={styles.stepCardBusNumber}>{segment.busLine}</span>
+              {segment.busDestination && (
+                <span className={styles.stepCardBusDestination}>
+                  towards {segment.busDestination}
+                </span>
+              )}
             </div>
             <div className={styles.stepCardContent}>
               <div className={styles.stepCardSub}>

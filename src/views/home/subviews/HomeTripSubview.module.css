@@ -587,6 +587,13 @@
   letter-spacing: -0.3px;
 }
 
+.stepCardBusDestination {
+  font-size: 13px;
+  font-weight: 400;
+  margin-left: auto;
+  opacity: 0.9;
+}
+
 .stepCardContent {
   padding: 10px 14px 12px;
 }
