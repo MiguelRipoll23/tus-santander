@@ -1,26 +1,13 @@
 .card {
-  position: relative;
+  position: sticky;
+  top: 64px;
   height: 200px;
   margin: 14px var(--margin-lr);
   border-radius: 16px;
   overflow: hidden;
   animation: fade-in 0.2s;
-}
-
-.expandBtn {
-  position: absolute;
-  bottom: 10px;
-  right: 10px;
-  z-index: 1;
-  padding: 6px 10px;
-  font-size: 18px;
-  line-height: 1;
-  color: #000;
-  box-shadow: none;
-
-  @media (prefers-color-scheme: dark) {
-    color: #fff;
-  }
+  cursor: pointer;
+  z-index: 10;
 }
 
 .activePin {
@@ -37,16 +24,17 @@
   z-index: 999;
 }
 
-.closeBtn {
-  position: absolute;
-  top: 16px;
-  right: 16px;
+.backBtn {
+  position: fixed;
+  top: 11px;
+  left: 14px;
   z-index: 1000;
-  padding: 6px 12px;
-  font-size: 18px;
-  line-height: 1;
+  padding: 8px;
   color: #000;
   box-shadow: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 
   @media (prefers-color-scheme: dark) {
     color: #fff;

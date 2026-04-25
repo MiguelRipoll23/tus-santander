@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { createPortal } from "react-dom";
 import type { ReactNode } from "react";
 import { APIProvider, AdvancedMarker, Map, useMap } from "@vis.gl/react-google-maps";
-import { MapPin } from "lucide-react";
+import { MapPin, ChevronLeft } from "lucide-react";
 import type { RouteItemTuple } from "../../types/estimations";
 import type { MarkerPosition } from "../../interfaces/marker";
 import { GOOGLE_MAPS_KEY } from "../../utils/ApiConstants";
@@ -92,6 +92,9 @@ function RouteMapCard({ routes, activeStopId, lineLabel }: RouteMapCardProps): R
 
   const positions = stopMarkers.map((m) => m.position);
 
+  const activeStop = stopMarkers.find((m) => m.id === activeStopId);
+  const mapCenter = activeStop ? activeStop.position : defaultCenter;
+
   const openStop = (stop: StopMarker): void => {
     setViewIdWithData(VIEW_ID_ESTIMATIONS_STOP, {
       stopId: stop.id,
@@ -99,7 +102,7 @@ function RouteMapCard({ routes, activeStopId, lineLabel }: RouteMapCardProps): R
     });
   };
 
-  const renderMarkers = (): ReactNode =>
+  const renderMarkers = (showLabels: boolean = false): ReactNode =>
     stopMarkers.map((stop) => {
       const isActive = stop.id === activeStopId;
       return (
@@ -109,23 +112,26 @@ function RouteMapCard({ routes, activeStopId, lineLabel }: RouteMapCardProps): R
           onClick={() => openStop(stop)}
           title={stop.name}
         >
-          {isActive ? (
-            <div
-              className={styles.activePin}
-              style={{ backgroundColor: lineColor }}
-            />
-          ) : (
-            <MapPin size={24} color="rgb(0, 112, 240)" aria-hidden="true" />
-          )}
+          <div className="marker">
+            {isActive ? (
+              <div
+                className={styles.activePin}
+                style={{ backgroundColor: lineColor }}
+              />
+            ) : (
+              <MapPin size={24} color="rgb(0, 112, 240)" aria-hidden="true" />
+            )}
+            {showLabels && <span className="markerLabel">{stop.name}</span>}
+          </div>
         </AdvancedMarker>
       );
     });
 
-  const renderMapContent = (): ReactNode => (
+  const renderMapContent = (showLabels: boolean = false): ReactNode => (
     <>
       <BoundsFitter positions={positions} />
       <RoutePolyline path={positions} color={lineColor} />
-      {renderMarkers()}
+      {renderMarkers(showLabels)}
     </>
   );
 
@@ -137,23 +143,23 @@ function RouteMapCard({ routes, activeStopId, lineLabel }: RouteMapCardProps): R
             mapId="91bb8a184defe594b79354e1"
             colorScheme="FOLLOW_SYSTEM"
             defaultZoom={defaultZoom}
-            defaultCenter={defaultCenter}
+            defaultCenter={mapCenter}
             disableDefaultUI={true}
             fullscreenControl={false}
             gestureHandling="greedy"
             style={{ width: "100%", height: "100%" }}
           >
-            {renderMapContent()}
+            {renderMapContent(true)}
           </Map>
         </APIProvider>
       )}
       <button
         type="button"
-        className={`${styles.closeBtn} liquid-glass`}
-        aria-label={getText("close_map")}
+        className={`${styles.backBtn} liquid-glass`}
+        aria-label="Back"
         onClick={() => setIsFullscreen(false)}
       >
-        ✕
+        <ChevronLeft size={28} aria-hidden="true" />
       </button>
     </div>,
     document.body
@@ -161,14 +167,24 @@ function RouteMapCard({ routes, activeStopId, lineLabel }: RouteMapCardProps): R
 
   return (
     <>
-      <div className={styles.card}>
+      <div
+        className={styles.card}
+        onClick={() => setIsFullscreen(true)}
+        role="button"
+        tabIndex={0}
+        onKeyDown={(e) => {
+          if (e.key === "Enter" || e.key === " ") {
+            setIsFullscreen(true);
+          }
+        }}
+      >
         {mapMounted && (
           <APIProvider apiKey={apiKey}>
             <Map
               mapId="91bb8a184defe594b79354e1"
               colorScheme="FOLLOW_SYSTEM"
               defaultZoom={defaultZoom}
-              defaultCenter={defaultCenter}
+              defaultCenter={mapCenter}
               disableDefaultUI={true}
               gestureHandling="cooperative"
               style={{ width: "100%", height: "100%" }}
@@ -177,14 +193,6 @@ function RouteMapCard({ routes, activeStopId, lineLabel }: RouteMapCardProps): R
             </Map>
           </APIProvider>
         )}
-        <button
-          type="button"
-          className={`${styles.expandBtn} liquid-glass`}
-          aria-label={getText("expand_map")}
-          onClick={() => setIsFullscreen(true)}
-        >
-          ⛶
-        </button>
       </div>
       {isFullscreen && fullscreenOverlay}
     </>
