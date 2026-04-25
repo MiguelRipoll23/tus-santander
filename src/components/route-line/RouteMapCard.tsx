@@ -102,7 +102,7 @@ function RouteMapCard({ routes, activeStopId, lineLabel }: RouteMapCardProps): R
     });
   };
 
-  const renderMarkers = (): ReactNode =>
+  const renderMarkers = (showLabels: boolean = false): ReactNode =>
     stopMarkers.map((stop) => {
       const isActive = stop.id === activeStopId;
       return (
@@ -121,17 +121,17 @@ function RouteMapCard({ routes, activeStopId, lineLabel }: RouteMapCardProps): R
             ) : (
               <MapPin size={24} color="rgb(0, 112, 240)" aria-hidden="true" />
             )}
-            <span className="markerLabel">{stop.name}</span>
+            {showLabels && <span className="markerLabel">{stop.name}</span>}
           </div>
         </AdvancedMarker>
       );
     });
 
-  const renderMapContent = (): ReactNode => (
+  const renderMapContent = (showLabels: boolean = false): ReactNode => (
     <>
       <BoundsFitter positions={positions} />
       <RoutePolyline path={positions} color={lineColor} />
-      {renderMarkers()}
+      {renderMarkers(showLabels)}
     </>
   );
 
@@ -149,7 +149,7 @@ function RouteMapCard({ routes, activeStopId, lineLabel }: RouteMapCardProps): R
             gestureHandling="greedy"
             style={{ width: "100%", height: "100%" }}
           >
-            {renderMapContent()}
+            {renderMapContent(true)}
           </Map>
         </APIProvider>
       )}
