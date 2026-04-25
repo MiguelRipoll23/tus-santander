@@ -41,6 +41,7 @@ interface RouteSegment {
   fromStop?: string;
   toStop?: string;
   distanceMeters?: number;
+  stopsCount?: number;
 }
 
 interface RouteOption {
@@ -71,6 +72,7 @@ function buildRoutes(from: SelectedPlace, to: SelectedPlace): RouteOption[] {
       Math.pow((from.nearest.stop[2] - to.nearest.stop[2]) * 72000, 2)
   );
   const busDurationMin = Math.max(4, Math.ceil(stopToStopMeters / (busSpeedMps * 60)));
+  const busStopsCount = Math.max(2, Math.round(stopToStopMeters / 400));
   const walkToDep = from.nearest.walkingMinutes;
   const walkToArr = to.nearest.walkingMinutes;
 
@@ -104,6 +106,7 @@ function buildRoutes(from: SelectedPlace, to: SelectedPlace): RouteOption[] {
           busDestination: "Estación",
           fromStop: from.nearest.stop[3],
           toStop: to.nearest.stop[3],
+          stopsCount: busStopsCount,
         },
         {
           type: "walk",
@@ -135,6 +138,7 @@ function buildRoutes(from: SelectedPlace, to: SelectedPlace): RouteOption[] {
           busDestination: "Avenida",
           fromStop: from.nearest.stop[3],
           toStop: "Jardines de Pereda",
+          stopsCount: Math.max(2, Math.round(busStopsCount / 2)),
         },
         {
           type: "transfer",
@@ -149,6 +153,7 @@ function buildRoutes(from: SelectedPlace, to: SelectedPlace): RouteOption[] {
           busDestination: "Estación",
           fromStop: "Jardines de Pereda",
           toStop: to.nearest.stop[3],
+          stopsCount: Math.max(2, Math.round(busStopsCount / 2)),
         },
         {
           type: "walk",
@@ -338,7 +343,6 @@ interface StepRowProps {
 
 function StepRow({ segment, isLast }: StepRowProps): React.JSX.Element {
   const lineBg = segment.busLine ? getLineBackgroundColor(segment.busLine, "string") : "";
-  const lineFg = segment.busLine ? getLineTextColor(segment.busLine) : "";
 
   return (
     <div className={styles.step}>
@@ -386,13 +390,36 @@ function StepRow({ segment, isLast }: StepRowProps): React.JSX.Element {
                   {segment.busLine}{segment.busDestination ? ` · towards ${segment.busDestination}` : ""}
                 </span>
               </div>
-              <div className={styles.stepCardSub}>
-                Board at <strong>{segment.fromStop}</strong>
+
+              <div className={styles.busStops}>
+                <div className={styles.busStopRow}>
+                  <div
+                    className={styles.busStopPin}
+                    data-pin="start"
+                    style={{ borderColor: lineBg }}
+                  />
+                  <span className={styles.busStopName}>{segment.fromStop}</span>
+                </div>
+                <div className={styles.busStopMid}>
+                  <div
+                    className={styles.busStopConnector}
+                    style={{
+                      backgroundImage: `repeating-linear-gradient(to bottom, ${lineBg} 0px, ${lineBg} 4px, transparent 4px, transparent 8px)`,
+                    }}
+                  />
+                  <span className={styles.busRideLabel}>
+                    Ride {segment.stopsCount} stop{segment.stopsCount !== 1 ? "s" : ""} · {segment.duration} min
+                  </span>
+                </div>
+                <div className={styles.busStopRow}>
+                  <div
+                    className={styles.busStopPin}
+                    data-pin="end"
+                    style={{ background: lineBg }}
+                  />
+                  <span className={styles.busStopName}>{segment.toStop}</span>
+                </div>
               </div>
-              <div className={styles.stepCardSub}>
-                Alight at <strong>{segment.toStop}</strong>
-              </div>
-              <div className={styles.stepCardTime}>{segment.duration} minutes</div>
             </div>
           </div>
         )}
