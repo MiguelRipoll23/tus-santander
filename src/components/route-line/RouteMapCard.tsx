@@ -112,14 +112,17 @@ function RouteMapCard({ routes, activeStopId, lineLabel }: RouteMapCardProps): R
           onClick={() => openStop(stop)}
           title={stop.name}
         >
-          {isActive ? (
-            <div
-              className={styles.activePin}
-              style={{ backgroundColor: lineColor }}
-            />
-          ) : (
-            <MapPin size={24} color="rgb(0, 112, 240)" aria-hidden="true" />
-          )}
+          <div className="marker">
+            {isActive ? (
+              <div
+                className={styles.activePin}
+                style={{ backgroundColor: lineColor }}
+              />
+            ) : (
+              <MapPin size={24} color="rgb(0, 112, 240)" aria-hidden="true" />
+            )}
+            <span className="markerLabel">{stop.name}</span>
+          </div>
         </AdvancedMarker>
       );
     });
