@@ -8,8 +8,7 @@ import {
   Bus,
   Footprints,
   ArrowUpDown,
-  CircleDot,
-  Navigation2,
+  ArrowRight,
   ChevronRight,
 } from "lucide-react";
 
@@ -21,6 +20,7 @@ import { getPlacePredictions, getPlaceCoordinates } from "../../../utils/PlacesU
 import type { PlacePrediction } from "../../../utils/PlacesUtils";
 import { findNearestStop } from "../../../utils/StopUtils";
 import type { NearestStop } from "../../../utils/StopUtils";
+import { getLineBackgroundColor, getLineTextColor } from "../../../utils/LineUtils";
 import styles from "./HomeTripSubview.module.css";
 
 const Stops = stopsJson as unknown as StopsData;
@@ -62,7 +62,7 @@ function addMinutes(date: Date, minutes: number): Date {
 
 function buildRoutes(from: SelectedPlace, to: SelectedPlace): RouteOption[] {
   const now = new Date();
-  const busSpeedMps = 5.5; // 20 km/h average urban bus
+  const busSpeedMps = 5.5;
   const fromToStopMeters = from.nearest.distanceMeters;
   const toStopToDestMeters = to.nearest.distanceMeters;
   const stopToStopMeters = Math.sqrt(
@@ -98,7 +98,7 @@ function buildRoutes(from: SelectedPlace, to: SelectedPlace): RouteOption[] {
         {
           type: "bus",
           duration: busDurationMin,
-          label: "Línea 1",
+          label: "Bus 1",
           busLine: "1",
           fromStop: from.nearest.stop[3],
           toStop: to.nearest.stop[3],
@@ -128,7 +128,7 @@ function buildRoutes(from: SelectedPlace, to: SelectedPlace): RouteOption[] {
         {
           type: "bus",
           duration: halfBus,
-          label: "Línea 3",
+          label: "Bus 3",
           busLine: "3",
           fromStop: from.nearest.stop[3],
           toStop: "Jardines de Pereda",
@@ -141,7 +141,7 @@ function buildRoutes(from: SelectedPlace, to: SelectedPlace): RouteOption[] {
         {
           type: "bus",
           duration: halfBus,
-          label: "Línea 7",
+          label: "Bus 7",
           busLine: "7",
           fromStop: "Jardines de Pereda",
           toStop: to.nearest.stop[3],
@@ -168,7 +168,6 @@ interface InputFieldProps {
   onLocation?: () => void;
   isLocating?: boolean;
   dot?: "origin" | "destination";
-  autoFocus?: boolean;
 }
 
 function InputField({
@@ -182,7 +181,6 @@ function InputField({
   onLocation,
   isLocating,
   dot,
-  autoFocus,
 }: InputFieldProps): React.JSX.Element {
   const inputRef = useRef<HTMLInputElement>(null);
   const [focused, setFocused] = useState(false);
@@ -190,7 +188,7 @@ function InputField({
 
   return (
     <div className={styles.fieldGroup}>
-      <div className={`${styles.fieldRow} ${focused ? styles.fieldRowFocused : ""}`}>
+      <div className={styles.fieldRow}>
         <div className={styles.fieldDot} data-type={dot ?? "origin"} />
 
         <input
@@ -200,7 +198,6 @@ function InputField({
           placeholder={placeholder}
           value={value}
           autoComplete="off"
-          autoFocus={autoFocus}
           onFocus={() => setFocused(true)}
           onBlur={() => setTimeout(() => setFocused(false), 150)}
           onChange={(e) => onChange(e.target.value)}
@@ -267,23 +264,42 @@ function InputField({
 function RoutePills({ segments }: { segments: RouteSegment[] }): React.JSX.Element {
   return (
     <div className={styles.pills}>
-      {segments.map((seg, i) => (
-        <div key={i} className={styles.pill} data-type={seg.type}>
-          {seg.type === "walk" && <span>Walk</span>}
-          {seg.type === "bus" && seg.busLine && (
-            <span className={styles.pillLine}>Line {seg.busLine}</span>
-          )}
-          {seg.type === "transfer" && <span>Transfer</span>}
-          <span>{seg.duration}m</span>
-        </div>
-      ))}
+      {segments.map((seg, i) => {
+        if (seg.type === "walk") {
+          return (
+            <div key={i} className={styles.pillWalk}>
+              <Footprints size={12} aria-hidden="true" />
+              <span>{seg.duration} min</span>
+            </div>
+          );
+        }
+        if (seg.type === "bus" && seg.busLine) {
+          const bg = getLineBackgroundColor(seg.busLine, "string");
+          const fg = getLineTextColor(seg.busLine);
+          return (
+            <div key={i} className={styles.pillBus} style={{ background: bg, color: fg }}>
+              <Bus size={12} aria-hidden="true" />
+              <span>{seg.busLine}</span>
+              <span className={styles.pillBusDuration}>{seg.duration} min</span>
+            </div>
+          );
+        }
+        if (seg.type === "transfer") {
+          return (
+            <div key={i} className={styles.pillTransfer}>
+              <ArrowUpDown size={12} aria-hidden="true" />
+              <span>Transfer</span>
+            </div>
+          );
+        }
+        return null;
+      })}
     </div>
   );
 }
 
 interface RouteCardProps {
   route: RouteOption;
-  getText: (k: string) => string;
   onClick: () => void;
 }
 
@@ -295,14 +311,14 @@ function RouteCard({ route, onClick }: RouteCardProps): React.JSX.Element {
           <RoutePills segments={route.segments} />
           <div className={styles.routeCardTimes}>
             <span className={styles.routeDepTime}>{route.departure}</span>
-            <span className={styles.routeTimeSep}>→</span>
+            <ArrowRight size={14} className={styles.routeTimeSep} aria-hidden="true" />
             <span className={styles.routeArrTime}>{route.arrival}</span>
           </div>
         </div>
         <div className={styles.routeCardRight}>
           <div className={styles.routeDuration}>
             <Clock size={12} aria-hidden="true" />
-            <span>{route.totalMinutes}m</span>
+            <span>{route.totalMinutes} min</span>
           </div>
           <ChevronRight size={16} className={styles.routeChevron} aria-hidden="true" />
         </div>
@@ -317,30 +333,51 @@ interface StepRowProps {
 }
 
 function StepRow({ segment, isLast }: StepRowProps): React.JSX.Element {
+  const lineBg = segment.busLine ? getLineBackgroundColor(segment.busLine, "string") : "";
+  const lineFg = segment.busLine ? getLineTextColor(segment.busLine) : "";
+
   return (
     <div className={styles.step}>
       <div className={styles.stepTimeline}>
-        <div className={styles.stepDot} data-type={segment.type} />
+        <div
+          className={styles.stepDot}
+          style={
+            segment.type === "bus" && lineBg
+              ? { background: lineBg }
+              : undefined
+          }
+          data-type={segment.type}
+        />
         {!isLast && <div className={styles.stepLine} data-type={segment.type} />}
       </div>
+
       <div className={styles.stepBody}>
         {segment.type === "walk" && (
-          <div className={styles.stepCard} data-type="walk">
+          <div className={styles.stepCard}>
+            <div className={styles.stepCardAccent} data-type="walk" />
             <div className={styles.stepCardContent}>
-              <div className={styles.stepCardTitle}>
-                Walk{segment.distanceMeters ? ` ${segment.distanceMeters} m` : ""}
+              <div className={styles.stepWalkHeader}>
+                <Footprints size={15} className={styles.stepWalkIcon} aria-hidden="true" />
+                <span className={styles.stepCardTitle}>
+                  Walk{segment.distanceMeters ? ` · ${segment.distanceMeters} m` : ""}
+                </span>
               </div>
               <div className={styles.stepCardSub}>{segment.label}</div>
               <div className={styles.stepCardTime}>{segment.duration} minutes</div>
             </div>
           </div>
         )}
-        {segment.type === "bus" && (
-          <div className={styles.stepCard} data-type="bus">
+
+        {segment.type === "bus" && segment.busLine && (
+          <div className={styles.stepCard}>
+            <div
+              className={styles.stepCardBusHeader}
+              style={{ background: lineBg, color: lineFg }}
+            >
+              <Bus size={16} aria-hidden="true" />
+              <span className={styles.stepCardBusNumber}>{segment.busLine}</span>
+            </div>
             <div className={styles.stepCardContent}>
-              <div className={styles.stepCardTitleRow}>
-                <div className={styles.lineBadge}>Line {segment.busLine}</div>
-              </div>
               <div className={styles.stepCardSub}>
                 Board at <strong>{segment.fromStop}</strong>
               </div>
@@ -351,10 +388,15 @@ function StepRow({ segment, isLast }: StepRowProps): React.JSX.Element {
             </div>
           </div>
         )}
+
         {segment.type === "transfer" && (
-          <div className={styles.stepCard} data-type="transfer">
+          <div className={styles.stepCard}>
+            <div className={styles.stepCardAccent} data-type="transfer" />
             <div className={styles.stepCardContent}>
-              <div className={styles.stepCardTitle}>Transfer</div>
+              <div className={styles.stepWalkHeader}>
+                <ArrowUpDown size={15} className={styles.stepTransferIcon} aria-hidden="true" />
+                <span className={styles.stepCardTitle}>Transfer</span>
+              </div>
               <div className={styles.stepCardSub}>{segment.label}</div>
               <div className={styles.stepCardTime}>{segment.duration} minutes</div>
             </div>
@@ -407,9 +449,7 @@ function HomeTripSubview(): React.JSX.Element {
     else setToPreds([]);
   };
 
-  const resolvePlace = async (
-    pred: PlacePrediction
-  ): Promise<SelectedPlace | null> => {
+  const resolvePlace = async (pred: PlacePrediction): Promise<SelectedPlace | null> => {
     const coords = await getPlaceCoordinates(pred);
     if (!coords) return null;
     const nearest = findNearestStop(coords.lat, coords.lng, Stops);
@@ -465,28 +505,45 @@ function HomeTripSubview(): React.JSX.Element {
 
   const hasValidTrip = fromPlace !== null && toPlace !== null;
 
+  // ── Journey detail view ──────────────────────────────────────────────────
   if (selectedRoute) {
     return (
       <Fragment>
-        <Nav isHeader titleText={getText("trip")} />
+        <Nav
+          isHeader={false}
+          titleText={getText("trip")}
+          onBack={() => setSelectedRoute(null)}
+        />
         <div className={styles.detailContent}>
           <div className={styles.detailSummary}>
             <div className={styles.detailSummaryRow}>
               <div className={styles.detailTimes}>
                 <span className={styles.detailDep}>{selectedRoute.departure}</span>
-                <span className={styles.detailSep}>→</span>
+                <ArrowRight size={16} className={styles.detailSep} aria-hidden="true" />
                 <span className={styles.detailArr}>{selectedRoute.arrival}</span>
               </div>
               <div className={styles.detailDuration}>
                 <Clock size={13} aria-hidden="true" />
-                {selectedRoute.totalMinutes} minutes
+                {selectedRoute.totalMinutes} min
               </div>
             </div>
-            <div className={styles.detailRoute}>
-              <CircleDot size={13} className={styles.detailRouteIcon} aria-hidden="true" />
-              <span className={styles.detailFromName}>{fromPlace?.name}</span>
-              <Navigation2 size={13} className={styles.detailRouteIcon} aria-hidden="true" />
-              <span className={styles.detailToName}>{toPlace?.name}</span>
+
+            <div className={styles.detailPlaces}>
+              <div className={styles.detailPlaceRow}>
+                <div className={styles.detailDot} data-type="origin" />
+                <div className={styles.detailPlaceText}>
+                  <span className={styles.detailPlaceLabel}>From</span>
+                  <span className={styles.detailPlaceName}>{fromPlace?.name}</span>
+                </div>
+              </div>
+              <div className={styles.detailPlaceConnector} />
+              <div className={styles.detailPlaceRow}>
+                <div className={styles.detailDot} data-type="destination" />
+                <div className={styles.detailPlaceText}>
+                  <span className={styles.detailPlaceLabel}>To</span>
+                  <span className={styles.detailPlaceName}>{toPlace?.name}</span>
+                </div>
+              </div>
             </div>
           </div>
 
@@ -499,6 +556,7 @@ function HomeTripSubview(): React.JSX.Element {
               />
             ))}
             <div className={styles.arriveRow}>
+              <div className={styles.arriveDot} />
               <span className={styles.arriveLabel}>Arrive at {selectedRoute.arrival}</span>
             </div>
           </div>
@@ -507,51 +565,51 @@ function HomeTripSubview(): React.JSX.Element {
     );
   }
 
+  // ── Search + route list view ─────────────────────────────────────────────
   return (
     <Fragment>
       <Nav isHeader titleText={getText("trip")} />
-      <div className={styles.content}>
 
+      <div className={styles.stickySearch}>
         <div className={styles.searchCard}>
-          <div className={styles.searchFields}>
-            <InputField
-              placeholder={getText("from")}
-              value={fromText}
-              onChange={handleFromChange}
-              onClear={() => { setFromText(""); setFromPlace(null); setFromPreds([]); }}
-              predictions={fromPreds}
-              onSelect={(p) => void selectFrom(p)}
-              showLocation
-              onLocation={handleLocate}
-              isLocating={isLocating}
-              dot="origin"
-              autoFocus={false}
-            />
+          <InputField
+            placeholder={getText("from")}
+            value={fromText}
+            onChange={handleFromChange}
+            onClear={() => { setFromText(""); setFromPlace(null); setFromPreds([]); }}
+            predictions={fromPreds}
+            onSelect={(p) => void selectFrom(p)}
+            showLocation
+            onLocation={handleLocate}
+            isLocating={isLocating}
+            dot="origin"
+          />
 
-            <div className={styles.fieldsDivider}>
-              <div className={styles.dividerLine} />
-              <button
-                type="button"
-                className={styles.swapBtn}
-                onClick={swapPlaces}
-                aria-label="Swap"
-              >
-                <ArrowUpDown size={15} aria-hidden="true" />
-              </button>
-            </div>
-
-            <InputField
-              placeholder={getText("to")}
-              value={toText}
-              onChange={handleToChange}
-              onClear={() => { setToText(""); setToPlace(null); setToPreds([]); }}
-              predictions={toPreds}
-              onSelect={(p) => void selectTo(p)}
-              dot="destination"
-            />
+          <div className={styles.fieldsDivider}>
+            <div className={styles.dividerLine} />
+            <button
+              type="button"
+              className={styles.swapBtn}
+              onClick={swapPlaces}
+              aria-label="Swap"
+            >
+              <ArrowUpDown size={15} aria-hidden="true" />
+            </button>
           </div>
-        </div>
 
+          <InputField
+            placeholder={getText("to")}
+            value={toText}
+            onChange={handleToChange}
+            onClear={() => { setToText(""); setToPlace(null); setToPreds([]); }}
+            predictions={toPreds}
+            onSelect={(p) => void selectTo(p)}
+            dot="destination"
+          />
+        </div>
+      </div>
+
+      <div className={styles.content}>
         {locationError && (
           <div className={styles.errorBanner}>{locationError}</div>
         )}
@@ -572,7 +630,6 @@ function HomeTripSubview(): React.JSX.Element {
               <RouteCard
                 key={route.id}
                 route={route}
-                getText={getText}
                 onClick={() => setSelectedRoute(route)}
               />
             ))}
