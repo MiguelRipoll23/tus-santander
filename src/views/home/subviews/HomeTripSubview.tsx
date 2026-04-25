@@ -1,388 +1,594 @@
 import React from "react";
-import type { FormEvent } from "react";
-import { Fragment, useState, useMemo } from "react";
-import { ChevronRight, MapPin, Search, Clock, Bus, AlertCircle } from "lucide-react";
+import { Fragment, useState, useMemo, useRef, useCallback } from "react";
+import {
+  LocateFixed,
+  Search,
+  X,
+  Clock,
+  Bus,
+  Footprints,
+  ArrowUpDown,
+  CircleDot,
+  Navigation2,
+  ChevronRight,
+} from "lucide-react";
 
 import { useI18n } from "../../../contexts/I18nContext";
 import Nav from "../../../components/Nav";
 import stopsJson from "../../../json/stops.min.json";
-import type { StopTuple, StopsData } from "../../../types/stops";
+import type { StopsData } from "../../../types/stops";
+import { getPlacePredictions, getPlaceCoordinates } from "../../../utils/PlacesUtils";
+import type { PlacePrediction } from "../../../utils/PlacesUtils";
+import { findNearestStop } from "../../../utils/StopUtils";
+import type { NearestStop } from "../../../utils/StopUtils";
 import styles from "./HomeTripSubview.module.css";
 
 const Stops = stopsJson as unknown as StopsData;
 
+interface SelectedPlace {
+  name: string;
+  lat: number;
+  lng: number;
+  nearest: NearestStop;
+}
+
 interface RouteSegment {
   type: "walk" | "bus" | "transfer";
   duration: number;
-  description: string;
+  label: string;
   busLine?: string;
   fromStop?: string;
   toStop?: string;
+  distanceMeters?: number;
 }
 
 interface RouteOption {
   id: string;
-  duration: number;
-  departureTime: string;
-  arrivalTime: string;
+  totalMinutes: number;
+  departure: string;
+  arrival: string;
   segments: RouteSegment[];
   transfers: number;
+  lines: string[];
+}
+
+function formatTime(date: Date): string {
+  return `${String(date.getHours()).padStart(2, "0")}:${String(date.getMinutes()).padStart(2, "0")}`;
+}
+
+function addMinutes(date: Date, minutes: number): Date {
+  return new Date(date.getTime() + minutes * 60000);
+}
+
+function buildRoutes(from: SelectedPlace, to: SelectedPlace): RouteOption[] {
+  const now = new Date();
+  const busSpeedMps = 5.5; // 20 km/h average urban bus
+  const fromToStopMeters = from.nearest.distanceMeters;
+  const toStopToDestMeters = to.nearest.distanceMeters;
+  const stopToStopMeters = Math.sqrt(
+    Math.pow((from.nearest.stop[1] - to.nearest.stop[1]) * 111000, 2) +
+      Math.pow((from.nearest.stop[2] - to.nearest.stop[2]) * 72000, 2)
+  );
+  const busDurationMin = Math.max(4, Math.ceil(stopToStopMeters / (busSpeedMps * 60)));
+  const walkToDep = from.nearest.walkingMinutes;
+  const walkToArr = to.nearest.walkingMinutes;
+
+  const dep1 = addMinutes(now, 3);
+  const total1 = walkToDep + busDurationMin + walkToArr;
+
+  const dep2 = addMinutes(now, 9);
+  const halfBus = Math.ceil(busDurationMin / 2);
+  const total2 = walkToDep + halfBus + 3 + halfBus + walkToArr;
+
+  return [
+    {
+      id: "r1",
+      totalMinutes: total1,
+      departure: formatTime(dep1),
+      arrival: formatTime(addMinutes(dep1, total1)),
+      transfers: 0,
+      lines: ["1"],
+      segments: [
+        {
+          type: "walk",
+          duration: walkToDep,
+          label: from.nearest.stop[3],
+          distanceMeters: Math.round(fromToStopMeters),
+        },
+        {
+          type: "bus",
+          duration: busDurationMin,
+          label: "Línea 1",
+          busLine: "1",
+          fromStop: from.nearest.stop[3],
+          toStop: to.nearest.stop[3],
+        },
+        {
+          type: "walk",
+          duration: walkToArr,
+          label: to.name,
+          distanceMeters: Math.round(toStopToDestMeters),
+        },
+      ],
+    },
+    {
+      id: "r2",
+      totalMinutes: total2,
+      departure: formatTime(dep2),
+      arrival: formatTime(addMinutes(dep2, total2)),
+      transfers: 1,
+      lines: ["3", "7"],
+      segments: [
+        {
+          type: "walk",
+          duration: walkToDep,
+          label: from.nearest.stop[3],
+          distanceMeters: Math.round(fromToStopMeters),
+        },
+        {
+          type: "bus",
+          duration: halfBus,
+          label: "Línea 3",
+          busLine: "3",
+          fromStop: from.nearest.stop[3],
+          toStop: "Jardines de Pereda",
+        },
+        {
+          type: "transfer",
+          duration: 3,
+          label: "Jardines de Pereda",
+        },
+        {
+          type: "bus",
+          duration: halfBus,
+          label: "Línea 7",
+          busLine: "7",
+          fromStop: "Jardines de Pereda",
+          toStop: to.nearest.stop[3],
+        },
+        {
+          type: "walk",
+          duration: walkToArr,
+          label: to.name,
+          distanceMeters: Math.round(toStopToDestMeters),
+        },
+      ],
+    },
+  ];
+}
+
+interface InputFieldProps {
+  placeholder: string;
+  value: string;
+  onChange: (v: string) => void;
+  onClear: () => void;
+  predictions: PlacePrediction[];
+  onSelect: (p: PlacePrediction) => void;
+  showLocation?: boolean;
+  onLocation?: () => void;
+  isLocating?: boolean;
+  dot?: "origin" | "destination";
+  autoFocus?: boolean;
+}
+
+function InputField({
+  placeholder,
+  value,
+  onChange,
+  onClear,
+  predictions,
+  onSelect,
+  showLocation,
+  onLocation,
+  isLocating,
+  dot,
+  autoFocus,
+}: InputFieldProps): React.JSX.Element {
+  const inputRef = useRef<HTMLInputElement>(null);
+  const [focused, setFocused] = useState(false);
+  const showDropdown = focused && predictions.length > 0;
+
+  return (
+    <div className={styles.fieldGroup}>
+      <div className={`${styles.fieldRow} ${focused ? styles.fieldRowFocused : ""}`}>
+        <div className={styles.fieldDot} data-type={dot ?? "origin"} />
+
+        <input
+          ref={inputRef}
+          className={styles.fieldInput}
+          type="text"
+          placeholder={placeholder}
+          value={value}
+          autoComplete="off"
+          autoFocus={autoFocus}
+          onFocus={() => setFocused(true)}
+          onBlur={() => setTimeout(() => setFocused(false), 150)}
+          onChange={(e) => onChange(e.target.value)}
+        />
+
+        <div className={styles.fieldActions}>
+          {value.length > 0 && (
+            <button
+              type="button"
+              className={styles.clearBtn}
+              onMouseDown={(e) => {
+                e.preventDefault();
+                onClear();
+                inputRef.current?.focus();
+              }}
+              aria-label="Clear"
+            >
+              <X size={14} aria-hidden="true" />
+            </button>
+          )}
+          {showLocation && (
+            <button
+              type="button"
+              className={`${styles.locateBtn} ${isLocating ? styles.locateBtnActive : ""}`}
+              onMouseDown={(e) => {
+                e.preventDefault();
+                onLocation?.();
+              }}
+              aria-label="Use current location"
+            >
+              <LocateFixed size={16} aria-hidden="true" />
+            </button>
+          )}
+        </div>
+      </div>
+
+      {showDropdown && (
+        <div className={styles.dropdown}>
+          {predictions.map((p) => (
+            <button
+              key={p.placeId}
+              type="button"
+              className={styles.dropdownItem}
+              onMouseDown={(e) => {
+                e.preventDefault();
+                onSelect(p);
+              }}
+            >
+              <Search size={13} className={styles.dropdownIcon} aria-hidden="true" />
+              <div className={styles.dropdownText}>
+                <span className={styles.dropdownMain}>{p.mainText}</span>
+                {p.secondaryText && (
+                  <span className={styles.dropdownSub}>{p.secondaryText}</span>
+                )}
+              </div>
+            </button>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+}
+
+function RoutePills({ segments }: { segments: RouteSegment[] }): React.JSX.Element {
+  return (
+    <div className={styles.pills}>
+      {segments.map((seg, i) => (
+        <div key={i} className={styles.pill} data-type={seg.type}>
+          {seg.type === "walk" && <Footprints size={11} aria-hidden="true" />}
+          {seg.type === "bus" && seg.busLine && (
+            <span className={styles.pillLine}>{seg.busLine}</span>
+          )}
+          {seg.type === "transfer" && <ArrowUpDown size={11} aria-hidden="true" />}
+          <span>{seg.duration}′</span>
+        </div>
+      ))}
+    </div>
+  );
+}
+
+interface RouteCardProps {
+  route: RouteOption;
+  getText: (k: string) => string;
+  onClick: () => void;
+}
+
+function RouteCard({ route, onClick }: RouteCardProps): React.JSX.Element {
+  return (
+    <button type="button" className={styles.routeCard} onClick={onClick}>
+      <div className={styles.routeCardInner}>
+        <div className={styles.routeCardLeft}>
+          <RoutePills segments={route.segments} />
+          <div className={styles.routeCardTimes}>
+            <span className={styles.routeDepTime}>{route.departure}</span>
+            <span className={styles.routeTimeSep}>→</span>
+            <span className={styles.routeArrTime}>{route.arrival}</span>
+          </div>
+        </div>
+        <div className={styles.routeCardRight}>
+          <div className={styles.routeDuration}>
+            <Clock size={12} aria-hidden="true" />
+            <span>{route.totalMinutes}′</span>
+          </div>
+          <ChevronRight size={16} className={styles.routeChevron} aria-hidden="true" />
+        </div>
+      </div>
+    </button>
+  );
+}
+
+interface StepRowProps {
+  segment: RouteSegment;
+  isLast: boolean;
+}
+
+function StepRow({ segment, isLast }: StepRowProps): React.JSX.Element {
+  return (
+    <div className={styles.step}>
+      <div className={styles.stepTimeline}>
+        <div className={styles.stepDot} data-type={segment.type} />
+        {!isLast && <div className={styles.stepLine} data-type={segment.type} />}
+      </div>
+      <div className={styles.stepBody}>
+        {segment.type === "walk" && (
+          <div className={styles.stepCard} data-type="walk">
+            <div className={styles.stepCardIcon} data-type="walk">
+              <Footprints size={15} aria-hidden="true" />
+            </div>
+            <div className={styles.stepCardContent}>
+              <div className={styles.stepCardTitle}>
+                Caminar{segment.distanceMeters ? ` ${segment.distanceMeters} m` : ""}
+              </div>
+              <div className={styles.stepCardSub}>{segment.label}</div>
+              <div className={styles.stepCardTime}>{segment.duration} min</div>
+            </div>
+          </div>
+        )}
+        {segment.type === "bus" && (
+          <div className={styles.stepCard} data-type="bus">
+            <div className={styles.stepCardIcon} data-type="bus">
+              <Bus size={15} aria-hidden="true" />
+            </div>
+            <div className={styles.stepCardContent}>
+              <div className={styles.stepCardTitleRow}>
+                <div className={styles.lineBadge}>{segment.busLine}</div>
+                <div className={styles.stepCardTitle}>{segment.label}</div>
+              </div>
+              <div className={styles.stepCardSub}>
+                Subir en <strong>{segment.fromStop}</strong>
+              </div>
+              <div className={styles.stepCardSub}>
+                Bajar en <strong>{segment.toStop}</strong>
+              </div>
+              <div className={styles.stepCardTime}>{segment.duration} min</div>
+            </div>
+          </div>
+        )}
+        {segment.type === "transfer" && (
+          <div className={styles.stepCard} data-type="transfer">
+            <div className={styles.stepCardIcon} data-type="transfer">
+              <ArrowUpDown size={15} aria-hidden="true" />
+            </div>
+            <div className={styles.stepCardContent}>
+              <div className={styles.stepCardTitle}>Transbordo</div>
+              <div className={styles.stepCardSub}>{segment.label}</div>
+              <div className={styles.stepCardTime}>{segment.duration} min</div>
+            </div>
+          </div>
+        )}
+      </div>
+    </div>
+  );
 }
 
 function HomeTripSubview(): React.JSX.Element {
   const { getText } = useI18n();
+
   const [fromText, setFromText] = useState("");
   const [toText, setToText] = useState("");
-  const [fromStopId, setFromStopId] = useState<number | null>(null);
-  const [toStopId, setToStopId] = useState<number | null>(null);
-  const [showFromResults, setShowFromResults] = useState(false);
-  const [showToResults, setShowToResults] = useState(false);
+  const [fromPreds, setFromPreds] = useState<PlacePrediction[]>([]);
+  const [toPreds, setToPreds] = useState<PlacePrediction[]>([]);
+  const [fromPlace, setFromPlace] = useState<SelectedPlace | null>(null);
+  const [toPlace, setToPlace] = useState<SelectedPlace | null>(null);
+  const [isLocating, setIsLocating] = useState(false);
+  const [locationError, setLocationError] = useState<string | null>(null);
   const [selectedRoute, setSelectedRoute] = useState<RouteOption | null>(null);
 
-  const fromResults = useMemo<StopTuple[]>(() => {
-    if (!showFromResults || fromText.length === 0) return [];
-    const list: StopTuple[] = [];
+  const routes = useMemo<RouteOption[]>(() => {
+    if (!fromPlace || !toPlace) return [];
+    return buildRoutes(fromPlace, toPlace);
+  }, [fromPlace, toPlace]);
 
-    if (isNaN(Number(fromText))) {
-      for (const stopKey in Stops) {
-        const stop = Stops[stopKey];
-        const stopName = stop[3].toLowerCase();
-        const searchTerm = fromText.toLowerCase();
+  const fetchFromPreds = useCallback(async (value: string) => {
+    const preds = await getPlacePredictions(value);
+    setFromPreds(preds);
+  }, []);
 
-        if (searchTerm.length < 4) {
-          if (stopName.substring(0, searchTerm.length) !== searchTerm) {
-            continue;
-          }
-        } else if (!stopName.includes(searchTerm)) {
-          continue;
-        }
+  const fetchToPreds = useCallback(async (value: string) => {
+    const preds = await getPlacePredictions(value);
+    setToPreds(preds);
+  }, []);
 
-        list.push(stop);
-        if (list.length === 6) break;
-      }
-    } else if (fromText in Stops) {
-      list.push(Stops[fromText]);
+  const handleFromChange = (v: string): void => {
+    setFromText(v);
+    setFromPlace(null);
+    if (v.length > 1) void fetchFromPreds(v);
+    else setFromPreds([]);
+  };
+
+  const handleToChange = (v: string): void => {
+    setToText(v);
+    setToPlace(null);
+    if (v.length > 1) void fetchToPreds(v);
+    else setToPreds([]);
+  };
+
+  const resolvePlace = async (
+    pred: PlacePrediction
+  ): Promise<SelectedPlace | null> => {
+    const coords = await getPlaceCoordinates(pred.placeId);
+    if (!coords) return null;
+    const nearest = findNearestStop(coords.lat, coords.lng, Stops);
+    return { name: pred.mainText, lat: coords.lat, lng: coords.lng, nearest };
+  };
+
+  const selectFrom = async (pred: PlacePrediction): Promise<void> => {
+    setFromText(pred.mainText);
+    setFromPreds([]);
+    const place = await resolvePlace(pred);
+    if (place) setFromPlace(place);
+  };
+
+  const selectTo = async (pred: PlacePrediction): Promise<void> => {
+    setToText(pred.mainText);
+    setToPreds([]);
+    const place = await resolvePlace(pred);
+    if (place) setToPlace(place);
+  };
+
+  const handleLocate = (): void => {
+    if (!navigator.geolocation) {
+      setLocationError(getText("location_not_available"));
+      return;
     }
-
-    return list;
-  }, [fromText, showFromResults]);
-
-  const toResults = useMemo<StopTuple[]>(() => {
-    if (!showToResults || toText.length === 0) return [];
-    const list: StopTuple[] = [];
-
-    if (isNaN(Number(toText))) {
-      for (const stopKey in Stops) {
-        const stop = Stops[stopKey];
-        const stopName = stop[3].toLowerCase();
-        const searchTerm = toText.toLowerCase();
-
-        if (searchTerm.length < 4) {
-          if (stopName.substring(0, searchTerm.length) !== searchTerm) {
-            continue;
-          }
-        } else if (!stopName.includes(searchTerm)) {
-          continue;
-        }
-
-        list.push(stop);
-        if (list.length === 6) break;
-      }
-    } else if (toText in Stops) {
-      list.push(Stops[toText]);
-    }
-
-    return list;
-  }, [toText, showToResults]);
-
-  const generateMockRoutes = (): RouteOption[] => {
-    if (!fromStopId || !toStopId) return [];
-
-    const baseTime = new Date();
-    baseTime.setMinutes(baseTime.getMinutes() + 5);
-
-    return [
-      {
-        id: "route-1",
-        duration: 25,
-        departureTime: `${String(baseTime.getHours()).padStart(2, "0")}:${String(baseTime.getMinutes()).padStart(2, "0")}`,
-        arrivalTime: `${String(baseTime.getHours()).padStart(2, "0")}:${String(baseTime.getMinutes() + 25).padStart(2, "0")}`,
-        transfers: 0,
-        segments: [
-          {
-            type: "walk",
-            duration: 3,
-            description: `Walk to bus stop`,
-          },
-          {
-            type: "bus",
-            duration: 22,
-            description: `Bus line 1`,
-            busLine: "1",
-            fromStop: Stops[fromStopId]?.[3] || "Stop",
-            toStop: Stops[toStopId]?.[3] || "Stop",
-          },
-        ],
+    setIsLocating(true);
+    setLocationError(null);
+    navigator.geolocation.getCurrentPosition(
+      (pos) => {
+        const { latitude: lat, longitude: lng } = pos.coords;
+        const nearest = findNearestStop(lat, lng, Stops);
+        setFromText(getText("current_location"));
+        setFromPlace({ name: getText("current_location"), lat, lng, nearest });
+        setFromPreds([]);
+        setIsLocating(false);
       },
-      {
-        id: "route-2",
-        duration: 35,
-        departureTime: `${String(baseTime.getHours()).padStart(2, "0")}:${String(baseTime.getMinutes() + 15).padStart(2, "0")}`,
-        arrivalTime: `${String(baseTime.getHours()).padStart(2, "0")}:${String(baseTime.getMinutes() + 50).padStart(2, "0")}`,
-        transfers: 1,
-        segments: [
-          {
-            type: "walk",
-            duration: 2,
-            description: `Walk to bus stop`,
-          },
-          {
-            type: "bus",
-            duration: 15,
-            description: `Bus line 5`,
-            busLine: "5",
-            fromStop: Stops[fromStopId]?.[3] || "Stop",
-            toStop: "Transfer point",
-          },
-          {
-            type: "transfer",
-            duration: 3,
-            description: `Transfer to bus line 8`,
-          },
-          {
-            type: "bus",
-            duration: 15,
-            description: `Bus line 8`,
-            busLine: "8",
-            fromStop: "Transfer point",
-            toStop: Stops[toStopId]?.[3] || "Stop",
-          },
-        ],
+      () => {
+        setLocationError(getText("location_not_available"));
+        setIsLocating(false);
       },
-    ];
+      { timeout: 10000 }
+    );
   };
 
-  const routes = useMemo(generateMockRoutes, [fromStopId, toStopId]);
-
-  const selectFromStop = (stopId: number): void => {
-    setFromStopId(stopId);
-    setFromText(Stops[stopId]?.[3] || "");
-    setShowFromResults(false);
+  const swapPlaces = (): void => {
+    setFromText(toText);
+    setToText(fromText);
+    setFromPlace(toPlace);
+    setToPlace(fromPlace);
+    setFromPreds([]);
+    setToPreds([]);
   };
 
-  const selectToStop = (stopId: number): void => {
-    setToStopId(stopId);
-    setToText(Stops[stopId]?.[3] || "");
-    setShowToResults(false);
-  };
+  const hasValidTrip = fromPlace !== null && toPlace !== null;
 
-  const hasValidTrip = fromStopId !== null && toStopId !== null;
+  if (selectedRoute) {
+    return (
+      <Fragment>
+        <Nav isHeader={false} titleText={`${selectedRoute.departure} → ${selectedRoute.arrival}`} />
+        <div className={styles.detailContent}>
+          <div className={styles.detailSummary}>
+            <div className={styles.detailSummaryRow}>
+              <div className={styles.detailTimes}>
+                <span className={styles.detailDep}>{selectedRoute.departure}</span>
+                <span className={styles.detailSep}>→</span>
+                <span className={styles.detailArr}>{selectedRoute.arrival}</span>
+              </div>
+              <div className={styles.detailDuration}>
+                <Clock size={13} aria-hidden="true" />
+                {selectedRoute.totalMinutes} min
+              </div>
+            </div>
+            <div className={styles.detailRoute}>
+              <CircleDot size={13} className={styles.detailRouteIcon} aria-hidden="true" />
+              <span className={styles.detailFromName}>{fromPlace?.name}</span>
+              <Navigation2 size={13} className={styles.detailRouteIcon} aria-hidden="true" />
+              <span className={styles.detailToName}>{toPlace?.name}</span>
+            </div>
+          </div>
+
+          <div className={styles.stepsContainer}>
+            {selectedRoute.segments.map((seg, i) => (
+              <StepRow
+                key={i}
+                segment={seg}
+                isLast={i === selectedRoute.segments.length - 1}
+              />
+            ))}
+            <div className={styles.arriveRow}>
+              <div className={styles.arriveIcon}>
+                <Navigation2 size={14} aria-hidden="true" />
+              </div>
+              <span className={styles.arriveLabel}>{getText("arrival")}: {selectedRoute.arrival}</span>
+            </div>
+          </div>
+        </div>
+      </Fragment>
+    );
+  }
 
   return (
     <Fragment>
       <Nav isHeader titleText={getText("trip")} />
       <div className={styles.content}>
-        {!selectedRoute ? (
-          <>
-            <div className={styles.searchContainer}>
-              <div className={styles.inputGroup}>
-                <div className={styles.inputWrapper}>
-                  <MapPin size={14} className={styles.icon} aria-hidden="true" />
-                  <input
-                    className={styles.input}
-                    type="text"
-                    placeholder={getText("from")}
-                    aria-label={getText("from")}
-                    value={fromText}
-                    onInput={(e: FormEvent<HTMLInputElement>) => {
-                      setFromText(e.currentTarget.value);
-                      setShowFromResults(true);
-                    }}
-                    onFocus={() => setShowFromResults(true)}
-                  />
-                </div>
 
-                {fromResults.length > 0 && showFromResults && (
-                  <div className={styles.results}>
-                    {fromResults.map((result, i) => {
-                      const stopId = result[0];
-                      const stopName = result[3];
+        <div className={styles.searchCard}>
+          <div className={styles.searchFields}>
+            <InputField
+              placeholder={getText("from")}
+              value={fromText}
+              onChange={handleFromChange}
+              onClear={() => { setFromText(""); setFromPlace(null); setFromPreds([]); }}
+              predictions={fromPreds}
+              onSelect={(p) => void selectFrom(p)}
+              showLocation
+              onLocation={handleLocate}
+              isLocating={isLocating}
+              dot="origin"
+              autoFocus={false}
+            />
 
-                      return (
-                        <button
-                          type="button"
-                          className={styles.resultItem}
-                          key={i}
-                          onClick={() => selectFromStop(stopId)}
-                        >
-                          <Search size={14} className={styles.resultIcon} aria-hidden="true" />
-                          <span>{`${stopName} (${stopId})`}</span>
-                        </button>
-                      );
-                    })}
-                  </div>
-                )}
-              </div>
-
-              <div className={styles.inputGroup}>
-                <div className={styles.inputWrapper}>
-                  <MapPin size={14} className={styles.icon} aria-hidden="true" />
-                  <input
-                    className={styles.input}
-                    type="text"
-                    placeholder={getText("to")}
-                    aria-label={getText("to")}
-                    value={toText}
-                    onInput={(e: FormEvent<HTMLInputElement>) => {
-                      setToText(e.currentTarget.value);
-                      setShowToResults(true);
-                    }}
-                    onFocus={() => setShowToResults(true)}
-                  />
-                </div>
-
-                {toResults.length > 0 && showToResults && (
-                  <div className={styles.results}>
-                    {toResults.map((result, i) => {
-                      const stopId = result[0];
-                      const stopName = result[3];
-
-                      return (
-                        <button
-                          type="button"
-                          className={styles.resultItem}
-                          key={i}
-                          onClick={() => selectToStop(stopId)}
-                        >
-                          <Search size={14} className={styles.resultIcon} aria-hidden="true" />
-                          <span>{`${stopName} (${stopId})`}</span>
-                        </button>
-                      );
-                    })}
-                  </div>
-                )}
-              </div>
+            <div className={styles.fieldsDivider}>
+              <div className={styles.dividerLine} />
+              <button
+                type="button"
+                className={styles.swapBtn}
+                onClick={swapPlaces}
+                aria-label="Swap"
+              >
+                <ArrowUpDown size={15} aria-hidden="true" />
+              </button>
             </div>
 
-            {hasValidTrip && (
-              <div className={styles.routesContainer}>
-                {routes.length === 0 ? (
-                  <div className={styles.noResults}>
-                    <AlertCircle size={20} className={styles.noResultsIcon} aria-hidden="true" />
-                    <p>{getText("no_routes_found")}</p>
-                  </div>
-                ) : (
-                  routes.map((route) => (
-                    <div
-                      key={route.id}
-                      className={styles.routeCard}
-                      onClick={() => setSelectedRoute(route)}
-                    >
-                      <div className={styles.routeHeader}>
-                        <div className={styles.routeTime}>
-                          <div className={styles.departure}>{route.departureTime}</div>
-                          <div className={styles.durationBadge}>
-                            <Clock size={12} aria-hidden="true" />
-                            {route.duration} {getText("minutes")}
-                          </div>
-                          <div className={styles.arrival}>{route.arrivalTime}</div>
-                        </div>
-                        <ChevronRight size={16} className={styles.arrowIcon} aria-hidden="true" />
-                      </div>
+            <InputField
+              placeholder={getText("to")}
+              value={toText}
+              onChange={handleToChange}
+              onClear={() => { setToText(""); setToPlace(null); setToPreds([]); }}
+              predictions={toPreds}
+              onSelect={(p) => void selectTo(p)}
+              dot="destination"
+            />
+          </div>
+        </div>
 
-                      <div className={styles.routeDetails}>
-                        {route.transfers === 0 ? (
-                          <div className={styles.directRoute}>
-                            <Bus size={14} aria-hidden="true" />
-                            Direct route
-                          </div>
-                        ) : (
-                          <div className={styles.transferRoute}>
-                            <Bus size={14} aria-hidden="true" />
-                            {route.transfers} transfer{route.transfers > 1 ? "s" : ""}
-                          </div>
-                        )}
-                      </div>
-                    </div>
-                  ))
-                )}
-              </div>
-            )}
+        {locationError && (
+          <div className={styles.errorBanner}>{locationError}</div>
+        )}
 
-            {!hasValidTrip && (
-              <div className={styles.emptyState}>
-                <Search size={32} className={styles.emptyIcon} aria-hidden="true" />
-                <p>{getText("plan_trip")}</p>
-              </div>
-            )}
-          </>
-        ) : (
-          <div className={styles.routeDetail}>
-            <button
-              type="button"
-              className={styles.backButton}
-              onClick={() => setSelectedRoute(null)}
-            >
-              ← {getText("back") || "Back"}
-            </button>
+        {!hasValidTrip && !fromText && !toText && (
+          <div className={styles.emptyState}>
+            <Bus size={36} className={styles.emptyIcon} aria-hidden="true" />
+            <p className={styles.emptyTitle}>{getText("plan_trip")}</p>
+            <p className={styles.emptyHint}>
+              {getText("from")} · {getText("to")}
+            </p>
+          </div>
+        )}
 
-            <div className={styles.routeDetailHeader}>
-              <div className={styles.routeTimeDetail}>
-                <div className={styles.departureDetail}>{selectedRoute.departureTime}</div>
-                <div className={styles.durationBadgeDetail}>
-                  <Clock size={14} aria-hidden="true" />
-                  {selectedRoute.duration} {getText("minutes")}
-                </div>
-                <div className={styles.arrivalDetail}>{selectedRoute.arrivalTime}</div>
-              </div>
-            </div>
-
-            <div className={styles.stepsContainer}>
-              {selectedRoute.segments.map((segment, idx) => (
-                <div key={idx} className={styles.stepCard}>
-                  <div className={styles.stepIcon}>
-                    {segment.type === "walk" && (
-                      <div className={styles.walkIcon}>🚶</div>
-                    )}
-                    {segment.type === "bus" && (
-                      <div className={styles.busIcon}>
-                        <Bus size={16} aria-hidden="true" />
-                      </div>
-                    )}
-                    {segment.type === "transfer" && (
-                      <div className={styles.transferIcon}>↔</div>
-                    )}
-                  </div>
-
-                  <div className={styles.stepContent}>
-                    <div className={styles.stepTitle}>
-                      {segment.type === "walk" && getText("walk")}
-                      {segment.type === "bus" && getText("bus")}
-                      {segment.type === "transfer" && getText("transfer")}
-                    </div>
-
-                    {segment.busLine && (
-                      <div className={styles.busLineBadge}>{segment.busLine}</div>
-                    )}
-
-                    <div className={styles.stepDescription}>
-                      {segment.description}
-                    </div>
-
-                    {segment.fromStop && segment.toStop && (
-                      <div className={styles.stopInfo}>
-                        <div className={styles.fromStop}>{segment.fromStop}</div>
-                        <div className={styles.toStop}>{segment.toStop}</div>
-                      </div>
-                    )}
-
-                    <div className={styles.stepDuration}>
-                      {segment.duration} {getText("minutes")}
-                    </div>
-                  </div>
-                </div>
-              ))}
-            </div>
+        {hasValidTrip && (
+          <div className={styles.routesList}>
+            {routes.map((route) => (
+              <RouteCard
+                key={route.id}
+                route={route}
+                getText={getText}
+                onClick={() => setSelectedRoute(route)}
+              />
+            ))}
           </div>
         )}
       </div>

@@ -1,7 +1,7 @@
 import React from "react";
 import type { ReactNode } from "react";
 import type { SubViewId, ViewId } from "../../types/view";
-import { Heart, Map, Search, Navigation } from "lucide-react";
+import { Heart, Map, Search, Route } from "lucide-react";
 import styles from "./HomeMenu.module.css";
 import { useView } from "../../contexts/ViewContext";
 import { useI18n } from "../../contexts/I18nContext";
@@ -34,7 +34,7 @@ function buildMenuItems(
     },
     {
       id: SUB_VIEW_ID_TRIP,
-      icon: <Navigation size={26} aria-hidden="true" />,
+      icon: <Route size={26} aria-hidden="true" />,
       label: getText("trip"),
       onClick: () => setSubViewId(SUB_VIEW_ID_TRIP),
     },
