@@ -65,17 +65,21 @@ button {
   border: none !important;
 }
 
-.marker img {
-  display: block;
-  margin: 0 auto;
+.marker {
+  position: relative;
 }
 
-.marker span {
-  font-size: 20px;
+.markerLabel {
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  white-space: nowrap;
+  font-size: 12px;
   font-weight: bold;
-  color: rgb(10, 132, 255) !important;
-  text-shadow: -4px -4px 0 #fff, 4px -4px 0 #fff, -4px 4px 0 #fff,
-    4px 4px 0 #fff;
+  color: rgb(10, 132, 255);
+  text-shadow: -3px -3px 0 #fff, 3px -3px 0 #fff, -3px 3px 0 #fff,
+    3px 3px 0 #fff;
 }
 
 /* View transitions */
