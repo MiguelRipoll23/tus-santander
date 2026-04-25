@@ -1,7 +1,7 @@
 import React from "react";
 import type { FormEvent } from "react";
 import { Fragment, useState, useMemo } from "react";
-import { ArrowRightUp, MapPin, Search, Clock, Bus, AlertCircle } from "lucide-react";
+import { ChevronRight, MapPin, Search, Clock, Bus, AlertCircle } from "lucide-react";
 
 import { useI18n } from "../../../contexts/I18nContext";
 import Nav from "../../../components/Nav";
@@ -287,7 +287,7 @@ function HomeTripSubview(): React.JSX.Element {
                           </div>
                           <div className={styles.arrival}>{route.arrivalTime}</div>
                         </div>
-                        <ArrowRightUp size={16} className={styles.arrowIcon} aria-hidden="true" />
+                        <ChevronRight size={16} className={styles.arrowIcon} aria-hidden="true" />
                       </div>
 
                       <div className={styles.routeDetails}>
