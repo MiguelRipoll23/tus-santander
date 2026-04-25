@@ -28,7 +28,7 @@
 
 /* ── Detail content (journey steps) ── */
 .detailContent {
-  padding: 72px var(--margin-lr) 120px;
+  padding: 80px var(--margin-lr) 120px;
 }
 
 /* ── Input field ── */
@@ -312,7 +312,7 @@
   display: block;
   width: 100%;
   text-align: left;
-  background: #f2f2f7;
+  background: rgba(0, 112, 240, 0.08);
   border-radius: 14px;
   padding: 14px 16px;
   transition: transform 0.15s;
@@ -320,7 +320,7 @@
   &:active { transform: scale(0.98); }
 
   @media (prefers-color-scheme: dark) {
-    background: #1c1b20;
+    background: rgba(0, 112, 240, 0.15);
   }
 }
 
@@ -375,14 +375,11 @@
 .routeDuration {
   display: flex;
   align-items: center;
-  gap: 5px;
+  justify-content: center;
   background: var(--color-blue);
   color: #fff;
   border-radius: 8px;
-  padding: 5px 10px;
-  font-size: 13px;
-  font-weight: 600;
-  white-space: nowrap;
+  padding: 6px;
 }
 
 .routeChevron {
@@ -509,14 +506,16 @@
 
 .step {
   display: flex;
+  align-items: stretch;
 }
 
 .stepTimeline {
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 32px;
+  width: 28px;
   flex-shrink: 0;
+  padding-top: 16px;
 }
 
 .stepDot {
@@ -524,7 +523,6 @@
   height: 12px;
   border-radius: 50%;
   flex-shrink: 0;
-  margin-top: 14px;
   z-index: 1;
 
   &[data-type="walk"] { background: #aeaeb2; }
@@ -535,39 +533,41 @@
 .stepLine {
   width: 2px;
   flex: 1;
-  min-height: 16px;
-  margin: 2px 0;
+  min-height: 12px;
+  margin-top: 4px;
 
   &[data-type="walk"] {
     background-image: repeating-linear-gradient(
       to bottom,
-      #aeaeb2 0px,
-      #aeaeb2 4px,
+      #c7c7cc 0px,
+      #c7c7cc 4px,
       transparent 4px,
       transparent 8px
     );
   }
 
-  &[data-type="bus"] { background: rgba(0, 112, 240, 0.5); }
-  &[data-type="transfer"] { background: rgba(255, 149, 0, 0.5); }
+  &[data-type="bus"] { background: rgba(0, 112, 240, 0.35); }
+  &[data-type="transfer"] { background: rgba(255, 149, 0, 0.4); }
 }
 
 .stepBody {
   flex: 1;
-  padding-bottom: 12px;
-  padding-left: 8px;
+  padding-bottom: 10px;
+  padding-left: 10px;
   min-width: 0;
 }
 
 /* ── Step cards ── */
 .stepCard {
-  background: #f2f2f7;
+  background: #fff;
   border-radius: 12px;
   overflow: hidden;
   display: flex;
+  border: 1px solid rgba(0, 0, 0, 0.06);
 
   @media (prefers-color-scheme: dark) {
-    background: #1c1b20;
+    background: #2c2c2e;
+    border-color: rgba(255, 255, 255, 0.07);
   }
 }
 
@@ -637,7 +637,7 @@
   display: flex;
   align-items: center;
   gap: 10px;
-  padding: 12px 0 0 10px;
+  padding: 4px 0 0 8px;
 }
 
 .arriveDot {
@@ -652,4 +652,5 @@
   font-size: 15px;
   font-weight: 600;
   color: #34c759;
+  padding-left: 10px;
 }

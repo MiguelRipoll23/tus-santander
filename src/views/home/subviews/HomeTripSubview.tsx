@@ -321,8 +321,7 @@ function RouteCard({ route, onClick }: RouteCardProps): React.JSX.Element {
         </div>
         <div className={styles.routeCardRight}>
           <div className={styles.routeDuration}>
-            <Clock size={12} aria-hidden="true" />
-            <span>{route.totalMinutes} min</span>
+            <Clock size={14} aria-hidden="true" />
           </div>
           <ChevronRight size={16} className={styles.routeChevron} aria-hidden="true" />
         </div>
@@ -519,42 +518,10 @@ function HomeTripSubview(): React.JSX.Element {
       <Fragment>
         <Nav
           isHeader={false}
-          titleText={getText("trip")}
+          titleText={toPlace?.name ?? getText("trip")}
           onBack={() => setSelectedRoute(null)}
         />
         <div className={styles.detailContent}>
-          <div className={styles.detailSummary}>
-            <div className={styles.detailSummaryRow}>
-              <div className={styles.detailTimes}>
-                <span className={styles.detailDep}>{selectedRoute.departure}</span>
-                <ArrowRight size={16} className={styles.detailSep} aria-hidden="true" />
-                <span className={styles.detailArr}>{selectedRoute.arrival}</span>
-              </div>
-              <div className={styles.detailDuration}>
-                <Clock size={13} aria-hidden="true" />
-                {selectedRoute.totalMinutes} min
-              </div>
-            </div>
-
-            <div className={styles.detailPlaces}>
-              <div className={styles.detailPlaceRow}>
-                <div className={styles.detailDot} data-type="origin" />
-                <div className={styles.detailPlaceText}>
-                  <span className={styles.detailPlaceLabel}>From</span>
-                  <span className={styles.detailPlaceName}>{fromPlace?.name}</span>
-                </div>
-              </div>
-              <div className={styles.detailPlaceConnector} />
-              <div className={styles.detailPlaceRow}>
-                <div className={styles.detailDot} data-type="destination" />
-                <div className={styles.detailPlaceText}>
-                  <span className={styles.detailPlaceLabel}>To</span>
-                  <span className={styles.detailPlaceName}>{toPlace?.name}</span>
-                </div>
-              </div>
-            </div>
-          </div>
-
           <div className={styles.stepsContainer}>
             {selectedRoute.segments.map((seg, i) => (
               <StepRow
