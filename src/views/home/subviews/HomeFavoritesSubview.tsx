@@ -18,7 +18,7 @@ import {
   useSortable,
 } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
-import { ArrowDownUp } from "lucide-react";
+import { ArrowUpDown } from "lucide-react";
 
 import type { Favorite } from "../../../interfaces/favorite";
 import { useView } from "../../../contexts/ViewContext";
@@ -184,7 +184,7 @@ function HomeFavoritesSubview(): React.JSX.Element {
             hidden={sortIconHidden}
             onClick={toggleEditMode}
           >
-            <ArrowDownUp size={20} aria-hidden="true" />
+            <ArrowUpDown size={20} aria-hidden="true" />
           </button>
         )}
       </Nav>

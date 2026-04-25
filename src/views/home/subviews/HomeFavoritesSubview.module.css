@@ -1,7 +1,8 @@
 .SortButton {
+  font-size: 15px;
   color: #000;
   padding: 8px;
-  margin: 0 var(--margin-lr);
+  margin: 11px var(--margin-lr);
   animation: fade-in 0.2s;
   box-shadow: none;
   display: flex;
