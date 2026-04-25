@@ -25,6 +25,7 @@
   "current_location": "Position actuelle",
   "no_routes_found": "Aucun itinéraire trouvé",
   "plan_trip": "Planifier un trajet",
+  "trip_empty_hint": "Entrez une origine et une destination pour trouver les itinéraires disponibles",
   "bus": "Bus",
   "walk": "Marcher",
   "transfer": "Correspondance",

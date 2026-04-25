@@ -25,6 +25,7 @@
   "current_location": "Current Location",
   "no_routes_found": "No routes found",
   "plan_trip": "Plan Trip",
+  "trip_empty_hint": "Enter an origin and destination to find available routes",
   "bus": "Bus",
   "walk": "Walk",
   "transfer": "Transfer",

@@ -627,7 +627,7 @@ function HomeTripSubview(): React.JSX.Element {
             <Bus size={36} className={styles.emptyIcon} aria-hidden="true" />
             <p className={styles.emptyTitle}>{getText("plan_trip")}</p>
             <p className={styles.emptyHint}>
-              {getText("from")} · {getText("to")}
+              {getText("trip_empty_hint")}
             </p>
           </div>
         )}

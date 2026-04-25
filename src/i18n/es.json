@@ -25,6 +25,7 @@
   "current_location": "Ubicación actual",
   "no_routes_found": "No se encontraron rutas",
   "plan_trip": "Planificar viaje",
+  "trip_empty_hint": "Introduce un origen y destino para encontrar rutas disponibles",
   "bus": "Autobús",
   "walk": "Caminar",
   "transfer": "Transbordo",
