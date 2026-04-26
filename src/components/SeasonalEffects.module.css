@@ -49,30 +49,3 @@
   }
 }
 
-/* Christmas */
-
-.christmasEmoji {
-  position: absolute;
-  top: -3rem;
-  font-size: 1.75rem;
-  line-height: 1;
-  user-select: none;
-  animation: christmas-drift 12s linear forwards;
-}
-
-@keyframes christmas-drift {
-  0% {
-    opacity: 0;
-    transform: translateY(0);
-  }
-  8% {
-    opacity: 1;
-  }
-  88% {
-    opacity: 1;
-  }
-  100% {
-    opacity: 0;
-    transform: translateY(calc(105vh + 3rem));
-  }
-}

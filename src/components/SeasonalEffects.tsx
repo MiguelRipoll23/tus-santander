@@ -67,7 +67,7 @@ function HalloweenEffect() {
 
   const spawn = useCallback(() => {
     setElements((prev) => {
-      if (prev.length >= 2) return prev;
+      if (prev.length >= 3) return prev;
       return [
         ...prev,
         {
@@ -132,6 +132,7 @@ interface ChristmasEl {
   id: number;
   emoji: string;
   x: number;
+  y: number;
 }
 
 function ChristmasEmojiItem({
@@ -145,12 +146,15 @@ function ChristmasEmojiItem({
   doneRef.current = onDone;
 
   useEffect(() => {
-    const t = setTimeout(() => doneRef.current(), 12000);
+    const t = setTimeout(() => doneRef.current(), 6000);
     return () => clearTimeout(t);
   }, []);
 
   return (
-    <div className={styles.christmasEmoji} style={{ left: `${el.x}%` }}>
+    <div
+      className={styles.halloweenItem}
+      style={{ left: `${el.x}%`, top: `${el.y}%` }}
+    >
       {el.emoji}
     </div>
   );
@@ -215,18 +219,22 @@ function ChristmasEffect() {
 
   useEffect(() => {
     const id = setInterval(() => {
-      setFestive((prev) => [
-        ...prev,
-        {
-          id: ++festiveIdRef.current,
-          emoji:
-            CHRISTMAS_EMOJIS[
-              Math.floor(Math.random() * CHRISTMAS_EMOJIS.length)
-            ],
-          x: 5 + Math.random() * 88,
-        },
-      ]);
-    }, 5000);
+      setFestive((prev) => {
+        if (prev.length >= 3) return prev;
+        return [
+          ...prev,
+          {
+            id: ++festiveIdRef.current,
+            emoji:
+              CHRISTMAS_EMOJIS[
+                Math.floor(Math.random() * CHRISTMAS_EMOJIS.length)
+              ],
+            x: 8 + Math.random() * 80,
+            y: 8 + Math.random() * 80,
+          },
+        ];
+      });
+    }, 3500);
     return () => clearInterval(id);
   }, []);
 
