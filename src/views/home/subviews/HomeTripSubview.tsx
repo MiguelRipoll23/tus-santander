@@ -404,7 +404,7 @@ function HomeTripSubview(): React.JSX.Element {
         return;
       }
 
-      const BUS_VEHICLE_TYPES = new Set(["BUS", "INTERCITY_BUS", "TROLLEYBUS"]);
+      const BUS_VEHICLE_TYPES = new Set(["BUS"]);
 
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const busOnlyRoutes = directionsResult.routes.filter((route: any) =>
