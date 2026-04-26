@@ -448,7 +448,9 @@ function HomeTripSubview(): React.JSX.Element {
         const arrival = routeArrival || addMinutes(departure, totalMinutes);
 
         return {
-          id: `route-${routeIdx}`,
+          id: segments.length > 0
+            ? segments.map((s) => s.type === "bus" ? `${s.busLine ?? ""}:${s.fromStop ?? ""}>${s.toStop ?? ""}` : s.type).join("|")
+            : `route-${routeIdx}`,
           totalMinutes,
           departure: formatTime(departure),
           arrival: formatTime(arrival),
