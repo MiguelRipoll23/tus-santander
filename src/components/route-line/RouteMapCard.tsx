@@ -102,6 +102,14 @@ function RouteMapCard({ routes, activeStopId, lineLabel }: RouteMapCardProps): R
     });
   };
 
+  const handleMarkerClick = (stop: StopMarker): void => {
+    if (isFullscreen) {
+      openStop(stop);
+    } else {
+      setIsFullscreen(true);
+    }
+  };
+
   const renderMarkers = (showLabels: boolean = false): ReactNode =>
     stopMarkers.map((stop) => {
       const isActive = stop.id === activeStopId;
@@ -109,7 +117,7 @@ function RouteMapCard({ routes, activeStopId, lineLabel }: RouteMapCardProps): R
         <AdvancedMarker
           key={stop.id}
           position={stop.position}
-          onClick={() => openStop(stop)}
+          onClick={() => handleMarkerClick(stop)}
           title={stop.name}
         >
           <div className="marker">

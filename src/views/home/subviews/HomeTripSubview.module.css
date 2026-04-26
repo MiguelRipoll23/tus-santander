@@ -513,7 +513,6 @@
   align-items: center;
   width: 32px;
   flex-shrink: 0;
-  padding-bottom: 12px;
 }
 
 .stepDot {
@@ -533,7 +532,7 @@
   width: 2px;
   flex: 1;
   min-height: 20px;
-  margin: 4px 0;
+  margin: 2px 0 0 0;
 
   &[data-type="walk"] {
     background-image: repeating-linear-gradient(
