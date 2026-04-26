@@ -256,10 +256,11 @@ function RouteCard({ route, onClick }: RouteCardProps): React.JSX.Element {
 
 interface StepRowProps {
   segment: RouteSegment;
+  nextSegment?: RouteSegment;
   isLast: boolean;
 }
 
-function StepRow({ segment, isLast }: StepRowProps): React.JSX.Element {
+function StepRow({ segment, nextSegment, isLast }: StepRowProps): React.JSX.Element {
   const lineBg = segment.busLine ? getLineBackgroundColor(segment.busLine, "string") : "";
 
   return (
@@ -295,6 +296,21 @@ function StepRow({ segment, isLast }: StepRowProps): React.JSX.Element {
                 </span>
               </div>
               <div className={styles.stepCardSub}>{segment.label}</div>
+              {nextSegment?.type === "bus" && nextSegment.busLine && (
+                <div className={styles.stepNextBus}>
+                  <Bus size={13} aria-hidden="true" />
+                  <span>Line</span>
+                  <div
+                    className={styles.pillBusLine}
+                    style={{
+                      background: getLineBackgroundColor(nextSegment.busLine, "string"),
+                      color: getLineTextColor(nextSegment.busLine),
+                    }}
+                  >
+                    {nextSegment.busLine}
+                  </div>
+                </div>
+              )}
               <div className={styles.stepCardTime}>{segment.duration} minutes</div>
             </div>
           </div>
@@ -631,6 +647,7 @@ function HomeTripSubview(): React.JSX.Element {
               <StepRow
                 key={i}
                 segment={seg}
+                nextSegment={selectedRoute.segments[i + 1]}
                 isLast={i === selectedRoute.segments.length - 1}
               />
             ))}

@@ -612,6 +612,7 @@
   align-items: center;
   width: 32px;
   flex-shrink: 0;
+  position: relative;
 }
 
 .stepDot {
@@ -620,6 +621,7 @@
   border-radius: 50%;
   flex-shrink: 0;
   margin-top: 4px;
+  position: relative;
   z-index: 1;
 
   &[data-type="walk"] { background: #aeaeb2; }
@@ -628,10 +630,12 @@
 }
 
 .stepLine {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
   width: 2px;
-  flex: 1;
-  min-height: 20px;
-  margin-top: -6px;
+  top: 10px; /* margin-top(4) + half dot height(6) = dot center */
+  bottom: -10px; /* extend to center of next dot: 4px gap + 6px half-dot */
 
   &[data-type="walk"] {
     background-image: repeating-linear-gradient(
@@ -726,6 +730,19 @@
   }
 
   @media (prefers-color-scheme: dark) { color: #aeaeb2; }
+}
+
+.stepNextBus {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 13px;
+  color: #636366;
+  margin-bottom: 4px;
+
+  @media (prefers-color-scheme: dark) {
+    color: #aeaeb2;
+  }
 }
 
 .stepCardTime {
