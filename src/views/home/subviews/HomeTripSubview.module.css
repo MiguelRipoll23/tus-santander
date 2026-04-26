@@ -520,19 +520,19 @@
   height: 12px;
   border-radius: 50%;
   flex-shrink: 0;
-  margin-top: 8px;
+  margin-top: 4px;
   z-index: 1;
 
   &[data-type="walk"] { background: #aeaeb2; }
   &[data-type="bus"] { background: var(--color-blue); }
-  &[data-type="transfer"] { background: #ff9500; }
+  &[data-type="transfer"] { background: #aeaeb2; }
 }
 
 .stepLine {
   width: 2px;
   flex: 1;
   min-height: 20px;
-  margin: 0;
+  margin-top: -4px;
 
   &[data-type="walk"] {
     background-image: repeating-linear-gradient(
@@ -545,7 +545,15 @@
   }
 
   &[data-type="bus"] { background: rgba(0, 112, 240, 0.5); }
-  &[data-type="transfer"] { background: rgba(255, 149, 0, 0.5); }
+  &[data-type="transfer"] {
+    background-image: repeating-linear-gradient(
+      to bottom,
+      #aeaeb2 0px,
+      #aeaeb2 4px,
+      transparent 4px,
+      transparent 8px
+    );
+  }
 }
 
 .stepBody {
@@ -573,7 +581,7 @@
   align-self: stretch;
 
   &[data-type="walk"] { background: #aeaeb2; }
-  &[data-type="transfer"] { background: #ff9500; }
+  &[data-type="transfer"] { background: #aeaeb2; }
 }
 
 .stepCardContent {
@@ -593,7 +601,7 @@
 }
 
 .stepTransferIcon {
-  color: #ff9500;
+  color: #636366;
   flex-shrink: 0;
 }
 
