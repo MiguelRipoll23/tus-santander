@@ -27,7 +27,7 @@
   "plan_trip": "Zaplanuj podróż",
   "trip_empty_hint": "Wprowadź pochodzenie i miejsce docelowe, aby znaleźć dostępne trasy",
   "trip_finding_routes": "Wyszukiwanie tras...",
-  "trip_routes_error": "Nie można znaleźć tras. Sprawdź swoje lokalizacje i spróbuj ponownie.",
+  "trip_routes_error": "Nie można znaleźć tras. Sprawdź swoje lokalizacje.",
   "trip_no_routes": "Nie znaleziono tras",
   "bus": "Autobus",
   "walk": "Pieszo",

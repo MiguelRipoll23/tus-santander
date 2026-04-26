@@ -8,7 +8,6 @@ import {
   Bus,
   Footprints,
   ArrowUpDown,
-  ArrowRight,
   ChevronsRight,
   Loader,
 } from "lucide-react";
@@ -22,6 +21,7 @@ import type { PlacePrediction } from "../../../utils/PlacesUtils";
 import { findNearestStop } from "../../../utils/StopUtils";
 import type { NearestStop } from "../../../utils/StopUtils";
 import { getLineBackgroundColor, getLineTextColor } from "../../../utils/LineUtils";
+import { trackTripSearch, trackTripSelect } from "../../../utils/TelemetryUtils";
 import styles from "./HomeTripSubview.module.css";
 
 const Stops = stopsJson as unknown as StopsData;
@@ -121,6 +121,19 @@ function InputField({
         />
 
         <div className={styles.fieldActions}>
+          {showLocation && (
+            <button
+              type="button"
+              className={`${styles.locateBtn} ${isLocating ? styles.locateBtnActive : ""}`}
+              onMouseDown={(e) => {
+                e.preventDefault();
+                onLocation?.();
+              }}
+              aria-label="Use current location"
+            >
+              <LocateFixed size={16} aria-hidden="true" />
+            </button>
+          )}
           {value.length > 0 && (
             <button
               type="button"
@@ -133,19 +146,6 @@ function InputField({
               aria-label="Clear"
             >
               <X size={14} aria-hidden="true" />
-            </button>
-          )}
-          {showLocation && (
-            <button
-              type="button"
-              className={`${styles.locateBtn} ${isLocating ? styles.locateBtnActive : ""}`}
-              onMouseDown={(e) => {
-                e.preventDefault();
-                onLocation?.();
-              }}
-              aria-label="Use current location"
-            >
-              <LocateFixed size={16} aria-hidden="true" />
             </button>
           )}
         </div>
@@ -261,7 +261,6 @@ interface StepRowProps {
 
 function StepRow({ segment, isLast }: StepRowProps): React.JSX.Element {
   const lineBg = segment.busLine ? getLineBackgroundColor(segment.busLine, "string") : "";
-  const lineFg = segment.busLine ? getLineTextColor(segment.busLine) : "";
 
   return (
     <div className={styles.step}>
@@ -359,6 +358,7 @@ function HomeTripSubview(): React.JSX.Element {
   const [routes, setRoutes] = useState<RouteOption[]>([]);
   const [isLoadingRoutes, setIsLoadingRoutes] = useState(false);
   const [routesError, setRoutesError] = useState(false);
+  const [retryCount, setRetryCount] = useState(0);
 
   useEffect(() => {
     let cancelled = false;
@@ -373,6 +373,7 @@ function HomeTripSubview(): React.JSX.Element {
       }
 
       if (!cancelled) setIsLoadingRoutes(true);
+      trackTripSearch(fromPlace.name, toPlace.name);
       const directionsResult = await getDirections(
         { lat: fromPlace.lat, lng: fromPlace.lng },
         { lat: toPlace.lat, lng: toPlace.lng }
@@ -489,7 +490,7 @@ function HomeTripSubview(): React.JSX.Element {
     return () => {
       cancelled = true;
     };
-  }, [fromPlace, toPlace]);
+  }, [fromPlace, toPlace, retryCount]);
 
   const fetchFromPreds = useCallback(async (value: string) => {
     const preds = await getPlacePredictions(value);
@@ -584,6 +585,36 @@ function HomeTripSubview(): React.JSX.Element {
 
   const hasValidTrip = fromPlace !== null && toPlace !== null;
 
+  // ── Trip search error view ────────────────────────────────────────────────
+  if (routesError) {
+    return (
+      <Fragment>
+        <Nav
+          isHeader={false}
+          titleText={getText("trip")}
+          onBack={() => {
+            setRoutesError(false);
+            setFromPlace(null);
+            setToPlace(null);
+          }}
+        />
+        <div className={styles.errorFullScreen}>
+          <p className={styles.errorText}>{getText("trip_routes_error")}</p>
+          <button
+            type="button"
+            className={styles.retryBtn}
+            onClick={() => {
+              setRoutesError(false);
+              setRetryCount((c) => c + 1);
+            }}
+          >
+            {getText("refresh")}
+          </button>
+        </div>
+      </Fragment>
+    );
+  }
+
   // ── Journey detail view ──────────────────────────────────────────────────
   if (selectedRoute) {
     return (
@@ -670,48 +701,22 @@ function HomeTripSubview(): React.JSX.Element {
           </div>
         )}
 
-        {hasValidTrip && !isLoadingRoutes && routesError && (
-          <div className={styles.errorContainer}>
-            <p className={styles.errorText}>{getText("trip_routes_error")}</p>
-            <button
-              type="button"
-              className={styles.retryBtn}
-              onClick={() => {
-                if (fromPlace && toPlace) {
-                  setIsLoadingRoutes(true);
-                  setRoutesError(false);
-                  void getDirections(
-                    { lat: fromPlace.lat, lng: fromPlace.lng },
-                    { lat: toPlace.lat, lng: toPlace.lng }
-                  )
-                    .then((result) => {
-                      if (result?.routes) {
-                        setRoutes([]);
-                        setRoutesError(true);
-                      }
-                    })
-                    .finally(() => setIsLoadingRoutes(false));
-                }
-              }}
-            >
-              {getText("try_again")}
-            </button>
-          </div>
-        )}
-
-        {hasValidTrip && !isLoadingRoutes && !routesError && routes.length > 0 && (
+        {hasValidTrip && !isLoadingRoutes && routes.length > 0 && (
           <div className={styles.routesList}>
             {routes.map((route) => (
               <RouteCard
                 key={route.id}
                 route={route}
-                onClick={() => setSelectedRoute(route)}
+                onClick={() => {
+                  trackTripSelect(route.lines, route.totalMinutes);
+                  setSelectedRoute(route);
+                }}
               />
             ))}
           </div>
         )}
 
-        {hasValidTrip && !isLoadingRoutes && !routesError && routes.length === 0 && (
+        {hasValidTrip && !isLoadingRoutes && routes.length === 0 && (
           <div className={styles.emptyRoutes}>
             <p className={styles.emptyRoutesText}>{getText("trip_no_routes")}</p>
           </div>

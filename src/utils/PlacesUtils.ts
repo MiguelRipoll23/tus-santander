@@ -67,7 +67,7 @@ export async function getPlacePredictions(input: string): Promise<PlacePredictio
         const pred = s.placePrediction!;
         return {
           placeId: pred.placeId,
-          mainText: pred.mainText.text,
+          mainText: pred.mainText?.text ?? "",
           secondaryText: pred.secondaryText?.text ?? "",
           _prediction: pred,
         };
