@@ -113,13 +113,7 @@ export async function getDirections(
       destination: { lat: destination.lat, lng: destination.lng },
       travelMode,
       computeAlternativeRoutes: true,
-      fields: [
-        "routes.legs.steps.travelMode",
-        "routes.legs.steps.staticDurationMillis",
-        "routes.legs.steps.distanceMeters",
-        "routes.legs.steps.instructions",
-        "routes.legs.steps.transitDetails",
-      ],
+      fields: ["*"],
     });
 
     return { routes: response.routes ?? [] };
