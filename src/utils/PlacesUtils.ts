@@ -102,12 +102,11 @@ export interface RouteDirections {
 export async function getDirections(
   origin: { lat: number; lng: number },
   destination: { lat: number; lng: number },
-  travelMode: "TRANSIT" | "WALK" | "DRIVE" = "TRANSIT"
+  travelMode: google.maps.TravelModeString = "TRANSIT"
 ): Promise<RouteDirections | null> {
   try {
     await loadMapsApi();
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const { Route } = await google.maps.importLibrary("routes") as any;
+    const { Route } = await google.maps.importLibrary("routes") as google.maps.RoutesLibrary;
 
     const response = await Route.computeRoutes({
       origin: { lat: origin.lat, lng: origin.lng },
@@ -115,11 +114,11 @@ export async function getDirections(
       travelMode,
       computeAlternativeRoutes: true,
       fields: [
-        "legs.steps.travelMode",
-        "legs.steps.staticDurationMillis",
-        "legs.steps.distanceMeters",
-        "legs.steps.navigationInstruction",
-        "legs.steps.transitDetails",
+        "routes.legs.steps.travelMode",
+        "routes.legs.steps.staticDurationMillis",
+        "routes.legs.steps.distanceMeters",
+        "routes.legs.steps.instructions",
+        "routes.legs.steps.transitDetails",
       ],
     });
 

@@ -429,9 +429,9 @@ function HomeTripSubview(): React.JSX.Element {
                   toStop,
                 });
               }
-            } else if (step.travelMode === "WALK") {
+            } else if (step.travelMode === "WALKING") {
               const duration = Math.ceil(stepDurationSeconds / 60);
-              const rawInstructions = step.navigationInstruction?.instructions ?? "";
+              const rawInstructions = step.instructions ?? "";
               const label = new DOMParser().parseFromString(rawInstructions, "text/html").body.textContent || "Walk";
               segments.push({
                 type: "walk",
