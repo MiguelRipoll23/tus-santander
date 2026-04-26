@@ -358,11 +358,11 @@
 }
 
 .retryBtn {
-  padding: 10px 16px;
-  background: var(--color-blue);
+  padding: 16px 22px;
+  background: var(--color-light-blue);
   color: #fff;
   border: 0;
-  border-radius: 8px;
+  border-radius: 30px;
   font-size: 14px;
   font-weight: 600;
   cursor: pointer;
