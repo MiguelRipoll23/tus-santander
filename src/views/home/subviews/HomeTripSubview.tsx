@@ -358,13 +358,17 @@ function HomeTripSubview(): React.JSX.Element {
   const [selectedRoute, setSelectedRoute] = useState<RouteOption | null>(null);
   const [routes, setRoutes] = useState<RouteOption[]>([]);
   const [isLoadingRoutes, setIsLoadingRoutes] = useState(false);
+  const [routesError, setRoutesError] = useState(false);
 
   useEffect(() => {
     let cancelled = false;
 
     const fetchRoutes = async () => {
       if (!fromPlace || !toPlace) {
-        if (!cancelled) setRoutes([]);
+        if (!cancelled) {
+          setRoutes([]);
+          setRoutesError(false);
+        }
         return;
       }
 
@@ -379,18 +383,27 @@ function HomeTripSubview(): React.JSX.Element {
       if (!directionsResult || !directionsResult.routes) {
         setRoutes([]);
         setIsLoadingRoutes(false);
+        setRoutesError(!directionsResult);
         return;
       }
 
-      const newRoutes = directionsResult.routes.map((route, idx) => {
+      const newRoutes = directionsResult.routes.map((route) => {
         const segments: RouteSegment[] = [];
-        let totalDuration = 0;
+        let totalSeconds = 0;
         const lines = new Set<string>();
+        let routeDeparture: Date | null = null;
+        let routeArrival: Date | null = null;
 
-        route.legs.forEach((leg) => {
+        route.legs.forEach((leg, legIdx) => {
+          const legDeparture = leg.start_time?.value || new Date();
+          const legArrival = leg.end_time?.value || new Date();
+
+          if (legIdx === 0) routeDeparture = new Date(legDeparture);
+          if (legIdx === route.legs.length - 1) routeArrival = new Date(legArrival);
+
           leg.steps?.forEach((step) => {
-            const duration = Math.ceil((step.duration?.value || 0) / 60);
-            totalDuration += duration;
+            const stepDurationSeconds = step.duration?.value || 0;
+            totalSeconds += stepDurationSeconds;
 
             if (step.travel_mode === "TRANSIT" && step.transit_details) {
               const transit = step.transit_details;
@@ -398,6 +411,7 @@ function HomeTripSubview(): React.JSX.Element {
               const destination = transit.headsign || "";
               const fromStop = transit.departure_stop?.name || "";
               const toStop = transit.arrival_stop?.name || "";
+              const duration = Math.ceil(stepDurationSeconds / 60);
 
               if (lineNumber) {
                 lines.add(lineNumber);
@@ -412,6 +426,7 @@ function HomeTripSubview(): React.JSX.Element {
                 });
               }
             } else if (step.travel_mode === "WALKING") {
+              const duration = Math.ceil(stepDurationSeconds / 60);
               segments.push({
                 type: "walk",
                 duration,
@@ -422,19 +437,19 @@ function HomeTripSubview(): React.JSX.Element {
           });
         });
 
-        const now = new Date();
-        const departure = new Date(now.getTime() + (idx * 5 * 60000));
-        const arrival = new Date(departure.getTime() + totalDuration * 60000);
+        const totalMinutes = Math.ceil(totalSeconds / 60);
+        const departure = routeDeparture || new Date();
+        const arrival = routeArrival || new Date(departure.getTime() + totalMinutes * 60000);
 
         return {
-          id: `r${idx}`,
-          totalMinutes: totalDuration,
+          id: route.legs.map((l) => l.start_address).join("-"),
+          totalMinutes,
           departure: formatTime(departure),
           arrival: formatTime(arrival),
           segments,
           transfers: Math.max(0, segments.filter((s) => s.type === "bus").length - 1),
           lines: Array.from(lines),
-          scheduleText: `Depart in ${formatTime(departure)}`,
+          scheduleText: `Depart at ${formatTime(departure)}`,
           etaText: `${formatTime12h(arrival)} ETA`,
         };
       });
@@ -442,6 +457,7 @@ function HomeTripSubview(): React.JSX.Element {
       if (!cancelled) {
         setRoutes(newRoutes);
         setIsLoadingRoutes(false);
+        setRoutesError(false);
       }
     };
 
@@ -637,11 +653,40 @@ function HomeTripSubview(): React.JSX.Element {
         {hasValidTrip && isLoadingRoutes && (
           <div className={styles.loadingContainer}>
             <Loader size={32} className={styles.loadingSpinner} aria-hidden="true" />
-            <p className={styles.loadingText}>Finding routes...</p>
+            <p className={styles.loadingText}>{getText("trip_finding_routes")}</p>
           </div>
         )}
 
-        {hasValidTrip && !isLoadingRoutes && routes.length > 0 && (
+        {hasValidTrip && !isLoadingRoutes && routesError && (
+          <div className={styles.errorContainer}>
+            <p className={styles.errorText}>{getText("trip_routes_error")}</p>
+            <button
+              type="button"
+              className={styles.retryBtn}
+              onClick={() => {
+                if (fromPlace && toPlace) {
+                  setIsLoadingRoutes(true);
+                  setRoutesError(false);
+                  void getDirections(
+                    { lat: fromPlace.lat, lng: fromPlace.lng },
+                    { lat: toPlace.lat, lng: toPlace.lng }
+                  )
+                    .then((result) => {
+                      if (result?.routes) {
+                        setRoutes([]);
+                        setRoutesError(true);
+                      }
+                    })
+                    .finally(() => setIsLoadingRoutes(false));
+                }
+              }}
+            >
+              {getText("try_again")}
+            </button>
+          </div>
+        )}
+
+        {hasValidTrip && !isLoadingRoutes && !routesError && routes.length > 0 && (
           <div className={styles.routesList}>
             {routes.map((route) => (
               <RouteCard
@@ -653,9 +698,9 @@ function HomeTripSubview(): React.JSX.Element {
           </div>
         )}
 
-        {hasValidTrip && !isLoadingRoutes && routes.length === 0 && (
+        {hasValidTrip && !isLoadingRoutes && !routesError && routes.length === 0 && (
           <div className={styles.emptyRoutes}>
-            <p className={styles.emptyRoutesText}>No routes found</p>
+            <p className={styles.emptyRoutesText}>{getText("trip_no_routes")}</p>
           </div>
         )}
       </div>
