@@ -387,8 +387,23 @@ function HomeTripSubview(): React.JSX.Element {
         return;
       }
 
+      const BUS_VEHICLE_TYPES = new Set(["BUS", "INTERCITY_BUS", "TROLLEYBUS"]);
+
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      const newRoutes = directionsResult.routes.map((route: any, routeIdx: number) => {
+      const busOnlyRoutes = directionsResult.routes.filter((route: any) =>
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        (route.legs ?? []).every((leg: any) =>
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          (leg.steps ?? []).every((step: any) => {
+            if (step.travelMode !== "TRANSIT") return true;
+            const vehicleType = step.transitDetails?.transitLine?.vehicle?.vehicleType;
+            return vehicleType == null || BUS_VEHICLE_TYPES.has(vehicleType);
+          })
+        )
+      );
+
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const newRoutes = busOnlyRoutes.map((route: any, routeIdx: number) => {
         const segments: RouteSegment[] = [];
         let totalSeconds = 0;
         const lines = new Set<string>();
