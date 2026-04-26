@@ -13,8 +13,6 @@ import { useI18n } from "../../contexts/I18nContext";
 import { VIEW_ID_ESTIMATIONS_STOP } from "../../constants/ViewConstants";
 import allMarkers from "../../utils/MarkerUtils";
 
-import styles from "./RouteMapCard.module.css";
-
 interface RouteMapCardProps {
   routes: RouteItemTuple[];
   activeStopId: number;
@@ -115,7 +113,7 @@ function RouteMapCard({ routes, activeStopId, lineLabel }: RouteMapCardProps): R
           <div className="marker">
             {isActive ? (
               <div
-                className={styles.activePin}
+                className="w-4 h-4 rounded-full border-3 border-white shadow-md"
                 style={{ backgroundColor: lineColor }}
               />
             ) : (
@@ -136,7 +134,7 @@ function RouteMapCard({ routes, activeStopId, lineLabel }: RouteMapCardProps): R
   );
 
   const fullscreenOverlay = createPortal(
-    <div className={styles.fullscreen}>
+    <div className="fixed inset-0 z-999">
       {mapMounted && (
         <APIProvider apiKey={apiKey}>
           <Map
@@ -155,7 +153,7 @@ function RouteMapCard({ routes, activeStopId, lineLabel }: RouteMapCardProps): R
       )}
       <button
         type="button"
-        className={`${styles.backBtn} liquid-glass`}
+        className="liquid-glass fixed top-3 left-3.5 z-1000 p-2 text-black dark:text-white flex items-center justify-center shadow-none"
         aria-label="Back"
         onClick={() => setIsFullscreen(false)}
       >
@@ -168,7 +166,7 @@ function RouteMapCard({ routes, activeStopId, lineLabel }: RouteMapCardProps): R
   return (
     <>
       <div
-        className={styles.card}
+        className="sticky top-16 h-50 mx-3.5 rounded-4xl overflow-hidden animate-fade-in cursor-pointer z-10"
         onClick={() => setIsFullscreen(true)}
         role="button"
         tabIndex={0}

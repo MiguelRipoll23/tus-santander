@@ -22,7 +22,6 @@ import Spinner from "../../components/Spinner";
 import ErrorDisplay from "../../components/Error";
 import Button from "../../components/Button";
 import EstimationsList from "../../components/estimations/EstimationsList";
-import styles from "./EstimationsLineView.module.css";
 import { useI18n } from "../../contexts/I18nContext";
 
 type CompactLineEstimationsResponse = [
@@ -143,16 +142,16 @@ function EstimationsLineView(): React.JSX.Element {
           lineAction={refreshContent}
         />
         {!loading && !error && (
-          <div className={styles.ContextActions}>
+          <div className="mx-3.5 fixed bottom-12.5 left-0 right-0 w-[calc(100%-28px)] flex animate-fade-in">
             <Button
-              className={styles.ContextButton}
+              className="flex-1 block mr-5 last:mr-0 p-3.5"
               color={backgroundColor}
               onClick={loadLineRouteView}
             >
               {getText("view_route")}
             </Button>
             <Button
-              className={styles.ContextButton}
+              className="flex-1 block mr-5 last:mr-0 p-3.5"
               color={backgroundColor}
               onClick={refreshContent}
             >

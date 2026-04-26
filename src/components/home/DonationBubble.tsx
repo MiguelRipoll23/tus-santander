@@ -6,7 +6,6 @@ import {
   trackDonationCloseButton,
 } from "../../utils/TelemetryUtils";
 import Button from "../Button";
-import styles from "./DonationBubble.module.css";
 
 const LOCAL_STORAGE_KEY = "donation_bubble_hidden_until";
 const DONATION_URL = "https://buymeacoffee.com/miguelripoll23";
@@ -46,13 +45,13 @@ function DonationBubble({ favoritesCount }: DonationBubbleProps): React.JSX.Elem
   if (!isVisible) return null;
 
   return (
-    <div className={styles.DonationBubble}>
-      <div className={styles.DonationText}>{getText("donation_message")}</div>
-      <div className={styles.ButtonContainer}>
-        <Button className={styles.DonationButton} onClick={handleTip}>
+    <div className="bg-pink-100 dark:bg-rose-900 text-rose-900 dark:text-pink-100 p-4 rounded-2xl m-[0_14px_14px] relative">
+      <div className="mb-3 text-base leading-1.4">{getText("donation_message")}</div>
+      <div className="flex gap-3">
+        <Button className="px-4 py-2 text-base" style={{ backgroundColor: "#be123c" }} onClick={handleTip}>
           {getText("tip")}
         </Button>
-        <Button className={styles.MaybeLaterButton} onClick={handleClose}>
+        <Button className="px-4 py-2 text-base border-2" style={{ borderColor: "#be123c", color: "#be123c", backgroundColor: "transparent" }} onClick={handleClose}>
           {getText("maybe_later")}
         </Button>
       </div>

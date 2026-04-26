@@ -11,7 +11,6 @@ import { sendTelemetryEvent } from "../../../utils/TelemetryUtils";
 
 import Nav from "../../../components/Nav";
 import stopsJson from "../../../json/stops.min.json";
-import styles from "./HomeSearchSubview.module.css";
 import { useI18n } from "../../../contexts/I18nContext";
 
 // Type assertion justified: JSON structure matches StopsData (arrays of [id, lat, lng, name])
@@ -76,15 +75,18 @@ function HomeSearchSubview(): React.JSX.Element {
   return (
     <Fragment>
       <Nav isHeader titleText={getText("search")} />
-      <div className={styles.content}>
-        <div className={styles.icon} style={{ marginBottom }}>
+      <div className="mx-3.5">
+        <div
+          className="relative h-9"
+          style={{ marginBottom }}
+        >
           <Search
             size={14}
-            className={styles.searchIcon}
+            className="text-gray-400 absolute z-1 top-1/2 left-2.5 transform -translate-y-1/2"
             aria-hidden="true"
           />
           <input
-            className={styles.input}
+            className="bg-gray-100 dark:bg-gray-900 outline-none border-0 w-full box-border text-base leading-normal p-2 pl-5 text-gray-400 cursor-default rounded-2 absolute left-0 dark:bg-[#1c1b20]"
             type="text"
             placeholder={getText("search")}
             aria-label={getText("search")}
@@ -96,7 +98,7 @@ function HomeSearchSubview(): React.JSX.Element {
         </div>
 
         {results.length > 0 && (
-          <div className={styles.results}>
+          <div className="mb-3 rounded-2 overflow-hidden">
             {results.map((result, i) => {
               const stopId = result[0];
               const stopName = result[3];
@@ -104,11 +106,11 @@ function HomeSearchSubview(): React.JSX.Element {
               return (
                 <button
                   type="button"
-                  className={styles.result}
+                  className="text-blue-600 py-3.5 px-2.25 border-b border-black/5 w-full text-left flex items-center gap-3 last:border-b-0 dark:border-white/6"
                   key={i}
                   onClick={() => loadEstimationsStopView(stopId, stopName)}
                 >
-                  <Search size={14} className={styles.resultIcon} aria-hidden="true" />
+                  <Search size={14} className="flex-shrink-0 relative top-0.5" aria-hidden="true" />
                   {`${stopName} (${stopId})`}
                 </button>
               );

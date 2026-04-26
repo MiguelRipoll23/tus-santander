@@ -1,7 +1,6 @@
 import React from "react";
 import type { MouseEventHandler } from "react";
 import { Heart } from "lucide-react";
-import styles from "./HeartIcon.module.css";
 import { useI18n } from "../contexts/I18nContext";
 
 interface HeartIconProps {
@@ -16,7 +15,7 @@ function HeartIcon(
   const isFavorite = heartState > 1;
   return (
     <button
-      className={`${styles.HeartIcon} liquid-glass`}
+      className="liquid-glass text-rose-500 relative -top-0.25 p-2 m-2.75 animate-fade-in flex items-center justify-center"
       aria-label={getText("add_to_favorites")}
       onClick={updateFavorite}
     >

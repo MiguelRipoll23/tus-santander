@@ -37,7 +37,6 @@ import Nav from "../../../components/Nav";
 import ErrorDisplay from "../../../components/Error";
 import HomeDesktop from "../../../components/home/HomeDesktop";
 import { useI18n } from "../../../contexts/I18nContext";
-import styles from "./HomeFavoritesSubview.module.css";
 import DonationBubble from "../../../components/home/DonationBubble";
 
 interface SortableFavoriteProps {
@@ -77,13 +76,13 @@ function SortableFavorite({
     <div
       ref={setNodeRef}
       style={style}
-      className={styles.SortableWrapper}
+      className="mx-3.5 mb-2 w-[calc(100%-28px)] box-border relative"
       {...attributes}
       {...(editMode ? listeners : {})}
     >
       <button
         type="button"
-        className={`${styles.Favorite} ${editMode && !isDragging ? styles.Wiggle : ""}`}
+        className={`py-3.25 px-5.5 bg-gradient-to-r from-pink-600 to-red-600 text-white text-base box-border leading-6.75 border-0 rounded-3.5 m-0 w-full block overflow-hidden font-bold min-h-53px text-left select-none dark:bg-gray-900 ${editMode && !isDragging ? "animate-wiggle cursor-move" : ""}`}
         onClick={() => loadEstimationsStopView(favorite)}
       >
         {favorite.stop_name}
@@ -169,7 +168,7 @@ function HomeFavoritesSubview(): React.JSX.Element {
       <Nav isHeader titleText={getText("favorites")} />
       <button
         type="button"
-        className={`${editMode ? styles.DoneLink : `${styles.SortIconAndDoneLink} liquid-glass`}`}
+        className={`text-blue-600 p-2 animate-fade-in flex items-center justify-center text-base fixed top-4.25 right-[var(--margin-lr)] z-2 ${editMode ? "" : "rounded-full border border-blue-500/15 liquid-glass"}`}
         hidden={sortIconHidden}
         onClick={toggleEditMode}
       >
@@ -179,7 +178,7 @@ function HomeFavoritesSubview(): React.JSX.Element {
           <ArrowUpDown size={20} aria-hidden="true" />
         )}
       </button>
-      <div className={styles.Content}>
+      <div className="relative pt-1 pb-3.5 box-border">
         {!error && <DonationBubble favoritesCount={favorites.length} />}
         {error && (
           <ErrorDisplay

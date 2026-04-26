@@ -1,6 +1,5 @@
 import React from "react";
 import type { ReactNode } from "react";
-import styles from "./Header.module.css";
 
 interface HeaderProps {
   children?: ReactNode;
@@ -9,9 +8,9 @@ interface HeaderProps {
 
 function Header({ children, text }: HeaderProps): React.JSX.Element {
   return (
-    <div className={styles.Header}>
-      <div className={styles.Options}>{children}</div>
-      <div className={styles.Title}>{text}</div>
+    <div className="px-[14px] pb-1.25">
+      <div className="box-border pt-2 h-10.5 text-right">{children}</div>
+      <div className="font-bold text-3.5xl">{text}</div>
     </div>
   );
 }

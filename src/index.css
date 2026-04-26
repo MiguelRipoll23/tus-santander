@@ -1,64 +1,72 @@
-:root {
-  --color-blue: #0070f0;
-  --color-light-blue: #32b0fd;
-  --margin-lr: 14px;
-}
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
-body,
-html {
-  height: 100%;
-}
+@layer base {
+  :root {
+    --color-blue: #0070f0;
+    --color-light-blue: #32b0fd;
+    --margin-lr: 14px;
+  }
 
-#app {
-  min-height: 100%;
-  display: flex;
-  flex-direction: column;
-}
+  body,
+  html {
+    height: 100%;
+  }
 
-body {
-  margin: 0;
-  color: #000;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
-    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -webkit-text-size-adjust: 100%;
-  -moz-osx-font-smoothing: grayscale;
-  text-rendering: optimizeLegibility;
-  font-size: 16px;
-  background: #fff;
+  #app {
+    min-height: 100%;
+    display: flex;
+    flex-direction: column;
+  }
 
-  @media (prefers-color-scheme: dark) {
-    color: #fff;
-    background: #000;
+  body {
+    margin: 0;
+    color: #000;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
+      "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
+      sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -webkit-text-size-adjust: 100%;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+    font-size: 16px;
+    background: #fff;
+
+    @media (prefers-color-scheme: dark) {
+      color: #fff;
+      background: #000;
+    }
+  }
+
+  button {
+    background: none;
+    border: 0;
+    cursor: pointer;
+    font-size: 16px;
+    margin: 0;
+    padding: 0;
   }
 }
 
-button {
-  background: none;
-  border: 0;
-  cursor: pointer;
-  font-size: 16px;
-  margin: 0;
-  padding: 0;
-}
+@layer components {
+  .liquid-glass {
+    backdrop-filter: blur(20px) saturate(180%);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
+    border-radius: 24px;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    background-color: rgba(255, 255, 255, 0.1);
+    box-shadow: 0 0px 12px rgba(0, 0, 0, 0.05);
+  }
 
-.liquid-glass {
-  backdrop-filter: blur(20px) saturate(180%);
-  -webkit-backdrop-filter: blur(20px) saturate(180%);
-  border-radius: 24px;
-  border: 1px solid rgba(255, 255, 255, 0.3);
-  background-color: rgba(255, 255, 255, 0.1);
-  box-shadow: 0 0px 12px rgba(0, 0, 0, 0.05);
-}
+  *[draggable="true"] {
+    animation: wiggle 0.5s linear infinite;
+    cursor: move;
+  }
 
-*[draggable="true"] {
-  animation: wiggle 0.5s linear infinite;
-  cursor: move;
-}
-
-#time1[data-time="0"] {
-  animation: blink 0.8s linear infinite;
+  #time1[data-time="0"] {
+    animation: blink 0.8s linear infinite;
+  }
 }
 
 .gm-style iframe + div {
@@ -98,82 +106,4 @@ button {
 
 .back-transition::view-transition-new(root) {
   animation-name: none;
-}
-
-/* Animations */
-@keyframes fade-in {
-  from {
-    opacity: 0;
-  }
-}
-
-@keyframes fade-out {
-  to {
-    opacity: 0;
-  }
-}
-
-@keyframes slide-from-right {
-  from {
-    transform: translateX(30px);
-  }
-}
-
-@keyframes slide-to-left {
-  to {
-    transform: translateX(-30px);
-  }
-}
-
-@keyframes slide-to-right {
-  to {
-    transform: translateX(30px);
-  }
-}
-
-@keyframes slide-from-left {
-  from {
-    transform: translateX(-30px);
-  }
-}
-
-@keyframes rotator {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}
-
-@keyframes blink {
-  0%,
-  100% {
-    opacity: 0.6;
-  }
-  50% {
-    opacity: 1;
-  }
-}
-
-@keyframes wiggle {
-  0% {
-    transform: rotate(0deg);
-  }
-
-  25% {
-    transform: rotate(-0.5deg);
-  }
-
-  50% {
-    transform: rotate(0.5deg);
-  }
-
-  75% {
-    transform: rotate(-0.5deg);
-  }
-
-  100% {
-    transform: rotate(0deg);
-  }
 }

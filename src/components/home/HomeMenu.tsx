@@ -2,7 +2,6 @@ import React from "react";
 import type { ReactNode } from "react";
 import type { SubViewId, ViewId } from "../../types/view";
 import { Heart, Map, Search, Route } from "lucide-react";
-import styles from "./HomeMenu.module.css";
 import { useView } from "../../contexts/ViewContext";
 import { useI18n } from "../../contexts/I18nContext";
 import {
@@ -59,16 +58,19 @@ function HomeMenu(): React.JSX.Element {
   const menuItems = buildMenuItems(getText, setSubViewId, setViewId);
 
   return (
-    <div className={`${styles.homeMenu} liquid-glass`}>
+    <div className="liquid-glass rounded-full items-center flex fixed z-9" style={{ bottom: `calc(env(safe-area-inset-bottom) + 28px)`, left: "50%", transform: "translateX(-50%)" }}>
       {menuItems.map(({ id, icon, label, onClick }) => (
         <div
           key={id}
-          className={styles.item}
-          data-selected={subViewId === id}
+          className={`text-center flex-1 cursor-pointer rounded-full m-1 p-1.5 px-6 transition-colors duration-200 text-black dark:text-white dark:opacity-60 ${
+            subViewId === id
+              ? "text-blue-600 dark:text-blue-400 bg-blue-100 dark:bg-blue-500 dark:bg-opacity-10 dark:opacity-100 backdrop-blur-glass"
+              : ""
+          }`}
           onClick={onClick}
         >
-          <div className={styles.itemIcon}>{icon}</div>
-          <div className={styles.itemText}>{label}</div>
+          <div className="flex items-center justify-center mb-1.25">{icon}</div>
+          <div className="leading-4.75">{label}</div>
         </div>
       ))}
     </div>
