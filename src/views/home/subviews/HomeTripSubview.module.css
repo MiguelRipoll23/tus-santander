@@ -302,6 +302,58 @@
   line-height: 1;
 }
 
+/* ── Loading state ── */
+.loadingContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 60px 20px;
+  gap: 12px;
+}
+
+.loadingSpinner {
+  color: var(--color-blue);
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.loadingText {
+  font-size: 14px;
+  color: #636366;
+  margin: 0;
+
+  @media (prefers-color-scheme: dark) {
+    color: #aeaeb2;
+  }
+}
+
+/* ── Empty routes ── */
+.emptyRoutes {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 20px;
+}
+
+.emptyRoutesText {
+  font-size: 14px;
+  color: #636366;
+  margin: 0;
+
+  @media (prefers-color-scheme: dark) {
+    color: #aeaeb2;
+  }
+}
+
 /* ── Route list ── */
 .routesList {
   display: flex;

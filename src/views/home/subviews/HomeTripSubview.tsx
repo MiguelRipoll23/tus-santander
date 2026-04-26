@@ -10,6 +10,7 @@ import {
   ArrowUpDown,
   ArrowRight,
   ChevronsRight,
+  Loader,
 } from "lucide-react";
 
 import { useI18n } from "../../../contexts/I18nContext";
@@ -359,18 +360,21 @@ function HomeTripSubview(): React.JSX.Element {
   const [isLoadingRoutes, setIsLoadingRoutes] = useState(false);
 
   useEffect(() => {
+    let cancelled = false;
+
     const fetchRoutes = async () => {
       if (!fromPlace || !toPlace) {
-        setRoutes([]);
+        if (!cancelled) setRoutes([]);
         return;
       }
 
-      setIsLoadingRoutes(true);
+      if (!cancelled) setIsLoadingRoutes(true);
       const directionsResult = await getDirections(
         { lat: fromPlace.lat, lng: fromPlace.lng },
-        { lat: toPlace.lat, lng: toPlace.lng },
-        "TRANSIT"
+        { lat: toPlace.lat, lng: toPlace.lng }
       );
+
+      if (cancelled) return;
 
       if (!directionsResult || !directionsResult.routes) {
         setRoutes([]);
@@ -390,19 +394,23 @@ function HomeTripSubview(): React.JSX.Element {
 
             if (step.travel_mode === "TRANSIT" && step.transit_details) {
               const transit = step.transit_details;
-              const lineNumber = transit.line.short_name || transit.line.name;
+              const lineNumber = transit.line?.short_name || transit.line?.name || "";
               const destination = transit.headsign || "";
+              const fromStop = transit.departure_stop?.name || "";
+              const toStop = transit.arrival_stop?.name || "";
 
-              lines.add(lineNumber);
-              segments.push({
-                type: "bus",
-                duration,
-                label: `Bus ${lineNumber}`,
-                busLine: lineNumber,
-                busDestination: destination,
-                fromStop: transit.departure_stop.name,
-                toStop: transit.arrival_stop.name,
-              });
+              if (lineNumber) {
+                lines.add(lineNumber);
+                segments.push({
+                  type: "bus",
+                  duration,
+                  label: `Bus ${lineNumber}`,
+                  busLine: lineNumber,
+                  busDestination: destination,
+                  fromStop,
+                  toStop,
+                });
+              }
             } else if (step.travel_mode === "WALKING") {
               segments.push({
                 type: "walk",
@@ -431,11 +439,17 @@ function HomeTripSubview(): React.JSX.Element {
         };
       });
 
-      setRoutes(newRoutes);
-      setIsLoadingRoutes(false);
+      if (!cancelled) {
+        setRoutes(newRoutes);
+        setIsLoadingRoutes(false);
+      }
     };
 
     void fetchRoutes();
+
+    return () => {
+      cancelled = true;
+    };
   }, [fromPlace, toPlace]);
 
   const fetchFromPreds = useCallback(async (value: string) => {
@@ -620,7 +634,14 @@ function HomeTripSubview(): React.JSX.Element {
           </div>
         )}
 
-        {hasValidTrip && (
+        {hasValidTrip && isLoadingRoutes && (
+          <div className={styles.loadingContainer}>
+            <Loader size={32} className={styles.loadingSpinner} aria-hidden="true" />
+            <p className={styles.loadingText}>Finding routes...</p>
+          </div>
+        )}
+
+        {hasValidTrip && !isLoadingRoutes && routes.length > 0 && (
           <div className={styles.routesList}>
             {routes.map((route) => (
               <RouteCard
@@ -629,6 +650,12 @@ function HomeTripSubview(): React.JSX.Element {
                 onClick={() => setSelectedRoute(route)}
               />
             ))}
+          </div>
+        )}
+
+        {hasValidTrip && !isLoadingRoutes && routes.length === 0 && (
+          <div className={styles.emptyRoutes}>
+            <p className={styles.emptyRoutesText}>No routes found</p>
           </div>
         )}
       </div>
