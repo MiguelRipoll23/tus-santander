@@ -93,3 +93,35 @@ export async function getPlaceCoordinates(
     return null;
   }
 }
+
+export interface RouteDirections {
+  routes: google.maps.DirectionsRoute[];
+  status: google.maps.DirectionsStatus;
+}
+
+export async function getDirections(
+  origin: { lat: number; lng: number },
+  destination: { lat: number; lng: number },
+  travelMode: "TRANSIT" | "WALKING" | "DRIVING" = "TRANSIT"
+): Promise<RouteDirections | null> {
+  try {
+    await loadMapsApi();
+    const { DirectionsService } = await google.maps.importLibrary(
+      "routes"
+    ) as google.maps.RoutesLibrary;
+
+    const service = new DirectionsService();
+    const result = await service.route({
+      origin,
+      destination,
+      travelMode,
+      region: "es",
+      language: "es",
+    });
+
+    return result;
+  } catch (e) {
+    console.error("Directions API error:", e);
+    return null;
+  }
+}
