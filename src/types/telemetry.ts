@@ -10,4 +10,6 @@ export type TelemetryEventType =
   | "favorite_select"
   | "search_select"
   | "donation_click"
-  | "donation_close";
+  | "donation_close"
+  | "trip_search"
+  | "trip_select";

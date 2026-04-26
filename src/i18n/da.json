@@ -27,7 +27,7 @@
   "plan_trip": "Planlæg tur",
   "trip_empty_hint": "Angiv en startplacering og destination for at finde tilgængelige ruter",
   "trip_finding_routes": "Søger efter ruter...",
-  "trip_routes_error": "Kunne ikke finde ruter. Kontroller dine placeringer og prøv igen.",
+  "trip_routes_error": "Kunne ikke finde ruter. Kontroller dine placeringer.",
   "trip_no_routes": "Ingen ruter fundet",
   "bus": "Bus",
   "walk": "Gå",

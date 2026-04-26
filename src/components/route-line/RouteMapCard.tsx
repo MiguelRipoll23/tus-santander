@@ -1,4 +1,3 @@
-import React from "react";
 import { useEffect, useState } from "react";
 import { createPortal } from "react-dom";
 import type { ReactNode } from "react";
@@ -9,7 +8,6 @@ import type { MarkerPosition } from "../../interfaces/marker";
 import { GOOGLE_MAPS_KEY } from "../../utils/ApiConstants";
 import { getLineBackgroundColor } from "../../utils/LineUtils";
 import { useView } from "../../contexts/ViewContext";
-import { useI18n } from "../../contexts/I18nContext";
 import { VIEW_ID_ESTIMATIONS_STOP } from "../../constants/ViewConstants";
 import allMarkers from "../../utils/MarkerUtils";
 
@@ -69,7 +67,6 @@ function RoutePolyline({ path, color }: RoutePolylineProps): null {
 }
 
 function RouteMapCard({ routes, activeStopId, lineLabel }: RouteMapCardProps): ReactNode {
-  const { getText } = useI18n();
   const { setViewIdWithData } = useView();
   const [isFullscreen, setIsFullscreen] = useState(false);
   const [mapMounted, setMapMounted] = useState(false);

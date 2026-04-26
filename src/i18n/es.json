@@ -27,7 +27,7 @@
   "plan_trip": "Planificar viaje",
   "trip_empty_hint": "Introduce un origen y destino para encontrar rutas disponibles",
   "trip_finding_routes": "Buscando rutas...",
-  "trip_routes_error": "No se pudieron encontrar rutas. Por favor, verifica tus ubicaciones e intenta de nuevo.",
+  "trip_routes_error": "No se pudieron encontrar rutas. Por favor, verifica tus ubicaciones.",
   "trip_no_routes": "No se encontraron rutas",
   "bus": "Autobús",
   "walk": "Caminar",

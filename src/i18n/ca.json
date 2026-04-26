@@ -27,7 +27,7 @@
   "plan_trip": "Planificar viatge",
   "trip_empty_hint": "Introdueix un origen i un destí per trobar rutes disponibles",
   "trip_finding_routes": "Buscant rutes...",
-  "trip_routes_error": "No s'han pogut trobar rutes. Verifica les teves ubicacions i torna-ho a provar.",
+  "trip_routes_error": "No s'han pogut trobar rutes. Verifica les teves ubicacions.",
   "trip_no_routes": "No s'han trobat rutes",
   "bus": "Autobús",
   "walk": "Caminar",
