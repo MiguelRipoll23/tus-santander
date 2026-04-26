@@ -113,8 +113,6 @@ export async function getDirections(
       origin: { location: { latLng: { latitude: origin.lat, longitude: origin.lng } } },
       destination: { location: { latLng: { latitude: destination.lat, longitude: destination.lng } } },
       travelMode,
-      languageCode: "es",
-      regionCode: "ES",
       computeAlternativeRoutes: true,
     });
 

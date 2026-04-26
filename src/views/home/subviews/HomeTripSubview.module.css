@@ -22,7 +22,6 @@
 .content {
   display: flex;
   flex-direction: column;
-  min-height: calc(100svh - 100px);
   padding: 0 var(--margin-lr) calc(env(safe-area-inset-bottom) + 240px);
 }
 

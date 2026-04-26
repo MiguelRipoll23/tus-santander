@@ -644,16 +644,6 @@ function HomeTripSubview(): React.JSX.Element {
           <div className={styles.errorBanner}>{locationError}</div>
         )}
 
-        {!hasValidTrip && !fromText && !toText && (
-          <div className={styles.emptyState}>
-            <Bus size={36} className={styles.emptyIcon} aria-hidden="true" />
-            <p className={styles.emptyTitle}>{getText("plan_trip")}</p>
-            <p className={styles.emptyHint}>
-              {getText("trip_empty_hint")}
-            </p>
-          </div>
-        )}
-
         {hasValidTrip && isLoadingRoutes && (
           <div className={styles.loadingContainer}>
             <Loader size={32} className={styles.loadingSpinner} aria-hidden="true" />
