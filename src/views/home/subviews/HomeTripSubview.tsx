@@ -399,22 +399,22 @@ function HomeTripSubview(): React.JSX.Element {
         route.legs?.forEach((leg: any) => {
           // eslint-disable-next-line @typescript-eslint/no-explicit-any
           leg.steps?.forEach((step: any) => {
-            const stepDurationSeconds = parseInt(step.staticDuration ?? "0", 10) || 0;
+            const stepDurationSeconds = Math.round((step.staticDurationMillis ?? 0) / 1000);
             totalSeconds += stepDurationSeconds;
 
             if (step.travelMode === "TRANSIT" && step.transitDetails) {
               const transit = step.transitDetails;
               const lineNumber = transit.transitLine?.nameShort || transit.transitLine?.name || "";
               const headsign = transit.headsign || "";
-              const fromStop = transit.stopDetails?.departureStop?.name || "";
-              const toStop = transit.stopDetails?.arrivalStop?.name || "";
+              const fromStop = transit.departureStop?.name || "";
+              const toStop = transit.arrivalStop?.name || "";
               const duration = Math.ceil(stepDurationSeconds / 60);
 
-              if (!routeDeparture && transit.stopDetails?.departureTime) {
-                routeDeparture = new Date(transit.stopDetails.departureTime);
+              if (!routeDeparture && transit.departureTime) {
+                routeDeparture = new Date(transit.departureTime);
               }
-              if (transit.stopDetails?.arrivalTime) {
-                routeArrival = new Date(transit.stopDetails.arrivalTime);
+              if (transit.arrivalTime) {
+                routeArrival = new Date(transit.arrivalTime);
               }
 
               if (lineNumber) {
@@ -431,10 +431,12 @@ function HomeTripSubview(): React.JSX.Element {
               }
             } else if (step.travelMode === "WALK") {
               const duration = Math.ceil(stepDurationSeconds / 60);
+              const rawInstructions = step.navigationInstruction?.instructions ?? "";
+              const label = new DOMParser().parseFromString(rawInstructions, "text/html").body.textContent || "Walk";
               segments.push({
                 type: "walk",
                 duration,
-                label: step.navigationInstruction?.instructions?.replace(/<[^>]*>/g, "") || "Walk",
+                label,
                 distanceMeters: step.distanceMeters,
               });
             }

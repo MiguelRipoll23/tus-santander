@@ -110,8 +110,8 @@ export async function getDirections(
     const { Route } = await google.maps.importLibrary("routes") as any;
 
     const response = await Route.computeRoutes({
-      origin: { location: { latLng: { latitude: origin.lat, longitude: origin.lng } } },
-      destination: { location: { latLng: { latitude: destination.lat, longitude: destination.lng } } },
+      origin: { lat: origin.lat, lng: origin.lng },
+      destination: { lat: destination.lat, lng: destination.lng },
       travelMode,
       computeAlternativeRoutes: true,
     });
