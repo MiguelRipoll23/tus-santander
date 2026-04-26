@@ -95,33 +95,30 @@ export async function getPlaceCoordinates(
 }
 
 export interface RouteDirections {
-  routes: google.maps.DirectionsRoute[];
-  status: google.maps.DirectionsStatus;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  routes: any[];
 }
 
 export async function getDirections(
   origin: { lat: number; lng: number },
   destination: { lat: number; lng: number },
-  travelMode: "TRANSIT" | "WALKING" | "DRIVING" = "TRANSIT"
+  travelMode: google.maps.TravelModeString = "TRANSIT"
 ): Promise<RouteDirections | null> {
   try {
     await loadMapsApi();
-    const { DirectionsService } = await google.maps.importLibrary(
-      "routes"
-    ) as google.maps.RoutesLibrary;
+    const { Route } = await google.maps.importLibrary("routes") as google.maps.RoutesLibrary;
 
-    const service = new DirectionsService();
-    const result = await service.route({
-      origin,
-      destination,
+    const response = await Route.computeRoutes({
+      origin: { lat: origin.lat, lng: origin.lng },
+      destination: { lat: destination.lat, lng: destination.lng },
       travelMode,
-      region: "es",
-      language: "es",
+      computeAlternativeRoutes: true,
+      fields: ["*"],
     });
 
-    return result;
+    return { routes: response.routes ?? [] };
   } catch (e) {
-    console.error("Directions API error:", e);
+    console.error("Routes API error:", e);
     return null;
   }
 }
