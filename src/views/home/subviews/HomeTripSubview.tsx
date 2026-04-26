@@ -1,5 +1,5 @@
 import React from "react";
-import { Fragment, useState, useMemo, useRef, useCallback } from "react";
+import { Fragment, useState, useRef, useCallback, useEffect } from "react";
 import {
   LocateFixed,
   Search,
@@ -16,7 +16,7 @@ import { useI18n } from "../../../contexts/I18nContext";
 import Nav from "../../../components/Nav";
 import stopsJson from "../../../json/stops.min.json";
 import type { StopsData } from "../../../types/stops";
-import { getPlacePredictions, getPlaceCoordinates } from "../../../utils/PlacesUtils";
+import { getPlacePredictions, getPlaceCoordinates, getDirections } from "../../../utils/PlacesUtils";
 import type { PlacePrediction } from "../../../utils/PlacesUtils";
 import { findNearestStop } from "../../../utils/StopUtils";
 import type { NearestStop } from "../../../utils/StopUtils";
@@ -70,112 +70,6 @@ function formatTime12h(date: Date): string {
 function addMinutes(date: Date, minutes: number): Date {
   return new Date(date.getTime() + minutes * 60000);
 }
-
-function buildRoutes(from: SelectedPlace, to: SelectedPlace): RouteOption[] {
-  const now = new Date();
-  const busSpeedMps = 5.5;
-  const fromToStopMeters = from.nearest.distanceMeters;
-  const toStopToDestMeters = to.nearest.distanceMeters;
-  const stopToStopMeters = Math.sqrt(
-    Math.pow((from.nearest.stop[1] - to.nearest.stop[1]) * 111000, 2) +
-      Math.pow((from.nearest.stop[2] - to.nearest.stop[2]) * 72000, 2)
-  );
-  const busDurationMin = Math.max(4, Math.ceil(stopToStopMeters / (busSpeedMps * 60)));
-  const walkToDep = from.nearest.walkingMinutes;
-  const walkToArr = to.nearest.walkingMinutes;
-
-  const dep1 = addMinutes(now, 3);
-  const total1 = walkToDep + busDurationMin + walkToArr;
-
-  const dep2 = addMinutes(now, 9);
-  const halfBus = Math.ceil(busDurationMin / 2);
-  const total2 = walkToDep + halfBus + 3 + halfBus + walkToArr;
-
-  return [
-    {
-      id: "r1",
-      totalMinutes: total1,
-      departure: formatTime(dep1),
-      arrival: formatTime(addMinutes(dep1, total1)),
-      transfers: 0,
-      lines: ["1"],
-      scheduleText: `Bus scheduled in ${3 + walkToDep} min`,
-      etaText: `${formatTime12h(addMinutes(dep1, total1))} ETA`,
-      serviceEndText: `Service ends at ${formatTime12h(addMinutes(dep1, total1 + 42))}`,
-      segments: [
-        {
-          type: "walk",
-          duration: walkToDep,
-          label: from.nearest.stop[3],
-          distanceMeters: Math.round(fromToStopMeters),
-        },
-        {
-          type: "bus",
-          duration: busDurationMin,
-          label: "Bus 1",
-          busLine: "1",
-          busDestination: "Estación",
-          fromStop: from.nearest.stop[3],
-          toStop: to.nearest.stop[3],
-        },
-        {
-          type: "walk",
-          duration: walkToArr,
-          label: to.name,
-          distanceMeters: Math.round(toStopToDestMeters),
-        },
-      ],
-    },
-    {
-      id: "r2",
-      totalMinutes: total2,
-      departure: formatTime(dep2),
-      arrival: formatTime(addMinutes(dep2, total2)),
-      transfers: 1,
-      lines: ["3", "7"],
-      scheduleText: `Bus scheduled in ${9 + walkToDep} min`,
-      etaText: `${formatTime12h(addMinutes(dep2, total2))} ETA`,
-      segments: [
-        {
-          type: "walk",
-          duration: walkToDep,
-          label: from.nearest.stop[3],
-          distanceMeters: Math.round(fromToStopMeters),
-        },
-        {
-          type: "bus",
-          duration: halfBus,
-          label: "Bus 3",
-          busLine: "3",
-          busDestination: "Avenida de Salud",
-          fromStop: from.nearest.stop[3],
-          toStop: "Jardines de Pereda",
-        },
-        {
-          type: "transfer",
-          duration: 3,
-          label: "Jardines de Pereda",
-        },
-        {
-          type: "bus",
-          duration: halfBus,
-          label: "Bus 7",
-          busLine: "7",
-          busDestination: "Estación La Magdalena",
-          fromStop: "Jardines de Pereda",
-          toStop: to.nearest.stop[3],
-        },
-        {
-          type: "walk",
-          duration: walkToArr,
-          label: to.name,
-          distanceMeters: Math.round(toStopToDestMeters),
-        },
-      ],
-    },
-  ];
-}
-
 interface InputFieldProps {
   placeholder: string;
   value: string;
@@ -461,10 +355,87 @@ function HomeTripSubview(): React.JSX.Element {
   const [isLocating, setIsLocating] = useState(false);
   const [locationError, setLocationError] = useState<string | null>(null);
   const [selectedRoute, setSelectedRoute] = useState<RouteOption | null>(null);
+  const [routes, setRoutes] = useState<RouteOption[]>([]);
+  const [isLoadingRoutes, setIsLoadingRoutes] = useState(false);
 
-  const routes = useMemo<RouteOption[]>(() => {
-    if (!fromPlace || !toPlace) return [];
-    return buildRoutes(fromPlace, toPlace);
+  useEffect(() => {
+    const fetchRoutes = async () => {
+      if (!fromPlace || !toPlace) {
+        setRoutes([]);
+        return;
+      }
+
+      setIsLoadingRoutes(true);
+      const directionsResult = await getDirections(
+        { lat: fromPlace.lat, lng: fromPlace.lng },
+        { lat: toPlace.lat, lng: toPlace.lng },
+        "TRANSIT"
+      );
+
+      if (!directionsResult || !directionsResult.routes) {
+        setRoutes([]);
+        setIsLoadingRoutes(false);
+        return;
+      }
+
+      const newRoutes = directionsResult.routes.map((route, idx) => {
+        const segments: RouteSegment[] = [];
+        let totalDuration = 0;
+        const lines = new Set<string>();
+
+        route.legs.forEach((leg) => {
+          leg.steps?.forEach((step) => {
+            const duration = Math.ceil((step.duration?.value || 0) / 60);
+            totalDuration += duration;
+
+            if (step.travel_mode === "TRANSIT" && step.transit_details) {
+              const transit = step.transit_details;
+              const lineNumber = transit.line.short_name || transit.line.name;
+              const destination = transit.headsign || "";
+
+              lines.add(lineNumber);
+              segments.push({
+                type: "bus",
+                duration,
+                label: `Bus ${lineNumber}`,
+                busLine: lineNumber,
+                busDestination: destination,
+                fromStop: transit.departure_stop.name,
+                toStop: transit.arrival_stop.name,
+              });
+            } else if (step.travel_mode === "WALKING") {
+              segments.push({
+                type: "walk",
+                duration,
+                label: step.instructions?.replace(/<[^>]*>/g, "") || "Walk",
+                distanceMeters: step.distance?.value,
+              });
+            }
+          });
+        });
+
+        const now = new Date();
+        const departure = new Date(now.getTime() + (idx * 5 * 60000));
+        const arrival = new Date(departure.getTime() + totalDuration * 60000);
+
+        return {
+          id: `r${idx}`,
+          totalMinutes: totalDuration,
+          departure: formatTime(departure),
+          arrival: formatTime(arrival),
+          segments,
+          transfers: Math.max(0, segments.filter((s) => s.type === "bus").length - 1),
+          lines: Array.from(lines),
+          scheduleText: `Depart in ${formatTime(departure)}`,
+          etaText: `${formatTime12h(arrival)} ETA`,
+        };
+      });
+
+      setRoutes(newRoutes);
+      setIsLoadingRoutes(false);
+    };
+
+    void fetchRoutes();
   }, [fromPlace, toPlace]);
 
   const fetchFromPreds = useCallback(async (value: string) => {
