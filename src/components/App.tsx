@@ -3,6 +3,7 @@ import { useEffect } from "react";
 import { ViewProvider } from "../providers/ViewProvider";
 import { I18nProvider } from "../providers/I18nProvider";
 import View from "./View";
+import SeasonalEffects from "./SeasonalEffects";
 import { sendTelemetry } from "../utils/TelemetryUtils";
 
 function App(): React.JSX.Element {
@@ -11,11 +12,14 @@ function App(): React.JSX.Element {
   }, []);
 
   return (
-    <I18nProvider>
-      <ViewProvider>
-        <View />
-      </ViewProvider>
-    </I18nProvider>
+    <>
+      <I18nProvider>
+        <ViewProvider>
+          <View />
+        </ViewProvider>
+      </I18nProvider>
+      <SeasonalEffects />
+    </>
   );
 }
 
