@@ -380,7 +380,13 @@ function StepRow({ segment, isLast }: StepRowProps): React.JSX.Element {
           }
           data-type={segment.type}
         />
-        {!isLast && <div className={styles.stepLine} data-type={segment.type} />}
+        {!isLast && (
+          <div
+            className={styles.stepLine}
+            data-type={segment.type}
+            style={segment.type === "bus" && lineBg ? { background: lineBg } : undefined}
+          />
+        )}
       </div>
 
       <div className={styles.stepBody}>
