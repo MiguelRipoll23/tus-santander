@@ -532,7 +532,7 @@
   width: 2px;
   flex: 1;
   min-height: 20px;
-  margin-top: -4px;
+  margin-top: -6px;
 
   &[data-type="walk"] {
     background-image: repeating-linear-gradient(
