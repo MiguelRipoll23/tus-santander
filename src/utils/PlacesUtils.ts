@@ -95,33 +95,32 @@ export async function getPlaceCoordinates(
 }
 
 export interface RouteDirections {
-  routes: google.maps.DirectionsRoute[];
-  status: google.maps.DirectionsStatus;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  routes: any[];
 }
 
 export async function getDirections(
   origin: { lat: number; lng: number },
   destination: { lat: number; lng: number },
-  travelMode: "TRANSIT" | "WALKING" | "DRIVING" = "TRANSIT"
+  travelMode: "TRANSIT" | "WALK" | "DRIVE" = "TRANSIT"
 ): Promise<RouteDirections | null> {
   try {
     await loadMapsApi();
-    const { DirectionsService } = await google.maps.importLibrary(
-      "routes"
-    ) as google.maps.RoutesLibrary;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const { Route } = await google.maps.importLibrary("routes") as any;
 
-    const service = new DirectionsService();
-    const result = await service.route({
-      origin,
-      destination,
+    const response = await Route.computeRoutes({
+      origin: { location: { latLng: { latitude: origin.lat, longitude: origin.lng } } },
+      destination: { location: { latLng: { latitude: destination.lat, longitude: destination.lng } } },
       travelMode,
-      region: "es",
-      language: "es",
+      languageCode: "es",
+      regionCode: "ES",
+      computeAlternativeRoutes: true,
     });
 
-    return result;
+    return { routes: response.routes ?? [] };
   } catch (e) {
-    console.error("Directions API error:", e);
+    console.error("Routes API error:", e);
     return null;
   }
 }

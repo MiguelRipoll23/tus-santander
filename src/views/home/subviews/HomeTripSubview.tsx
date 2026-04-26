@@ -387,31 +387,35 @@ function HomeTripSubview(): React.JSX.Element {
         return;
       }
 
-      const newRoutes = directionsResult.routes.map((route) => {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const newRoutes = directionsResult.routes.map((route: any, routeIdx: number) => {
         const segments: RouteSegment[] = [];
         let totalSeconds = 0;
         const lines = new Set<string>();
         let routeDeparture: Date | null = null;
         let routeArrival: Date | null = null;
 
-        route.legs.forEach((leg, legIdx) => {
-          const legDeparture = leg.start_time?.value || new Date();
-          const legArrival = leg.end_time?.value || new Date();
-
-          if (legIdx === 0) routeDeparture = new Date(legDeparture);
-          if (legIdx === route.legs.length - 1) routeArrival = new Date(legArrival);
-
-          leg.steps?.forEach((step) => {
-            const stepDurationSeconds = step.duration?.value || 0;
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        route.legs?.forEach((leg: any) => {
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          leg.steps?.forEach((step: any) => {
+            const stepDurationSeconds = parseInt(step.staticDuration ?? "0", 10) || 0;
             totalSeconds += stepDurationSeconds;
 
-            if (step.travel_mode === "TRANSIT" && step.transit_details) {
-              const transit = step.transit_details;
-              const lineNumber = transit.line?.short_name || transit.line?.name || "";
-              const destination = transit.headsign || "";
-              const fromStop = transit.departure_stop?.name || "";
-              const toStop = transit.arrival_stop?.name || "";
+            if (step.travelMode === "TRANSIT" && step.transitDetails) {
+              const transit = step.transitDetails;
+              const lineNumber = transit.transitLine?.nameShort || transit.transitLine?.name || "";
+              const headsign = transit.headsign || "";
+              const fromStop = transit.stopDetails?.departureStop?.name || "";
+              const toStop = transit.stopDetails?.arrivalStop?.name || "";
               const duration = Math.ceil(stepDurationSeconds / 60);
+
+              if (!routeDeparture && transit.stopDetails?.departureTime) {
+                routeDeparture = new Date(transit.stopDetails.departureTime);
+              }
+              if (transit.stopDetails?.arrivalTime) {
+                routeArrival = new Date(transit.stopDetails.arrivalTime);
+              }
 
               if (lineNumber) {
                 lines.add(lineNumber);
@@ -420,18 +424,18 @@ function HomeTripSubview(): React.JSX.Element {
                   duration,
                   label: `Bus ${lineNumber}`,
                   busLine: lineNumber,
-                  busDestination: destination,
+                  busDestination: headsign,
                   fromStop,
                   toStop,
                 });
               }
-            } else if (step.travel_mode === "WALKING") {
+            } else if (step.travelMode === "WALK") {
               const duration = Math.ceil(stepDurationSeconds / 60);
               segments.push({
                 type: "walk",
                 duration,
-                label: step.instructions?.replace(/<[^>]*>/g, "") || "Walk",
-                distanceMeters: step.distance?.value,
+                label: step.navigationInstruction?.instructions?.replace(/<[^>]*>/g, "") || "Walk",
+                distanceMeters: step.distanceMeters,
               });
             }
           });
@@ -439,10 +443,10 @@ function HomeTripSubview(): React.JSX.Element {
 
         const totalMinutes = Math.ceil(totalSeconds / 60);
         const departure = routeDeparture || new Date();
-        const arrival = routeArrival || new Date(departure.getTime() + totalMinutes * 60000);
+        const arrival = routeArrival || addMinutes(departure, totalMinutes);
 
         return {
-          id: route.legs.map((l) => l.start_address).join("-"),
+          id: `route-${routeIdx}`,
           totalMinutes,
           departure: formatTime(departure),
           arrival: formatTime(arrival),
