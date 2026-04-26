@@ -1,5 +1,4 @@
 import React from "react";
-import styles from "./EstimationsBody.module.css";
 
 interface EstimationsBodyProps {
   time1: number;
@@ -14,11 +13,11 @@ function getTimeText(minutes: number): string {
 
 function EstimationsBody({ time1, time2 }: EstimationsBodyProps): React.JSX.Element {
   return (
-    <div className={styles.Time}>
-      <div className={styles.Time1} id="time1" data-time={time1}>
+    <div className="inline-block rounded-lg leading-5 text-[26px] pb-[22px] px-6 w-full box-border">
+      <div className="inline-block w-[120px]" id="time1" data-time={time1}>
         {getTimeText(time1)}
       </div>
-      <div className={styles.Time2}>{getTimeText(time2)}</div>
+      <div className="inline-block opacity-60">{getTimeText(time2)}</div>
     </div>
   );
 }

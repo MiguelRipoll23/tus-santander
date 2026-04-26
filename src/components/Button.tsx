@@ -1,6 +1,5 @@
 import React from "react";
 import type { ReactNode, MouseEventHandler } from "react";
-import styles from "./Button.module.css";
 
 interface ButtonProps {
   children: ReactNode;
@@ -13,7 +12,7 @@ function Button({ children, className, color, onClick }: ButtonProps): React.JSX
   return (
     <button
       type="button"
-      className={`${className ?? ""} ${styles.button}`}
+      className={`rounded-[30px] text-center text-white font-bold inline-block box-border ${className ?? ""}`}
       style={{ backgroundColor: color }}
       onClick={onClick}
     >

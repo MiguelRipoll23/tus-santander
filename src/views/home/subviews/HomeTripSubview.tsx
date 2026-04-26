@@ -8,7 +8,6 @@ import {
   Bus,
   Footprints,
   ArrowUpDown,
-  ArrowRight,
   ChevronsRight,
 } from "lucide-react";
 
@@ -21,7 +20,6 @@ import type { PlacePrediction } from "../../../utils/PlacesUtils";
 import { findNearestStop } from "../../../utils/StopUtils";
 import type { NearestStop } from "../../../utils/StopUtils";
 import { getLineBackgroundColor, getLineTextColor } from "../../../utils/LineUtils";
-import styles from "./HomeTripSubview.module.css";
 
 const Stops = stopsJson as unknown as StopsData;
 
@@ -208,13 +206,17 @@ function InputField({
   const showDropdown = focused && predictions.length > 0;
 
   return (
-    <div className={styles.fieldGroup}>
-      <div className={styles.fieldRow}>
-        <div className={styles.fieldDot} data-type={dot ?? "origin"} />
+    <div className="relative">
+      <div className="flex items-center gap-[10px] py-3 px-3.5">
+        <div
+          className={`w-[10px] h-[10px] rounded-full flex-shrink-0 ${
+            (dot ?? "origin") === "origin" ? "bg-[#0070f0]" : "bg-[#ff3b30]"
+          }`}
+        />
 
         <input
           ref={inputRef}
-          className={styles.fieldInput}
+          className="flex-1 border-0 outline-none bg-transparent text-base text-black dark:text-white min-w-0 placeholder:text-[#aeaeb2]"
           type="text"
           placeholder={placeholder}
           value={value}
@@ -225,11 +227,11 @@ function InputField({
           onKeyDown={onKeyDown}
         />
 
-        <div className={styles.fieldActions}>
+        <div className="flex items-center gap-1 flex-shrink-0">
           {value.length > 0 && (
             <button
               type="button"
-              className={styles.clearBtn}
+              className="flex items-center justify-center w-5 h-5 rounded-full bg-[#aeaeb2] text-white flex-shrink-0"
               onMouseDown={(e) => {
                 e.preventDefault();
                 onClear();
@@ -243,7 +245,7 @@ function InputField({
           {showLocation && (
             <button
               type="button"
-              className={`${styles.locateBtn} ${isLocating ? styles.locateBtnActive : ""}`}
+              className={`flex items-center justify-center text-[#0070f0] p-1 rounded-md ${isLocating ? "opacity-50" : ""}`}
               onMouseDown={(e) => {
                 e.preventDefault();
                 onLocation?.();
@@ -257,22 +259,22 @@ function InputField({
       </div>
 
       {showDropdown && (
-        <div className={styles.dropdown}>
+        <div className="absolute bottom-[calc(100%+4px)] top-auto left-0 right-0 bg-white dark:bg-[#2c2c2e] rounded-xl border border-black/10 dark:border-white/10 z-50 overflow-hidden">
           {predictions.map((p) => (
             <button
               key={p.placeId}
               type="button"
-              className={styles.dropdownItem}
+              className="flex items-start gap-[10px] p-[11px_14px] w-full text-left border-b border-black/[0.05] dark:border-white/[0.06] last:border-b-0 active:bg-[rgba(0,112,240,0.07)]"
               onMouseDown={(e) => {
                 e.preventDefault();
                 onSelect(p);
               }}
             >
-              <Search size={13} className={styles.dropdownIcon} aria-hidden="true" />
-              <div className={styles.dropdownText}>
-                <span className={styles.dropdownMain}>{p.mainText}</span>
+              <Search size={13} className="text-[#aeaeb2] flex-shrink-0 mt-[2px]" aria-hidden="true" />
+              <div className="flex flex-col gap-[2px] min-w-0">
+                <span className="text-[15px] text-black dark:text-white font-medium whitespace-nowrap overflow-hidden text-ellipsis">{p.mainText}</span>
                 {p.secondaryText && (
-                  <span className={styles.dropdownSub}>{p.secondaryText}</span>
+                  <span className="text-xs text-[#aeaeb2] whitespace-nowrap overflow-hidden text-ellipsis">{p.secondaryText}</span>
                 )}
               </div>
             </button>
@@ -291,43 +293,43 @@ function RoutePills({ segments }: { segments: RouteSegment[] }): React.JSX.Eleme
 
     if (seg.type === "walk") {
       elements.push(
-        <div key={`w${i}`} className={styles.pillWalk}>
+        <div key={`w${i}`} className="flex items-center gap-1 py-1 px-[10px] rounded-[20px] text-xs font-semibold bg-[#e5e5ea] text-[#3c3c43] dark:bg-[#3a3a3c] dark:text-[#aeaeb2]">
           <Footprints size={12} aria-hidden="true" />
           <span>{seg.duration} min</span>
         </div>
       );
       if (i + 1 < segments.length) {
         elements.push(
-          <span key={`ws${i}`} className={styles.pillSep} aria-hidden="true">▶</span>
+          <span key={`ws${i}`} className="text-[10px] text-[#aeaeb2] leading-none" aria-hidden="true">▶</span>
         );
       }
     } else if (seg.type === "bus" && seg.busLine) {
       const bg = getLineBackgroundColor(seg.busLine, "string");
       const fg = getLineTextColor(seg.busLine);
       elements.push(
-        <div key={`b${i}`} className={styles.pillBusLine} style={{ background: bg, color: fg }}>
+        <div key={`b${i}`} className="flex items-center justify-center py-1 px-2 rounded-md text-[13px] font-bold min-w-[26px]" style={{ background: bg, color: fg }}>
           <span>{seg.busLine}</span>
         </div>
       );
       const next = segments[i + 1];
       if (!next || next.type !== "bus") {
         elements.push(
-          <Bus key={`bi${i}`} size={14} className={styles.pillBusIcon} aria-hidden="true" />
+          <Bus key={`bi${i}`} size={14} className="text-[#636366] dark:text-[#aeaeb2]" aria-hidden="true" />
         );
         if (next?.type === "walk") {
           elements.push(
-            <span key={`bs${i}`} className={styles.pillSep} aria-hidden="true">▶</span>
+            <span key={`bs${i}`} className="text-[10px] text-[#aeaeb2] leading-none" aria-hidden="true">▶</span>
           );
         }
       }
     } else if (seg.type === "transfer") {
       elements.push(
-        <span key={`t${i}`} className={styles.pillSep} aria-hidden="true">▶</span>
+        <span key={`t${i}`} className="text-[10px] text-[#aeaeb2] leading-none" aria-hidden="true">▶</span>
       );
     }
   }
 
-  return <div className={styles.pills}>{elements}</div>;
+  return <div className="flex items-center gap-[5px] flex-wrap">{elements}</div>;
 }
 
 interface RouteCardProps {
@@ -337,22 +339,25 @@ interface RouteCardProps {
 
 function RouteCard({ route, onClick }: RouteCardProps): React.JSX.Element {
   return (
-    <button type="button" className={styles.routeCard} onClick={onClick}>
-      <div className={styles.routeCardInner}>
-        <div className={styles.routeCardLeft}>
-          <div className={styles.routeDurationText}>{route.totalMinutes} min</div>
-          <div className={styles.routeScheduleText}>{route.scheduleText} · {route.etaText}</div>
+    <button
+      type="button"
+      className="block w-full text-left bg-[rgba(0,112,240,0.1)] dark:bg-[rgba(0,112,240,0.08)] rounded-2xl p-4 transition-transform duration-[0.15s] active:scale-[0.98]"
+      onClick={onClick}
+    >
+      <div className="flex items-stretch gap-3">
+        <div className="flex flex-col gap-1.5 flex-1 min-w-0">
+          <div className="text-[26px] font-bold text-black dark:text-white leading-[1.1]">{route.totalMinutes} min</div>
+          <div className="text-sm text-[#636366] dark:text-[#aeaeb2] leading-[1.4]">{route.scheduleText} · {route.etaText}</div>
           <RoutePills segments={route.segments} />
           {route.serviceEndText && (
-            <div className={styles.routeServiceInfo}>
+            <div className="flex items-center gap-1.5 text-[13px] text-[#636366] dark:text-[#aeaeb2] mt-[2px]">
               <Clock size={13} aria-hidden="true" />
               <span>{route.serviceEndText}</span>
             </div>
           )}
         </div>
-        <div className={styles.stepsBtn} aria-hidden="true">
-          <ChevronsRight size={22} className={styles.stepsBtnIcon} />
-          <span className={styles.stepsBtnLabel}>Steps</span>
+        <div className="flex flex-col items-center justify-center bg-transparent rounded-2xl p-1 flex-shrink-0" aria-hidden="true">
+          <ChevronsRight size={22} className="text-[#0070f0]" />
         </div>
       </div>
     </button>
@@ -366,75 +371,79 @@ interface StepRowProps {
 
 function StepRow({ segment, isLast }: StepRowProps): React.JSX.Element {
   const lineBg = segment.busLine ? getLineBackgroundColor(segment.busLine, "string") : "";
-  const lineFg = segment.busLine ? getLineTextColor(segment.busLine) : "";
+
+  const dotColor =
+    segment.type === "walk" ? "#aeaeb2" :
+    segment.type === "bus" ? (lineBg || "#0070f0") :
+    "#ff9500";
+
+  const lineStyle: React.CSSProperties =
+    segment.type === "walk"
+      ? { backgroundImage: "repeating-linear-gradient(to bottom, #aeaeb2 0px, #aeaeb2 4px, transparent 4px, transparent 8px)" }
+      : segment.type === "bus"
+        ? { background: "rgba(0, 112, 240, 0.5)" }
+        : { background: "rgba(255, 149, 0, 0.5)" };
 
   return (
-    <div className={styles.step}>
-      <div className={styles.stepTimeline}>
+    <div className="flex">
+      <div className="flex flex-col items-center w-8 flex-shrink-0 pb-3">
         <div
-          className={styles.stepDot}
-          style={
-            segment.type === "bus" && lineBg
-              ? { background: lineBg }
-              : undefined
-          }
-          data-type={segment.type}
+          className="w-3 h-3 rounded-full flex-shrink-0 mt-2 z-[1]"
+          style={{ background: dotColor }}
         />
-        {!isLast && <div className={styles.stepLine} data-type={segment.type} />}
+        {!isLast && (
+          <div className="w-[2px] flex-1 min-h-5 my-1" style={lineStyle} />
+        )}
       </div>
 
-      <div className={styles.stepBody}>
+      <div className="flex-1 pb-3 pl-2 min-w-0">
         {segment.type === "walk" && (
-          <div className={styles.stepCard}>
-            <div className={styles.stepCardAccent} data-type="walk" />
-            <div className={styles.stepCardContent}>
-              <div className={styles.stepWalkHeader}>
-                <Footprints size={15} className={styles.stepWalkIcon} aria-hidden="true" />
-                <span className={styles.stepCardTitle}>
+          <div className="bg-[#f2f2f7] dark:bg-[#1c1b20] rounded-xl overflow-hidden flex">
+            <div className="w-1 flex-shrink-0 self-stretch bg-[#aeaeb2]" />
+            <div className="py-[10px] px-3.5 pb-3">
+              <div className="flex items-center gap-1.5 mb-1">
+                <Footprints size={15} className="text-[#636366] flex-shrink-0" aria-hidden="true" />
+                <span className="text-[15px] font-semibold text-black dark:text-white">
                   Walk{segment.distanceMeters ? ` · ${segment.distanceMeters} m` : ""}
                 </span>
               </div>
-              <div className={styles.stepCardSub}>{segment.label}</div>
-              <div className={styles.stepCardTime}>{segment.duration} minutes</div>
+              <div className="text-[13px] text-[#636366] dark:text-[#aeaeb2] mb-1 leading-[1.4] [&_strong]:text-black [&_strong]:dark:text-white [&_strong]:font-semibold">{segment.label}</div>
+              <div className="text-[13px] text-[#0070f0] font-semibold mt-1.5">{segment.duration} minutes</div>
             </div>
           </div>
         )}
 
         {segment.type === "bus" && segment.busLine && (
-          <div className={styles.stepCard}>
-            <div
-              className={styles.stepCardAccent}
-              data-type="bus"
-              style={{ background: lineBg }}
-            />
-            <div className={styles.stepCardContent}>
-              <div className={styles.stepWalkHeader}>
+          <div className="bg-[#f2f2f7] dark:bg-[#1c1b20] rounded-xl overflow-hidden flex">
+            <div className="w-1 flex-shrink-0 self-stretch" style={{ background: lineBg }} />
+            <div className="py-[10px] px-3.5 pb-3">
+              <div className="flex items-center gap-1.5 mb-1">
                 <Bus size={15} style={{ color: lineBg }} aria-hidden="true" />
-                <span className={styles.stepCardTitle}>
+                <span className="text-[15px] font-semibold text-black dark:text-white">
                   {segment.busLine}{segment.busDestination ? ` · towards ${segment.busDestination}` : ""}
                 </span>
               </div>
-              <div className={styles.stepCardSub}>
+              <div className="text-[13px] text-[#636366] dark:text-[#aeaeb2] mb-1 leading-[1.4] [&_strong]:text-black [&_strong]:dark:text-white [&_strong]:font-semibold">
                 Board at <strong>{segment.fromStop}</strong>
               </div>
-              <div className={styles.stepCardSub}>
+              <div className="text-[13px] text-[#636366] dark:text-[#aeaeb2] mb-1 leading-[1.4] [&_strong]:text-black [&_strong]:dark:text-white [&_strong]:font-semibold">
                 Alight at <strong>{segment.toStop}</strong>
               </div>
-              <div className={styles.stepCardTime}>{segment.duration} minutes</div>
+              <div className="text-[13px] text-[#0070f0] font-semibold mt-1.5">{segment.duration} minutes</div>
             </div>
           </div>
         )}
 
         {segment.type === "transfer" && (
-          <div className={styles.stepCard}>
-            <div className={styles.stepCardAccent} data-type="transfer" />
-            <div className={styles.stepCardContent}>
-              <div className={styles.stepWalkHeader}>
-                <ArrowUpDown size={15} className={styles.stepTransferIcon} aria-hidden="true" />
-                <span className={styles.stepCardTitle}>Transfer</span>
+          <div className="bg-[#f2f2f7] dark:bg-[#1c1b20] rounded-xl overflow-hidden flex">
+            <div className="w-1 flex-shrink-0 self-stretch bg-[#ff9500]" />
+            <div className="py-[10px] px-3.5 pb-3">
+              <div className="flex items-center gap-1.5 mb-1">
+                <ArrowUpDown size={15} className="text-[#ff9500] flex-shrink-0" aria-hidden="true" />
+                <span className="text-[15px] font-semibold text-black dark:text-white">Transfer</span>
               </div>
-              <div className={styles.stepCardSub}>{segment.label}</div>
-              <div className={styles.stepCardTime}>{segment.duration} minutes</div>
+              <div className="text-[13px] text-[#636366] dark:text-[#aeaeb2] mb-1 leading-[1.4]">{segment.label}</div>
+              <div className="text-[13px] text-[#0070f0] font-semibold mt-1.5">{segment.duration} minutes</div>
             </div>
           </div>
         )}
@@ -563,9 +572,8 @@ function HomeTripSubview(): React.JSX.Element {
           titleText={toPlace?.name || getText("trip")}
           onBack={() => setSelectedRoute(null)}
         />
-        <div className={styles.detailContent}>
-
-          <div className={styles.stepsContainer}>
+        <div className="pt-[72px] px-3.5 pb-[120px]">
+          <div className="flex flex-col">
             {selectedRoute.segments.map((seg, i) => (
               <StepRow
                 key={i}
@@ -573,9 +581,9 @@ function HomeTripSubview(): React.JSX.Element {
                 isLast={i === selectedRoute.segments.length - 1}
               />
             ))}
-            <div className={styles.arriveRow}>
-              <div className={styles.arriveDot} />
-              <span className={styles.arriveLabel}>Arrive at {selectedRoute.arrival}</span>
+            <div className="flex items-center gap-[10px] pt-3 pl-[10px]">
+              <div className="w-3 h-3 rounded-full bg-[#34c759] flex-shrink-0" />
+              <span className="text-[15px] font-semibold text-[#34c759]">Arrive at {selectedRoute.arrival}</span>
             </div>
           </div>
         </div>
@@ -588,8 +596,8 @@ function HomeTripSubview(): React.JSX.Element {
     <Fragment>
       <Nav isHeader titleText={getText("trip")} />
 
-      <div className={styles.stickySearch}>
-        <div className={styles.searchCard}>
+      <div className="fixed bottom-[calc(env(safe-area-inset-bottom)+120px)] left-0 right-0 z-[8] px-3.5">
+        <div className="bg-[#f2f2f7] dark:bg-[#1c1b20] rounded-2xl overflow-visible">
           <InputField
             placeholder={getText("from")}
             value={fromText}
@@ -603,11 +611,11 @@ function HomeTripSubview(): React.JSX.Element {
             dot="origin"
           />
 
-          <div className={styles.fieldsDivider}>
-            <div className={styles.dividerLine} />
+          <div className="flex items-center px-3.5 gap-[10px]">
+            <div className="flex-1 h-px bg-black/10 dark:bg-white/10 ml-5" />
             <button
               type="button"
-              className={styles.swapBtn}
+              className="flex items-center justify-center w-7 h-7 rounded-full text-[#0070f0] bg-[rgba(0,112,240,0.12)] flex-shrink-0 transition-transform duration-200 active:rotate-180"
               onClick={swapPlaces}
               aria-label="Swap"
             >
@@ -628,23 +636,23 @@ function HomeTripSubview(): React.JSX.Element {
         </div>
       </div>
 
-      <div className={styles.content}>
+      <div className="flex flex-col min-h-[calc(100svh-100px)] px-3.5 pb-[calc(env(safe-area-inset-bottom)+240px)]">
         {locationError && (
-          <div className={styles.errorBanner}>{locationError}</div>
+          <div className="bg-[rgba(255,59,48,0.12)] text-[#ff3b30] rounded-[10px] px-3.5 py-[10px] text-sm mb-3">{locationError}</div>
         )}
 
         {!hasValidTrip && !fromText && !toText && (
-          <div className={styles.emptyState}>
-            <Bus size={36} className={styles.emptyIcon} aria-hidden="true" />
-            <p className={styles.emptyTitle}>{getText("plan_trip")}</p>
-            <p className={styles.emptyHint}>
+          <div className="flex-1 flex flex-col items-center justify-center p-5 text-center">
+            <Bus size={36} className="text-[#aeaeb2] mb-3.5 opacity-40" aria-hidden="true" />
+            <p className="text-[17px] font-semibold text-[#3c3c43] dark:text-white/50 m-0 mb-1.5">{getText("plan_trip")}</p>
+            <p className="text-sm text-[#aeaeb2] m-0">
               {getText("trip_empty_hint")}
             </p>
           </div>
         )}
 
         {hasValidTrip && (
-          <div className={styles.routesList}>
+          <div className="flex flex-col gap-3">
             {routes.map((route) => (
               <RouteCard
                 key={route.id}

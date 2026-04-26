@@ -1,6 +1,5 @@
 import React from "react";
 import type { ReactNode, CSSProperties } from "react";
-import styles from "./Main.module.css";
 
 interface MainProps {
   children: ReactNode;
@@ -12,7 +11,7 @@ function Main({ children, paddingTop = "0", paddingBottom = "0" }: MainProps): R
   const style: CSSProperties = { paddingTop, paddingBottom };
 
   return (
-    <main className={styles.Content} style={style}>
+    <main className="flex-1 flex flex-col box-border" style={style}>
       {children}
     </main>
   );

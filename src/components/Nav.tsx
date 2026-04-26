@@ -3,7 +3,6 @@ import type { ReactNode } from "react";
 import { Fragment } from "react";
 import { ChevronLeft } from "lucide-react";
 import Header from "./Header";
-import styles from "./Nav.module.css";
 
 interface NavProps {
   isHeader: boolean;
@@ -22,23 +21,23 @@ function Nav({ isHeader, titleText, children, onBack }: NavProps): React.JSX.Ele
     <Fragment>
       {isHeader && <Header text={titleText}>{children}</Header>}
       {isHeader === false && (
-        <div className={styles.Nav}>
-          <div className={styles.NavLeft}>
+        <div className="fixed w-full flex min-h-[55px] items-center z-[1]">
+          <div className="float-left w-1/3 flex flex-1">
             <button
               type="button"
-              className={`${styles.BackButton} liquid-glass`}
+              className="liquid-glass text-[15px] text-black dark:text-white p-2 mx-3.5 my-[11px] animate-fade-in shadow-none flex items-center justify-center"
               aria-label="Back"
               onClick={goBack}
             >
               <ChevronLeft size={28} aria-hidden="true" />
             </button>
           </div>
-          <div className={styles.NavCenter}>
-            <span className={`${styles.NavTitle} liquid-glass`}>
+          <div className="float-left w-1/3 text-center flex flex-1">
+            <span className="liquid-glass text-[15px] font-bold m-auto py-1 px-3 shadow-none">
               {titleText}
             </span>
           </div>
-          <div className={styles.NavRight}>{children}</div>
+          <div className="float-left w-1/3 justify-end flex flex-1">{children}</div>
         </div>
       )}
     </Fragment>

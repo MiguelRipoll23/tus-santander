@@ -1,6 +1,5 @@
 import React from "react";
 import type { ReactNode, MouseEventHandler } from "react";
-import styles from "./EstimationsCard.module.css";
 import {
   getLineBackgroundColors,
   getLineTextColor,
@@ -25,7 +24,7 @@ function EstimationsCard({
   return (
     <div
       id={id}
-      className={styles.EstimationsCard}
+      className="rounded-[30px] mt-3.5 mx-3.5 cursor-pointer last:mb-3.5 animate-fade-in-slow"
       style={{
         background: `linear-gradient(to bottom, ${backgroundColors[0]}, ${backgroundColors[1]})`,
         color: textColor,

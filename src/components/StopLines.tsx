@@ -1,6 +1,5 @@
 import React from "react";
 import type { EstimationTuple } from "../types/estimations";
-import styles from "./StopLines.module.css";
 import {
   getLineBackgroundColor,
   getLineTextColor,
@@ -39,23 +38,23 @@ function StopLines({ size, list, estimations }: StopLinesProps): React.JSX.Eleme
 
   return (
     <div
-      className={styles.stopLines}
+      className="mt-[7px] pr-3.5 text-white overflow-x-scroll whitespace-nowrap [&::-webkit-scrollbar]:hidden"
       style={{
-        "--padding-left": paddingLeft,
-        "--height": height,
+        height,
+        paddingLeft,
       }}
     >
       {list.map((label, i) => {
         const isDisabledBtn = isDisabled(label, estimations);
-        const buttonClass = `${styles.stopLine} ${
-          isSmall ? styles.stopLineSmall : styles.stopLineLarge
-        }`;
+        const sizeClass = isSmall
+          ? "text-xs mr-[5px] min-w-[35px] py-[2px] cursor-default"
+          : "text-[18px] mr-[7px] min-w-[48px] py-[6px]";
 
         return (
           <button
             type="button"
             key={i}
-            className={buttonClass}
+            className={`leading-6 text-center inline-block font-normal rounded-[30px] cursor-pointer last:mr-0 disabled:opacity-10 disabled:cursor-default dark:disabled:bg-white dark:disabled:text-black dark:disabled:opacity-40 ${sizeClass}`}
             disabled={isDisabledBtn}
             style={{
               background: getLineBackgroundColor(label, "string"),

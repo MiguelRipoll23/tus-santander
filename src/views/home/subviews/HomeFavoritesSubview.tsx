@@ -37,7 +37,6 @@ import Nav from "../../../components/Nav";
 import ErrorDisplay from "../../../components/Error";
 import HomeDesktop from "../../../components/home/HomeDesktop";
 import { useI18n } from "../../../contexts/I18nContext";
-import styles from "./HomeFavoritesSubview.module.css";
 import DonationBubble from "../../../components/home/DonationBubble";
 
 interface SortableFavoriteProps {
@@ -77,13 +76,13 @@ function SortableFavorite({
     <div
       ref={setNodeRef}
       style={style}
-      className={styles.SortableWrapper}
+      className="mx-3.5 mb-2 w-[calc(100%-28px)] box-border relative"
       {...attributes}
       {...(editMode ? listeners : {})}
     >
       <button
         type="button"
-        className={`${styles.Favorite} ${editMode && !isDragging ? styles.Wiggle : ""}`}
+        className={`py-[13px] px-[22px] bg-gradient-to-r from-[#ff2e56] to-[#e0002b] text-white text-base box-border leading-[27px] rounded-2xl m-0 w-full block overflow-hidden font-bold min-h-[53px] text-left select-none dark:bg-none dark:bg-[#1c1b20] dark:from-[#1c1b20] dark:to-[#1c1b20] ${editMode && !isDragging ? "animate-wiggle cursor-move" : ""}`}
         onClick={() => loadEstimationsStopView(favorite)}
       >
         {favorite.stop_name}
@@ -169,7 +168,10 @@ function HomeFavoritesSubview(): React.JSX.Element {
       <Nav isHeader titleText={getText("favorites")} />
       <button
         type="button"
-        className={`${editMode ? styles.DoneLink : `${styles.SortIconAndDoneLink} liquid-glass`}`}
+        className={editMode
+          ? "text-[#0070f0] p-2 animate-fade-in flex items-center justify-center text-[inherit] fixed top-[17px] right-3.5 z-[2]"
+          : "liquid-glass text-[#0070f0] p-2 animate-fade-in flex items-center justify-center text-[inherit] rounded-full fixed top-[17px] right-3.5 z-[2] border border-[rgba(0,112,240,0.15)]"
+        }
         hidden={sortIconHidden}
         onClick={toggleEditMode}
       >
@@ -179,7 +181,7 @@ function HomeFavoritesSubview(): React.JSX.Element {
           <ArrowUpDown size={20} aria-hidden="true" />
         )}
       </button>
-      <div className={styles.Content}>
+      <div className="relative pt-[3px] pb-3.5 box-border">
         {!error && <DonationBubble favoritesCount={favorites.length} />}
         {error && (
           <ErrorDisplay

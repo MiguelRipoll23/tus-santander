@@ -1,4 +1,3 @@
-import React from "react";
 import { useEffect, useState } from "react";
 import { createPortal } from "react-dom";
 import type { ReactNode } from "react";
@@ -9,11 +8,8 @@ import type { MarkerPosition } from "../../interfaces/marker";
 import { GOOGLE_MAPS_KEY } from "../../utils/ApiConstants";
 import { getLineBackgroundColor } from "../../utils/LineUtils";
 import { useView } from "../../contexts/ViewContext";
-import { useI18n } from "../../contexts/I18nContext";
 import { VIEW_ID_ESTIMATIONS_STOP } from "../../constants/ViewConstants";
 import allMarkers from "../../utils/MarkerUtils";
-
-import styles from "./RouteMapCard.module.css";
 
 interface RouteMapCardProps {
   routes: RouteItemTuple[];
@@ -69,7 +65,6 @@ function RoutePolyline({ path, color }: RoutePolylineProps): null {
 }
 
 function RouteMapCard({ routes, activeStopId, lineLabel }: RouteMapCardProps): ReactNode {
-  const { getText } = useI18n();
   const { setViewIdWithData } = useView();
   const [isFullscreen, setIsFullscreen] = useState(false);
   const [mapMounted, setMapMounted] = useState(false);
@@ -115,7 +110,7 @@ function RouteMapCard({ routes, activeStopId, lineLabel }: RouteMapCardProps): R
           <div className="marker">
             {isActive ? (
               <div
-                className={styles.activePin}
+                className="w-4 h-4 rounded-full border-[3px] border-white shadow-[0_1px_4px_rgba(0,0,0,0.4)]"
                 style={{ backgroundColor: lineColor }}
               />
             ) : (
@@ -136,7 +131,7 @@ function RouteMapCard({ routes, activeStopId, lineLabel }: RouteMapCardProps): R
   );
 
   const fullscreenOverlay = createPortal(
-    <div className={styles.fullscreen}>
+    <div className="fixed inset-0 z-[999]">
       {mapMounted && (
         <APIProvider apiKey={apiKey}>
           <Map
@@ -155,7 +150,7 @@ function RouteMapCard({ routes, activeStopId, lineLabel }: RouteMapCardProps): R
       )}
       <button
         type="button"
-        className={`${styles.backBtn} liquid-glass`}
+        className="liquid-glass fixed top-[11px] left-3.5 z-[1000] p-2 text-black dark:text-white shadow-none flex items-center justify-center"
         aria-label="Back"
         onClick={() => setIsFullscreen(false)}
       >
@@ -168,7 +163,7 @@ function RouteMapCard({ routes, activeStopId, lineLabel }: RouteMapCardProps): R
   return (
     <>
       <div
-        className={styles.card}
+        className="sticky top-16 h-[200px] mx-3.5 my-3.5 rounded-2xl overflow-hidden animate-fade-in cursor-pointer z-10"
         onClick={() => setIsFullscreen(true)}
         role="button"
         tabIndex={0}

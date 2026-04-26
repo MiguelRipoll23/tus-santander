@@ -1,6 +1,5 @@
 import React from "react";
 import type { EstimationTuple } from "../../types/estimations";
-import styles from "./EstimationsList.module.css";
 import EstimationsCard from "../../components/estimations/EstimationsCard";
 import EstimationsHeader from "../../components/estimations/EstimationsHeader";
 import EstimationsBody from "../../components/estimations/EstimationsBody";
@@ -36,7 +35,7 @@ function EstimationsList({
     );
   });
 
-  return <div className={styles.EstimationsList}>{items}</div>;
+  return <div className="flex flex-col gap-[10px]">{items}</div>;
 }
 
 export default EstimationsList;

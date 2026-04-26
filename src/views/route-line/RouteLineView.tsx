@@ -18,8 +18,6 @@ import StopLines from "../../components/StopLines";
 import RouteMapCard from "../../components/route-line/RouteMapCard";
 import { useI18n } from "../../contexts/I18nContext";
 
-import styles from "./RouteLineView.module.css";
-
 function RouteLineView(): React.JSX.Element {
   const { getText } = useI18n();
   const { data } = useView();
@@ -106,7 +104,7 @@ function RouteLineView(): React.JSX.Element {
             lineLabel={lineLabel}
           />
         )}
-        <ul className={styles.routeLineList}>
+        <ul className="list-none pl-[45px] mt-3.5 mb-7">
           {routes.map((item, i) => {
             const [itemStopId, stopName, stopLines] = item;
             const active = isActive(itemStopId);
@@ -114,8 +112,12 @@ function RouteLineView(): React.JSX.Element {
             return (
               <li
                 key={i}
-                className={styles.stopItem}
                 id={active ? "stop-active" : undefined}
+                className="leading-5 relative pb-3 text-[18px] font-bold animate-fade-in
+                  before:content-[''] before:absolute before:left-[-22.8px] before:[border-left:3px_solid_var(--line-color)] before:w-px before:h-full
+                  after:content-[''] after:absolute after:left-[-31px] after:top-0 after:w-[13px] after:h-[13px] after:rounded-full after:[border:3px_solid_var(--line-color)] after:bg-[var(--active-color)]
+                  last:pb-0 last:before:hidden
+                  dark:after:bg-[var(--active-color-dark)]"
                 style={{
                   "--line-color": color,
                   "--active-color": active ? color : "#fff",
@@ -125,7 +127,6 @@ function RouteLineView(): React.JSX.Element {
                 <span>{stopName}</span>
                 {stopLines.length > 0 && (
                   <StopLines
-                    className={styles.StopLines}
                     list={[...stopLines]}
                     size="small"
                   />

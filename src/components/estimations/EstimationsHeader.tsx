@@ -1,5 +1,4 @@
 import type React from "react";
-import styles from "./EstimationsHeader.module.css";
 
 interface EstimationsHeaderProps {
   label: string;
@@ -8,11 +7,9 @@ interface EstimationsHeaderProps {
 
 function EstimationsHeader({ label, destination }: EstimationsHeaderProps): React.JSX.Element {
   return (
-    <div className={styles.LineHeader}>
-      <span className={styles.LineLabel}>{label}</span>
-      <span className={styles.LineDestination}>
-        {destination.toUpperCase()}
-      </span>
+    <div className="pt-[18px] px-6 mb-[30px]">
+      <span className="text-[32px] block">{label}</span>
+      <span className="text-[22px]">{destination.toUpperCase()}</span>
     </div>
   );
 }
