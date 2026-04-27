@@ -436,7 +436,7 @@ function HomeTripSubview(): React.JSX.Element {
 
             if (step.travelMode === "TRANSIT" && step.transitDetails) {
               const transit = step.transitDetails;
-              const lineNumber = transit.transitLine?.nameShort || transit.transitLine?.name || "";
+              const lineNumber = transit.transitLine?.nameShort || "";
               const headsign = transit.headsign || "";
               const fromStop = transit.departureStop?.name || "";
               const toStop = transit.arrivalStop?.name || "";
@@ -536,7 +536,8 @@ function HomeTripSubview(): React.JSX.Element {
     const coords = await getPlaceCoordinates(pred);
     if (!coords) return null;
     const nearest = findNearestStop(coords.lat, coords.lng, Stops);
-    return { name: pred.mainText, lat: coords.lat, lng: coords.lng, nearest };
+    const longName = pred.secondaryText ? `${pred.mainText}, ${pred.secondaryText}` : pred.mainText;
+    return { name: longName, lat: coords.lat, lng: coords.lng, nearest };
   };
 
   const selectFrom = async (pred: PlacePrediction): Promise<void> => {
