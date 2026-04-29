@@ -5,4 +5,4 @@ export type ViewId =
   | "estimations_line"
   | "route_line";
 
-export type SubViewId = "favorites" | "map" | "search" | "trip";
+export type SubViewId = "favorites" | "map" | "search";

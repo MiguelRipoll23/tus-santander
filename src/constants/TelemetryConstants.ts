@@ -14,5 +14,3 @@ export const EVENT_TYPE_FAVORITE_SELECT: TelemetryEventType =
 export const EVENT_TYPE_SEARCH_SELECT: TelemetryEventType = "search_select";
 export const EVENT_TYPE_DONATION_CLICK: TelemetryEventType = "donation_click";
 export const EVENT_TYPE_DONATION_CLOSE: TelemetryEventType = "donation_close";
-export const EVENT_TYPE_TRIP_SEARCH: TelemetryEventType = "trip_search";
-export const EVENT_TYPE_TRIP_SELECT: TelemetryEventType = "trip_select";

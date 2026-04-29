@@ -12,12 +12,10 @@ export const VIEW_ID_ROUTE_LINE: ViewId = "route_line";
 export const SUB_VIEW_ID_FAVORITES: SubViewId = "favorites";
 export const SUB_VIEW_ID_MAP: SubViewId = "map";
 export const SUB_VIEW_ID_SEARCH: SubViewId = "search";
-export const SUB_VIEW_ID_TRIP: SubViewId = "trip";
 
 export const SUB_VIEW_TITLE_FAVORITES = "favorites";
 export const SUB_VIEW_TITLE_MAP = "map";
 export const SUB_VIEW_TITLE_SEARCH = "search";
-export const SUB_VIEW_TITLE_TRIP = "trip";
 
 export const SET_VIEW_ID = "SET_VIEW_ID";
 export const SET_VIEW_ID_WITH_DATA = "SET_VIEW_ID_WITH_DATA";

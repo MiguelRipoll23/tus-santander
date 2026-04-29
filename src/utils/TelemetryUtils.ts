@@ -18,8 +18,6 @@ import {
   EVENT_TYPE_FAVORITE,
   EVENT_TYPE_DONATION_CLICK,
   EVENT_TYPE_DONATION_CLOSE,
-  EVENT_TYPE_TRIP_SEARCH,
-  EVENT_TYPE_TRIP_SELECT,
 } from "../constants/TelemetryConstants";
 
 const TELEMETRY_URL: string | null =
@@ -242,20 +240,6 @@ export function trackDonationTipButton(): void {
 
 export function trackDonationCloseButton(): void {
   sendTelemetryEvent(EVENT_TYPE_DONATION_CLOSE);
-}
-
-export function trackTripSearch(from: string, to: string): void {
-  sendTelemetryEvent(EVENT_TYPE_TRIP_SEARCH, {
-    from: from.substring(0, 50),
-    to: to.substring(0, 50),
-  });
-}
-
-export function trackTripSelect(lines: string[], totalMinutes: number): void {
-  sendTelemetryEvent(EVENT_TYPE_TRIP_SELECT, {
-    lines,
-    duration_minutes: totalMinutes,
-  });
 }
 
 if (typeof window !== "undefined") {
