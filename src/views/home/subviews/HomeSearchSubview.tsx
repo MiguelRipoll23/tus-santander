@@ -97,7 +97,7 @@ function HomeSearchSubview(): React.JSX.Element {
 
         {results.length > 0 && (
           <div className={styles.results}>
-            {results.map((result, i) => {
+            {results.map((result) => {
               const stopId = result[0];
               const stopName = result[3];
 
@@ -105,7 +105,7 @@ function HomeSearchSubview(): React.JSX.Element {
                 <button
                   type="button"
                   className={styles.result}
-                  key={i}
+                  key={stopId}
                   onClick={() => loadEstimationsStopView(stopId, stopName)}
                 >
                   <Search size={14} className={styles.resultIcon} aria-hidden="true" />

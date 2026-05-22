@@ -1,5 +1,5 @@
 import React from "react";
-import { Fragment, useCallback, useEffect, useState } from "react";
+import { Fragment, useCallback, useEffect, useState, useEffectEvent } from "react";
 import type { EstimationTuple } from "../../types/estimations";
 import type { LineViewData, RouteViewData } from "../../interfaces/view";
 import { useView } from "../../contexts/ViewContext";
@@ -107,23 +107,24 @@ function EstimationsLineView(): React.JSX.Element {
     setViewIdWithData(VIEW_ID_ROUTE_LINE, routeData);
   };
 
+  const onVisibilityChange = useEffectEvent((): void => {
+    if (document.visibilityState === "visible") {
+      trackRefresh("line_estimations", true);
+      refreshContent();
+    }
+  });
+
   useEffect(() => {
     trackLineEstimations(lineLabel, lineDestination);
 
     getEstimations();
 
-    const handleVisibilityChange = (): void => {
-      if (document.visibilityState === "visible") {
-        trackRefresh("line_estimations", true);
-        refreshContent();
-      }
-    };
-    document.addEventListener("visibilitychange", handleVisibilityChange);
+    document.addEventListener("visibilitychange", onVisibilityChange);
 
     return () => {
-      document.removeEventListener("visibilitychange", handleVisibilityChange);
+      document.removeEventListener("visibilitychange", onVisibilityChange);
     };
-  }, [getEstimations, refreshContent, lineLabel, lineDestination]);
+  }, [getEstimations, lineLabel, lineDestination]);
 
   return (
     <Fragment>

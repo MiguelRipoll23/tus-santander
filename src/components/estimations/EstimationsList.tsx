@@ -17,12 +17,12 @@ function EstimationsList({
   lineAction,
   stops,
 }: EstimationsListProps): React.JSX.Element {
-  const items = estimations.map((item, i) => {
+  const items = estimations.map((item) => {
     const [label, destination, time1, time2] = item;
 
     return (
       <EstimationsCard
-        key={i}
+        key={label}
         id={"label-" + label}
         label={label}
         onClick={() => lineAction(item)}

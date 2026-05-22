@@ -56,9 +56,16 @@ function HomeMenu(): React.JSX.Element {
       {menuItems.map(({ id, icon, label, onClick }) => (
         <div
           key={id}
+          role="button"
+          tabIndex={0}
           className={styles.item}
           data-selected={subViewId === id}
           onClick={onClick}
+          onKeyDown={(e: React.KeyboardEvent) => {
+            if (e.key === "Enter" || e.key === " ") {
+              onClick();
+            }
+          }}
         >
           <div className={styles.itemIcon}>{icon}</div>
           <div className={styles.itemText}>{label}</div>

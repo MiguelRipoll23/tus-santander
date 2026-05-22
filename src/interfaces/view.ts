@@ -45,10 +45,17 @@ export type SetSubViewIdAction = {
   pushState: boolean;
 };
 
+export type RestorePopStateAction = {
+  type: "RESTORE_POPSTATE";
+  payload: { viewId: ViewId; subViewId: SubViewId; data: ViewData | null };
+  pushState: boolean;
+};
+
 export type ViewAction =
   | SetViewIdAction
   | SetViewIdWithDataAction
-  | SetSubViewIdAction;
+  | SetSubViewIdAction
+  | RestorePopStateAction;
 
 export interface ViewContextValue extends ViewState {
   setViewId: (
@@ -63,4 +70,11 @@ export interface ViewContextValue extends ViewState {
     isBackNavigation?: boolean
   ) => void;
   setSubViewId: (subViewId: SubViewId, pushState?: boolean) => void;
+  restorePopState: (
+    viewId: ViewId,
+    subViewId: SubViewId,
+    data: ViewData | null,
+    pushState?: boolean,
+    isBackNavigation?: boolean
+  ) => void;
 }

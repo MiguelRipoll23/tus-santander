@@ -107,13 +107,13 @@ function RouteLineView(): React.JSX.Element {
           />
         )}
         <ul className={styles.routeLineList}>
-          {routes.map((item, i) => {
+          {routes.map((item) => {
             const [itemStopId, stopName, stopLines] = item;
             const active = isActive(itemStopId);
 
             return (
               <li
-                key={i}
+                key={itemStopId}
                 className={styles.stopItem}
                 id={active ? "stop-active" : undefined}
                 style={{

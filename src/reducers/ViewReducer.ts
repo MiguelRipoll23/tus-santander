@@ -2,6 +2,7 @@ import type { ViewState, ViewAction } from "../interfaces/view";
 import {
   INITIAL_SUB_VIEW_ID,
   INITIAL_VIEW_ID,
+  RESTORE_POPSTATE,
   SET_SUB_VIEW_ID,
   SET_VIEW_ID,
   SET_VIEW_ID_WITH_DATA,
@@ -54,6 +55,15 @@ export function viewReducer(state: ViewState, action: ViewAction): ViewState {
       };
       break;
 
+    case RESTORE_POPSTATE:
+      updatedState = {
+        ...state,
+        viewId: payload.viewId,
+        subViewId: payload.subViewId,
+        data: payload.data,
+      };
+      break;
+
     default:
       throw new Error(`No case for type ${type} found in viewReducer`);
   }
@@ -69,7 +79,6 @@ export function viewReducer(state: ViewState, action: ViewAction): ViewState {
 
   if (pushState) {
     globalThis.history.pushState(updatedState, "");
-    console.log("pushState", updatedState);
   }
 
   return updatedState;

@@ -6,6 +6,7 @@ import type { ViewId, SubViewId } from "../types/view";
 import { getInitialState, viewReducer } from "../reducers/ViewReducer";
 import { ViewContext } from "../contexts/ViewContext";
 import {
+  RESTORE_POPSTATE,
   SET_SUB_VIEW_ID,
   SET_VIEW_ID,
   SET_VIEW_ID_WITH_DATA,
@@ -79,6 +80,22 @@ export function ViewProvider({ children }: ViewProviderProps): React.JSX.Element
     });
   };
 
+  const restorePopState = (
+    viewId: ViewId,
+    subViewId: SubViewId,
+    data: ViewData | null,
+    pushState = false,
+    isBackNavigation = false
+  ): void => {
+    const dispatchData: ViewAction = {
+      type: RESTORE_POPSTATE,
+      payload: { viewId, subViewId, data },
+      pushState,
+    };
+
+    void dispatchWithViewTransition(dispatch, dispatchData, isBackNavigation);
+  };
+
   const value: ViewContextValue = {
     index: state.index,
     viewId: state.viewId,
@@ -87,6 +104,7 @@ export function ViewProvider({ children }: ViewProviderProps): React.JSX.Element
     setViewId,
     setViewIdWithData,
     setSubViewId,
+    restorePopState,
   };
 
   return <ViewContext.Provider value={value}>{children}</ViewContext.Provider>;

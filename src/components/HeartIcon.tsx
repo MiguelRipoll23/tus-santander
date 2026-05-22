@@ -16,6 +16,7 @@ function HeartIcon(
   const isFavorite = heartState > 1;
   return (
     <button
+      type="button"
       className={`${styles.HeartIcon} liquid-glass`}
       aria-label={getText("add_to_favorites")}
       onClick={updateFavorite}

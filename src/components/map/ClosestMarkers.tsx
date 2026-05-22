@@ -19,10 +19,10 @@ function ClosestMarkers({ markers }: ClosestMarkersProps): ReactNode {
     });
   };
 
-  return markers.map((marker, i) => {
+  return markers.map((marker) => {
     return (
       <AdvancedMarker
-        key={i}
+        key={marker.id}
         position={marker.position}
         onClick={() => loadEstimationsStopView(marker)}
       >
