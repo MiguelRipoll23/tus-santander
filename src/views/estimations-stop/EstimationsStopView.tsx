@@ -1,5 +1,5 @@
 import React from "react";
-import { Fragment, useCallback, useEffect, useState } from "react";
+import { Fragment, useCallback, useEffect, useReducer, useEffectEvent } from "react";
 import type { EstimationTuple } from "../../types/estimations";
 import type { StopViewData, LineViewData } from "../../interfaces/view";
 import { useView } from "../../contexts/ViewContext";
@@ -32,20 +32,60 @@ type CompactEstimationsResponse = [
   lines: string[],
 ];
 
+interface EstimationsStopState {
+  loading: boolean;
+  error: boolean;
+  refreshVisible: boolean;
+  heartState: number;
+  lines: string[];
+  estimations: EstimationTuple[];
+}
+
+type EstimationsStopAction =
+  | { type: "FETCH_SUCCESS"; estimations: EstimationTuple[]; lines?: string[]; heartState: number }
+  | { type: "FETCH_ERROR" }
+  | { type: "REFRESH_START" }
+  | { type: "SET_HEART"; heartState: number };
+
+const initialState: EstimationsStopState = {
+  loading: true,
+  error: false,
+  refreshVisible: false,
+  heartState: 0,
+  lines: [],
+  estimations: [],
+};
+
+function estimationsStopReducer(
+  state: EstimationsStopState,
+  action: EstimationsStopAction
+): EstimationsStopState {
+  switch (action.type) {
+    case "FETCH_SUCCESS":
+      return {
+        ...state,
+        loading: false,
+        error: false,
+        refreshVisible: true,
+        heartState: action.heartState,
+        estimations: action.estimations,
+        ...(action.lines !== undefined ? { lines: action.lines } : {}),
+      };
+    case "FETCH_ERROR":
+      return { ...state, loading: false, error: true };
+    case "REFRESH_START":
+      return { ...state, loading: true, error: false, refreshVisible: false, estimations: [] };
+    case "SET_HEART":
+      return { ...state, heartState: action.heartState };
+  }
+}
+
 function EstimationsStopView(): React.JSX.Element {
   const { getText } = useI18n();
   const { data, setViewIdWithData } = useView();
-  // Router guarantees this view only renders when viewId === VIEW_ID_ESTIMATIONS_STOP
   const { stopId, stopName } = data as StopViewData;
 
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(false);
-
-  const [refreshVisible, setRefreshVisible] = useState(false);
-  const [heartState, setHeartState] = useState(0);
-
-  const [lines, setLines] = useState<string[]>([]);
-  const [estimations, setEstimations] = useState<EstimationTuple[]>([]);
+  const [state, dispatch] = useReducer(estimationsStopReducer, initialState);
 
   const getEstimations = useCallback(
     (update = false): void => {
@@ -76,22 +116,16 @@ function EstimationsStopView(): React.JSX.Element {
             throw new Error("Empty response");
           }
 
-          setEstimations(estimationsList);
-
-          if (!update) {
-            setLines(responseData[1]);
-          }
-
-          setRefreshVisible(true);
+          dispatch({
+            type: "FETCH_SUCCESS",
+            estimations: estimationsList,
+            ...(!update ? { lines: responseData[1] } : {}),
+            heartState: getFavorite(stopId) === null ? 1 : 2,
+          });
         })
         .catch((err: unknown) => {
           console.error(err);
-          setError(true);
-        })
-        .finally(() => {
-          const newHeartState = getFavorite(stopId) === null ? 1 : 2;
-          setLoading(false);
-          setHeartState(newHeartState);
+          dispatch({ type: "FETCH_ERROR" });
         });
     },
     [stopId]
@@ -99,10 +133,7 @@ function EstimationsStopView(): React.JSX.Element {
 
   const refreshContent = useCallback(
     (update: boolean): void => {
-      setRefreshVisible(false);
-      setLoading(true);
-      setError(false);
-      setEstimations([]);
+      dispatch({ type: "REFRESH_START" });
       getEstimations(update);
     },
     [getEstimations]
@@ -111,7 +142,7 @@ function EstimationsStopView(): React.JSX.Element {
   const syncFavoriteState = (): void => {
     const wasFavorited = getFavorite(stopId) !== null;
     const newHeartState = toggleFavorite(stopId, stopName) ? 2 : 1;
-    setHeartState(newHeartState);
+    dispatch({ type: "SET_HEART", heartState: newHeartState });
     trackFavoriteToggle(stopId, !wasFavorited);
   };
 
@@ -141,48 +172,49 @@ function EstimationsStopView(): React.JSX.Element {
     setViewIdWithData(VIEW_ID_ESTIMATIONS_LINE, lineViewData);
   };
 
+  const onVisibilityChange = useEffectEvent((): void => {
+    if (document.visibilityState === "visible") {
+      trackRefresh("stop_estimations", true);
+      refreshContent(true);
+    }
+  });
+
   useEffect(() => {
     trackStopEstimations(stopId, stopName);
 
     getEstimations();
 
-    const handleVisibilityChange = (): void => {
-      if (document.visibilityState === "visible") {
-        trackRefresh("stop_estimations", true);
-        refreshContent(true);
-      }
-    };
-    document.addEventListener("visibilitychange", handleVisibilityChange);
+    document.addEventListener("visibilitychange", onVisibilityChange);
 
     return () => {
-      document.removeEventListener("visibilitychange", handleVisibilityChange);
+      document.removeEventListener("visibilitychange", onVisibilityChange);
     };
-  }, [getEstimations, refreshContent, stopId, stopName]);
+  }, [getEstimations, stopId, stopName]);
 
   return (
     <Fragment>
       <Nav isHeader={false} titleText={stopName}>
-        {heartState > 0 && (
-          <HeartIcon heartState={heartState} updateFavorite={updateFavorite} />
+        {state.heartState > 0 && (
+          <HeartIcon heartState={state.heartState} updateFavorite={updateFavorite} />
         )}
       </Nav>
       <Main paddingTop="64px" paddingBottom="105px">
-        {loading && <Spinner />}
-        {error && (
+        {state.loading && <Spinner />}
+        {state.error && (
           <ErrorDisplay
             errorText={getText("no_available")}
             retryText={getText("try_again")}
             retryAction={() => refreshContent(false)}
           />
         )}
-        {lines.length > 0 && (
-          <StopLines list={lines} estimations={estimations} />
+        {state.lines.length > 0 && (
+          <StopLines list={state.lines} estimations={state.estimations} />
         )}
         <EstimationsList
-          estimations={estimations}
+          estimations={state.estimations}
           lineAction={loadEstimationsLineView}
         />
-        {refreshVisible && (
+        {state.refreshVisible && (
           <RefreshIcon refreshContent={() => refreshContent(true)} />
         )}
       </Main>

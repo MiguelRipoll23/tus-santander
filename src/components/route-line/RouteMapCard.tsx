@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { createPortal } from "react-dom";
 import type { ReactNode } from "react";
 import { APIProvider, AdvancedMarker, Map, useMap } from "@vis.gl/react-google-maps";
@@ -37,10 +37,43 @@ function BoundsFitter({ positions }: BoundsFitterProps): null {
     const bounds = new google.maps.LatLngBounds();
     positions.forEach((pos) => bounds.extend(pos));
     map.fitBounds(bounds, 32);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [map]);
+  }, [map, positions]);
 
   return null;
+}
+
+interface StopMarkersProps {
+  markers: StopMarker[];
+  activeStopId: number;
+  lineColor: string;
+  onMarkerClick: (stop: StopMarker) => void;
+  showLabels?: boolean;
+}
+
+function StopMarkers({ markers, activeStopId, lineColor, onMarkerClick, showLabels }: StopMarkersProps): ReactNode {
+  return markers.map((stop) => {
+    const isActive = stop.id === activeStopId;
+    return (
+      <AdvancedMarker
+        key={stop.id}
+        position={stop.position}
+        onClick={() => onMarkerClick(stop)}
+        title={stop.name}
+      >
+        <div className="marker">
+          {isActive ? (
+            <div
+              className={styles.activePin}
+              style={{ backgroundColor: lineColor }}
+            />
+          ) : (
+            <MapPin size={24} color="rgb(0, 112, 240)" aria-hidden="true" />
+          )}
+          {showLabels && <span className="markerLabel">{stop.name}</span>}
+        </div>
+      </AdvancedMarker>
+    );
+  });
 }
 
 interface RoutePolylineProps {
@@ -81,13 +114,17 @@ function RouteMapCard({ routes, activeStopId, lineLabel }: RouteMapCardProps): R
   const defaultCenter = { lat: 43.462068, lng: -3.810204 };
   const defaultZoom = 12;
 
-  const stopMarkers: StopMarker[] = routes.reduce<StopMarker[]>((acc, [id, name]) => {
-    const found = allMarkers.find((m) => m.id === id);
-    if (found) acc.push({ id, name, position: found.position });
-    return acc;
-  }, []);
+  const stopMarkers: StopMarker[] = useMemo(
+    () =>
+      routes.reduce<StopMarker[]>((acc, [id, name]) => {
+        const found = allMarkers.find((m) => m.id === id);
+        if (found) acc.push({ id, name, position: found.position });
+        return acc;
+      }, []),
+    [routes]
+  );
 
-  const positions = stopMarkers.map((m) => m.position);
+  const positions = useMemo(() => stopMarkers.map((m) => m.position), [stopMarkers]);
 
   const activeStop = stopMarkers.find((m) => m.id === activeStopId);
   const mapCenter = activeStop ? activeStop.position : defaultCenter;
@@ -107,39 +144,6 @@ function RouteMapCard({ routes, activeStopId, lineLabel }: RouteMapCardProps): R
     }
   };
 
-  const renderMarkers = (showLabels: boolean = false): ReactNode =>
-    stopMarkers.map((stop) => {
-      const isActive = stop.id === activeStopId;
-      return (
-        <AdvancedMarker
-          key={stop.id}
-          position={stop.position}
-          onClick={() => handleMarkerClick(stop)}
-          title={stop.name}
-        >
-          <div className="marker">
-            {isActive ? (
-              <div
-                className={styles.activePin}
-                style={{ backgroundColor: lineColor }}
-              />
-            ) : (
-              <MapPin size={24} color="rgb(0, 112, 240)" aria-hidden="true" />
-            )}
-            {showLabels && <span className="markerLabel">{stop.name}</span>}
-          </div>
-        </AdvancedMarker>
-      );
-    });
-
-  const renderMapContent = (showLabels: boolean = false): ReactNode => (
-    <>
-      <BoundsFitter positions={positions} />
-      <RoutePolyline path={positions} color={lineColor} />
-      {renderMarkers(showLabels)}
-    </>
-  );
-
   const fullscreenOverlay = createPortal(
     <div className={styles.fullscreen}>
       {mapMounted && (
@@ -154,7 +158,15 @@ function RouteMapCard({ routes, activeStopId, lineLabel }: RouteMapCardProps): R
             gestureHandling="greedy"
             style={{ width: "100%", height: "100%" }}
           >
-            {renderMapContent(true)}
+            <BoundsFitter positions={positions} />
+            <RoutePolyline path={positions} color={lineColor} />
+            <StopMarkers
+              markers={stopMarkers}
+              activeStopId={activeStopId}
+              lineColor={lineColor}
+              onMarkerClick={handleMarkerClick}
+              showLabels
+            />
           </Map>
         </APIProvider>
       )}
@@ -174,9 +186,9 @@ function RouteMapCard({ routes, activeStopId, lineLabel }: RouteMapCardProps): R
     <>
       <div
         className={styles.card}
-        onClick={() => setIsFullscreen(true)}
         role="button"
         tabIndex={0}
+        onClick={() => setIsFullscreen(true)}
         onKeyDown={(e) => {
           if (e.key === "Enter" || e.key === " ") {
             setIsFullscreen(true);
@@ -185,17 +197,24 @@ function RouteMapCard({ routes, activeStopId, lineLabel }: RouteMapCardProps): R
       >
         {mapMounted && (
           <APIProvider apiKey={apiKey}>
-            <Map
-              mapId="91bb8a184defe594b79354e1"
-              colorScheme="FOLLOW_SYSTEM"
-              defaultZoom={defaultZoom}
-              defaultCenter={mapCenter}
-              disableDefaultUI={true}
-              gestureHandling="cooperative"
-              style={{ width: "100%", height: "100%" }}
-            >
-              {renderMapContent()}
-            </Map>
+          <Map
+            mapId="91bb8a184defe594b79354e1"
+            colorScheme="FOLLOW_SYSTEM"
+            defaultZoom={defaultZoom}
+            defaultCenter={mapCenter}
+            disableDefaultUI={true}
+            gestureHandling="cooperative"
+            style={{ width: "100%", height: "100%" }}
+          >
+            <BoundsFitter positions={positions} />
+            <RoutePolyline path={positions} color={lineColor} />
+            <StopMarkers
+              markers={stopMarkers}
+              activeStopId={activeStopId}
+              lineColor={lineColor}
+              onMarkerClick={handleMarkerClick}
+            />
+          </Map>
           </APIProvider>
         )}
       </div>

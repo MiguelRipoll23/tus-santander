@@ -83,15 +83,16 @@ function MapView(): React.JSX.Element {
       };
 
       const nearby: MarkerWithDistance[] = allMarkers
-        .filter((marker) => bounds.contains(marker.position))
-        .map((marker) => {
+        .reduce<MarkerWithDistance[]>((acc, marker) => {
+          if (!bounds.contains(marker.position)) return acc;
           const centerDistance =
             google.maps.geometry.spherical.computeDistanceBetween(
               marker.position,
               adjustedCenter
             );
-          return { ...marker, centerDistance };
-        })
+          acc.push({ ...marker, centerDistance });
+          return acc;
+        }, [])
         .sort((a, b) => a.centerDistance - b.centerDistance)
         .slice(0, 10);
 

@@ -20,9 +20,9 @@ function NextStops({ label, list }: NextStopsProps): React.JSX.Element {
           "--border-color": backgroundColors[0],
         }}
       >
-        {list.map((stop, i) => {
+        {list.map((stop) => {
           return (
-            <div key={i} className={styles.NextStop}>
+            <div key={stop} className={styles.NextStop}>
               {stop}
             </div>
           );

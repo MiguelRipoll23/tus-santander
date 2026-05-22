@@ -45,7 +45,7 @@ function SelectedView({ viewId }: SelectedViewProps): React.JSX.Element | null {
 }
 
 function View(): React.JSX.Element {
-  const { index, viewId, setViewId, setSubViewId, setViewIdWithData } =
+  const { index, viewId, restorePopState } =
     useView();
 
   useEffect(() => {
@@ -54,16 +54,14 @@ function View(): React.JSX.Element {
       const rawState: unknown = event.state;
 
       if (rawState === null || rawState === undefined) {
-        setViewId(INITIAL_VIEW_ID, false, true);
-        setSubViewId(INITIAL_SUB_VIEW_ID, false);
+        restorePopState(INITIAL_VIEW_ID, INITIAL_SUB_VIEW_ID, null, false, true);
         return;
       }
 
       const state = rawState as ViewState;
       const isBackNavigation = state.index < index;
 
-      setViewIdWithData(state.viewId, state.data, false, isBackNavigation);
-      setSubViewId(state.subViewId, false);
+      restorePopState(state.viewId, state.subViewId, state.data, false, isBackNavigation);
     };
 
     globalThis.onpopstate = handlePopState;
@@ -71,7 +69,7 @@ function View(): React.JSX.Element {
     return () => {
       globalThis.onpopstate = null;
     };
-  }, [index, setViewId, setSubViewId, setViewIdWithData]);
+  }, [index, restorePopState]);
 
   return <SelectedView viewId={viewId} />;
 }

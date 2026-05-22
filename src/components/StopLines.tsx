@@ -45,7 +45,7 @@ function StopLines({ size, list, estimations }: StopLinesProps): React.JSX.Eleme
         "--height": height,
       }}
     >
-      {list.map((label, i) => {
+        {list.map((label) => {
         const isDisabledBtn = isDisabled(label, estimations);
         const buttonClass = `${styles.stopLine} ${
           isSmall ? styles.stopLineSmall : styles.stopLineLarge
@@ -54,7 +54,7 @@ function StopLines({ size, list, estimations }: StopLinesProps): React.JSX.Eleme
         return (
           <button
             type="button"
-            key={i}
+            key={label}
             className={buttonClass}
             disabled={isDisabledBtn}
             style={{
