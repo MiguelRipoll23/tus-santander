@@ -69,6 +69,23 @@ function buildLineSearchParams(data: ViewData): string {
   return `?${params.toString()}`;
 }
 
+const hasStopId = (
+  data: ViewData | null,
+): data is ViewData & { stopId: number } => data !== null && "stopId" in data;
+
+const hasLineLabel = (
+  data: ViewData | null,
+): data is ViewData & { stopId: number; lineLabel: string } =>
+  data !== null && "lineLabel" in data;
+
+const buildLinePath = (
+  data: ViewData & { stopId: number; lineLabel: string },
+  suffix = "",
+): string => {
+  const lineLabel = encodeURIComponent(data.lineLabel);
+  return `/stops/${data.stopId}/lines/${lineLabel}${suffix}${buildLineSearchParams(data)}`;
+};
+
 function getPathForView(viewId: ViewId, data: ViewData | null): string {
   switch (viewId) {
     case VIEW_ID_HOME:
@@ -78,24 +95,13 @@ function getPathForView(viewId: ViewId, data: ViewData | null): string {
       return "/map";
 
     case VIEW_ID_ESTIMATIONS_STOP:
-      if (data !== null && "stopId" in data) {
-        return `/stops/${data.stopId}`;
-      }
-      return "/";
+      return hasStopId(data) ? `/stops/${data.stopId}` : "/";
 
     case VIEW_ID_ESTIMATIONS_LINE:
-      if (data !== null && "lineLabel" in data) {
-        const lineLabel = encodeURIComponent(data.lineLabel);
-        return `/stops/${data.stopId}/lines/${lineLabel}${buildLineSearchParams(data)}`;
-      }
-      return "/";
+      return hasLineLabel(data) ? buildLinePath(data) : "/";
 
     case VIEW_ID_ROUTE_LINE:
-      if (data !== null && "lineLabel" in data) {
-        const lineLabel = encodeURIComponent(data.lineLabel);
-        return `/stops/${data.stopId}/lines/${lineLabel}/route${buildLineSearchParams(data)}`;
-      }
-      return "/";
+      return hasLineLabel(data) ? buildLinePath(data, "/route") : "/";
 
     default:
       return "/";
