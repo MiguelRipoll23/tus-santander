@@ -17,7 +17,3 @@ export const SUB_VIEW_TITLE_FAVORITES = "favorites";
 export const SUB_VIEW_TITLE_MAP = "map";
 export const SUB_VIEW_TITLE_SEARCH = "search";
 
-export const SET_VIEW_ID = "SET_VIEW_ID";
-export const SET_VIEW_ID_WITH_DATA = "SET_VIEW_ID_WITH_DATA";
-export const SET_SUB_VIEW_ID = "SET_SUB_VIEW_ID";
-export const RESTORE_POPSTATE = "RESTORE_POPSTATE";

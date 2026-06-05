@@ -1,12 +1,12 @@
 import { createContext, use } from "react";
 import type { ViewContextValue } from "../interfaces/view";
-import { getInitialState } from "../reducers/ViewReducer";
 import { INITIAL_SUB_VIEW_ID, INITIAL_VIEW_ID } from "../constants/ViewConstants";
 
 const defaultContextValue: ViewContextValue = {
-  ...getInitialState(),
+  index: 0,
   viewId: INITIAL_VIEW_ID,
   subViewId: INITIAL_SUB_VIEW_ID,
+  data: null,
   setViewId: () => {},
   setViewIdWithData: () => {},
   setSubViewId: () => {},

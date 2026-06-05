@@ -27,36 +27,6 @@ export interface ViewState {
   data: ViewData | null;
 }
 
-export type SetViewIdAction = {
-  type: "SET_VIEW_ID";
-  payload: ViewId;
-  pushState: boolean;
-};
-
-export type SetViewIdWithDataAction = {
-  type: "SET_VIEW_ID_WITH_DATA";
-  payload: { viewId: ViewId; data: ViewData | null };
-  pushState: boolean;
-};
-
-export type SetSubViewIdAction = {
-  type: "SET_SUB_VIEW_ID";
-  payload: SubViewId;
-  pushState: boolean;
-};
-
-export type RestorePopStateAction = {
-  type: "RESTORE_POPSTATE";
-  payload: { viewId: ViewId; subViewId: SubViewId; data: ViewData | null };
-  pushState: boolean;
-};
-
-export type ViewAction =
-  | SetViewIdAction
-  | SetViewIdWithDataAction
-  | SetSubViewIdAction
-  | RestorePopStateAction;
-
 export interface ViewContextValue extends ViewState {
   setViewId: (
     viewId: ViewId,
