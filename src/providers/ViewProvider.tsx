@@ -108,6 +108,14 @@ function getPathForView(viewId: ViewId, data: ViewData | null): string {
   }
 }
 
+function safeDecodeURIComponent(value: string): string {
+  try {
+    return decodeURIComponent(value);
+  } catch {
+    return value;
+  }
+}
+
 function getIndexFromHistoryState(): number {
   const currentState = history.state as unknown;
 
@@ -144,7 +152,7 @@ function getRouteMatch(
   );
   if (routeLineMatch) {
     const stopId = Number(routeLineMatch[1]);
-    const lineLabel = decodeURIComponent(routeLineMatch[2]);
+    const lineLabel = safeDecodeURIComponent(routeLineMatch[2]);
     const lineDestination = searchParams.get("destination") ?? "";
 
     return {
@@ -161,7 +169,7 @@ function getRouteMatch(
   const lineMatch = pathname.match(/^\/stops\/(\d+)\/lines\/([^/]+)$/);
   if (lineMatch) {
     const stopId = Number(lineMatch[1]);
-    const lineLabel = decodeURIComponent(lineMatch[2]);
+    const lineLabel = safeDecodeURIComponent(lineMatch[2]);
     const lineDestination = searchParams.get("destination") ?? "";
     const stopName = searchParams.get("stopName") ?? getStopName(stopId, data);
 
@@ -271,7 +279,7 @@ export function ViewProvider({ children }: ViewProviderProps): React.JSX.Element
   const setSubViewId = useCallback(
     (subViewId: SubViewId, pushState = true): void => {
       const path = subViewId === SUB_VIEW_ID_SEARCH ? "/search" : "/";
-      void navigateWithViewTransition(navigate, path, null, !pushState, false);
+      void navigate(path, { replace: !pushState, state: { data: null } });
     },
     [navigate],
   );
