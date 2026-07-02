@@ -83,13 +83,8 @@ jobs:
       id-token: write
 
     steps:
-      - name: Setup Node.js
-        uses: actions/setup-node@v6
-        with:
-          node-version: 24.18.0
-
       - name: Install Firebase CLI
-        run: npm install -g firebase-tools
+        run: npm install -g firebase-tools@15.22.3
 
       - name: Download artifact
         uses: actions/download-artifact@v8
