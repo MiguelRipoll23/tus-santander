@@ -15,7 +15,7 @@ updates:
           - "actions/upload-artifact"
           - "actions/download-artifact"
 
-  - package-ecosystem: "npm"
+  - package-ecosystem: "pnpm"
     directory: "/"
     schedule:
       interval: "daily"

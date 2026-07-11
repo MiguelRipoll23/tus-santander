@@ -28,7 +28,7 @@ export function getInitialState(): ViewState {
 export function viewReducer(state: ViewState, action: ViewAction): ViewState {
   const { type, payload, pushState } = action;
 
-  let updatedState: ViewState | null = null;
+  let updatedState: ViewState;
 
   switch (type) {
     case SET_VIEW_ID:
