@@ -50,7 +50,7 @@ jobs:
         uses: actions/setup-node@v6
 
         with:
-          node-version: ${{ vars.WEB_NODE_VERSION }}
+          node-version: 24
           cache: "pnpm"
 
       - name: Install package
