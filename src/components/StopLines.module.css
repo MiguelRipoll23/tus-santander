@@ -42,7 +42,7 @@
   font-size: 12px;
   margin-right: 5px;
   min-width: 35px;
-  padding: 2px 0;
+  padding: 2px 8px;
   cursor: default;
 }
 
@@ -50,5 +50,5 @@
   font-size: 18px;
   margin-right: 7px;
   min-width: 48px;
-  padding: 6px 0;
+  padding: 6px 12px;
 }
