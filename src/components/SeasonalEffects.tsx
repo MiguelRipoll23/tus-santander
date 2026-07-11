@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useRef, useState } from "react";
+import React, { useCallback, useEffect, useEffectEvent, useRef, useState } from "react";
 import styles from "./SeasonalEffects.module.css";
 
 type Effect = "halloween" | "christmas" | "newyear";
@@ -43,11 +43,10 @@ function HalloweenItem({
   el: HalloweenEl;
   onDone: () => void;
 }) {
-  const doneRef = useRef(onDone);
-  doneRef.current = onDone;
+  const onDoneEvent = useEffectEvent(onDone);
 
   useEffect(() => {
-    const t = setTimeout(() => doneRef.current(), 6000);
+    const t = setTimeout(() => onDoneEvent(), 6000);
     return () => clearTimeout(t);
   }, []);
 
@@ -142,11 +141,10 @@ function ChristmasEmojiItem({
   el: ChristmasEl;
   onDone: () => void;
 }) {
-  const doneRef = useRef(onDone);
-  doneRef.current = onDone;
+  const onDoneEvent = useEffectEvent(onDone);
 
   useEffect(() => {
-    const t = setTimeout(() => doneRef.current(), 6000);
+    const t = setTimeout(() => onDoneEvent(), 6000);
     return () => clearTimeout(t);
   }, []);
 
