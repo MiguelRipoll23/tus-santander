@@ -21,13 +21,6 @@ declare module "*.png" {
   export default src;
 }
 
-// Augment csstype to allow CSS custom properties (--*) in React style props
-declare module "csstype" {
-  interface Properties {
-    [key: `--${string}`]: string | number | undefined;
-  }
-}
-
 declare const gtag:
   | ((
       command: string,

@@ -100,21 +100,21 @@ Catalan (`ca`), Danish (`da`), English (`en`), Spanish (`es`), French (`fr`), It
 2. **`useCallback` / `useMemo`** for stable references passed to child components or effect deps.
 3. **`useEffectEvent`** (React 19) for event-like logic in effects (see `EstimationsStopView.tsx`).
 4. **`useReducer`** for state with multiple sub-values or complex transitions.
-5. **Avoid `any`** — `@typescript-eslint/no-explicit-any` is an **error**; use `unknown` then narrow.
+5. **Avoid `any`** — `no-explicit-any` is an **error**; use `unknown` then narrow.
 6. **No prop-types** — `react/prop-types` is off; use TypeScript interfaces.
 7. **Data fetching** — plain `fetch` with `.then()/.catch()` (no React Query/SWR). Use `useCallback` + `useReducer`.
 8. **CSS Modules** — no CSS-in-JS. Class names in camelCase within JS.
 9. **No React Router** — use `useView()` for navigation (`setViewId`, `setViewIdWithData`, `setSubViewId`).
 10. **Lucide icons** for icon needs; custom icon font for system-style icons.
 11. **Inline SVG** acceptable for small custom graphics.
-12. **`react-refresh/only-export-components`** (warn) — export only components from a file, or use `allowConstantExport`.
+12. **`react/only-export-components`** (warn) — export only components from a file, or use `allowConstantExport`.
 
 ---
 
-## ESLint Rules (enforced)
+## Lint Rules (enforced)
 | Rule | Severity |
 |---|---|
-| `@typescript-eslint/no-explicit-any` | error |
-| `react-refresh/only-export-components` | warn |
-| `react/jsx-no-target-blank` | off |
-| `react/prop-types` | off |
+| `no-explicit-any` | error |
+| `react/rules-of-hooks` | error |
+| `react/exhaustive-deps` | warn |
+| `react/only-export-components` | warn |
