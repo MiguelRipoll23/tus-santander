@@ -1,0 +1,2 @@
+export const ENV_TUS_API_BASE_URL = "TUS_API_BASE_URL";
+export const ENV_TUS_API_PASSWORD = "TUS_API_PASSWORD";
