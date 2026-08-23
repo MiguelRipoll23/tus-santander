@@ -34,6 +34,10 @@ jobs:
     name: Build
     runs-on: ubuntu-latest
 
+    defaults:
+      run:
+        working-directory: frontend
+
     steps:
       - name: Checkout repository
         uses: actions/checkout@v7
@@ -51,6 +55,7 @@ jobs:
 
         with:
           cache: "pnpm"
+          cache-dependency-path: frontend/pnpm-lock.yaml
 
       - name: Install package
         run: pnpm install --frozen-lockfile
@@ -77,7 +82,7 @@ jobs:
 
         with:
           name: ${{ inputs.artifact-name }}
-          path: dist
+          path: frontend/dist
 
   deploy-package:
     name: Deploy
@@ -117,10 +122,12 @@ jobs:
 
       - name: Deploy to Firebase Hosting (Staging)
         if: ${{ inputs.environment-name == 'Staging' }}
+        working-directory: ./dist
         run: firebase hosting:channel:deploy --project ${{ vars.WEB_PROJECT_NAME }} ${{ inputs.channel-name }} ${{ inputs.channel-expiration }}
 
       - name: Deploy to Firebase Hosting (Production)
         if: ${{ inputs.environment-name == 'Production' }}
+        working-directory: ./dist
         run: firebase deploy --project ${{ vars.WEB_PROJECT_NAME }}
 
       - id: deployment_url
