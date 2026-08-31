@@ -1,0 +1,33 @@
+@import "tailwindcss";
+@import "@openai/apps-sdk-ui/css";
+/* Required for Tailwind to find class references in Apps SDK UI components. */
+@source "../node_modules/@openai/apps-sdk-ui";
+
+:root {
+  font-family: system-ui, sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background: transparent;
+  color: inherit;
+}
+
+html {
+  background: transparent;
+}
+
+body {
+  margin: 0;
+  min-width: 320px;
+  background: transparent;
+  color: inherit;
+  display: flex;
+  justify-content: center;
+}
+
+#root {
+  width: 100%;
+}

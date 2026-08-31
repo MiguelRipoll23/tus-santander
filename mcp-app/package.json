@@ -1,0 +1,30 @@
+{
+  "name": "transitwidgets",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc -b && vite build",
+    "lint": "oxlint .",
+    "preview": "vite preview",
+    "package": "pnpm run build && node scripts/generate-resource.ts"
+  },
+  "dependencies": {
+    "@openai/apps-sdk-ui": "^0.2.2",
+    "@tailwindcss/vite": "^4.3.3",
+    "react": "^19.2.8",
+    "react-dom": "^19.2.8",
+    "react-intl": "^10.1.24",
+    "tailwindcss": "^4.3.3"
+  },
+  "devDependencies": {
+    "@types/node": "^26.4.0",
+    "@types/react": "^19.2.18",
+    "@types/react-dom": "^19.2.5",
+    "@vitejs/plugin-react": "^6.1.1",
+    "oxlint": "^1.80.0",
+    "typescript": "~7.0.2",
+    "vite": "^8.2.2"
+  }
+}
