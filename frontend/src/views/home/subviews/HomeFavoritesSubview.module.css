@@ -12,6 +12,10 @@
   right: var(--margin-lr);
   z-index: 2;
   box-shadow: none;
+
+  @media (prefers-color-scheme: dark) {
+    color: #fff;
+  }
 }
 
 .DoneLink {
