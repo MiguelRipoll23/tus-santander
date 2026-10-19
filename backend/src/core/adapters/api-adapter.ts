@@ -1,3 +1,4 @@
+import { env } from "cloudflare:workers";
 import { injectable } from "@needle-di/core";
 import {
   ENV_TUS_API_BASE_URL,
@@ -5,6 +6,7 @@ import {
 } from "../constants/tus-api-constants.ts";
 import { LineEstimations } from "../interfaces/adapters/line-estimations-interface.ts";
 import { TusApiResponse } from "../interfaces/adapters/tus-api-response.ts";
+import { TusApiResponseSchema } from "../schemas/tus-api-response-schema.ts";
 
 @injectable()
 export class APIAdapter {
@@ -12,8 +14,8 @@ export class APIAdapter {
   private password: string;
 
   constructor() {
-    this.baseURL = Deno.env.get(ENV_TUS_API_BASE_URL) ?? "";
-    this.password = Deno.env.get(ENV_TUS_API_PASSWORD) ?? "";
+    this.baseURL = env.TUS_API_BASE_URL ?? "";
+    this.password = env.TUS_API_PASSWORD ?? "";
 
     this.validateConfiguration();
   }
@@ -38,7 +40,7 @@ export class APIAdapter {
       return [];
     }
 
-    const data = await response.json();
+    const data = TusApiResponseSchema.parse(await response.json());
     const estimations = this.parseEstimations(data);
 
     return lineLabel
@@ -60,10 +62,6 @@ export class APIAdapter {
   }
 
   private parseEstimations(data: TusApiResponse): LineEstimations[] {
-    if (!Array.isArray(data)) {
-      throw new Error("Invalid data format");
-    }
-
     const estimations: LineEstimations[] = [];
 
     for (const item of data) {

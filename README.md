@@ -2,7 +2,7 @@
 
 Una aplicación web para consultar las estimaciones y rutas de las líneas del transporte urbano de Santander que sigue las reglas y principios de diseño de las aplicaciones de iOS. El objetivo de esta web app es disponer de una aplicación gratuita en iOS.
 
-El front-end se ha hecho con `React` y el back-end con `Deno` (anteriormente en Node.js + Express) alojados en Firebase Hosting y Deno Deploy.
+El front-end se ha hecho con `React` y el back-end con `Hono` sobre `Cloudflare Workers` (anteriormente en Deno y, antes, Node.js + Express) alojados en Firebase Hosting y Cloudflare Workers.
 
 ## Demo
 
