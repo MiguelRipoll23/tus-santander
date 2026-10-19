@@ -1,5 +1,4 @@
 import { logger } from "hono/logger";
-import { serveStatic } from "hono/deno";
 import { OpenAPIHono } from "@hono/zod-openapi";
 import { inject, injectable } from "@needle-di/core";
 import { OpenAPIService } from "./openapi-service.ts";
@@ -21,9 +20,8 @@ export class HTTPService {
     this.setRoutes();
   }
 
-  public async listen(): Promise<void> {
-    const server = Deno.serve(this.app.fetch);
-    await server.finished;
+  public fetch(request: Request): Response | Promise<Response> {
+    return this.app.fetch(request);
   }
 
   private configure(): void {
@@ -33,7 +31,6 @@ export class HTTPService {
 
   private setMiddlewares(): void {
     this.app.use("*", logger());
-    this.app.use("*", serveStatic({ root: "./static" }));
   }
 
   private setRoutes(): void {

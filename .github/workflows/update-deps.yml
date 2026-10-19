@@ -1,4 +1,4 @@
-name: Update Deno deps
+name: Update backend deps
 
 on:
   schedule:
@@ -9,9 +9,11 @@ jobs:
   update-dependencies:
     name: Update dependencies
     runs-on: ubuntu-latest
+
     defaults:
       run:
         working-directory: backend
+
     permissions:
       contents: write
       pull-requests: write
@@ -20,16 +22,23 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v7
 
-      - name: Setup Deno
-        uses: denoland/setup-deno@v2
+      - name: Setup node
+        uses: actions/setup-node@v7
+        with:
+          node-version: lts/*
+          cache: "npm"
+          cache-dependency-path: backend/package-lock.json
 
-      - name: Run outdated command
-        run: deno outdated --update --latest
+      - name: Update package manifest
+        run: npx --yes npm-check-updates --upgrade
+
+      - name: Install dependencies
+        run: npm install
 
       - name: Create pull request
         uses: peter-evans/create-pull-request@v8
         with:
-          commit-message: Update Deno deps to latest version
-          title: Update Deno deps to latest version
+          commit-message: Update backend deps to latest version
+          title: Update backend deps to latest version
           body: Automated pull request triggered by a cron job
           labels: dependencies

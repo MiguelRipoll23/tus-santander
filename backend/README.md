@@ -1,35 +1,54 @@
 # TUS Santander
 
 Real-time bus arrival and route data server for Santander's urban transit (TUS),
-built with Deno, Hono, and the Model Context Protocol (MCP). It exposes live
-stop arrival estimations and route information through both a REST API and a
-stateless MCP endpoint for AI agents.
+built with Cloudflare Workers, Hono, and the Model Context Protocol (MCP). It
+exposes live stop arrival estimations and route information through both a REST
+API and a stateless MCP endpoint for AI agents.
 
 ## Tech stack
 
-- [Deno](https://deno.com) runtime
+- [Cloudflare Workers](https://workers.cloudflare.com) runtime
+- [Wrangler](https://developers.cloudflare.com/workers/wrangler/) CLI for local
+  development and deployment
 - [Hono](https://hono.dev) web framework with `@hono/zod-openapi` (OpenAPI 3.1 docs)
 - [MCP TypeScript SDK v2](https://github.com/modelcontextprotocol/typescript-sdk)
   (`@modelcontextprotocol/server`) for the stateless MCP endpoint
 - [Zod](https://zod.dev) schemas and validation
-- [`@needle-di/core`](https://jsr.io/@needle-di/core) dependency injection
+- [`@needle-di/core`](https://www.npmjs.com/package/@needle-di/core) dependency
+  injection
 
 ## Getting started
 
 ```bash
-cp .env.example .env   # set TUS_API_BASE_URL and TUS_API_PASSWORD
-deno task dev          # start the dev server (watch mode)
-deno task check        # typecheck
+npm install
+cp .dev.vars.example .dev.vars   # set TUS_API_BASE_URL and TUS_API_PASSWORD
+npm run dev                      # start the local Worker (watch mode)
+npm run typecheck                # typecheck
 ```
 
-The server listens on `http://localhost:8000`.
+The local server listens on `http://localhost:8787`.
 
 ### Environment variables
 
 | Variable            | Description                            |
 | ------------------- | -------------------------------------- |
-| `TUS_API_BASE_URL`  | Base URL of the TUS REST API           |
-| `TUS_API_PASSWORD`  | Basic auth password for the TUS API    |
+| `TUS_API_BASE_URL`  | Base URL of the TUS REST API (plain variable in `wrangler.jsonc`) |
+| `TUS_API_PASSWORD`  | Basic auth password for the TUS API (Worker secret) |
+
+Locally these are read from `.dev.vars`. In Cloudflare they are provided by the
+`vars` block in `wrangler.jsonc` and by `wrangler secret put`.
+
+## Deployment
+
+```bash
+npx wrangler login                       # once per machine
+npx wrangler secret put TUS_API_PASSWORD # once, or when rotating the password
+npm run deploy
+```
+
+`npm run deploy` publishes the Worker named `tus` and uploads `static/` as
+Workers Assets. Production is available at
+`https://tus.miguelripoll23.workers.dev`.
 
 ## API overview
 
@@ -97,7 +116,7 @@ catalogs instead of re-fetching:
 ### Example
 
 ```bash
-curl -X POST http://localhost:8000/api/v1/mcp \
+curl -X POST http://localhost:8787/api/v1/mcp \
   -H "Content-Type: application/json" \
   -H "MCP-Protocol-Version: 2026-07-28" \
   -H "Mcp-Method: tools/call" \

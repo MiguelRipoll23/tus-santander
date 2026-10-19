@@ -42,7 +42,8 @@
 
 ### Root structure
 
-- `src/main.ts` — Entry point; creates DI container and starts the HTTP service
+- `src/worker.ts` — Cloudflare Worker entry point; lazily creates the DI
+  container and forwards `fetch` requests to the HTTP service
 
 ### Core services (src/core/)
 
@@ -53,8 +54,9 @@
 - `routers/` — Root application router (health check at `/health`)
 - `services/` — Core services
   - `error-handling-service.ts` — Centralised error handling
-  - `http-service.ts` — HTTP server bootstrap (Deno.serve + route mounting)
+  - `http-service.ts` — HTTP bootstrap (fetch handler + route mounting)
   - `openapi-service.ts` — OpenAPI 3.1 docs + Scalar UI
+  - `static-asset-service.ts` — Reads files from the Workers Assets binding
 
 ### API structure (src/api/)
 
@@ -113,6 +115,7 @@
 
 ### Static assets (static/)
 
+- Served by Cloudflare Workers Assets (binding `ASSETS`)
 - `widgets/estimations/main.html` — Estimations widget HTML
 
 ### Tests (tests/)
@@ -122,7 +125,7 @@
 ## Route resolution
 
 ```
-Deno.serve()
+Worker fetch (src/worker.ts)
   └─ HTTPService
        ├─ GET  "/"                         -> Scalar OpenAPI UI
        ├─ GET  "/.well-known/openapi"      -> OpenAPI 3.1 JSON
