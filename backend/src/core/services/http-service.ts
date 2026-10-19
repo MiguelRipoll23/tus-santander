@@ -1,4 +1,3 @@
-import { logger } from "hono/logger";
 import { OpenAPIHono } from "@hono/zod-openapi";
 import { inject, injectable } from "@needle-di/core";
 import { OpenAPIService } from "./openapi-service.ts";
@@ -16,7 +15,6 @@ export class HTTPService {
   ) {
     this.app = new OpenAPIHono();
     this.configure();
-    this.setMiddlewares();
     this.setRoutes();
   }
 
@@ -27,10 +25,6 @@ export class HTTPService {
   private configure(): void {
     ErrorHandlingService.configure(this.app);
     OpenAPIService.configure(this.app);
-  }
-
-  private setMiddlewares(): void {
-    this.app.use("*", logger());
   }
 
   private setRoutes(): void {
