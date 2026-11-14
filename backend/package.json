@@ -10,7 +10,7 @@
   },
   "dependencies": {
     "@hono/zod-openapi": "^1.6.3",
-    "@modelcontextprotocol/server": "^2.3.1",
+    "@modelcontextprotocol/server": "^2.4.0",
     "@needle-di/core": "^1.2.1",
     "@scalar/hono-api-reference": "^0.12.13",
     "hono": "^4.13.13",
