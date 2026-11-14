@@ -13,5 +13,10 @@
   },
   "vars": {
     "TUS_API_BASE_URL": "https://tus.redparsec.com"
+  },
+  "previews": {
+    "vars": {
+      "TUS_API_BASE_URL": "https://tus.redparsec.com"
+    }
   }
 }
